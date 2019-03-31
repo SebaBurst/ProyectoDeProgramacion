@@ -17,6 +17,6 @@ public abstract class Regular {
     /*
     Metodo que se encarga de dibujar la figura en primera instancia
     */
-    public void dibujar(Canvas lienzo){}
+    public abstract void dibujar(Canvas lienzo);
     
 }
