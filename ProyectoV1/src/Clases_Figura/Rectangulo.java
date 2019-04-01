@@ -5,7 +5,6 @@
  */
 package Clases_Figura;
 
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -16,11 +15,10 @@ public class Rectangulo extends Regular {
 
     @Override
     public void dibujar(GraphicsContext lienzo) {
-        lienzo.strokeRect(320,53, 500, 53);
-        lienzo.strokeRect(320,120, 500,120);
-        lienzo.strokeRect(500,53, 500, 120);
-        lienzo.strokeRect(320,120, 500, 120);
-        
+        lienzo.strokeLine(320,53, 500, 53);
+        lienzo.strokeLine(320,120, 500,120);
+        lienzo.strokeLine(500,53, 500, 120);
+        lienzo.strokeLine(320,53, 320, 120);
     
     }
     
