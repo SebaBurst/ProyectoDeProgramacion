@@ -15,6 +15,7 @@ public class Romboide extends Regular {
 
     @Override
     public void dibujar(GraphicsContext lienzo) {
+
         
         lienzo.strokeLine(370,250, 530, 250);
         lienzo.strokeLine(320,320, 370,250);

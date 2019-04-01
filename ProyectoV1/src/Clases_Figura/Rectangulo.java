@@ -15,6 +15,8 @@ public class Rectangulo extends Regular {
 
     @Override
     public void dibujar(GraphicsContext lienzo) {
+        int x1 = (int) (Math.random() * 800) + 1;
+        int y1 = (int) (Math.random() * 600) + 1;
         lienzo.strokeLine(320,53, 500, 53);
         lienzo.strokeLine(320,120, 500,120);
         lienzo.strokeLine(500,53, 500, 120);

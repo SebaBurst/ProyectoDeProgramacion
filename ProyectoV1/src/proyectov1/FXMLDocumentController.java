@@ -6,6 +6,7 @@
 package proyectov1;
 
 import Clases_Figura.Rectangulo;
+import Clases_Figura.Romboide;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -33,6 +34,12 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Rectangulo etapa = new Rectangulo();
         etapa.dibujar(cuadro);
+    }
+    
+    @FXML private void dibujarRomboide(ActionEvent event){
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        Romboide entrada = new Romboide();
+        entrada.dibujar(cuadro);
 
     }
     @Override
