@@ -4,6 +4,7 @@ Clase que se encarga de dibujar las figuras regulares
 package Clases_Figura;
 
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 
 /**
  *
@@ -17,6 +18,6 @@ public abstract class Regular {
     /*
     Metodo que se encarga de dibujar la figura en primera instancia
     */
-    public abstract void dibujar(Canvas lienzo);
+    public abstract void dibujar(GraphicsContext lienzo);
     
 }

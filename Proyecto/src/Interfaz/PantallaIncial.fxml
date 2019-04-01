@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interfaz.PantallaIncialController">
-    
+
+<AnchorPane id="AnchorPane" prefHeight="630.0" prefWidth="1128.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="Interfaz.PantallaIncialController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#415c75" height="638.0" layoutX="940.0" layoutY="-7.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
+      <Canvas height="632.0" layoutX="-2.0" width="944.0" />
+      <Button layoutX="978.0" layoutY="48.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="130.0" text="Rombo" />
+      <Button layoutX="978.0" layoutY="136.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="130.0" text="Cuadrado" />
+   </children>
 </AnchorPane>
