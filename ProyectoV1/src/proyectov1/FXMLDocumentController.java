@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package proyectov1;
 
-import Clases_Figura.Rectangulo;
-import Clases_Figura.Romboide;
+import Clases_Figura.EntradaSalida;
+import Clases_Figura.Etapa;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -15,36 +10,54 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
-/**
- *
- * @author Sebastian
- */
 public class FXMLDocumentController implements Initializable {
-    
-    @FXML AnchorPane root;
-    @FXML Canvas lienzo;
-    @FXML Button rectangulo;
-    @FXML Button rombo;
-    
-    
-    @FXML private void dibujarRectangulo(ActionEvent event){
+
+    @FXML
+    AnchorPane root;
+
+    @FXML
+    Canvas lienzo;
+
+    @FXML
+    Button rectangulo;
+
+    @FXML
+    Button rombo;
+
+    @FXML Button Etapa;
+
+    @FXML Button EntradaSalida;
+
+    private void dibujarEtapa(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        Rectangulo etapa = new Rectangulo();
+        Etapa etapa = new Etapa();
+        MouseEvent evento = null;
         etapa.dibujar(cuadro);
     }
-    
-    @FXML private void dibujarRomboide(ActionEvent event){
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        Romboide entrada = new Romboide();
-        entrada.dibujar(cuadro);
 
+    private void dibujarEntradaSalida(ActionEvent event) {
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        EntradaSalida entrada = new EntradaSalida();
+        entrada.dibujar(cuadro);    
+    }
+    
+    private void dibujarLinea(ActionEvent event) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void dibujarInicioFin(ActionEvent event) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void dibujarDocumento(ActionEvent event) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+    }
+
+   
 }
