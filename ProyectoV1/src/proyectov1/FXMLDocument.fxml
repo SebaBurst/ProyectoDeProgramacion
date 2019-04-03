@@ -5,11 +5,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane id="AnchorPane" fx:id="root" prefHeight="660.0" prefWidth="1061.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="proyectov1.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="660.0" prefWidth="1061.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectov1.FXMLDocumentController">
     <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1d364d" height="664.0" layoutX="869.0" layoutY="-5.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
       <Canvas fx:id="lienzo" height="660.0" layoutX="-3.0" layoutY="-3.0" width="872.0" />
-        <Button fx:id="rectangulo" layoutX="918.0" layoutY="72.0" onAction="#dibujarRectangulo" prefHeight="83.0" prefWidth="125.0" text="Rectangulo" />
-      <Button fx:id="rombo" layoutX="921.0" layoutY="182.0" onAction="#dibujarRomboide" prefHeight="83.0" prefWidth="125.0" text="Romboide" />
+        <Button fx:id="rectangulo" layoutX="918.0" layoutY="72.0" onAction="#dibujarEtapa" prefHeight="83.0" prefWidth="125.0" text="Rectangulo" />
+      <Button fx:id="rombo" layoutX="921.0" layoutY="182.0" onAction="#dibujarInicioFin" prefHeight="83.0" prefWidth="125.0" text="Romboide" />
     </children>
 </AnchorPane>
