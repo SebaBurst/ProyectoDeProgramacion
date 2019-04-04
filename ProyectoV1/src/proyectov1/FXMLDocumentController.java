@@ -1,9 +1,9 @@
 package proyectov1;
 
+import Clases_Figura.Documento;
 import Clases_Figura.EntradaSalida;
 import Clases_Figura.Etapa;
-import java.awt.MouseInfo;
-import java.awt.Point;
+import Clases_Figura.InicioFin;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -23,52 +23,45 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     Canvas lienzo;
 
-    @FXML
-    Button rectangulo;
-
-    @FXML
-    Button rombo;
-
     @FXML Button Etapa;
 
     @FXML Button EntradaSalida;
-
-    Boolean click = false;
-    public void dibujarEtapa(ActionEvent event) {
+    
+    @FXML Button Documento;
+    
+    @FXML Button InicioFin;
+    
+    @FXML
+    private void dibujarEtapa(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Etapa etapa = new Etapa();
-        click=true;
-        if(click==true){
-            lienzo.setOnMouseClicked(e->{
-                System.out.println("XY: "+e.getX()+","+e.getY());
-                if(click==true){
-                    etapa.dibujar(cuadro,(int)e.getX(),(int)e.getY());
-                    click=false;
-                }
-            });
-        }
-        
-        cuadro.beginPath();
-        cuadro.bezierCurveTo(25, 70, 100,0, 150, 5);
-        cuadro.stroke();
+        MouseEvent evento = null;
+        etapa.dibujar(cuadro);
     }
-
-    public void dibujarEntradaSalida(ActionEvent event) {
+    @FXML
+    private void dibujarEntradaSalida(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         EntradaSalida entrada = new EntradaSalida();
-          
+        entrada.dibujar(cuadro);    
     }
     
+    @FXML
     private void dibujarLinea(ActionEvent event) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void dibujarInicioFin(ActionEvent event) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @FXML
+    private void dibujarInicioFin(ActionEvent event) {
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        InicioFin inicioFin = new InicioFin();
+        inicioFin.dibujar(cuadro);
     }
 
-    public void dibujarDocumento(ActionEvent event) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    @FXML
+    private void dibujarDocumento(ActionEvent event) {
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        Documento documento = new Documento();
+        documento.dibujar(cuadro);
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
