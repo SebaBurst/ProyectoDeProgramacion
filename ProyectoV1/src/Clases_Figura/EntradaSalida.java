@@ -7,12 +7,12 @@ import javafx.scene.paint.Color;
 public class EntradaSalida extends Regular {
 
     @Override
-    public void dibujar(GraphicsContext lienzo) {
+    public void dibujar(GraphicsContext lienzo,int x,int y) {
         lienzo.setStroke(Color.valueOf("#75FFA1"));
         x1=370;
         x2=250;
-        int x=370;
-        int y=250;
+        x=370;
+        y=250;
         
         for (int j = 0; j < 190; j++) {
             x1=x;

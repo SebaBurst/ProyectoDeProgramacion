@@ -33,21 +33,30 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML Button EntradaSalida;
 
+    Boolean click = false;
     public void dibujarEtapa(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Etapa etapa = new Etapa();
-        MouseEvent evento = null;
-        Point punto= MouseInfo.getPointerInfo().getLocation();
-        int x= punto.x;
-        int y= punto.y;
-        System.out.println("xy: "+x+" , "+y);
-        etapa.dibujar(cuadro);
+        click=true;
+        if(click==true){
+            lienzo.setOnMouseClicked(e->{
+                System.out.println("XY: "+e.getX()+","+e.getY());
+                if(click==true){
+                    etapa.dibujar(cuadro,(int)e.getX(),(int)e.getY());
+                    click=false;
+                }
+            });
+        }
+        
+        cuadro.beginPath();
+        cuadro.bezierCurveTo(25, 70, 100,0, 150, 5);
+        cuadro.stroke();
     }
 
     public void dibujarEntradaSalida(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         EntradaSalida entrada = new EntradaSalida();
-        entrada.dibujar(cuadro);    
+          
     }
     
     private void dibujarLinea(ActionEvent event) {
