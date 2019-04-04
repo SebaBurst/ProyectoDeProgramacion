@@ -2,6 +2,8 @@ package proyectov1;
 
 import Clases_Figura.EntradaSalida;
 import Clases_Figura.Etapa;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -31,14 +33,18 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML Button EntradaSalida;
 
-    private void dibujarEtapa(ActionEvent event) {
+    public void dibujarEtapa(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Etapa etapa = new Etapa();
         MouseEvent evento = null;
+        Point punto= MouseInfo.getPointerInfo().getLocation();
+        int x= punto.x;
+        int y= punto.y;
+        System.out.println("xy: "+x+" , "+y);
         etapa.dibujar(cuadro);
     }
 
-    private void dibujarEntradaSalida(ActionEvent event) {
+    public void dibujarEntradaSalida(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         EntradaSalida entrada = new EntradaSalida();
         entrada.dibujar(cuadro);    
