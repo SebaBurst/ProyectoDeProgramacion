@@ -74,14 +74,32 @@ public class FXMLDocumentController implements Initializable {
     private void dibujarInicioFin(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         InicioFin inicioFin = new InicioFin();
-        inicioFin.dibujar(cuadro);
+        click=true;
+        if(click==true){
+            lienzo.setOnMouseClicked(e->{
+                System.out.println("XY: "+e.getX()+","+e.getY());
+                if(click==true){
+                    inicioFin.dibujar(cuadro,(int)e.getX(),(int)e.getY());
+                    click=false;
+                }
+            });
+        }
     }
 
     @FXML
     private void dibujarDocumento(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Documento documento = new Documento();
-        documento.dibujar(cuadro);
+        click=true;
+        if(click==true){
+            lienzo.setOnMouseClicked(e->{
+                System.out.println("XY: "+e.getX()+","+e.getY());
+                if(click==true){
+                    documento.dibujar(cuadro,(int)e.getX(),(int)e.getY());
+                    click=false;
+                }
+            });
+        }
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {

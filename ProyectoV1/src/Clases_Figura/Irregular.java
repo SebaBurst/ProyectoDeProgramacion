@@ -6,8 +6,8 @@ public abstract class Irregular {
 
     private int x1;
 
-    public abstract void dibujar(GraphicsContext lienzo);
-
+    public abstract void dibujar(GraphicsContext lienzo, int x, int y);
+    
     public int getX1() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
