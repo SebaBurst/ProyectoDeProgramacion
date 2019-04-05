@@ -10,9 +10,9 @@ public class Documento extends Irregular {
     @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
 
-        lienzo.setStroke(Color.valueOf("#000000"));
+        lienzo.setStroke(Color.valueOf("#FA6C61"));
         lienzo.setLineWidth(3.0);
-
+ 
 
         lienzo.strokeLine(x,y, x+200, y);
         lienzo.strokeLine(x+200,y, x+200, y+70);
