@@ -15,12 +15,12 @@ public class Documento extends Irregular {
  
 
         lienzo.strokeLine(x,y, x+200, y);
-        lienzo.strokeLine(x+200,y, x+200, y+70);
-        lienzo.strokeLine(x,y, x, y+90);
+        lienzo.strokeLine(x+200,y, x+200, y+50);
+        lienzo.strokeLine(x,y, x, y+70);
 
         lienzo.beginPath();
-        lienzo.moveTo(x, y+90);
-        lienzo.bezierCurveTo(x+70, y+150, x+100, y+90, x+200, y+70);
+        lienzo.moveTo(x, y+70);
+        lienzo.bezierCurveTo(x+50, y+150, x+100, y+70, x+200, y+50);
         lienzo.stroke();
     }
 
