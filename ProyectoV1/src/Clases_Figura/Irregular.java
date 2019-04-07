@@ -4,71 +4,71 @@ import javafx.scene.canvas.GraphicsContext;
 
 public abstract class Irregular {
 
-    private int x1;
+    int x1, x2, x3, x4, y1, y2, y3, y4;
 
     public abstract void dibujar(GraphicsContext lienzo, int x, int y);
     
     public int getX1() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return x1;
     }
 
-    public int setX1(int x1) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setX1(int x1) {
+        this.x1 = x1;
     }
 
     public int getX2() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return x2;
     }
 
-    public int setX2(int x2) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setX2(int x2) {
+        this.x2 = x2;
     }
 
     public int getX3() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return x3;
     }
 
-    public int setX3(int x3) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setX3(int x3) {
+        this.x3 = x3;
     }
 
     public int getX4() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return x4;
     }
 
-    public int setX4(int x4) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setX4(int x4) {
+        this.x4 = x4;
     }
 
     public int getY1() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return y1;
     }
 
-    public int setY1(int y1) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setY1(int y1) {
+        this.y1 = y1;
     }
 
     public int getY2() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return y2;
     }
 
-    public int setY2(int y2) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setY2(int y2) {
+        this.y2 = y2;
     }
 
     public int getY3() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return y3;
     }
 
-    public int setY3(int y3) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setY3(int y3) {
+        this.y3 = y3;
     }
 
     public int getY4() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return y4;
     }
 
-    public int setY4(int y4) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void setY4(int y4) {
+        this.y4 = y4;
     }
 }

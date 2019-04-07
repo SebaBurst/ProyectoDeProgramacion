@@ -9,8 +9,8 @@ public class EntradaSalida extends Regular {
     @Override
     public void dibujar(GraphicsContext lienzo,int x,int y) {
         lienzo.setStroke(Color.valueOf("#75FFA1"));
-        x1=x;
-        y1=y;
+        int x1=x;
+        int y1=y;
         int x2=x;
         
         for (int j = 0; j < 190; j++) {
@@ -21,12 +21,20 @@ public class EntradaSalida extends Regular {
             }
             x2+=1;
         }
+
+        setX1(x);
+        setY1(y);
+        setX2(x+190);
+        setY2(y);
+        setX3(x-70);
+        setY3(y+70);
+        setX4(x+120);
+        setY4(y+70);
         
         lienzo.setStroke(Color.valueOf("#0F3D1D"));
         lienzo.setLineWidth(3.0);
         lienzo.strokeLine(x,y, x+190, y);
         lienzo.strokeLine(x,y, x-70,y+70);
-        
         lienzo.strokeLine(x-70,y+70, x+120, y+70);
         lienzo.strokeLine(x+120,y+70, x+190, y);
     }

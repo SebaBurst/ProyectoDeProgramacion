@@ -16,6 +16,14 @@ public class Etapa extends Regular {
             }
             y++;
         }
+        setX1(x);
+        setY1(y);
+        setX2(x+180);
+        setY2(y);
+        setX3(x);
+        setY3(y+70);
+        setX4(x+180);
+        setY4(y+70);
         lienzo.setStroke(Color.valueOf("#021E56"));
         lienzo.setLineWidth(3.0);
         lienzo.strokeLine(x1,y1+70, x1+180,y1+70);
