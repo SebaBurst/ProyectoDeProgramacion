@@ -4,7 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 
-public class EntradaSalida extends Regular {
+public class EntradaSalida extends Figura {
 
     @Override
     public void dibujar(GraphicsContext lienzo,int x,int y) {

@@ -3,7 +3,7 @@ package Clases_Figura;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Etapa extends Regular {
+public class Etapa extends Figura {
 
     @Override
     public void dibujar(GraphicsContext lienzo,int x,int y) {

@@ -1,11 +1,10 @@
 package Clases_Figura;
 
-
-import Clases_Figura.Irregular;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
 
-public class InicioFin extends Irregular {
+public class InicioFin extends Figura {
 
     @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
@@ -33,6 +32,8 @@ public class InicioFin extends Irregular {
         lienzo.setStroke(Color.valueOf("#5A660E"));
         lienzo.strokeLine(x,y, x+200, y);
         lienzo.strokeLine(x, y+70, x+200, y+70);
+        
+        /*
         lienzo.beginPath();
         lienzo.moveTo(x, y);
         lienzo.bezierCurveTo(x-35, y+25, x-35, y+45, x, y+70);
@@ -40,6 +41,13 @@ public class InicioFin extends Irregular {
         lienzo.moveTo(x+200, y);
         lienzo.bezierCurveTo(x+235, y+25, x+235, y+45, x+200, y+70);
         lienzo.stroke();
+        */
+        lienzo.setFill(Color.valueOf("#E2F75B"));
+        lienzo.fillArc(x-35, y, 70, 70, 90, 180, ArcType.OPEN);
+        lienzo.fillArc(x+165, y, 70, 70, 270, 180, ArcType.OPEN);
+        lienzo.strokeArc(x-35, y, 70, 70, 90, 180, ArcType.OPEN);
+        lienzo.strokeArc(x+165, y, 70, 70, 270, 180, ArcType.OPEN);
+        
     }
 
     
