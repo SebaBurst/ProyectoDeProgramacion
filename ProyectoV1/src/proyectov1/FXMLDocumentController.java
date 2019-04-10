@@ -12,7 +12,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 public class FXMLDocumentController implements Initializable {
@@ -40,7 +39,7 @@ public class FXMLDocumentController implements Initializable {
         if(click==true){
             lienzo.setOnMouseClicked(e->{
                 System.out.println("XY: "+e.getX()+","+e.getY());
-                if(click==true){
+                if(click==true && ((e.getX()+ 180)< 870) && ((e.getY()+70)<660)){
                     etapa.dibujar(cuadro,(int)e.getX(),(int)e.getY());
                     click=false;
                 }
@@ -56,18 +55,13 @@ public class FXMLDocumentController implements Initializable {
         if(click==true){
             lienzo.setOnMouseClicked(e->{
                 System.out.println("XY: "+e.getX()+","+e.getY());
-                if(click==true){
+                if(click==true && ((e.getX()+190)< 870) && ((e.getX()-70)> 0) && ((e.getY()+70)< 660)){
                     entrada.dibujar(cuadro,(int)e.getX(),(int)e.getY());
                     click=false;
                 }
             });
         }
         
-    }
-    
-    @FXML
-    private void dibujarLinea(ActionEvent event) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @FXML
@@ -78,7 +72,7 @@ public class FXMLDocumentController implements Initializable {
         if(click==true){
             lienzo.setOnMouseClicked(e->{
                 System.out.println("XY: "+e.getX()+","+e.getY());
-                if(click==true){
+                if(click==true && ((e.getX()+235)< 870) && ((e.getX()-40)> 0) && ((e.getY()+70)< 660)){
                     inicioFin.dibujar(cuadro,(int)e.getX(),(int)e.getY());
                     click=false;
                 }
@@ -94,13 +88,19 @@ public class FXMLDocumentController implements Initializable {
         if(click==true){
             lienzo.setOnMouseClicked(e->{
                 System.out.println("XY: "+e.getX()+","+e.getY());
-                if(click==true){
+                if(click==true && ((e.getX()+ 200) < 870) && ((e.getY()+ 125) < 660)){
                     documento.dibujar(cuadro,(int)e.getX(),(int)e.getY());
                     click=false;
                 }
             });
         }
     }
+    
+    
+    @FXML
+    private void dibujarLinea(ActionEvent event) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
