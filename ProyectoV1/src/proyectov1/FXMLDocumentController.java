@@ -67,7 +67,8 @@ public class FXMLDocumentController implements Initializable {
         lienzo.setOnMousePressed(e->{
                 System.out.println("Cantidad: "+numero);
                 Figura Aux = detectarFigura((int)e.getX(),(int)e.getY());
-                  lienzo.setOnMouseDragged(en->{
+                if(Aux!=null) {
+                    lienzo.setOnMouseDragged(en->{
                         cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
                         Aux.dibujar(cuadro,(int)en.getX(),(int)en.getY());
                         repintar(cuadro);
@@ -78,7 +79,7 @@ public class FXMLDocumentController implements Initializable {
                         
                     });
                 
-        });
+                }});
     }
     
     

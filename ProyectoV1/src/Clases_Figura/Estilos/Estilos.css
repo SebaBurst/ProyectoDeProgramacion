@@ -1,0 +1,47 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 11-04-2019, 16:48:39
+    Author     : Sebastian
+*/
+
+.etapa{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/Etapa.png');  
+}
+
+.etapa:hover{
+    -fx-background-color: #e3dbc7;
+    
+}
+
+.inicio{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/Inicio.png');  
+}
+.inicio:hover{
+    -fx-background-color: #e3dbc7;
+}
+.entrada{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/Entrada.png');  
+}
+.entrada:hover{
+    -fx-background-color: #e3dbc7;
+}
+.documento{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/Documento.png');  
+}
+.documento:hover{
+    -fx-background-color: #e3dbc7;
+    
+    
+}

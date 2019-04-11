@@ -34,8 +34,14 @@ public class Documento extends Figura {
         
         //lienzo.strokeArc(x, y+23, 110, 100, 180, 180, ArcType.OPEN);
         //lienzo.strokeArc(x+110, y+50, 90, 40, 0, 180, ArcType.OPEN);
+        
+        lienzo.fillArc(x, y+23, 110, 100, 180, 175, ArcType.OPEN);
+        lienzo.fillArc(x+110, y+55, 102, 50, 42, 135, ArcType.OPEN);
+        
         lienzo.strokeArc(x, y+23, 110, 100, 180, 175, ArcType.OPEN);
         lienzo.strokeArc(x+110, y+55, 102, 50, 42, 135, ArcType.OPEN);
+        
+        
         
     }
 }
