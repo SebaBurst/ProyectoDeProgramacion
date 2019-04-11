@@ -10,11 +10,12 @@ public class Etapa extends Figura {
         lienzo.setStroke(Color.valueOf("#79A6FF"));
         int x1= x;
         int y1=y;
+        int aux=y;
         for (int i = 0; i < 71; i++) {
             for (int j = 0; j < 181; j++) {
-                lienzo.strokeLine(x+j,y, x+j, y);
+                lienzo.strokeLine(x+j,aux, x+j, aux);
             }
-            y++;
+            aux++;
         }
         setX1(x);
         setY1(y);

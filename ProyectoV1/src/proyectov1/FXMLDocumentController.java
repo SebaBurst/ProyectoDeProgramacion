@@ -3,8 +3,10 @@ package proyectov1;
 import Clases_Figura.Documento;
 import Clases_Figura.EntradaSalida;
 import Clases_Figura.Etapa;
+import Clases_Figura.Figura;
 import Clases_Figura.InicioFin;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class FXMLDocumentController implements Initializable {
 
+    ArrayList<Figura> formas = new ArrayList();
     @FXML
     AnchorPane root;
 
@@ -32,6 +35,54 @@ public class FXMLDocumentController implements Initializable {
     
     boolean click = false;
     @FXML
+    
+    int numero =0;
+    
+    public void repintar(GraphicsContext lienzo){
+        for (int i = 0; i < formas.size(); i++) {
+            formas.get(i).dibujar(lienzo, formas.get(i).getX1(), 
+                    formas.get(i).getY1());
+            
+        }
+    
+    }
+    
+    public Figura detectarFigura(int x,int y){
+        for (int i = 0; i < formas.size(); i++) {
+            Figura aux = formas.get(i);
+            System.out.println("Coordenadas "+i+" "+aux.getY1()+","+aux.getY3());
+            if(y>=aux.getY1()&& y<=aux.getY3()){
+                System.out.println(aux.getNombre());
+                return aux;
+            }
+            else{
+                System.out.println("Espacio Disponible");
+            }
+            
+        }
+        return null;
+    }
+    
+    public void moverFigura(GraphicsContext cuadro, Canvas lienzo){
+        lienzo.setOnMousePressed(e->{
+                System.out.println("Cantidad: "+numero);
+                Figura Aux = detectarFigura((int)e.getX(),(int)e.getY());
+                  lienzo.setOnMouseDragged(en->{
+                        cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
+                        Aux.dibujar(cuadro,(int)en.getX(),(int)en.getY());
+                        repintar(cuadro);
+
+                    });
+                    lienzo.setOnMouseReleased(p->{
+                        lienzo.setOnMouseDragged(null);
+                        
+                    });
+                
+        });
+    }
+    
+    
+    @FXML
     private void dibujarEtapa(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Etapa etapa = new Etapa();
@@ -39,12 +90,16 @@ public class FXMLDocumentController implements Initializable {
         if(click==true){
             lienzo.setOnMouseClicked(e->{
                 System.out.println("XY: "+e.getX()+","+e.getY());
-                if(click==true && ((e.getX()+ 180)< 870) && ((e.getY()+70)<660)){
+                if(click==true /*&& ((e.getX()+ 180)< 935) && ((e.getY()+70)<660)*/){
                     etapa.dibujar(cuadro,(int)e.getX(),(int)e.getY());
+                    etapa.setNombre("Rectangulo "+numero);
+                    numero++;
+                    formas.add(etapa);
                     click=false;
                 }
             });
         }
+       
         
     }
     @FXML
@@ -55,9 +110,10 @@ public class FXMLDocumentController implements Initializable {
         if(click==true){
             lienzo.setOnMouseClicked(e->{
                 System.out.println("XY: "+e.getX()+","+e.getY());
-                if(click==true && ((e.getX()+190)< 870) && ((e.getX()-70)> 0) && ((e.getY()+70)< 660)){
+                if(click==true && ((e.getX()+190)< 935) && ((e.getX()-70)> 0) && ((e.getY()+70)< 660)){
                     entrada.dibujar(cuadro,(int)e.getX(),(int)e.getY());
                     click=false;
+                    formas.add(entrada);
                 }
             });
         }
@@ -72,9 +128,10 @@ public class FXMLDocumentController implements Initializable {
         if(click==true){
             lienzo.setOnMouseClicked(e->{
                 System.out.println("XY: "+e.getX()+","+e.getY());
-                if(click==true && ((e.getX()+235)< 870) && ((e.getX()-40)> 0) && ((e.getY()+70)< 660)){
+                if(click==true && ((e.getX()+235)< 935) && ((e.getX()-40)> 0) && ((e.getY()+70)< 660)){
                     inicioFin.dibujar(cuadro,(int)e.getX(),(int)e.getY());
                     click=false;
+                    formas.add(inicioFin);
                 }
             });
         }
@@ -88,9 +145,10 @@ public class FXMLDocumentController implements Initializable {
         if(click==true){
             lienzo.setOnMouseClicked(e->{
                 System.out.println("XY: "+e.getX()+","+e.getY());
-                if(click==true && ((e.getX()+ 200) < 870) && ((e.getY()+ 125) < 660)){
+                if(click==true && ((e.getX()+ 200) < 935) && ((e.getY()+ 125) < 660)){
                     documento.dibujar(cuadro,(int)e.getX(),(int)e.getY());
                     click=false;
+                    formas.add(documento);
                 }
             });
         }
@@ -103,6 +161,8 @@ public class FXMLDocumentController implements Initializable {
     }    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        moverFigura(cuadro, lienzo);
     }
 
    

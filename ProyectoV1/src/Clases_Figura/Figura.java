@@ -5,7 +5,16 @@ import javafx.scene.canvas.GraphicsContext;
 public abstract class Figura {
 
     int x1, x2, x3, x4, y1, y2, y3, y4;
+    String nombre;
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
     public abstract void dibujar(GraphicsContext lienzo, int x, int y);
     
     public int getX1() {

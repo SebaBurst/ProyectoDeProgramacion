@@ -5,13 +5,15 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane id="AnchorPane" fx:id="root" prefHeight="660.0" prefWidth="1061.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectov1.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="664.0" prefWidth="1171.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectov1.FXMLDocumentController">
     <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1d364d" height="664.0" layoutX="869.0" layoutY="-5.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
-      <Canvas fx:id="lienzo" height="660.0" layoutX="-3.0" layoutY="-3.0" width="872.0" />
-        <Button fx:id="Etapa" layoutX="918.0" layoutY="72.0" onAction="#dibujarEtapa" prefHeight="83.0" prefWidth="125.0" text="Etapa" />
-      <Button fx:id="EntradaSalida" layoutX="921.0" layoutY="182.0" onAction="#dibujarEntradaSalida" prefHeight="83.0" prefWidth="125.0" text="Entrada/Salida" />
-      <Button fx:id="Documento" layoutX="921.0" layoutY="295.0" mnemonicParsing="false" onAction="#dibujarDocumento" prefHeight="83.0" prefWidth="125.0" text="Documento" />
-      <Button fx:id="InicioFin" layoutX="921.0" layoutY="408.0" mnemonicParsing="false" onAction="#dibujarInicioFin" prefHeight="83.0" prefWidth="125.0" text="Inicio/Fin" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1d364d" height="664.0" layoutX="949.0" stroke="TRANSPARENT" strokeType="INSIDE" width="224.0" />
+      <Canvas fx:id="lienzo" height="660.0" layoutX="-3.0" layoutY="-3.0" width="935.0" />
+        <Button fx:id="Etapa" layoutX="956.0" layoutY="246.0" onAction="#dibujarEtapa" prefHeight="107.0" prefWidth="100.0" text="Etapa" />
+      <Button fx:id="EntradaSalida" layoutX="1066.0" layoutY="245.0" onAction="#dibujarEntradaSalida" prefHeight="107.0" prefWidth="100.0" text="Entrada/Salida" />
+      <Button fx:id="Documento" layoutX="1065.0" layoutY="130.0" mnemonicParsing="false" onAction="#dibujarDocumento" prefHeight="107.0" prefWidth="100.0" text="Documento" />
+      <Button fx:id="InicioFin" layoutX="957.0" layoutY="130.0" mnemonicParsing="false" onAction="#dibujarInicioFin" prefHeight="107.0" prefWidth="100.0" text="Inicio/Fin" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fff61" height="29.0" layoutX="940.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" width="233.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1fff61" height="665.0" layoutX="934.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" width="15.0" />
     </children>
 </AnchorPane>
