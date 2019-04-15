@@ -8,7 +8,7 @@ public class InicioFin extends Figura {
 
     @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
-        lienzo.setStroke(Color.valueOf("#E2F75B"));
+        lienzo.setStroke(Color.valueOf("#ffcf4c"));
         lienzo.setLineWidth(3.0);
         
         int x1= x;
@@ -42,7 +42,7 @@ public class InicioFin extends Figura {
         lienzo.bezierCurveTo(x+235, y+25, x+235, y+45, x+200, y+70);
         lienzo.stroke();
         */
-        lienzo.setFill(Color.valueOf("#E2F75B"));
+        lienzo.setFill(Color.valueOf("#ffcf4c"));
         lienzo.fillArc(x-35, y, 70, 70, 90, 180, ArcType.OPEN);
         lienzo.fillArc(x+165, y, 70, 70, 270, 180, ArcType.OPEN);
         lienzo.strokeArc(x-35, y, 70, 70, 90, 180, ArcType.OPEN);
