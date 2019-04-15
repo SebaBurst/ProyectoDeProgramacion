@@ -13,6 +13,11 @@ and open the template in the editor.
     -fx-background-color: transparent;
     -fx-graphic: url('/Clases_Figura/Estilos/Etapa.png');  
 }
+.canvas{
+     -fx-background-color: #ffffff;
+    
+    
+}
 
 .etapa:hover{
     -fx-background-color: #e3dbc7;
@@ -41,6 +46,18 @@ and open the template in the editor.
     -fx-graphic: url('/Clases_Figura/Estilos/Documento.png');  
 }
 .documento:hover{
+    -fx-background-color: #e3dbc7;
+    
+    
+}
+
+
+.cortar{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/Cortar.png');  
+}
+.cortar:hover{
     -fx-background-color: #e3dbc7;
     
     

@@ -91,7 +91,15 @@ public class FXMLDocumentController implements Initializable {
         if(click==true){
             lienzo.setOnMouseClicked(e->{
                 System.out.println("XY: "+e.getX()+","+e.getY());
-                if(click==true /*&& ((e.getX()+ 180)< 935) && ((e.getY()+70)<660)*/){
+                if(click==true && ((e.getX()+ 180)< lienzo.getWidth()) && ((e.getY()+70)<lienzo.getHeight())){
+                    etapa.dibujar(cuadro,(int)e.getX(),(int)e.getY());
+                    etapa.setNombre("Rectangulo "+numero);
+                    numero++;
+                    formas.add(etapa);
+                    click=false;
+                }
+                else if((e.getY()+70)>lienzo.getHeight()){
+                    lienzo.setHeight(lienzo.getHeight()+80);
                     etapa.dibujar(cuadro,(int)e.getX(),(int)e.getY());
                     etapa.setNombre("Rectangulo "+numero);
                     numero++;
@@ -111,11 +119,22 @@ public class FXMLDocumentController implements Initializable {
         if(click==true){
             lienzo.setOnMouseClicked(e->{
                 System.out.println("XY: "+e.getX()+","+e.getY());
-                if(click==true && ((e.getX()+190)< 935) && ((e.getX()-70)> 0) && ((e.getY()+70)< 660)){
+                if(click==true && ((e.getX()+190)< lienzo.getWidth()) && ((e.getX()-70)> 0) && ((e.getY()+70)< lienzo.getHeight())){
                     entrada.dibujar(cuadro,(int)e.getX(),(int)e.getY());
+                    entrada.setNombre("Rombo "+numero);
+
                     click=false;
                     formas.add(entrada);
                 }
+                else if((e.getY()+70)>lienzo.getHeight()){
+                    lienzo.setHeight(lienzo.getHeight()+80);
+                    entrada.dibujar(cuadro,(int)e.getX(),(int)e.getY());
+                    entrada.setNombre("Rombo "+numero);
+                    numero++;
+                    formas.add(entrada);
+                    click=false;
+                }
+                
             });
         }
         
@@ -129,10 +148,20 @@ public class FXMLDocumentController implements Initializable {
         if(click==true){
             lienzo.setOnMouseClicked(e->{
                 System.out.println("XY: "+e.getX()+","+e.getY());
-                if(click==true && ((e.getX()+235)< 935) && ((e.getX()-40)> 0) && ((e.getY()+70)< 660)){
+                if(click==true && ((e.getX()+235)< lienzo.getWidth()) && ((e.getX()-40)> 0) && ((e.getY()+70)< lienzo.getHeight())){
                     inicioFin.dibujar(cuadro,(int)e.getX(),(int)e.getY());
+                    inicioFin.setNombre("Inicio "+numero);
+
                     click=false;
                     formas.add(inicioFin);
+                }
+                else if((e.getY()+70)>lienzo.getHeight()){
+                    lienzo.setHeight(lienzo.getHeight()+80);
+                    inicioFin.dibujar(cuadro,(int)e.getX(),(int)e.getY());
+                    inicioFin.setNombre("Inicio "+numero);
+                    numero++;
+                    formas.add(inicioFin);
+                    click=false;
                 }
             });
         }
@@ -146,16 +175,54 @@ public class FXMLDocumentController implements Initializable {
         if(click==true){
             lienzo.setOnMouseClicked(e->{
                 System.out.println("XY: "+e.getX()+","+e.getY());
-                if(click==true && ((e.getX()+ 200) < 935) && ((e.getY()+ 125) < 660)){
+                if(click==true && ((e.getX()+ 200) < lienzo.getWidth()) && ((e.getY()+ 125) < lienzo.getHeight())){
                     documento.dibujar(cuadro,(int)e.getX(),(int)e.getY());
+                    documento.setNombre("Documento "+numero);
+
                     click=false;
                     formas.add(documento);
+                }
+                else if((e.getY()+70)>lienzo.getHeight()){
+                    lienzo.setHeight(lienzo.getHeight()+80);
+                    documento.dibujar(cuadro,(int)e.getX(),(int)e.getY());
+                    documento.setNombre("Documento "+numero);
+                    numero++;
+                    formas.add(documento);
+                    click=false;
                 }
             });
         }
     }
     
     
+    
+    public void detectarBorrar(int x,int y){
+         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+         for (int i = 0; i < formas.size(); i++) {
+            Figura aux = formas.get(i);
+            if(y>=aux.getY1()&& y<=aux.getY3()){
+                System.out.println("Figuras Detectadas "+aux.getNombre());
+            }
+            else{
+                System.out.println("Espacio Disponible");
+            }
+            
+        }
+    
+    }
+    
+    @FXML Button cut;
+    boolean borrar=false;
+    @FXML
+    private void borrarFigura(ActionEvent event){
+        borrar=false;
+        if(borrar==false){ 
+                lienzo.setOnMouseClicked(e->{
+                detectarBorrar((int)e.getX(),(int)e.getY()); 
+                borrar=true;
+        });
+        }
+    }    
     @FXML
     private void dibujarLinea(ActionEvent event) {
         throw new UnsupportedOperationException("Not supported yet.");
