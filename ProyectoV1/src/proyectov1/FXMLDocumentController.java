@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class FXMLDocumentController implements Initializable {
 
+    //
     ArrayList<Figura> formas = new ArrayList();
     @FXML
     AnchorPane root;
