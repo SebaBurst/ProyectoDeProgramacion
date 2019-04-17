@@ -1,9 +1,21 @@
 package Clases_Figura;
 
+import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class Figura {
 
+    ArrayList<Punto> coordenadas= new ArrayList();
+
+    public ArrayList<Punto> getCoordenadas() {
+        return coordenadas;
+    }
+
+    public void setCoordenadas(Punto xy) {
+        coordenadas.add(xy);
+    }
+    
+    
     int x1, x2, x3, x4, y1, y2, y3, y4;
     String nombre;
 
