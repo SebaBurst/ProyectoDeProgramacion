@@ -24,7 +24,7 @@ public class Documento extends Figura {
         
         
         
-        int x1,x2,x3,x4,y1,y2,y3,y4;
+        int x1,x2,x3,x4,y1,y2,y3,y4, y5;
         x1=x;
         y1=y;
         x2=x+200;
