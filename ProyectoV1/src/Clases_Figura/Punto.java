@@ -10,6 +10,7 @@ package Clases_Figura;
  * @author Sebastian
  */
 public class Punto {
+    //
     
     int x,y;
 
