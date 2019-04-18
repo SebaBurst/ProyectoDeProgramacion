@@ -219,6 +219,7 @@ public class FXMLDocumentController implements Initializable {
         borrar=false;
         if(borrar==false){ 
                 lienzo.setOnMouseClicked(e->{
+                System.out.println("************************************");
                 detectarBorrar((int)e.getX(),(int)e.getY()); 
                 borrar=true;
         });

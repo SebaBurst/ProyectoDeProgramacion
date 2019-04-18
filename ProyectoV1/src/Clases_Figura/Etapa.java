@@ -17,6 +17,16 @@ public class Etapa extends Figura {
             }
             aux++;
         }
+        
+        Punto xy1=new Punto(x,y);
+        Punto xy2 = new Punto(x+180,y);
+        Punto xy3 = new Punto(x,y+70);
+        Punto xy4 = new Punto(x+180,y+70);
+        this.setCoordenadas(xy1);
+        this.setCoordenadas(xy2);
+        this.setCoordenadas(xy3);
+        this.setCoordenadas(xy4);
+        
         setX1(x);
         setY1(y);
         setX2(x+180);
