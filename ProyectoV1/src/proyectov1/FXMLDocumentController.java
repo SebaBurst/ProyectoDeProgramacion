@@ -4,22 +4,27 @@ import Clases_Figura.Documento;
 import Clases_Figura.EntradaSalida;
 import Clases_Figura.Etapa;
 import Clases_Figura.Figura;
+import Clases_Figura.Flujo;
 import Clases_Figura.InicioFin;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class FXMLDocumentController implements Initializable {
 
     //
-    ArrayList<Figura> formas = new ArrayList();
+    public static ArrayList<Figura> formas = new ArrayList();
     @FXML
     AnchorPane root;
 
@@ -274,16 +279,20 @@ public class FXMLDocumentController implements Initializable {
     Button cut;
     boolean borrar = false;
 
+    NotificacionController ventana = new NotificacionController ();
     @FXML
-    private void borrarFigura(ActionEvent event) {
-        borrar = false;
+    private void borrarFigura(ActionEvent event) throws Exception{
+        Flujo.dibujar(lienzo);
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        moverFigura(cuadro, lienzo);
+        /** borrar = false;
         if (borrar == false) {
             lienzo.setOnMouseClicked(e -> {
                 System.out.println("************************************");
                 detectarBorrar((int) e.getX(), (int) e.getY());
                 borrar = true;
             });
-        }
+        }*/
     }
 
     @FXML

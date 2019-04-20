@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="181.0" prefWidth="339.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="proyectov1.NotificacionController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f9f7f4" height="208.0" stroke="#c2a889" strokeType="INSIDE" width="351.0" />
+      <TextField layoutX="12.0" layoutY="66.0" prefHeight="32.0" prefWidth="312.0" />
+      <Button layoutX="74.0" layoutY="122.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Aceptar" />
+      <Button layoutX="191.0" layoutY="122.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="85.0" text="Cancelar" />
+   </children>
+</AnchorPane>
