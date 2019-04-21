@@ -150,13 +150,8 @@ public class FXMLDocumentController implements Initializable {
                     }
                     else if (Aux != null && aux != null) {
                         //existe una figura en donde se desea colocar la otra
-                        if(Aux!=aux){
                         System.out.println("No debe moverse");
                         Aux.dibujar(cuadro, (x), y);
-                        }
-                    else{   
-                            System.out.println("Son Iguales");
-                        }
                         
                     }
                     if (Aux == null) {
