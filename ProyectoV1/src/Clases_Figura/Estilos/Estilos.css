@@ -32,6 +32,17 @@ and open the template in the editor.
 .inicio:hover{
     -fx-background-color: #e3dbc7;
 }
+
+
+.flujo{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/Flujo.png');  
+}
+.flujo:hover{
+    -fx-background-color: #e3dbc7;
+}
+
 .entrada{
     -fx-border-radius: 0px;
     -fx-background-color: transparent;

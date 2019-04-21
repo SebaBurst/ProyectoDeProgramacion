@@ -19,9 +19,10 @@
       <Rectangle fill="#f9f7f4" height="665.0" layoutX="934.0" layoutY="-1.0" stroke="#c2a889" strokeType="INSIDE" strokeWidth="0.5" width="15.0" />
       <ScrollPane layoutY="75.0" prefHeight="590.0" prefWidth="934.0" styleClass="canvas" stylesheets="@../Clases_Figura/Estilos/Estilos.css">
          <content>
-            <Canvas fx:id="lienzo" height="580.0" width="930.0" />
+            <Canvas fx:id="lienzo" height="589.0" width="933.0" />
          </content>
       </ScrollPane>
       <Button fx:id="cut" layoutX="794.0" mnemonicParsing="false" onAction="#borrarFigura" prefHeight="74.0" prefWidth="85.0" styleClass="cortar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="Line" layoutX="957.0" layoutY="339.0" onAction="#dibujarLinea" prefHeight="107.0" prefWidth="100.0" styleClass="flujo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
     </children>
 </AnchorPane>

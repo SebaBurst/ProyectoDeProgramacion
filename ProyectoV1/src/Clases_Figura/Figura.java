@@ -6,6 +6,23 @@ import javafx.scene.canvas.GraphicsContext;
 public abstract class Figura {
 
     ArrayList<Punto> coordenadas= new ArrayList();
+    ArrayList<Flujo> enlaces = new ArrayList();
+
+    public ArrayList<Flujo> getEnlaces() {
+        return enlaces;
+    }
+
+    public void setEnlaces(Flujo enlace) {
+        enlaces.add(enlace);
+    }
+
+    public Figura() {
+        Flujo uni = new Flujo();
+        enlaces.add(uni);
+        
+    }
+    
+    
 
     public ArrayList<Punto> getCoordenadas() {
         return coordenadas;
