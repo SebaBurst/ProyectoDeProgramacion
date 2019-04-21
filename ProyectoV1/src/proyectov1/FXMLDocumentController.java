@@ -43,11 +43,11 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     Button InicioFin;
-    
+
     @FXML
     Button Line;
 
-   ArrayList<Flujo>enlaces= new ArrayList();
+    ArrayList<Flujo> enlaces = new ArrayList();
     public boolean activarDrag = true;
 
     boolean click = false;
@@ -58,12 +58,12 @@ public class FXMLDocumentController implements Initializable {
     public void repintar(GraphicsContext lienzo) {
         for (int i = 0; i < enlaces.size(); i++) {
             Flujo enlace = enlaces.get(i);
-            System.out.println("Enlace XY'S: "+enlace.getX()+", "+enlace.getY()+" | "+enlace.getX1()+", "+enlace.getY2()  );
+            System.out.println("Enlace XY'S: " + enlace.getX() + ", " + enlace.getY() + " | " + enlace.getX1() + ", " + enlace.getY2());
             enlace.dibujar(enlace.getX(), enlace.getY(), enlace.getX1(), enlace.getY2(), lienzo);
         }
         for (int i = 0; i < formas.size(); i++) {
-            
-            formas.get(i).dibujar(lienzo, formas.get(i).getX1(),formas.get(i).getY1());
+
+            formas.get(i).dibujar(lienzo, formas.get(i).getX1(), formas.get(i).getY1());
         }
     }
 
@@ -71,8 +71,7 @@ public class FXMLDocumentController implements Initializable {
         for (int i = 0; i < formas.size(); i++) {
             Figura aux = formas.get(i);
             System.out.println("Coordenadas " + i + " " + aux.getY1() + "," + aux.getY3());
-            System.out.println("Coordenada restada "+ (aux.getY1()-20));
-            if (y >= aux.getY1()-100 && y<= aux.getY3()+20 && x >= aux.getX1()-200 && x <= aux.getX2()+50) {
+            if (y >= aux.getY1() - 100 && y <= aux.getY3() + 20 && x >= aux.getX1() - 220 && x <= aux.getX2() + 80) {
                 System.out.println("Espacio No disponible");
 
                 System.out.println(aux.getNombre());
@@ -84,11 +83,12 @@ public class FXMLDocumentController implements Initializable {
         }
         return null;
     }
-        public Figura detectarFigura1(int x, int y) {
+
+    public Figura detectarFigura1(int x, int y) {
         for (int i = 0; i < formas.size(); i++) {
             Figura aux = formas.get(i);
             System.out.println("Coordenadas " + i + " " + aux.getY1() + "," + aux.getY3());
-            if (y >= aux.getY1() && y<= aux.getY3() && x >= aux.getX1() && x <= aux.getX2()) {
+            if (y >= aux.getY1() && y <= aux.getY3() && x >= aux.getX1() && x <= aux.getX2()) {
                 System.out.println("Espacio No disponible");
 
                 System.out.println(aux.getNombre());
@@ -100,74 +100,82 @@ public class FXMLDocumentController implements Initializable {
         }
         return null;
     }
-     int x = 0,x4=0,x2=0,x3=0,y=0,y4=0,y2=0,y3=0;
+    int x = 0, x4 = 0, x2 = 0, x3 = 0, y = 0, y4 = 0, y2 = 0, y3 = 0;
 
     public void moverFigura(GraphicsContext cuadro, Canvas lienzo) {
-            lienzo.setOnMousePressed(e -> {
-                System.out.println("Cantidad: " + numero);
-                Figura Aux = detectarFigura1((int) e.getX(), (int) e.getY());
-                
-                if(Aux!=null){
-                 x = Aux.getX1();  y = Aux.getY1(); x2 = Aux.getX2();
-                 y2 = Aux.getY2(); x3 = Aux.getX3(); y3 = Aux.getY3();
-                 x4 = Aux.getX4();y4 = Aux.getY4();
+        lienzo.setOnMousePressed(e -> {
+            System.out.println("Cantidad: " + numero);
+            Figura Aux = detectarFigura1((int) e.getX(), (int) e.getY());
+
+            if (Aux != null) {
+                x = Aux.getX1();
+                y = Aux.getY1();
+                x2 = Aux.getX2();
+                y2 = Aux.getY2();
+                x3 = Aux.getX3();
+                y3 = Aux.getY3();
+                x4 = Aux.getX4();
+                y4 = Aux.getY4();
+            }
+
+            //Se agrega este bloque para el movimiento de las Lineas.
+            lienzo.setOnMouseDragged(en -> {
+                cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
+                for (int i = 0; i < enlaces.size(); i++) {
+                    Flujo link = enlaces.get(i);
+                    if (link.getX() == Aux.getX1() && link.getY() == Aux.getY1()) {
+                        link.dibujar((int) en.getX(), (int) en.getY(), link.getX1(), link.getY2(), cuadro);
+                        System.out.println("Entre");
+                    } else if (link.getX1() == Aux.getX1() && link.getY2() == Aux.getY1()) {
+                        link.dibujar(link.getX(), link.getY(), (int) en.getX(), (int) en.getY(), cuadro);
+                        System.out.println("Entre");
+                    }
+                    enlaces.set(i, link);
                 }
 
-                //Se agrega este bloque para el movimiento de las Lineas.
-                lienzo.setOnMouseDragged(en -> {
-                    cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-                    for (int i = 0; i < enlaces.size(); i++) {
-                        Flujo link = enlaces.get(i);
-                        if(link.getX()== Aux.getX1()&&link.getY()==Aux.getY1()){
-                            link.dibujar((int) en.getX(), (int) en.getY(), link.getX1(), link.getY2(), cuadro);
-                            System.out.println("Entre");
-                        }
-                        else if(link.getX1()==Aux.getX1()&&link.getY2()==Aux.getY1()){
-                            link.dibujar(link.getX(), link.getY(),(int) en.getX(), (int) en.getY(), cuadro);
-                            System.out.println("Entre");
-                        }
-                        enlaces.set(i, link);
-                     }
-                    
-                    Aux.dibujar(cuadro, (int) en.getX(), (int) en.getY());
-                    repintar(cuadro);
-                    System.out.println("e: "+(int) en.getX()+","+ (int) en.getY());
-                  
-                    });
-                System.out.println("!1=" + Aux);
-                lienzo.setOnMouseReleased(p -> {
-                    System.out.println("Me detuve");
-                    if(Aux!=null){
-                       Aux.setX1(x);Aux.setY1(y);Aux.setX2(x2);Aux.setY2(y2);
-                       Aux.setX3(x3);Aux.setY3(y3);Aux.setX4(x4);Aux.setY4(y4);
-                    }
-                    Figura aux = detectarFigura2((int) p.getX(), (int) p.getY());
-                    System.out.println("!2=" + aux);
-                    if (Aux != null && aux == null) {
-                        //debe mover la figura
-                        System.out.println("Deberia moverse");
-                        Aux.dibujar(cuadro, (int) p.getX(), (int) p.getY());
-                    }
-                    else if (Aux != null && aux != null) {
-                        //existe una figura en donde se desea colocar la otra
-                        System.out.println("No debe moverse");
-                        Aux.dibujar(cuadro, (x), y);
-                        
-                    }
-                    if (Aux == null) {
-                        //no existe una figura desde donde se clikeo
-                        System.out.println("No hay nada que mover");
-                    }
-                    cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-                    repintar(cuadro);
+                Aux.dibujar(cuadro, (int) en.getX(), (int) en.getY());
+                repintar(cuadro);
+                System.out.println("e: " + (int) en.getX() + "," + (int) en.getY());
 
+            });
+            System.out.println("!1=" + Aux);
+            lienzo.setOnMouseReleased(p -> {
+                System.out.println("Me detuve");
+                if (Aux != null) {
+                    Aux.setX1(x);
+                    Aux.setY1(y);
+                    Aux.setX2(x2);
+                    Aux.setY2(y2);
+                    Aux.setX3(x3);
+                    Aux.setY3(y3);
+                    Aux.setX4(x4);
+                    Aux.setY4(y4);
+                }
+                Figura aux = detectarFigura2((int) p.getX(), (int) p.getY());
+                System.out.println("!2=" + aux);
+                if (Aux != null && aux == null) {
+                    //debe mover la figura
+                    System.out.println("Deberia moverse");
+                    Aux.dibujar(cuadro, (int) p.getX(), (int) p.getY());
+                } else if (Aux != null && aux != null) {
+                    //existe una figura en donde se desea colocar la otra
+                    System.out.println("No debe moverse");
+                    Aux.dibujar(cuadro, (x), y);
 
-                });
+                }
+                if (Aux == null) {
+                    //no existe una figura desde donde se clikeo
+                    System.out.println("No hay nada que mover");
+                }
+                cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
+                repintar(cuadro);
 
             });
 
-        
+        });
+
     }
+
     @FXML
     private void dibujarEtapa(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
@@ -177,13 +185,16 @@ public class FXMLDocumentController implements Initializable {
         if (click == true) {
             lienzo.setOnMouseClicked(e -> {
                 System.out.println("XY: " + e.getX() + "," + e.getY());
+                Figura Aux = detectarFigura2((int) e.getX(), (int) e.getY());
                 if (click == true && ((e.getX() + 180) < lienzo.getWidth()) && ((e.getY() + 70) < lienzo.getHeight())) {
-                    etapa.dibujar(cuadro, (int) e.getX(), (int) e.getY());
-                    etapa.setNombre("Rectangulo " + numero);
-                    numero++;
-                    formas.add(etapa);
-                    click = false;
-                    activarDrag = true;
+                    if (Aux == null) {
+                        etapa.dibujar(cuadro, (int) e.getX(), (int) e.getY());
+                        etapa.setNombre("Rectangulo " + numero);
+                        numero++;
+                        formas.add(etapa);
+                        click = false;
+                        activarDrag = true;
+                    }
                 } else if ((e.getY() + 70) > lienzo.getHeight()) {
                     lienzo.setHeight(lienzo.getHeight() + 80);
                     etapa.dibujar(cuadro, (int) e.getX(), (int) e.getY());
@@ -214,14 +225,17 @@ public class FXMLDocumentController implements Initializable {
         activarDrag = false;
         if (click == true) {
             lienzo.setOnMouseClicked(e -> {
+                Figura Aux = detectarFigura2((int) e.getX(), (int) e.getY());
                 System.out.println("XY: " + e.getX() + "," + e.getY());
                 if (click == true && ((e.getX() + 190) < lienzo.getWidth()) && ((e.getX() - 70) > 0) && ((e.getY() + 70) < lienzo.getHeight())) {
-                    entrada.dibujar(cuadro, (int) e.getX(), (int) e.getY());
-                    entrada.setNombre("Rombo " + numero);
+                    if (Aux == null) {
+                        entrada.dibujar(cuadro, (int) e.getX(), (int) e.getY());
+                        entrada.setNombre("Rombo " + numero);
 
-                    click = false;
-                    formas.add(entrada);
-                    activarDrag = true;
+                        click = false;
+                        formas.add(entrada);
+                        activarDrag = true;
+                    }
                 } else if ((e.getY() + 70) > lienzo.getHeight()) {
                     lienzo.setHeight(lienzo.getHeight() + 80);
                     entrada.dibujar(cuadro, (int) e.getX(), (int) e.getY());
@@ -254,13 +268,16 @@ public class FXMLDocumentController implements Initializable {
         if (click == true) {
             lienzo.setOnMouseClicked(e -> {
                 System.out.println("XY: " + e.getX() + "," + e.getY());
+                Figura Aux = detectarFigura2((int) e.getX(), (int) e.getY());
                 if (click == true && ((e.getX() + 235) < lienzo.getWidth()) && ((e.getX() - 40) > 0) && ((e.getY() + 70) < lienzo.getHeight())) {
-                    inicioFin.dibujar(cuadro, (int) e.getX(), (int) e.getY());
-                    inicioFin.setNombre("Inicio " + numero);
+                    if (Aux == null) {
+                        inicioFin.dibujar(cuadro, (int) e.getX(), (int) e.getY());
+                        inicioFin.setNombre("Inicio " + numero);
 
-                    click = false;
-                    formas.add(inicioFin);
-                    activarDrag = true;
+                        click = false;
+                        formas.add(inicioFin);
+                        activarDrag = true;
+                    }
                 } else if ((e.getY() + 70) > lienzo.getHeight()) {
                     lienzo.setHeight(lienzo.getHeight() + 80);
                     inicioFin.dibujar(cuadro, (int) e.getX(), (int) e.getY());
@@ -291,13 +308,16 @@ public class FXMLDocumentController implements Initializable {
         if (click == true) {
             lienzo.setOnMouseClicked(e -> {
                 System.out.println("XY: " + e.getX() + "," + e.getY());
+                Figura Aux = detectarFigura2((int) e.getX(), (int) e.getY());
                 if (click == true && ((e.getX() + 200) < lienzo.getWidth()) && ((e.getY() + 125) < lienzo.getHeight())) {
+                    if (Aux == null) {
                     documento.dibujar(cuadro, (int) e.getX(), (int) e.getY());
                     documento.setNombre("Documento " + numero);
 
                     click = false;
                     formas.add(documento);
                     activarDrag = true;
+                    }
                 } else if ((e.getY() + 70) > lienzo.getHeight()) {
                     lienzo.setHeight(lienzo.getHeight() + 80);
                     documento.dibujar(cuadro, (int) e.getX(), (int) e.getY());
@@ -358,55 +378,54 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    int d =1;
+    int d = 1;
+
     @FXML
     private void dibujarLinea(ActionEvent event) {
-     
-        
-        click=true;
-                GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        if(click==true){
-            System.out.println("Click: "+click);
-        Flujo linea = new Flujo();
-        ArrayList<Punto>puntos = new ArrayList();
-        ArrayList<Figura>formasEnlace= new ArrayList();
-        lienzo.setOnMouseClicked(e->{
-            if(click==true){
-            Punto p = new Punto((int)e.getX(),(int)e.getY());
-            Figura Aux =detectarFigura1((int)e.getX(),(int)e.getY());
-            if(Aux!=null){
-                formasEnlace.add(Aux);
-            }
-            puntos.add(p);
-            System.out.println("Ingrese Punto: "+d);
-            d++;
-            if(d> 2 && formasEnlace.size()==2){
-                d=1;
-                Figura p1 = formasEnlace.get(0);
-                Figura p2 = formasEnlace.get(1);
-                linea.dibujar(p1.getX1(), p1.getY1(), p2.getX1(), p2.getY1(), cuadro);
-                enlaces.add(linea);
-                puntos.removeAll(puntos);
-                formasEnlace.removeAll(formasEnlace);
-                click=false;
-            }
-            else if(d>2){
-                d=1;
-                System.out.println("No escogio dos figuras");
-                puntos.removeAll(puntos);
-                formasEnlace.removeAll(formasEnlace);
-                click=false;
-              }
-            }
-        });
-        
+
+        click = true;
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        if (click == true) {
+            System.out.println("Click: " + click);
+            Flujo linea = new Flujo();
+            ArrayList<Punto> puntos = new ArrayList();
+            ArrayList<Figura> formasEnlace = new ArrayList();
+            lienzo.setOnMouseClicked(e -> {
+                if (click == true) {
+                    Punto p = new Punto((int) e.getX(), (int) e.getY());
+                    Figura Aux = detectarFigura1((int) e.getX(), (int) e.getY());
+                    if (Aux != null) {
+                        formasEnlace.add(Aux);
+                    }
+                    puntos.add(p);
+                    System.out.println("Ingrese Punto: " + d);
+                    d++;
+                    if (d > 2 && formasEnlace.size() == 2) {
+                        d = 1;
+                        Figura p1 = formasEnlace.get(0);
+                        Figura p2 = formasEnlace.get(1);
+                        linea.dibujar(p1.getX1(), p1.getY1(), p2.getX1(), p2.getY1(), cuadro);
+                        enlaces.add(linea);
+                        puntos.removeAll(puntos);
+                        formasEnlace.removeAll(formasEnlace);
+                        click = false;
+                    } else if (d > 2) {
+                        d = 1;
+                        System.out.println("No escogio dos figuras");
+                        puntos.removeAll(puntos);
+                        formasEnlace.removeAll(formasEnlace);
+                        click = false;
+                    }
+                }
+            });
+
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();  
-        moverFigura(cuadro,lienzo);
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        moverFigura(cuadro, lienzo);
 
     }
 
