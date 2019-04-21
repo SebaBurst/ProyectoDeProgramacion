@@ -60,16 +60,32 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    public Figura detectarFigura(int x, int y) {
+    public Figura detectarFigura2(int x, int y) {
         for (int i = 0; i < formas.size(); i++) {
             Figura aux = formas.get(i);
             System.out.println("Coordenadas " + i + " " + aux.getY1() + "," + aux.getY3());
-            if (y >= aux.getY1() && y <= aux.getY3()) {
+            System.out.println("Coordenada restada "+ (aux.getY1()-20));
+            if (y >= aux.getY1()-100 && y<= aux.getY3()+20 && x >= aux.getX1()-200 && x <= aux.getX2()+50) {
                 System.out.println("Espacio No disponible");
-                if (x >= aux.getX1() && x <= aux.getX2()) {
-                    System.out.println(aux.getNombre());
-                    return aux;
-                }
+
+                System.out.println(aux.getNombre());
+                return aux;
+            } else {
+                System.out.println("Espacio Disponible");
+            }
+
+        }
+        return null;
+    }
+        public Figura detectarFigura1(int x, int y) {
+        for (int i = 0; i < formas.size(); i++) {
+            Figura aux = formas.get(i);
+            System.out.println("Coordenadas " + i + " " + aux.getY1() + "," + aux.getY3());
+            if (y >= aux.getY1() && y<= aux.getY3() && x >= aux.getX1() && x <= aux.getX2()) {
+                System.out.println("Espacio No disponible");
+
+                System.out.println(aux.getNombre());
+                return aux;
             } else {
                 System.out.println("Espacio Disponible");
             }
@@ -82,24 +98,35 @@ public class FXMLDocumentController implements Initializable {
         if (activarDrag == true) {
             lienzo.setOnMousePressed(e -> {
                 System.out.println("Cantidad: " + numero);
-                Figura Aux = detectarFigura((int) e.getX(), (int) e.getY());
-                if (Aux != null) {
-                    lienzo.setOnMouseDragged(en -> {
+                Figura Aux = detectarFigura1((int) e.getX(), (int) e.getY());
+                System.out.println("!1=" + Aux);
+                lienzo.setOnMouseReleased(p -> {
+                    Figura aux = detectarFigura2((int) p.getX(), (int) p.getY());
+                    System.out.println("!2=" + aux);
+                    if (Aux != null && aux == null) {
+                        //debe mover la figura
+                        System.out.println("Deberia moverse");
+
                         cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-                        Aux.dibujar(cuadro, (int) en.getX(), (int) en.getY());
+                        Aux.dibujar(cuadro, (int) p.getX(), (int) p.getY());
                         repintar(cuadro);
 
-                    });
-                    lienzo.setOnMouseReleased(p -> {
-                        lienzo.setOnMouseDragged(null);
+                    }
+                    if (Aux != null && aux != null) {
+                        //existe una figura en donde se desea colocar la otra
+                        System.out.println("No debe moverse");
+                    }
+                    if (Aux == null) {
+                        //no existe una figura desde donde se clikeo
+                        System.out.println("No hay nada que mover");
+                    }
 
-                    });
+                });
 
-                }
             });
+
         }
     }
-
     @FXML
     private void dibujarEtapa(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
@@ -279,20 +306,21 @@ public class FXMLDocumentController implements Initializable {
     Button cut;
     boolean borrar = false;
 
-    NotificacionController ventana = new NotificacionController ();
+    NotificacionController ventana = new NotificacionController();
+
     @FXML
-    private void borrarFigura(ActionEvent event) throws Exception{
+    private void borrarFigura(ActionEvent event) throws Exception {
         Flujo.dibujar(lienzo);
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         moverFigura(cuadro, lienzo);
-        /** borrar = false;
+        borrar = false;
         if (borrar == false) {
             lienzo.setOnMouseClicked(e -> {
                 System.out.println("************************************");
                 detectarBorrar((int) e.getX(), (int) e.getY());
                 borrar = true;
             });
-        }*/
+        }
     }
 
     @FXML
