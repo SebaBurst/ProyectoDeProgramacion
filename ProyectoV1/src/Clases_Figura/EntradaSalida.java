@@ -37,6 +37,7 @@ public class EntradaSalida extends Figura {
         lienzo.strokeLine(x,y, x-70,y+70);
         lienzo.strokeLine(x-70,y+70, x+120, y+70);
         lienzo.strokeLine(x+120,y+70, x+190, y);
+        lienzo.fillText(this.getTextoFigura(), Math.round(x+25),Math.round(y+35));//y
     }
 
 }

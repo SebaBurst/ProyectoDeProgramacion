@@ -47,7 +47,7 @@ public class InicioFin extends Figura {
         lienzo.fillArc(x+165, y, 70, 70, 270, 180, ArcType.OPEN);
         lienzo.strokeArc(x-35, y, 70, 70, 90, 180, ArcType.OPEN);
         lienzo.strokeArc(x+165, y, 70, 70, 270, 180, ArcType.OPEN);
-        
+        lienzo.fillText(this.getTextoFigura(), Math.round(x+25),Math.round(y+35));//y        
     }
 
     

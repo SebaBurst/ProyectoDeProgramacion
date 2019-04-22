@@ -21,6 +21,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javax.swing.JOptionPane;
 
 public class FXMLDocumentController implements Initializable {
     public static String texto = "";
@@ -180,12 +181,15 @@ public class FXMLDocumentController implements Initializable {
     private void dibujarEtapa(ActionEvent event) throws Exception {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Etapa etapa = new Etapa();
+        /*
         NotificacionController ventana = new NotificacionController();
         ventana.popUp();
         etapa.setTextoFigura(texto);
-        System.out.println("el texto encontrado en la barra es: "+texto);
-        System.out.println("el texto que esta en la etapa es: "+etapa.getTextoFigura());
-        texto = "";
+        */
+        String respuestaEtapa = JOptionPane.showInputDialog("Ingrese texto: ");
+        etapa.setTextoFigura(respuestaEtapa);
+        System.out.println("el texto en esta etapa es: "+etapa.getTextoFigura());
+        //texto = "";
         click = true;
         activarDrag = false;
         if (click == true) {
@@ -226,6 +230,9 @@ public class FXMLDocumentController implements Initializable {
     private void dibujarEntradaSalida(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         EntradaSalida entrada = new EntradaSalida();
+        String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
+        entrada.setTextoFigura(respuesta);
+        System.out.println("el texto en esta entrada o salida es: "+entrada.getTextoFigura());
         click = true;
         activarDrag = false;
         if (click == true) {
@@ -268,6 +275,9 @@ public class FXMLDocumentController implements Initializable {
     private void dibujarInicioFin(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         InicioFin inicioFin = new InicioFin();
+        String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
+        inicioFin.setTextoFigura(respuesta);
+        System.out.println("el texto en este inicio o fin es: "+inicioFin.getTextoFigura());
         click = true;
         activarDrag = false;
         if (click == true) {
@@ -308,6 +318,9 @@ public class FXMLDocumentController implements Initializable {
     private void dibujarDocumento(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Documento documento = new Documento();
+        String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
+        documento.setTextoFigura(respuesta);
+        System.out.println("el texto en este documento es: "+documento.getTextoFigura());
         click = true;
         activarDrag = true;
         if (click == true) {
@@ -431,7 +444,6 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         moverFigura(cuadro, lienzo);
-
     }
 
 }

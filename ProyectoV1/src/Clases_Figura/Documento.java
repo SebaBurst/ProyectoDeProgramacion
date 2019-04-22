@@ -87,6 +87,6 @@ public class Documento extends Figura {
 
 
 
-                
+        lienzo.fillText(this.getTextoFigura(), Math.round(x+25),Math.round(y+35));//y                
     }
 }

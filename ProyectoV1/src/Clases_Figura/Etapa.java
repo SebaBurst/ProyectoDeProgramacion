@@ -41,6 +41,7 @@ public class Etapa extends Figura {
         lienzo.strokeLine(x1,y1,x1+180, y1);
         lienzo.strokeLine(x1+180,y1, x1+180, y1+70);
         lienzo.strokeLine(x1,y1, x1, y1+70);
+        lienzo.fillText(this.getTextoFigura(), Math.round(x+25),Math.round(y+35));//y
     }
 
    

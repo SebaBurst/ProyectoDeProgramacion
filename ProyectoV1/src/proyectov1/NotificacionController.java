@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -22,6 +23,8 @@ import javafx.stage.Stage;
  * @author Sebastian
  */
 public class NotificacionController implements Initializable {
+    @FXML
+    AnchorPane root;
     
     @FXML
     Button aceptar;
@@ -47,7 +50,7 @@ public class NotificacionController implements Initializable {
     
     public void Aceptar(){
         FXMLDocumentController.texto = insertarText.getText();
-        Stage stage = (Stage) cancelar.getScene().getWindow();
+        Stage stage = (Stage) aceptar.getScene().getWindow();
         stage.close();
     }
     

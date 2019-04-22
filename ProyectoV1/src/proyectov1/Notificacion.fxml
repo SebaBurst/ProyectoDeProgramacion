@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane id="AnchorPane" prefHeight="181.0" prefWidth="339.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectov1.NotificacionController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="181.0" prefWidth="339.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectov1.NotificacionController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f9f7f4" height="208.0" stroke="#c2a889" strokeType="INSIDE" width="351.0" />
       <TextField fx:id="insertarText" layoutX="20.0" layoutY="64.0" prefHeight="32.0" prefWidth="312.0" />
