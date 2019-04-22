@@ -2,6 +2,9 @@ package Clases_Figura;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 
 public class EntradaSalida extends Figura {
@@ -37,6 +40,9 @@ public class EntradaSalida extends Figura {
         lienzo.strokeLine(x,y, x-70,y+70);
         lienzo.strokeLine(x-70,y+70, x+120, y+70);
         lienzo.strokeLine(x+120,y+70, x+190, y);
+        lienzo.setStroke(Color.WHITE);
+        lienzo.setFont(Font.font("Verdana", FontWeight.LIGHT, FontPosture.ITALIC, 15.0));
+        lienzo.setFill(Color.BLACK);
         lienzo.fillText(this.getTextoFigura(), Math.round(x+25),Math.round(y+35));//y
     }
 

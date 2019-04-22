@@ -141,8 +141,14 @@ public class FXMLDocumentController implements Initializable {
             });
             System.out.println("!1=" + Aux);
             lienzo.setOnMouseReleased(p -> {
+                int p1=0;
+                int p2=0;
+               if(Aux!=null){ 
+                p1= Aux.getX1();
+                p2 = Aux.getY1();
+                
                 System.out.println("Me detuve");
-                if (Aux != null) {
+               
                     Aux.setX1(x);
                     Aux.setY1(y);
                     Aux.setX2(x2);
@@ -152,6 +158,18 @@ public class FXMLDocumentController implements Initializable {
                     Aux.setX4(x4);
                     Aux.setY4(y4);
                 }
+                
+               
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
                 Figura aux = detectarFigura2((int) p.getX(), (int) p.getY());
                 System.out.println("!2=" + aux);
                 if (Aux != null && aux == null) {
@@ -161,6 +179,26 @@ public class FXMLDocumentController implements Initializable {
                 } else if (Aux != null && aux != null) {
                     //existe una figura en donde se desea colocar la otra
                     System.out.println("No debe moverse");
+                    if(enlaces.size()!=0){
+                    for (int t = 0; t < enlaces.size(); t++) {
+                        System.out.println("Enlace: "+enlaces.size());
+                        Flujo link = enlaces.get(t);
+                    if (link.getX() == p1 && link.getY() == p2) {
+                        link.dibujar(x, y, link.getX1(), link.getY2(), cuadro);
+                        System.out.println("Entre");
+                    } else if (link.getX1() == p1 && link.getY2() == p2) {
+                        link.dibujar(link.getX(), link.getY(), x, y, cuadro);
+                        System.out.println("Entre");
+                    }
+                    enlaces.set(t, link);
+                    
+                    
+                    }
+                    }
+                    
+                    
+                    
+                    
                     Aux.dibujar(cuadro, (x), y);
 
                 }

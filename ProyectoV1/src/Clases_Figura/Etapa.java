@@ -2,6 +2,9 @@ package Clases_Figura;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 public class Etapa extends Figura {
 
@@ -41,6 +44,11 @@ public class Etapa extends Figura {
         lienzo.strokeLine(x1,y1,x1+180, y1);
         lienzo.strokeLine(x1+180,y1, x1+180, y1+70);
         lienzo.strokeLine(x1,y1, x1, y1+70);
+        
+        
+        lienzo.setStroke(Color.BLACK);
+        lienzo.setFont(Font.font("Verdana", FontWeight.LIGHT, FontPosture.ITALIC, 15.0));
+        lienzo.setFill(Color.BLACK);
         lienzo.fillText(this.getTextoFigura(), Math.round(x+25),Math.round(y+35));//y
     }
 

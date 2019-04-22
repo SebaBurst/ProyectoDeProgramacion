@@ -4,6 +4,9 @@ package Clases_Figura;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 public class Documento extends Figura {
 
@@ -83,10 +86,15 @@ public class Documento extends Figura {
         lienzo.strokeArc(x+110, y+55, 102, 50, 42, 135, ArcType.OPEN);
         lienzo.strokeArc(x, y+23, 110, 100, 180, 175, ArcType.OPEN);
         lienzo.strokeLine(x,y, x, y+70);
+        
+        lienzo.setStroke(Color.WHITE);
+        lienzo.setStroke(Color.valueOf("#FFFFFF"));
+        
+        lienzo.setFont(Font.font("Verdana", FontWeight.LIGHT, FontPosture.ITALIC, 15.0));
+                lienzo.setFill(Color.BLACK);
+
+        lienzo.fillText(this.getTextoFigura(), x+15, y+35);
 
 
-
-
-        lienzo.fillText(this.getTextoFigura(), Math.round(x+25),Math.round(y+35));//y                
     }
 }

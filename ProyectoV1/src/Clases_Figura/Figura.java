@@ -7,7 +7,7 @@ public abstract class Figura {
 
     ArrayList<Punto> coordenadas= new ArrayList();
     ArrayList<Flujo> enlaces = new ArrayList();
-    public String textoFigura = "";
+    public String textoFigura;
 
     public String getTextoFigura() {
         return textoFigura;

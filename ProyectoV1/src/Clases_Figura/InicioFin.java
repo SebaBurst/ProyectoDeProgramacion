@@ -3,6 +3,9 @@ package Clases_Figura;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 public class InicioFin extends Figura {
 
@@ -47,6 +50,10 @@ public class InicioFin extends Figura {
         lienzo.fillArc(x+165, y, 70, 70, 270, 180, ArcType.OPEN);
         lienzo.strokeArc(x-35, y, 70, 70, 90, 180, ArcType.OPEN);
         lienzo.strokeArc(x+165, y, 70, 70, 270, 180, ArcType.OPEN);
+        
+        lienzo.setStroke(Color.WHITE);
+        lienzo.setFont(Font.font("Verdana", FontWeight.LIGHT, FontPosture.ITALIC, 15.0));
+        lienzo.setFill(Color.BLACK);
         lienzo.fillText(this.getTextoFigura(), Math.round(x+25),Math.round(y+35));//y        
     }
 
