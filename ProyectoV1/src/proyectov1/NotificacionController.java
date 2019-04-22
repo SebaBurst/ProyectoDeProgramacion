@@ -7,10 +7,13 @@ package proyectov1;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
@@ -19,7 +22,15 @@ import javafx.stage.Stage;
  * @author Sebastian
  */
 public class NotificacionController implements Initializable {
-
+    
+    @FXML
+    Button aceptar;
+    
+    @FXML
+    Button cancelar;
+    
+    @FXML
+    TextField insertarText;
     
     public void popUp()throws Exception {
         try {
@@ -33,9 +44,18 @@ public class NotificacionController implements Initializable {
             e.printStackTrace();
         }
     }
-    /**
-     * Initializes the controller class.
-     */
+    
+    public void Aceptar(){
+        FXMLDocumentController.texto = insertarText.getText();
+        Stage stage = (Stage) cancelar.getScene().getWindow();
+        stage.close();
+    }
+    
+    public void Cancelar(){
+        Stage stage = (Stage) cancelar.getScene().getWindow();
+        stage.close();
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

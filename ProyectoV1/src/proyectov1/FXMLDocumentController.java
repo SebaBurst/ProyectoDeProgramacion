@@ -23,7 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class FXMLDocumentController implements Initializable {
-
+    public static String texto = "";
     //
     public static ArrayList<Figura> formas = new ArrayList();
     @FXML
@@ -177,9 +177,15 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void dibujarEtapa(ActionEvent event) {
+    private void dibujarEtapa(ActionEvent event) throws Exception {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Etapa etapa = new Etapa();
+        NotificacionController ventana = new NotificacionController();
+        ventana.popUp();
+        etapa.setTextoFigura(texto);
+        System.out.println("el texto encontrado en la barra es: "+texto);
+        System.out.println("el texto que esta en la etapa es: "+etapa.getTextoFigura());
+        texto = "";
         click = true;
         activarDrag = false;
         if (click == true) {
@@ -188,7 +194,7 @@ public class FXMLDocumentController implements Initializable {
                 Figura Aux = detectarFigura2((int) e.getX(), (int) e.getY());
                 if (click == true && ((e.getX() + 180) < lienzo.getWidth()) && ((e.getY() + 70) < lienzo.getHeight())) {
                     if (Aux == null) {
-                        etapa.dibujar(cuadro, (int) e.getX(), (int) e.getY());
+                        etapa.dibujar(cuadro, (int) e.getX(), (int) e.getY());                       
                         etapa.setNombre("Rectangulo " + numero);
                         numero++;
                         formas.add(etapa);
@@ -214,7 +220,6 @@ public class FXMLDocumentController implements Initializable {
                 }
             });
         }
-
     }
 
     @FXML
