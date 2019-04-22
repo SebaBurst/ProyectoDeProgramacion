@@ -73,3 +73,19 @@ and open the template in the editor.
     
     
 }
+.cortar:focused{
+    -fx-background-color: #e3dbc7;
+    -fx-border-color:#c2a889;
+}
+.mouse{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/Mouse.png');  
+}
+.mouse:hover{
+    -fx-background-color: #e3dbc7;
+}
+.mouse:focused{
+    -fx-background-color: #e3dbc7;
+    -fx-border-color:#c2a889;
+}
