@@ -18,6 +18,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -229,6 +231,29 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("el texto en esta etapa es: "+etapa.getTextoFigura());
         //texto = "";
         click = true;
+        
+        if(etapa.getTextoFigura().length()>15){
+            System.out.println("soy muy grande");
+            click = false;
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Cantidad de caracteres.");
+            alert.setHeaderText("Ocurrio un error.");
+            alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
+
+            alert.showAndWait();
+        }
+        
+        if(etapa.getTextoFigura() == null){
+            click = false;
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Cantidad de caracteres.");
+            alert.setHeaderText("Ocurrio un error.");
+            alert.setContentText("El objeto no puede no tener texto!.");
+
+            alert.showAndWait();
+            
+        }
+        
         activarDrag = false;
         if (click == true) {
             lienzo.setOnMouseClicked(e -> {
@@ -272,6 +297,29 @@ public class FXMLDocumentController implements Initializable {
         entrada.setTextoFigura(respuesta);
         System.out.println("el texto en esta entrada o salida es: "+entrada.getTextoFigura());
         click = true;
+
+        if(entrada.getTextoFigura().length()>15){
+            System.out.println("soy muy grande");
+            click = false;
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Cantidad de caracteres.");
+            alert.setHeaderText("Ocurrio un error.");
+            alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
+
+            alert.showAndWait();
+        }
+        
+        if(entrada.getTextoFigura() == null){
+            click = false;
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Cantidad de caracteres.");
+            alert.setHeaderText("Ocurrio un error.");
+            alert.setContentText("El objeto no puede no tener texto!.");
+
+            alert.showAndWait();
+            
+        }        
+        
         activarDrag = false;
         if (click == true) {
             lienzo.setOnMouseClicked(e -> {
@@ -317,6 +365,28 @@ public class FXMLDocumentController implements Initializable {
         inicioFin.setTextoFigura(respuesta);
         System.out.println("el texto en este inicio o fin es: "+inicioFin.getTextoFigura());
         click = true;
+
+        if(inicioFin.getTextoFigura().length()>15){
+            System.out.println("soy muy grande");
+            click = false;
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Cantidad de caracteres.");
+            alert.setHeaderText("Ocurrio un error.");
+            alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
+
+            alert.showAndWait();
+        }
+        
+        if(inicioFin.getTextoFigura() == null){
+            click = false;
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Cantidad de caracteres.");
+            alert.setHeaderText("Ocurrio un error.");
+            alert.setContentText("El objeto no puede no tener texto!.");
+
+            alert.showAndWait();
+            
+        }        
         activarDrag = false;
         if (click == true) {
             lienzo.setOnMouseClicked(e -> {
@@ -360,6 +430,28 @@ public class FXMLDocumentController implements Initializable {
         documento.setTextoFigura(respuesta);
         System.out.println("el texto en este documento es: "+documento.getTextoFigura());
         click = true;
+
+        if(documento.getTextoFigura().length()>15){
+            System.out.println("soy muy grande");
+            click = false;
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Cantidad de caracteres.");
+            alert.setHeaderText("Ocurrio un error.");
+            alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
+
+            alert.showAndWait();
+        }
+        
+        if(documento.getTextoFigura() == null){
+            click = false;
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Cantidad de caracteres.");
+            alert.setHeaderText("Ocurrio un error.");
+            alert.setContentText("El objeto no puede no tener texto!.");
+
+            alert.showAndWait();
+            
+        }        
         activarDrag = true;
         if (click == true) {
             lienzo.setOnMouseClicked(e -> {
