@@ -26,6 +26,7 @@ import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 public class FXMLDocumentController implements Initializable {
+
     public static String texto = "";
     //
     public static ArrayList<Figura> formas = new ArrayList();
@@ -143,14 +144,14 @@ public class FXMLDocumentController implements Initializable {
             });
             System.out.println("!1=" + Aux);
             lienzo.setOnMouseReleased(p -> {
-                int p1=0;
-                int p2=0;
-               if(Aux!=null){ 
-                p1= Aux.getX1();
-                p2 = Aux.getY1();
-                
-                System.out.println("Me detuve");
-               
+                int p1 = 0;
+                int p2 = 0;
+                if (Aux != null) {
+                    p1 = Aux.getX1();
+                    p2 = Aux.getY1();
+
+                    System.out.println("Me detuve");
+
                     Aux.setX1(x);
                     Aux.setY1(y);
                     Aux.setX2(x2);
@@ -160,18 +161,7 @@ public class FXMLDocumentController implements Initializable {
                     Aux.setX4(x4);
                     Aux.setY4(y4);
                 }
-                
-               
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+
                 Figura aux = detectarFigura2((int) p.getX(), (int) p.getY());
                 System.out.println("!2=" + aux);
                 if (Aux != null && aux == null) {
@@ -181,26 +171,22 @@ public class FXMLDocumentController implements Initializable {
                 } else if (Aux != null && aux != null) {
                     //existe una figura en donde se desea colocar la otra
                     System.out.println("No debe moverse");
-                    if(enlaces.size()!=0){
-                    for (int t = 0; t < enlaces.size(); t++) {
-                        System.out.println("Enlace: "+enlaces.size());
-                        Flujo link = enlaces.get(t);
-                    if (link.getX() == p1 && link.getY() == p2) {
-                        link.dibujar(x, y, link.getX1(), link.getY2(), cuadro);
-                        System.out.println("Entre");
-                    } else if (link.getX1() == p1 && link.getY2() == p2) {
-                        link.dibujar(link.getX(), link.getY(), x, y, cuadro);
-                        System.out.println("Entre");
+                    if (enlaces.size() != 0) {
+                        for (int t = 0; t < enlaces.size(); t++) {
+                            System.out.println("Enlace: " + enlaces.size());
+                            Flujo link = enlaces.get(t);
+                            if (link.getX() == p1 && link.getY() == p2) {
+                                link.dibujar(x, y, link.getX1(), link.getY2(), cuadro);
+                                System.out.println("Entre");
+                            } else if (link.getX1() == p1 && link.getY2() == p2) {
+                                link.dibujar(link.getX(), link.getY(), x, y, cuadro);
+                                System.out.println("Entre");
+                            }
+                            enlaces.set(t, link);
+
+                        }
                     }
-                    enlaces.set(t, link);
-                    
-                    
-                    }
-                    }
-                    
-                    
-                    
-                    
+
                     Aux.dibujar(cuadro, (x), y);
 
                 }
@@ -225,14 +211,14 @@ public class FXMLDocumentController implements Initializable {
         NotificacionController ventana = new NotificacionController();
         ventana.popUp();
         etapa.setTextoFigura(texto);
-        */
+         */
         String respuestaEtapa = JOptionPane.showInputDialog("Ingrese texto: ");
         etapa.setTextoFigura(respuestaEtapa);
-        System.out.println("el texto en esta etapa es: "+etapa.getTextoFigura());
+        System.out.println("el texto en esta etapa es: " + etapa.getTextoFigura());
         //texto = "";
         click = true;
-        
-        if(etapa.getTextoFigura() == null || etapa.getTextoFigura().replaceAll(" ", "").equals("")){
+
+        if (etapa.getTextoFigura() == null || etapa.getTextoFigura().replaceAll(" ", "").equals("")) {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Cantidad de caracteres.");
@@ -240,8 +226,8 @@ public class FXMLDocumentController implements Initializable {
             alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
 
             alert.showAndWait();
-            
-        }else if(etapa.getTextoFigura().length()>15 ){
+
+        } else if (etapa.getTextoFigura().length() > 15) {
             System.out.println("soy muy grande");
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -251,7 +237,7 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
         }
-        
+
         activarDrag = false;
         if (click == true) {
             lienzo.setOnMouseClicked(e -> {
@@ -259,7 +245,7 @@ public class FXMLDocumentController implements Initializable {
                 Figura Aux = detectarFigura2((int) e.getX(), (int) e.getY());
                 if (click == true && ((e.getX() + 180) < lienzo.getWidth()) && ((e.getY() + 70) < lienzo.getHeight())) {
                     if (Aux == null) {
-                        etapa.dibujar(cuadro, (int) e.getX(), (int) e.getY());                       
+                        etapa.dibujar(cuadro, (int) e.getX(), (int) e.getY());
                         etapa.setNombre("Rectangulo " + numero);
                         numero++;
                         formas.add(etapa);
@@ -293,10 +279,10 @@ public class FXMLDocumentController implements Initializable {
         EntradaSalida entrada = new EntradaSalida();
         String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         entrada.setTextoFigura(respuesta);
-        System.out.println("el texto en esta entrada o salida es: "+entrada.getTextoFigura());
+        System.out.println("el texto en esta entrada o salida es: " + entrada.getTextoFigura());
         click = true;
 
-        if(entrada.getTextoFigura() == null || entrada.getTextoFigura().replaceAll(" ", "").equals("")){
+        if (entrada.getTextoFigura() == null || entrada.getTextoFigura().replaceAll(" ", "").equals("")) {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Cantidad de caracteres.");
@@ -304,8 +290,8 @@ public class FXMLDocumentController implements Initializable {
             alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
 
             alert.showAndWait();
-            
-        }else if(entrada.getTextoFigura().length()>15){
+
+        } else if (entrada.getTextoFigura().length() > 15) {
             System.out.println("soy muy grande");
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -314,8 +300,8 @@ public class FXMLDocumentController implements Initializable {
             alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
 
             alert.showAndWait();
-        }        
-        
+        }
+
         activarDrag = false;
         if (click == true) {
             lienzo.setOnMouseClicked(e -> {
@@ -359,10 +345,10 @@ public class FXMLDocumentController implements Initializable {
         InicioFin inicioFin = new InicioFin();
         String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         inicioFin.setTextoFigura(respuesta);
-        System.out.println("el texto en este inicio o fin es: "+inicioFin.getTextoFigura());
+        System.out.println("el texto en este inicio o fin es: " + inicioFin.getTextoFigura());
         click = true;
 
-        if(inicioFin.getTextoFigura() == null || inicioFin.getTextoFigura().replaceAll(" ", "").equals("")){
+        if (inicioFin.getTextoFigura() == null || inicioFin.getTextoFigura().replaceAll(" ", "").equals("")) {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Cantidad de caracteres.");
@@ -370,8 +356,8 @@ public class FXMLDocumentController implements Initializable {
             alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
 
             alert.showAndWait();
-            
-        }else if(inicioFin.getTextoFigura().length()>15){
+
+        } else if (inicioFin.getTextoFigura().length() > 15) {
             System.out.println("soy muy grande");
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -381,7 +367,7 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
         }
-        
+
         activarDrag = false;
         if (click == true) {
             lienzo.setOnMouseClicked(e -> {
@@ -423,10 +409,10 @@ public class FXMLDocumentController implements Initializable {
         Documento documento = new Documento();
         String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         documento.setTextoFigura(respuesta);
-        System.out.println("el texto en este documento es: "+documento.getTextoFigura());
+        System.out.println("el texto en este documento es: " + documento.getTextoFigura());
         click = true;
 
-        if(documento.getTextoFigura() == null || documento.getTextoFigura().replaceAll(" ", "").equals("")){
+        if (documento.getTextoFigura() == null || documento.getTextoFigura().replaceAll(" ", "").equals("")) {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Cantidad de caracteres.");
@@ -434,8 +420,8 @@ public class FXMLDocumentController implements Initializable {
             alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
 
             alert.showAndWait();
-            
-        }else if(documento.getTextoFigura().length()>15){
+
+        } else if (documento.getTextoFigura().length() > 15) {
             System.out.println("soy muy grande");
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -445,7 +431,7 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
         }
-        
+
         activarDrag = true;
         if (click == true) {
             lienzo.setOnMouseClicked(e -> {
@@ -453,12 +439,12 @@ public class FXMLDocumentController implements Initializable {
                 Figura Aux = detectarFigura2((int) e.getX(), (int) e.getY());
                 if (click == true && ((e.getX() + 200) < lienzo.getWidth()) && ((e.getY() + 125) < lienzo.getHeight())) {
                     if (Aux == null) {
-                    documento.dibujar(cuadro, (int) e.getX(), (int) e.getY());
-                    documento.setNombre("Documento " + numero);
+                        documento.dibujar(cuadro, (int) e.getX(), (int) e.getY());
+                        documento.setNombre("Documento " + numero);
 
-                    click = false;
-                    formas.add(documento);
-                    activarDrag = true;
+                        click = false;
+                        formas.add(documento);
+                        activarDrag = true;
                     }
                 } else if ((e.getY() + 70) > lienzo.getHeight()) {
                     lienzo.setHeight(lienzo.getHeight() + 80);
@@ -518,6 +504,12 @@ public class FXMLDocumentController implements Initializable {
                 borrar = true;
             });
         }
+    }
+
+    @FXML
+    private void mouse(ActionEvent event) throws Exception {
+        lienzo.setOnMouseClicked(e -> {
+        });
     }
 
     int d = 1;
