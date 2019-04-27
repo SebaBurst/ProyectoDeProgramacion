@@ -473,9 +473,15 @@ public class FXMLDocumentController implements Initializable {
             Figura aux = formas.get(i);
             if (y >= aux.getY1() && y <= aux.getY3()) {
                 if (x >= aux.getX1() && x <= aux.getX2()) {
+                    for (int j = 0; j < enlaces.size(); j++) {
+                        if (enlaces.get(j).getX() == aux.getX1() && enlaces.get(j).getY() == aux.getY1()) {
+                            enlaces.remove(j);
+                        } else if (enlaces.get(j).getX1() == aux.getX1() && enlaces.get(j).getY2() == aux.getY1()) {
+                            enlaces.remove(j);
+                        }
+                    }
                     formas.remove(i);
                     cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-
                     repintar(cuadro);
                 }
 
@@ -484,7 +490,6 @@ public class FXMLDocumentController implements Initializable {
             }
 
         }
-
     }
 
     @FXML
@@ -499,9 +504,11 @@ public class FXMLDocumentController implements Initializable {
         borrar = false;
         if (borrar == false) {
             lienzo.setOnMouseClicked(e -> {
+                int i = 1;
                 System.out.println("************************************");
                 detectarBorrar((int) e.getX(), (int) e.getY());
                 borrar = true;
+
             });
         }
     }
@@ -515,7 +522,8 @@ public class FXMLDocumentController implements Initializable {
     int d = 1;
 
     @FXML
-    private void dibujarLinea(ActionEvent event) {
+    private void dibujarLinea(ActionEvent event
+    ) {
 
         click = true;
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
@@ -557,7 +565,8 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb
+    ) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         moverFigura(cuadro, lienzo);
     }
