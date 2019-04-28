@@ -92,10 +92,14 @@ public class Flujo {
         this.setY2(y2);
         cuadro.setStroke(Color.valueOf("#353333"));
         cuadro.strokeLine(x,y, x2,y2);
-
-    
-    
     }
+    
+    public static int centroFigura(int x, int x2){
+        return (int)((x+x2)/2);
+        
+    }
+    
+    
     
     
 }

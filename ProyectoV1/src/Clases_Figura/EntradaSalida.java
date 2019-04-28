@@ -12,9 +12,13 @@ public class EntradaSalida extends Figura {
     @Override
     public void dibujar(GraphicsContext lienzo,int x,int y) {
         lienzo.setStroke(Color.valueOf("#75FFA1"));
-        int x1=x;
+        this.setMedioX(x);
+        this.setMedioY(y);
+        int ix= x-90;
+        int x1=ix;
         int y1=y;
-        int x2=x;
+        int x2=ix;
+        
         
         for (int j = 0; j < 190; j++) {
             x1=x2;
@@ -25,21 +29,24 @@ public class EntradaSalida extends Figura {
             x2+=1;
         }
 
-        setX1(x);
-        setY1(y);
-        setX2(x+190);
-        setY2(y);
-        setX3(x-70);
-        setY3(y+70);
-        setX4(x+120);
-        setY4(y+70);
+        this.setX1(ix);
+        this.setY1(y);
+        this.setX2(ix+190);
+        this.setY2(y);
+        this.setX3(ix-70);
+        this.setY3(y+70);
+        this.setX4(ix+120);
+        this.setY4(y+70);
         
         lienzo.setStroke(Color.valueOf("#0F3D1D"));
         lienzo.setLineWidth(3.0);
-        lienzo.strokeLine(x,y, x+190, y);
-        lienzo.strokeLine(x,y, x-70,y+70);
-        lienzo.strokeLine(x-70,y+70, x+120, y+70);
-        lienzo.strokeLine(x+120,y+70, x+190, y);
+        System.out.println("ix: "+ix);
+        lienzo.strokeLine(ix,y, ix+190, y);
+        
+        
+        lienzo.strokeLine(ix,y, ix-70,y+70);
+        lienzo.strokeLine(ix-70,y+70, ix+120, y+70);
+        lienzo.strokeLine(ix+120,y+70, ix+190, y);
         lienzo.setStroke(Color.WHITE);
         lienzo.setFont(Font.font("Verdana", FontWeight.LIGHT, FontPosture.ITALIC, 15.0));
         lienzo.setFill(Color.BLACK);

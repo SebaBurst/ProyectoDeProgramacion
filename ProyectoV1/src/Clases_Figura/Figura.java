@@ -5,9 +5,27 @@ import javafx.scene.canvas.GraphicsContext;
 
 public abstract class Figura {
 
-    ArrayList<Punto> coordenadas= new ArrayList();
+   ArrayList<Punto> coordenadas= new ArrayList();
     ArrayList<Flujo> enlaces = new ArrayList();
     public String textoFigura;
+    public int medioY=0;
+    public int medioX=0;
+
+    public int getMedioY(){
+        return medioY;
+    }
+
+    public void setMedioY(int medioY) {
+        this.medioY = medioY;
+    }
+
+    public int getMedioX() {
+        return medioX;
+    }
+
+    public void setMedioX(int medioX) {
+        this.medioX = medioX;
+    }
 
     public String getTextoFigura() {
         return textoFigura;
@@ -118,4 +136,7 @@ public abstract class Figura {
     public void setY4(int y4) {
         this.y4 = y4;
     }
+
+    
+    
 }
