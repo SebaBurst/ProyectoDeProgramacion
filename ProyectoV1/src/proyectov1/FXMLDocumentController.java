@@ -156,15 +156,7 @@ public class FXMLDocumentController implements Initializable {
                         repintar(cuadro);
                     });
                     lienzo.setOnMouseReleased(p->{
-                        Aux.setX1(x);
-                        Aux.setY1(y);
-                        Aux.setX2(x2);
-                        Aux.setY2(y2);
-                        Aux.setX3(x3);
-                        Aux.setY3(y3);
-                        Aux.setX4(x4);
-                        Aux.setY4(y4);
-                        Figura b =detectarFigura1((int)p.getX(),(int)p.getY());
+                            Figura b =detectarFigura1((int)p.getX(),(int)p.getY());
                         int px = (int)p.getX();
                         int py = (int)p.getY();
                         if(b!=null){
@@ -176,12 +168,10 @@ public class FXMLDocumentController implements Initializable {
                             }
                             else{
                                 System.out.println("Dibujar");
-                                Aux.dibujar(cuadro, Aux.getMedioX(), y);
                             }
                             
                         
                         }
-                        
                         
                         
                     
@@ -364,36 +354,7 @@ public class FXMLDocumentController implements Initializable {
 
         activarDrag = true;
         if (click == true) {
-            lienzo.setOnMouseClicked(e -> {
-                System.out.println("XY: " + e.getX() + "," + e.getY());
-                Figura Aux = detectarFigura2((int) e.getX(), (int) e.getY());
-                if (click == true && ((e.getX() + 200) < lienzo.getWidth()) && ((e.getY() + 125) < lienzo.getHeight())) {
-                    if (Aux == null) {
-                        documento.dibujar(cuadro, (int) e.getX(), (int) e.getY());
-                        documento.setNombre("Documento " + numero);
-
-                        click = false;
-                        formas.add(documento);
-                        activarDrag = true;
-                    }
-                } else if ((e.getY() + 70) > lienzo.getHeight()) {
-                    lienzo.setHeight(lienzo.getHeight() + 80);
-                    documento.dibujar(cuadro, (int) e.getX(), (int) e.getY());
-                    documento.setNombre("Documento " + numero);
-                    numero++;
-                    formas.add(documento);
-                    click = false;
-                    activarDrag = true;
-                } else if ((e.getX() + 70) > lienzo.getWidth()) {
-                    lienzo.setWidth(lienzo.getWidth() + 220);
-                    documento.dibujar(cuadro, (int) e.getX(), (int) e.getY());
-                    documento.setNombre("Documento " + numero);
-                    numero++;
-                    formas.add(documento);
-                    click = false;
-                    activarDrag = true;
-                }
-            });
+           cut(documento);
         }
     }
 
@@ -404,9 +365,9 @@ public class FXMLDocumentController implements Initializable {
             if (y >= aux.getY1() && y <= aux.getY3()) {
                 if (x >= aux.getX1() && x <= aux.getX2()) {
                     for (int j = 0; j < enlaces.size(); j++) {
-                        if (enlaces.get(j).getX() == aux.getX1() && enlaces.get(j).getY() == aux.getY1()) {
+                        if (enlaces.get(j).getX() == aux.getMedioX() && enlaces.get(j).getY() == aux.getY1()) {
                             enlaces.remove(j);
-                        } else if (enlaces.get(j).getX1() == aux.getX1() && enlaces.get(j).getY2() == aux.getY1()) {
+                        } else if (enlaces.get(j).getX1() == aux.getMedioX() && enlaces.get(j).getY2() == aux.getY1()) {
                             enlaces.remove(j);
                         }
                     }

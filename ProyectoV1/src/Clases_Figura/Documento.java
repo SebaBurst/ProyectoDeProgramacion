@@ -12,22 +12,28 @@ public class Documento extends Figura {
 
     @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
+        
+        this.setMedioX(x);
+        this.setMedioY(y);
+        
+        int ix = x-100;
+        
         lienzo.setStroke(Color.valueOf("#FA6C61"));
         lienzo.setLineWidth(3.0);
  
-        setX1(x);
+        setX1(ix);
         setY1(y);
-        setX2(x+200);
+        setX2(ix+200);
         setY2(y);
-        setX3(x);
+        setX3(ix);
         setY3(y+70);
-        setX4(x+200);
+        setX4(ix+200);
         setY4(y+65);
         
         int x1,x2,x3,x4,y1,y2,y3,y4;
-        x1=x;
+        x1=ix;
         y1=y;
-        x2=x+200;
+        x2=ix+200;
         y2=y;
         y3=y+65;
         
@@ -38,11 +44,11 @@ public class Documento extends Figura {
             y1=y1+1;
             y2=y2+1;
         }
-        lienzo.strokeLine(x,y, x+200, y);
-        lienzo.strokeLine(x+200,y, x+200, y+65);
-        x1=x;
+        lienzo.strokeLine(ix,y, ix+200, y);
+        lienzo.strokeLine(ix+200,y, ix+200, y+65);
+        x1=ix;
         y1=y;
-        x2=x;
+        x2=ix;
         y2=y;
         y3=y+77;
         lienzo.setLineWidth(3.3);
@@ -59,14 +65,14 @@ public class Documento extends Figura {
 
         // Se dibujan los arcos
         lienzo.setFill(Color.valueOf("#FA6C61"));
-        lienzo.fillArc(x, y+23, 110, 100, 180, 175, ArcType.OPEN);        
-        lienzo.strokeArc(x, y+23, 110, 100, 180, 175, ArcType.OPEN);
-        lienzo.strokeArc(x+110, y+55, 102, 50, 42, 135, ArcType.OPEN);
-        lienzo.strokeArc(x+105, y+53, 102, 50, 42, 135, ArcType.OPEN);
+        lienzo.fillArc(ix, y+23, 110, 100, 180, 175, ArcType.OPEN);        
+        lienzo.strokeArc(ix, y+23, 110, 100, 180, 175, ArcType.OPEN);
+        lienzo.strokeArc(ix+110, y+55, 102, 50, 42, 135, ArcType.OPEN);
+        lienzo.strokeArc(ix+105, y+53, 102, 50, 42, 135, ArcType.OPEN);
 
        
         //Ciclo que pinta el semicirculo hacia arriba
-        int xy=x+110;
+        int xy=ix+110;
         int z =102;
         int f=50;
         for (int i = 0; i < 30; i++) {
@@ -81,11 +87,11 @@ public class Documento extends Figura {
         lienzo.setStroke(Color.valueOf("#85100B"));
         lienzo.setLineWidth(3.3);
 
-        lienzo.strokeLine(x,y, x+200, y);
-        lienzo.strokeLine(x+200,y, x+200, y+65);
-        lienzo.strokeArc(x+110, y+55, 102, 50, 42, 135, ArcType.OPEN);
-        lienzo.strokeArc(x, y+23, 110, 100, 180, 175, ArcType.OPEN);
-        lienzo.strokeLine(x,y, x, y+70);
+        lienzo.strokeLine(ix,y, ix+200, y);
+        lienzo.strokeLine(ix+200,y, ix+200, y+65);
+        lienzo.strokeArc(ix+110, y+55, 102, 50, 42, 135, ArcType.OPEN);
+        lienzo.strokeArc(ix, y+23, 110, 100, 180, 175, ArcType.OPEN);
+        lienzo.strokeLine(ix,y, ix, y+70);
         
         lienzo.setStroke(Color.WHITE);
         lienzo.setStroke(Color.valueOf("#FFFFFF"));
@@ -93,7 +99,7 @@ public class Documento extends Figura {
         lienzo.setFont(Font.font("Verdana", FontWeight.LIGHT, FontPosture.ITALIC, 15.0));
                 lienzo.setFill(Color.BLACK);
 
-        lienzo.fillText(this.getTextoFigura(), x+15, y+35);
+        lienzo.fillText(this.getTextoFigura(), ix+15, y+35);
 
 
     }

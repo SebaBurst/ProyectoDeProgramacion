@@ -50,7 +50,7 @@ public class EntradaSalida extends Figura {
         lienzo.setStroke(Color.WHITE);
         lienzo.setFont(Font.font("Verdana", FontWeight.LIGHT, FontPosture.ITALIC, 15.0));
         lienzo.setFill(Color.BLACK);
-        lienzo.fillText(this.getTextoFigura(), Math.round(x+25),Math.round(y+35));//y
+        lienzo.fillText(this.getTextoFigura(), Math.round(ix+25),Math.round(y+35));//y
     }
 
 }
