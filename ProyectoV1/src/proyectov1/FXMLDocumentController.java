@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,6 +24,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
@@ -195,8 +197,16 @@ public class FXMLDocumentController implements Initializable {
         ventana.popUp();
         etapa.setTextoFigura(texto);
          */
-        String respuestaEtapa = JOptionPane.showInputDialog("Ingrese texto: ");
-        etapa.setTextoFigura(respuestaEtapa);
+        //String respuestaEtapa = JOptionPane.showInputDialog("Ingrese texto: ");
+        TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Text de inicio.");
+            dialog.setHeaderText("");
+            dialog.setContentText("Ingrese el texto que va en el inicio:");
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                etapa.setTextoFigura(result.get());
+            }
+        //etapa.setTextoFigura(respuestaEtapa);
         System.out.println("el texto en esta etapa es: " + etapa.getTextoFigura());
         //texto = "";
         click = true;
@@ -231,8 +241,16 @@ public class FXMLDocumentController implements Initializable {
     private void dibujarEntradaSalida(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         EntradaSalida entrada = new EntradaSalida();
-        String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
-        entrada.setTextoFigura(respuesta);
+        //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
+        TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Text de inicio.");
+            dialog.setHeaderText("");
+            dialog.setContentText("Ingrese el texto que va en el inicio:");
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                entrada.setTextoFigura(result.get());
+            }
+        //entrada.setTextoFigura(respuesta);
         System.out.println("el texto en esta entrada o salida es: " + entrada.getTextoFigura());
         click = true;
 
@@ -267,8 +285,16 @@ public class FXMLDocumentController implements Initializable {
     private void dibujarInicioFin(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         InicioFin inicioFin = new InicioFin();
-        String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
-        inicioFin.setTextoFigura(respuesta);
+        //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
+        TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Text de inicio.");
+            dialog.setHeaderText("");
+            dialog.setContentText("Ingrese el texto que va en el inicio:");
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                inicioFin.setTextoFigura(result.get());
+            }
+        //inicioFin.setTextoFigura(respuesta);
         System.out.println("el texto en este inicio o fin es: " + inicioFin.getTextoFigura());
         click = true;
 
@@ -331,8 +357,16 @@ public class FXMLDocumentController implements Initializable {
     private void dibujarDocumento(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Documento documento = new Documento();
-        String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
-        documento.setTextoFigura(respuesta);
+        //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
+        TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Text de inicio.");
+            dialog.setHeaderText("");
+            dialog.setContentText("Ingrese el texto que va en el inicio:");
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                documento.setTextoFigura(result.get());
+            }
+        //documento.setTextoFigura(respuesta);
         System.out.println("el texto en este documento es: " + documento.getTextoFigura());
         click = true;
 
@@ -627,7 +661,16 @@ public class FXMLDocumentController implements Initializable {
         InicioFin inicio = new InicioFin();
         String respuesta = "";
         while (validacion == false) {
-            respuesta = JOptionPane.showInputDialog("Ingrese texto que va en el inicio: ");
+            //respuesta = JOptionPane.showInputDialog("Ingrese texto que va en el inicio: ");
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Text de inicio.");
+            dialog.setHeaderText("");
+            dialog.setContentText("Ingrese el texto que va en el inicio:");
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()){
+                respuesta = result.get();
+            }
+
             validacion = true;
             if (respuesta == null || respuesta.replaceAll(" ", "").equals("")) {
                 Alert alert = new Alert(AlertType.INFORMATION);
