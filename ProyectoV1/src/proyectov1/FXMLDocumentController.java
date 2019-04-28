@@ -434,6 +434,8 @@ public class FXMLDocumentController implements Initializable {
                     System.out.println("Espacio Disponible");
                 }
             }
+            lienzo.setOnMouseClicked(null);
+
 
         }
     }
