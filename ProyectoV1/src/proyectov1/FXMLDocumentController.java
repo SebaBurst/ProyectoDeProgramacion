@@ -155,6 +155,15 @@ public class FXMLDocumentController implements Initializable {
                     repintar(cuadro);
                 });
                 lienzo.setOnMouseReleased(p -> {
+                    if(p.getY()+60>=lienzo.getHeight()){
+                            lienzo.setHeight(lienzo.getHeight()+70);
+                            repintar(cuadro);
+                    }
+                    if(p.getX()+200>=lienzo.getWidth()){
+                            lienzo.setWidth(lienzo.getWidth()+210);
+                            repintar(cuadro);
+                    }
+                    
                     Figura b = detectarFigura1((int) p.getX(), (int) p.getY());
                     int px = (int) p.getX();
                     int py = (int) p.getY();
