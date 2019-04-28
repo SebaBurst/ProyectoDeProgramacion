@@ -586,7 +586,6 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    InicioFin fin = new InicioFin();
 
     /**
      * Metodo que se encarga de mover todas las figuras hacia abajo en caso de
@@ -616,10 +615,33 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Flujo crear = new Flujo();
-
+        boolean validacion = false;
         InicioFin inicio = new InicioFin();
+        String respuesta = "";
+        while(validacion == false){
+            respuesta = JOptionPane.showInputDialog("Ingrese texto que va en el inicio: ");
+            validacion = true;
+            if (respuesta == null || respuesta.replaceAll(" ", "").equals("")) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Cantidad de caracteres.");
+                alert.setHeaderText("Ocurrio un error.");
+                alert.setContentText("Inicio no puede no tener texto o ser blanco!.");
+                validacion = false;
+                alert.showAndWait();
+            }else if (respuesta.length() > 15) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Cantidad de caracteres.");
+                alert.setHeaderText("Ocurrio un error.");
+                alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
+                validacion = false;
+                alert.showAndWait();
+            }
+        }
+        inicio.textoFigura = respuesta;
         inicio.dibujar(cuadro, 351, 41);
-
+        
+        InicioFin fin = new InicioFin();
+        fin.setTextoFigura("         Fin");
         int g = inicio.getX1();
         int d = inicio.getX2();
         int f = (int) ((g + d) / 2);
