@@ -199,9 +199,9 @@ public class FXMLDocumentController implements Initializable {
          */
         //String respuestaEtapa = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Text de inicio.");
+            dialog.setTitle("Text de etapa.");
             dialog.setHeaderText("");
-            dialog.setContentText("Ingrese el texto que va en el inicio:");
+            dialog.setContentText("Ingrese el texto que va en la etapa:");
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()){
                 etapa.setTextoFigura(result.get());
@@ -243,9 +243,9 @@ public class FXMLDocumentController implements Initializable {
         EntradaSalida entrada = new EntradaSalida();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Text de inicio.");
+            dialog.setTitle("Text de entrada.");
             dialog.setHeaderText("");
-            dialog.setContentText("Ingrese el texto que va en el inicio:");
+            dialog.setContentText("Ingrese el texto que va en la entrada:");
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()){
                 entrada.setTextoFigura(result.get());
@@ -359,9 +359,9 @@ public class FXMLDocumentController implements Initializable {
         Documento documento = new Documento();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Text de inicio.");
+            dialog.setTitle("Text de documento.");
             dialog.setHeaderText("");
-            dialog.setContentText("Ingrese el texto que va en el inicio:");
+            dialog.setContentText("Ingrese el texto que va en el documento:");
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()){
                 documento.setTextoFigura(result.get());
