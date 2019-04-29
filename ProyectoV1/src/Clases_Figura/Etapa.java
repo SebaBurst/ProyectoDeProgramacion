@@ -30,15 +30,6 @@ public class Etapa extends Figura {
         this.setX4(ix+180);
         this.setY4(y1+70);
         
-        System.out.println("X1: "+this.getX1());
-        System.out.println("X2: "+this.getX2());
-        System.out.println("X3: "+this.getX3());
-        System.out.println("X4: "+this.getX4());
-        System.out.println("Y1: "+this.getY1());
-        System.out.println("Y2: "+this.getY2());
-        System.out.println("Y3: "+this.getY3());
-        System.out.println("Y4: "+this.getY4());
-        
         
         
         

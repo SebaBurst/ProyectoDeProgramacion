@@ -81,11 +81,10 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Coordenadas " + i + " " + aux.getY1() + "," + aux.getY3());
             if (y >= aux.getY1() - 100 && y <= aux.getY3() + 20 && x >= aux.getX1() - 220 && x <= aux.getX2() + 80) {
                 System.out.println("Espacio No disponible");
-
                 System.out.println(aux.getNombre());
                 return aux;
             } else {
-                System.out.println("Espacio Disponible");
+                return null;
             }
 
         }
@@ -95,10 +94,8 @@ public class FXMLDocumentController implements Initializable {
     public Figura detectarFigura1(int x, int y) {
         for (int i = 0; i < formas.size(); i++) {
             Figura aux = formas.get(i);
-            System.out.println("Coordenadas " + i + " " + aux.getY1() + "," + aux.getY3());
             if (y >= aux.getY1() && y <= aux.getY3() && x >= aux.getX1() && x <= aux.getX2()) {
                 System.out.println("Espacio No disponible");
-
                 System.out.println(aux.getNombre());
                 return aux;
             } else {
@@ -109,7 +106,7 @@ public class FXMLDocumentController implements Initializable {
         return null;
     }
     int x = 0, x4 = 0, x2 = 0, x3 = 0, y = 0, y4 = 0, y2 = 0, y3 = 0;
-
+    Figura Aux;
     /**
      * Metodo que se encarga de mover las figuras arrastrando el mouse.
      *
@@ -119,9 +116,9 @@ public class FXMLDocumentController implements Initializable {
     public void moverFigura(GraphicsContext cuadro, Canvas lienzo) {
 
         lienzo.setOnMousePressed(e -> {
-            Figura Aux = detectarFigura1((int) e.getX(), (int) e.getY());
-            System.out.println("Cantidad: " + numero);
-
+            Aux = detectarFigura1((int) e.getX(), (int) e.getY());
+            System.out.println("Aux mover:"+Aux);
+            if(Aux!=null){
             if (Aux != null) {
                 x = Aux.getX1();
                 y = Aux.getY1();
@@ -133,7 +130,9 @@ public class FXMLDocumentController implements Initializable {
                 y4 = Aux.getY4();
             }
             if (Aux != null) {
+                System.out.println("Entreee");
                 lienzo.setOnMouseDragged(en -> {
+                    if(Aux!=null){
                     for (int i = 0; i < enlaces.size(); i++) {
                         Flujo link = enlaces.get(i);
                         if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY()) {
@@ -155,6 +154,7 @@ public class FXMLDocumentController implements Initializable {
                     cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
                     Aux.dibujar(cuadro, (int) en.getX(), (int) en.getY());
                     repintar(cuadro);
+                    }
                 });
                 lienzo.setOnMouseReleased(p -> {
                     if(p.getY()+60>=lienzo.getHeight()){
@@ -175,8 +175,10 @@ public class FXMLDocumentController implements Initializable {
                     if (Aux != null && b != null) {
                         if (py >= b.getY1() && py <= b.getY3() && px >= b.getX1() && px <= b.getX2()) {
                             System.out.println("Sobre mi mismo");
+                            Aux=null;
                         } else {
                             System.out.println("Dibujar");
+                            Aux=null;
                         }
 
                     }
@@ -184,7 +186,11 @@ public class FXMLDocumentController implements Initializable {
                 });
 
             }
-        });
+            }
+                else{
+                System.out.println("No hay nada");
+            
+            }});
 
     }
 
@@ -400,8 +406,10 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         int px = 0;
         int py = 0;
+        System.out.println("Formas Size: "+formas.size());
         for (int i = 0; i < formas.size(); i++) {
             Figura aux = formas.get(i);
+            System.out.println("auxBorrar: "+aux);
             if (aux instanceof InicioFin) {
                 System.out.println("No se debe borrar");
             } else {
@@ -458,7 +466,11 @@ public class FXMLDocumentController implements Initializable {
                             }
                             
                         }*/
-                        formas.remove(i);
+                                System.out.println("Formas Size: "+formas.size());
+
+                        formas.remove(aux);
+                                System.out.println("Formas Size: "+formas.size());
+
                         if (formas.size() == 2) {
                             System.out.println("Entrar");
                             enlaces.removeAll(enlaces);
