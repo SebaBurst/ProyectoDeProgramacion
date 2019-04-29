@@ -109,7 +109,7 @@ public class FXMLDocumentController implements Initializable {
         return null;
     }
     int x = 0, x4 = 0, x2 = 0, x3 = 0, y = 0, y4 = 0, y2 = 0, y3 = 0;
-    int mx=0,my=0;
+
     /**
      * Metodo que se encarga de mover las figuras arrastrando el mouse.
      *
@@ -117,122 +117,75 @@ public class FXMLDocumentController implements Initializable {
      * @param lienzo
      */
     public void moverFigura(GraphicsContext cuadro, Canvas lienzo) {
-             
-        
-           lienzo.setOnMousePressed(e->{
-                Figura Aux = detectarFigura1((int)e.getX(),(int)e.getY());
-                
-            if (Aux != null) {// se guar
-                my = Aux.getMedioY();mx= Aux.getMedioX();x = Aux.getX1();
-                y = Aux.getY1();x2 = Aux.getX2();y2 = Aux.getY2();x3 = Aux.getX3();
-                y3 = Aux.getY3();x4 = Aux.getX4();y4 = Aux.getY4();
+
+        lienzo.setOnMousePressed(e -> {
+            Figura Aux = detectarFigura1((int) e.getX(), (int) e.getY());
+            System.out.println("Cantidad: " + numero);
+
+            if (Aux != null) {
+                x = Aux.getX1();
+                y = Aux.getY1();
+                x2 = Aux.getX2();
+                y2 = Aux.getY2();
+                x3 = Aux.getX3();
+                y3 = Aux.getY3();
+                x4 = Aux.getX4();
+                y4 = Aux.getY4();
             }
-                if(Aux!=null) {
-                    lienzo.setOnMouseDragged(en->{
+            if (Aux != null) {
+                lienzo.setOnMouseDragged(en -> {
                     for (int i = 0; i < enlaces.size(); i++) {
                         Flujo link = enlaces.get(i);
-                    if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY()) {
-                        link.dibujar((int) en.getX(), (int) en.getY(), link.getX1(), link.getY2(), cuadro);
-                    } else if (link.getX1() == Aux.getMedioX() && link.getY2() == Aux.getMedioY()) {
-                        link.dibujar(link.getX(), link.getY(), (int) en.getX(), (int) en.getY(), cuadro);
+                        if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY()) {
+                            link.dibujar((int) en.getX(), (int) en.getY(), link.getX1(), link.getY2(), cuadro);
+                            System.out.println("Entre");
+                        } else if (link.getX1() == Aux.getMedioX() && link.getY2() == Aux.getMedioY()) {
+                            link.dibujar(link.getX(), link.getY(), (int) en.getX(), (int) en.getY(), cuadro);
+                            System.out.println("Entre");
+                        } else if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY() + 70) {
+                            link.dibujar((int) en.getX(), (int) en.getY(), link.getX1(), link.getY2(), cuadro);
+                            System.out.println("Entre");
+                        } else if (link.getX1() == Aux.getMedioX() && link.getY2() == Aux.getMedioY() + 70) {
+                            link.dibujar(link.getX(), link.getY(), (int) en.getX(), (int) en.getY(), cuadro);
+                            System.out.println("Entre");
+                        }
+                        enlaces.set(i, link);
                     }
-                    
-                    else if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY()+70) {
-                        link.dibujar((int) en.getX(), (int) en.getY(), link.getX1(), link.getY2(), cuadro);
-                    } else if (link.getX1() == Aux.getMedioX() && link.getY2() == Aux.getMedioY()+70) {
-                        link.dibujar(link.getX(), link.getY(), (int) en.getX(), (int) en.getY(), cuadro);
-                    }
-                    enlaces.set(i, link);
-                }
-                        
-                        
-                        cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-                        Aux.dibujar(cuadro,(int)en.getX(),(int)en.getY());
-                        repintar(cuadro);
-                    });
-                    lienzo.setOnMouseReleased(p->{
-                        Aux.setMedioX(mx);
-                        Aux.setMedioY(my);
-                        Aux.setX1(x);
-                        Aux.setX2(x2);
-                        Aux.setX3(x3);
-                        Aux.setX4(x4);
-                        Aux.setY1(y);
-                        Aux.setY2(y2);
-                        Aux.setY3(y3);
-                        Aux.setY4(y4);
-                        
-                        
-                        if(p.getY()+60>=lienzo.getHeight()){
+
+                    cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
+                    Aux.dibujar(cuadro, (int) en.getX(), (int) en.getY());
+                    repintar(cuadro);
+                });
+                lienzo.setOnMouseReleased(p -> {
+                    if(p.getY()+60>=lienzo.getHeight()){
                             lienzo.setHeight(lienzo.getHeight()+70);
                             repintar(cuadro);
-                        }
-                        if(p.getX()+200>=lienzo.getWidth()){
+                    }
+                    if(p.getX()+200>=lienzo.getWidth()){
                             lienzo.setWidth(lienzo.getWidth()+210);
                             repintar(cuadro);
-                        }
-                        Figura b =detectarFigura2((int)p.getX(),(int)p.getY());
-                        int px = (int)p.getX();
-                        int py = (int)p.getY();
-                        if(b!=null){
-                            System.out.println("Superposicion");
-                               
-                            cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-                            Aux.dibujar(cuadro, mx, my);
-                            for (int i = 0; i < enlaces.size(); i++) {
-                                Flujo link = enlaces.get(i);
-                                if (link.getX() == px && link.getY() == py) {
-                        link.dibujar(mx, (int) my, link.getX1(), link.getY2(), cuadro);
-                    } else if (link.getX1() == px && link.getY2() ==py) {
-                        link.dibujar(link.getX(), link.getY(), mx, (int) my, cuadro);
                     }
                     
-                    else if (link.getX() == px && link.getY() == py+70) {
-                        link.dibujar(mx, my, link.getX1(), link.getY2(), cuadro);
-                    } else if (link.getX1() == px && link.getY2() == py+70) {
-                        link.dibujar(link.getX(), link.getY(), mx, (int)my, cuadro);
+                    Figura b = detectarFigura1((int) p.getX(), (int) p.getY());
+                    int px = (int) p.getX();
+                    int py = (int) p.getY();
+                    if (b != null) {
+                        System.out.println("Superposicion");
                     }
-                                 enlaces.set(i, link);
-                            }
-                            
-                                                        cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
+                    if (Aux != null && b != null) {
+                        if (py >= b.getY1() && py <= b.getY3() && px >= b.getX1() && px <= b.getX2()) {
+                            System.out.println("Sobre mi mismo");
+                        } else {
+                            System.out.println("Dibujar");
+                        }
 
-                            repintar(cuadro);
-                            
-                        }
-                        else if(b==null && Aux!=null){
-                            System.out.println("Se puede dibujar");
-                            cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-                            Aux.dibujar(cuadro, px, py);
-                            repintar(cuadro);
-                        
-                        }
-                        /*
-                        if (Aux != null && b != null) {
-                            if (py >= b.getY1() && py <= b.getY3() && px >= b.getX1() && px <= b.getX2()) {
-                                System.out.println("Sobre mi mismo");
-                            }
-                            else{
-                                System.out.println("Entreeeeee");
-                                Aux.dibujar(cuadro, mx, my);
-                                System.out.println("Dibujar");
-                            }
-                        if(Aux!=null && b==null){
-                            Aux.dibujar(cuadro, px, py);
-                        
-                        }
-                            
-                        
-                        }*/
-                        
-                        
-                        
-                    
-                    });
-                    
-                
-                }});
-        
+                    }
+
+                });
+
+            }
+        });
+
     }
 
     @FXML
