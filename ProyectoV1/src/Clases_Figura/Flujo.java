@@ -5,12 +5,8 @@
  */
 package Clases_Figura;
 
-import java.awt.Graphics;
-import java.util.ArrayList;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import static proyectov1.FXMLDocumentController.formas;
 
 /**
  *
@@ -18,10 +14,6 @@ import static proyectov1.FXMLDocumentController.formas;
  */
 public class Flujo {
     int x,y,x1,y2;
-    Figura inicio,fin;
-    
-    
-
     public int getX() {
         return x;
     }
@@ -54,37 +46,7 @@ public class Flujo {
         this.y2 = y2;
     }
 
-  
-    
-    
-    public static int detectar (int x, int y){
-        for (int i = 0; i < formas.size(); i++) {
-            Figura aux = formas.get(i);
-            System.out.println("Coordenadas " + i + " " + aux.getY1() + "," + aux.getY3());
-            if (y >= aux.getY1() && y <= aux.getY3()) {
-                System.out.println("Espacio No disponible");
-                if (x >= aux.getX1() && x <= aux.getX2()) {
-                    System.out.println(aux.getNombre());
-                    return i;
-                }
-            } else {
-                System.out.println("Espacio Disponible");
-            }
 
-        }
-        return -1;
-    
-    }
-    static int i =0;
-    static Figura aux;
-    
-    public static ArrayList<Figura> union = new ArrayList();
-    
-    public static int calcularCoordenadas(){
-        return 0;
-    
-    }
-    
     public void dibujar(int x,int y,int x2,int y2,GraphicsContext cuadro){
         this.setX(x);
         this.setX1(x2);
@@ -93,13 +55,5 @@ public class Flujo {
         cuadro.setStroke(Color.valueOf("#353333"));
         cuadro.strokeLine(x,y, x2,y2);
     }
-    
-    public static int centroFigura(int x, int x2){
-        return (int)((x+x2)/2);
-        
-    }
-    
-    
-    
-    
+   
 }

@@ -38,16 +38,6 @@ public class InicioFin extends Figura {
         lienzo.setStroke(Color.valueOf("#5A660E"));
         lienzo.strokeLine(x1,y, x1+200, y);
         lienzo.strokeLine(x1, y+70, x1+200, y+70);
-        
-        /*
-        lienzo.beginPath();
-        lienzo.moveTo(x, y);
-        lienzo.bezierCurveTo(x-35, y+25, x-35, y+45, x, y+70);
-        lienzo.stroke(); 
-        lienzo.moveTo(x+200, y);
-        lienzo.bezierCurveTo(x+235, y+25, x+235, y+45, x+200, y+70);
-        lienzo.stroke();
-        */
         lienzo.setFill(Color.valueOf("#ffcf4c"));
         lienzo.fillArc(x1-35, y, 70, 70, 90, 180, ArcType.OPEN);
         lienzo.fillArc(x1+165, y, 70, 70, 270, 180, ArcType.OPEN);

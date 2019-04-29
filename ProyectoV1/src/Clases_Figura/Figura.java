@@ -1,12 +1,8 @@
 package Clases_Figura;
 
-import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 
 public abstract class Figura {
-
-   ArrayList<Punto> coordenadas= new ArrayList();
-    ArrayList<Flujo> enlaces = new ArrayList();
     public String textoFigura;
     public int medioY=0;
     public int medioX=0;
@@ -35,31 +31,7 @@ public abstract class Figura {
         this.textoFigura = textoFigura;
     }
     
-    public ArrayList<Flujo> getEnlaces() {
-        return enlaces;
-    }
 
-    public void setEnlaces(Flujo enlace) {
-        enlaces.add(enlace);
-    }
-
-    public Figura() {
-        Flujo uni = new Flujo();
-        enlaces.add(uni);
-        
-    }
-    
-    
-
-    public ArrayList<Punto> getCoordenadas() {
-        return coordenadas;
-    }
-
-    public void setCoordenadas(Punto xy) {
-        coordenadas.add(xy);
-    }
-    
-    
     int x1, x2, x3, x4, y1, y2, y3, y4;
     String nombre;
 

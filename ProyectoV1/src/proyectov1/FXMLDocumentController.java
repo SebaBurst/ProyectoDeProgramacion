@@ -6,7 +6,6 @@ import Clases_Figura.Etapa;
 import Clases_Figura.Figura;
 import Clases_Figura.Flujo;
 import Clases_Figura.InicioFin;
-import Clases_Figura.Punto;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,10 +14,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
@@ -26,14 +22,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import javax.swing.JOptionPane;
 
 public class FXMLDocumentController implements Initializable {
-
-    public static String texto = "";
-    //
-    public static ArrayList<Figura> formas = new ArrayList();
+    ArrayList<Figura> formas = new ArrayList();
     @FXML
     AnchorPane root;
 
@@ -49,29 +40,26 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     Button Documento;
 
-    @FXML
-    Button InicioFin;
-
-    @FXML
-    Button Line;
 
     ArrayList<Flujo> enlaces = new ArrayList();
-    public boolean activarDrag = true;
 
     boolean click = false;
     @FXML
 
     int numero = 0;
 
-    public void repintar(GraphicsContext lienzo) {
+    /**
+     * Metodo que se encarga de dibujar todos los objetos en la pantalla del canvas
+     * @param cuadro 
+     */
+    public void repintar(GraphicsContext cuadro) {
+        cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
         for (int i = 0; i < enlaces.size(); i++) {
             Flujo enlace = enlaces.get(i);
-            System.out.println("Enlace XY'S: " + enlace.getX() + ", " + enlace.getY() + " | " + enlace.getX1() + ", " + enlace.getY2());
-            enlace.dibujar(enlace.getX(), enlace.getY(), enlace.getX1(), enlace.getY2(), lienzo);
+            enlace.dibujar(enlace.getX(), enlace.getY(), enlace.getX1(), enlace.getY2(), cuadro);
         }
         for (int i = 0; i < formas.size(); i++) {
-
-            formas.get(i).dibujar(lienzo, formas.get(i).getMedioX(), formas.get(i).getY1());
+            formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
         }
     }
 
@@ -236,8 +224,6 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
         }
-
-        activarDrag = false;
         if (click == true) {
             cut(etapa);
         }
@@ -279,8 +265,6 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
         }
-
-        activarDrag = false;
         if (click == true) {
             cut(entrada);
         }
@@ -323,8 +307,6 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
         }
-
-        activarDrag = false;
         if (click == true) {
             lienzo.setOnMouseClicked(e -> {
                 System.out.println("XY: " + e.getX() + "," + e.getY());
@@ -336,7 +318,6 @@ public class FXMLDocumentController implements Initializable {
 
                         click = false;
                         formas.add(inicioFin);
-                        activarDrag = true;
                     }
                 } else if ((e.getY() + 70) > lienzo.getHeight()) {
                     lienzo.setHeight(lienzo.getHeight() + 80);
@@ -345,7 +326,6 @@ public class FXMLDocumentController implements Initializable {
                     numero++;
                     formas.add(inicioFin);
                     click = false;
-                    activarDrag = true;
                 } else if ((e.getX() + 70) > lienzo.getWidth()) {
                     lienzo.setWidth(lienzo.getWidth() + 250);
                     inicioFin.dibujar(cuadro, (int) e.getX(), (int) e.getY());
@@ -353,7 +333,6 @@ public class FXMLDocumentController implements Initializable {
                     numero++;
                     formas.add(inicioFin);
                     click = false;
-                    activarDrag = true;
                 }
             });
         }
@@ -395,8 +374,6 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
         }
-
-        activarDrag = true;
         if (click == true) {
             cut(documento);
         }
@@ -404,101 +381,23 @@ public class FXMLDocumentController implements Initializable {
 
     public void detectarBorrar(int x, int y) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        int px = 0;
-        int py = 0;
-        System.out.println("Formas Size: "+formas.size());
-        for (int i = 0; i < formas.size(); i++) {
-            Figura aux = formas.get(i);
-            System.out.println("auxBorrar: "+aux);
-            if (aux instanceof InicioFin) {
-                System.out.println("No se debe borrar");
-            } else {
-                if (y >= aux.getY1() && y <= aux.getY3()) {
-                    if (x >= aux.getX1() && x <= aux.getX2()) {
-                        for (int j = 0; j < enlaces.size(); j++) {
-                            Flujo b = enlaces.get(j);
-                            if (enlaces.get(j).getX() == aux.getMedioX() && enlaces.get(j).getY() == aux.getY1()) {
-                                px = b.getX();
-                                py = b.getY();
-                                System.out.println("Entre 1");
-                                enlaces.remove(j);
-
-                            } else if (enlaces.get(j).getX1() == aux.getMedioX() && enlaces.get(j).getY2() == aux.getY1()) {
-                                px = b.getX();
-                                py = b.getY();
-                                System.out.println("Entre 2");
-                                enlaces.remove(j);
-                            } else if (enlaces.get(j).getX() == aux.getMedioX() && enlaces.get(j).getY() == aux.getMedioY() + 70) {
-                                px = b.getX();
-                                py = b.getY();
-                                System.out.println("Entre 3");
-                                enlaces.remove(j+1);
-                            } else if (enlaces.get(j).getX1() == aux.getMedioX() && enlaces.get(j).getY2() == aux.getMedioY() + 70) {
-                                px = b.getX();
-                                py = b.getY();
-                                System.out.println("Entre 4");
-                                enlaces.remove(j);
-                            }
-                            
-                        }
-
-                        Figura d = formas.get(i - 1);
-                        System.out.println("Nueva Funcion");
-                        Figura e = formas.get(i + 1);
-                        Flujo nuevo = new Flujo();
-
-                        for (int j = 0; j < enlaces.size(); j++) {
-                            Flujo auxflujo = enlaces.get(j);
-                            if (auxflujo.getY2() == e.getY1() && auxflujo.getX1() == e.getMedioX()) {
-                                enlaces.remove(j);
-                            }
-
-                        }
-                        nuevo.dibujar(d.getMedioX(), d.getMedioY() + 70, e.getMedioX(), e.getMedioY(), cuadro);
-                        enlaces.add(nuevo);
-
-                        /*for (int j = 0; j < enlaces.size(); j++) {
-                            Flujo a = enlaces.get(j);
-                            if(a.getX()==aux.getMedioX()&& a.getY()==aux.getMedioY()+70){
-                                enlaces.get(j).dibujar(px, py, a.getX1(), a.getY2(), cuadro);
-                            
-                            
-                            }
-                            
-                        }*/
-                                System.out.println("Formas Size: "+formas.size());
-
-                        formas.remove(aux);
-                                System.out.println("Formas Size: "+formas.size());
-
-                        if (formas.size() == 2) {
-                            System.out.println("Entrar");
-                            enlaces.removeAll(enlaces);
-                            InicioFin a = (InicioFin) formas.get(0);
-                            InicioFin b = (InicioFin) formas.get(1);
-                            Flujo total = new Flujo();
-                            System.out.println("Coordenadas: ");
-                            total.dibujar(a.getMedioX(), a.getMedioY() + 70, b.getMedioX(), b.getMedioY(), cuadro);
-                            enlaces.add(total);
-                        }
-                        cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-                        repintar(cuadro);
-                    }
-
-                } else {
-                    System.out.println("Espacio Disponible");
-                }
+        Figura eliminar = detectarFigura1(x,y);
+        if(eliminar!=null){
+            if(eliminar instanceof InicioFin==false){
+                formas.remove(eliminar);
+                repintar(cuadro);
+                System.out.println("Borrar");
             }
-            lienzo.setOnMouseClicked(null);
-
+        }
+        else{
+            System.out.println("no hay nada para eliminar");
+        
         }
     }
 
     @FXML
     Button cut;
     boolean borrar = false;
-
-    NotificacionController ventana = new NotificacionController();
 
     @FXML
     private void borrarFigura(ActionEvent event) throws Exception {
@@ -515,57 +414,8 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    @FXML
-    private void mouse(ActionEvent event) throws Exception {
-        lienzo.setOnMouseClicked(e -> {
-        });
-    }
 
     int d = 1;
-
-    @FXML
-    private void dibujarLinea(ActionEvent event
-    ) {
-        /*
-        click = true;
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        if (click == true) {
-            System.out.println("Click: " + click);
-            Flujo linea = new Flujo();
-            ArrayList<Punto> puntos = new ArrayList();
-            ArrayList<Figura> formasEnlace = new ArrayList();
-            lienzo.setOnMouseClicked(e -> {
-                if (click == true) {
-                    Punto p = new Punto((int) e.getX(), (int) e.getY());
-                    Figura Aux = detectarFigura1((int) e.getX(), (int) e.getY());
-                    if (Aux != null) {
-                        formasEnlace.add(Aux);
-                    }
-                    puntos.add(p);
-                    System.out.println("Ingrese Punto: " + d);
-                    d++;
-                    if (d > 2 && formasEnlace.size() == 2) {
-                        d = 1;
-                        Figura p1 = formasEnlace.get(0);
-                        Figura p2 = formasEnlace.get(1);
-                        linea.dibujar(p1.getX1(), p1.getY1(), p2.getX1(), p2.getY1(), cuadro);
-                        enlaces.add(linea);
-                        puntos.removeAll(puntos);
-                        formasEnlace.removeAll(formasEnlace);
-                        click = false;
-                    } else if (d > 2) {
-                        d = 1;
-                        System.out.println("No escogio dos figuras");
-                        puntos.removeAll(puntos);
-                        formasEnlace.removeAll(formasEnlace);
-                        click = false;
-                    }
-                }
-            });
-
-        }*/
-    }
-
     Flujo c;
     int h = 0;
 
