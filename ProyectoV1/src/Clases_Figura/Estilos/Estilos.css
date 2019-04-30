@@ -34,6 +34,16 @@ and open the template in the editor.
 }
 
 
+.limpiar{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/Limpiar.png');  
+}
+.limpiar:hover{
+    -fx-background-color: #e3dbc7;
+}
+
+
 .flujo{
     -fx-border-radius: 0px;
     -fx-background-color: transparent;

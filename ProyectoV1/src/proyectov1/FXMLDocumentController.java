@@ -186,12 +186,6 @@ public class FXMLDocumentController implements Initializable {
     private void dibujarEtapa(ActionEvent event) throws Exception {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Etapa etapa = new Etapa();
-        /*
-        NotificacionController ventana = new NotificacionController();
-        ventana.popUp();
-        etapa.setTextoFigura(texto);
-         */
-        //String respuestaEtapa = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Text de etapa.");
             dialog.setHeaderText("");

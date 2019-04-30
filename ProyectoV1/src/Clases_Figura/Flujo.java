@@ -54,6 +54,21 @@ public class Flujo {
         this.setY2(y2);
         cuadro.setStroke(Color.valueOf("#353333"));
         cuadro.strokeLine(x,y, x2,y2);
+
+        double angle = Math.atan2((y2 - y), (x2 - x)) - Math.PI / 2.0;
+        double sin = Math.sin(angle);
+        double cos = Math.cos(angle);
+        double fx = (- 1.0 / 2.0 * cos + Math.sqrt(3) / 2 * sin) * 9.0 + x2;
+        double fy = (- 1.0 / 2.0 * sin - Math.sqrt(3) / 2 * cos) *  9.0 + y2-4;
+        double fx2 = (1.0 / 2.0 * cos + Math.sqrt(3) / 2 * sin) *  9.0 + x2;
+        double fy2 = (1.0 / 2.0 * sin - Math.sqrt(3) / 2 * cos) *  9.0 + y2-4;
+   
+        cuadro.strokeLine(fx,fy, fx2,fy2);
+        cuadro.strokeLine(fx,fy, x2,y2-4);
+        cuadro.strokeLine(fx2,fy2, x2,y2-4);
+        
+        
+        
     }
    
 }
