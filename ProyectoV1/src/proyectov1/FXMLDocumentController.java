@@ -373,11 +373,66 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    
+    public void reConectarFlujo(Figura eliminar){
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        int indiceFigura=0;
+        if(formas.size()==2){
+            Figura inicio = formas.get(0);
+            Figura fin = formas.get(1);
+            enlaces.clear();
+            Flujo nuevo = new Flujo();
+            nuevo.dibujar(inicio.getMedioX(), inicio.getMedioY()+70, fin.getMedioX(), fin.getMedioY(), cuadro);
+            enlaces.add(nuevo);
+        }
+        else{
+            if(eliminar instanceof InicioFin==false){
+                for (int i = 0; i < formas.size(); i++) {
+                   if(formas.get(i)==eliminar){
+                       indiceFigura=i;
+                       System.out.println("Encontre forma");
+                   }
+               }
+               Figura anterior = formas.get(indiceFigura-1);
+               Figura siguiente = formas.get(indiceFigura+1);
+               Flujo combinacion = new Flujo();
+               combinacion.dibujar(anterior.getMedioX(), anterior.getMedioY()+70, siguiente.getMedioX(), siguiente.getMedioY(), cuadro);
+               enlaces.add(combinacion);   
+            
+            }
+             
+             
+        
+        }
+    }
+    
+    public void borrarFlujos(Figura eliminar){
+        Flujo enlaceSuperior= new Flujo();
+        Flujo enlaceInferior = new Flujo();
+        if(formas.size()>2){
+            for (int i = 0; i < enlaces.size(); i++) {
+                Flujo fAux = enlaces.get(i);
+                if(fAux.getX1()== eliminar.getMedioX()&&fAux.getY2()== eliminar.getMedioY()){
+                    enlaceSuperior = enlaces.get(i);
+                }
+                else if(fAux.getX()== eliminar.getMedioX()&&fAux.getY()== eliminar.getMedioY()+70){
+                    enlaceInferior= enlaces.get(i);
+                }
+            }
+            if(enlaceInferior !=null && enlaceSuperior!=null){
+            enlaces.remove(enlaceSuperior);
+            enlaces.remove(enlaceInferior);
+            }
+        }
+    
+    }
     public void detectarBorrar(int x, int y) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Figura eliminar = detectarFigura1(x,y);
         if(eliminar!=null){
             if(eliminar instanceof InicioFin==false){
+                borrarFlujos(eliminar);
+                reConectarFlujo(eliminar);
                 formas.remove(eliminar);
                 repintar(cuadro);
                 System.out.println("Borrar");
@@ -403,6 +458,7 @@ public class FXMLDocumentController implements Initializable {
                 System.out.println("************************************");
                 detectarBorrar((int) e.getX(), (int) e.getY());
                 borrar = true;
+                lienzo.setOnMouseClicked(null);
 
             });
         }
