@@ -129,13 +129,18 @@ public class FXMLDocumentController implements Initializable {
                         } else if (link.getX1() == Aux.getMedioX() && link.getY2() == Aux.getMedioY()) {
                             link.dibujar(link.getX(), link.getY(), (int) en.getX(), (int) en.getY(), cuadro);
                             System.out.println("Entre");
-                        } else if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY() + 70) {
-                            link.dibujar((int) en.getX(), (int) en.getY(), link.getX1(), link.getY2(), cuadro);
+                        }
+                        
+                        
+                        else if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY() + 70) {
+                            link.dibujar((int) en.getX(), (int) en.getY()+70, link.getX1(), link.getY2(), cuadro);
                             System.out.println("Entre");
                         } else if (link.getX1() == Aux.getMedioX() && link.getY2() == Aux.getMedioY() + 70) {
-                            link.dibujar(link.getX(), link.getY(), (int) en.getX(), (int) en.getY(), cuadro);
+                            link.dibujar(link.getX(), link.getY(), (int) en.getX(), (int) en.getY()+70, cuadro);
                             System.out.println("Entre");
                         }
+                        
+                        
                         enlaces.set(i, link);
                     }
 
@@ -415,7 +420,7 @@ public class FXMLDocumentController implements Initializable {
                 if(fAux.getX1()== eliminar.getMedioX()&&fAux.getY2()== eliminar.getMedioY()){
                     enlaceSuperior = enlaces.get(i);
                 }
-                else if(fAux.getX()== eliminar.getMedioX()&&fAux.getY()== eliminar.getMedioY()+70){
+                if(fAux.getX()== eliminar.getMedioX()&&fAux.getY()== eliminar.getMedioY()+70){
                     enlaceInferior= enlaces.get(i);
                 }
             }
