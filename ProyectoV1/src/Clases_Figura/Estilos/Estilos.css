@@ -34,6 +34,17 @@ and open the template in the editor.
 }
 
 
+.correr{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/correr.png');  
+}
+.correr:hover{
+    -fx-background-color: #e3dbc7;
+}
+
+
+
 .limpiar{
     -fx-border-radius: 0px;
     -fx-background-color: transparent;

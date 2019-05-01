@@ -12,6 +12,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -21,6 +23,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
@@ -41,6 +44,9 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     Button EntradaSalida;
+    
+    @FXML
+    Button Correr;
 
     @FXML
     Button Documento;
@@ -51,7 +57,37 @@ public class FXMLDocumentController implements Initializable {
     @FXML
 
     int numero = 0;
+    
+    boolean reiniciarHilo=true;
+    class hilo implements Runnable{ 
+         
+        @Override
+        public void run() {
+            GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+            for (int i = 0; i < formas.size(); i++) {
+            try {
+                Figura corriendo = formas.get(i);
+                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha.png"));
+                cuadro.drawImage(image,corriendo.getMedioX()-280, corriendo.getMedioY());
+                Thread.sleep(2000);
+                cuadro.clearRect(corriendo.getMedioX()-280, corriendo.getMedioY(),120,65);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+            reiniciarHilo=true;
+        }
+     
+     }
 
+    @FXML
+    public void correr(ActionEvent event){
+        reiniciarHilo=false;
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        Thread a = new Thread(new hilo());
+        a.start();
+    
+    }
     /**
      * Metodo que se encarga de dibujar todos los objetos en la pantalla del
      * canvas
@@ -127,7 +163,7 @@ public class FXMLDocumentController implements Initializable {
                 if (Aux != null) {
                     System.out.println("Entreee");
                     lienzo.setOnMouseDragged(en -> {
-                        if (Aux != null) {
+                        if (Aux != null&&reiniciarHilo==true) {
                             for (int i = 0; i < enlaces.size(); i++) {
                                 Flujo link = enlaces.get(i);
                                 if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY()) {
@@ -189,6 +225,8 @@ public class FXMLDocumentController implements Initializable {
         });
 
     }
+    
+    
 
     @FXML
     private void dibujarEtapa(ActionEvent event) throws Exception {
@@ -513,8 +551,9 @@ public class FXMLDocumentController implements Initializable {
         fin.dibujar(cuadro, 351, 400);
         inicio.dibujar(cuadro, 351, 41);
         enlaces.add(crear);
-        formas.add(fin);
         formas.add(inicio);
+
+        formas.add(fin);
         moverFigura(cuadro, lienzo);
         for(int i = 0; i<formas.size(); i++){
             System.out.println(formas.get(i).toString());
@@ -666,8 +705,9 @@ public class FXMLDocumentController implements Initializable {
         fin.dibujar(cuadro, 351, 400);
         inicio.dibujar(cuadro, 351, 41);
         enlaces.add(crear);
-        formas.add(fin);
         formas.add(inicio);
+        formas.add(fin);
+        
         moverFigura(cuadro, lienzo);
     }
 
