@@ -24,7 +24,11 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 
 public class FXMLDocumentController implements Initializable {
+
     ArrayList<Figura> formas = new ArrayList();
+    @FXML
+    Button borrarAll;
+
     @FXML
     AnchorPane root;
 
@@ -40,7 +44,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     Button Documento;
 
-
     ArrayList<Flujo> enlaces = new ArrayList();
 
     boolean click = false;
@@ -49,8 +52,10 @@ public class FXMLDocumentController implements Initializable {
     int numero = 0;
 
     /**
-     * Metodo que se encarga de dibujar todos los objetos en la pantalla del canvas
-     * @param cuadro 
+     * Metodo que se encarga de dibujar todos los objetos en la pantalla del
+     * canvas
+     *
+     * @param cuadro
      */
     public void repintar(GraphicsContext cuadro) {
         cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
@@ -95,6 +100,7 @@ public class FXMLDocumentController implements Initializable {
     }
     int x = 0, x4 = 0, x2 = 0, x3 = 0, y = 0, y4 = 0, y2 = 0, y3 = 0;
     Figura Aux;
+
     /**
      * Metodo que se encarga de mover las figuras arrastrando el mouse.
      *
@@ -105,85 +111,81 @@ public class FXMLDocumentController implements Initializable {
 
         lienzo.setOnMousePressed(e -> {
             Aux = detectarFigura1((int) e.getX(), (int) e.getY());
-            System.out.println("Aux mover:"+Aux);
-            if(Aux!=null){
+            System.out.println("Aux mover:" + Aux);
             if (Aux != null) {
-                x = Aux.getX1();
-                y = Aux.getY1();
-                x2 = Aux.getX2();
-                y2 = Aux.getY2();
-                x3 = Aux.getX3();
-                y3 = Aux.getY3();
-                x4 = Aux.getX4();
-                y4 = Aux.getY4();
-            }
-            if (Aux != null) {
-                System.out.println("Entreee");
-                lienzo.setOnMouseDragged(en -> {
-                    if(Aux!=null){
-                    for (int i = 0; i < enlaces.size(); i++) {
-                        Flujo link = enlaces.get(i);
-                        if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY()) {
-                            link.dibujar((int) en.getX(), (int) en.getY(), link.getX1(), link.getY2(), cuadro);
-                            System.out.println("Entre");
-                        } else if (link.getX1() == Aux.getMedioX() && link.getY2() == Aux.getMedioY()) {
-                            link.dibujar(link.getX(), link.getY(), (int) en.getX(), (int) en.getY(), cuadro);
-                            System.out.println("Entre");
-                        }
-                        
-                        
-                        else if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY() + 70) {
-                            link.dibujar((int) en.getX(), (int) en.getY()+70, link.getX1(), link.getY2(), cuadro);
-                            System.out.println("Entre");
-                        } else if (link.getX1() == Aux.getMedioX() && link.getY2() == Aux.getMedioY() + 70) {
-                            link.dibujar(link.getX(), link.getY(), (int) en.getX(), (int) en.getY()+70, cuadro);
-                            System.out.println("Entre");
-                        }
-                        
-                        
-                        enlaces.set(i, link);
-                    }
+                if (Aux != null) {
+                    x = Aux.getX1();
+                    y = Aux.getY1();
+                    x2 = Aux.getX2();
+                    y2 = Aux.getY2();
+                    x3 = Aux.getX3();
+                    y3 = Aux.getY3();
+                    x4 = Aux.getX4();
+                    y4 = Aux.getY4();
+                }
+                if (Aux != null) {
+                    System.out.println("Entreee");
+                    lienzo.setOnMouseDragged(en -> {
+                        if (Aux != null) {
+                            for (int i = 0; i < enlaces.size(); i++) {
+                                Flujo link = enlaces.get(i);
+                                if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY()) {
+                                    link.dibujar((int) en.getX(), (int) en.getY(), link.getX1(), link.getY2(), cuadro);
+                                    System.out.println("Entre");
+                                } else if (link.getX1() == Aux.getMedioX() && link.getY2() == Aux.getMedioY()) {
+                                    link.dibujar(link.getX(), link.getY(), (int) en.getX(), (int) en.getY(), cuadro);
+                                    System.out.println("Entre");
+                                } else if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY() + 70) {
+                                    link.dibujar((int) en.getX(), (int) en.getY() + 70, link.getX1(), link.getY2(), cuadro);
+                                    System.out.println("Entre");
+                                } else if (link.getX1() == Aux.getMedioX() && link.getY2() == Aux.getMedioY() + 70) {
+                                    link.dibujar(link.getX(), link.getY(), (int) en.getX(), (int) en.getY() + 70, cuadro);
+                                    System.out.println("Entre");
+                                }
 
-                    cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-                    Aux.dibujar(cuadro, (int) en.getX(), (int) en.getY());
-                    repintar(cuadro);
-                    }
-                });
-                lienzo.setOnMouseReleased(p -> {
-                    if(p.getY()+60>=lienzo.getHeight()){
-                            lienzo.setHeight(lienzo.getHeight()+70);
+                                enlaces.set(i, link);
+                            }
+
+                            cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
+                            Aux.dibujar(cuadro, (int) en.getX(), (int) en.getY());
                             repintar(cuadro);
-                    }
-                    if(p.getX()+200>=lienzo.getWidth()){
-                            lienzo.setWidth(lienzo.getWidth()+210);
+                        }
+                    });
+                    lienzo.setOnMouseReleased(p -> {
+                        if (p.getY() + 60 >= lienzo.getHeight()) {
+                            lienzo.setHeight(lienzo.getHeight() + 70);
                             repintar(cuadro);
-                    }
-                    
-                    Figura b = detectarFigura1((int) p.getX(), (int) p.getY());
-                    int px = (int) p.getX();
-                    int py = (int) p.getY();
-                    if (b != null) {
-                        System.out.println("Superposicion");
-                    }
-                    if (Aux != null && b != null) {
-                        if (py >= b.getY1() && py <= b.getY3() && px >= b.getX1() && px <= b.getX2()) {
-                            System.out.println("Sobre mi mismo");
-                            Aux=null;
-                        } else {
-                            System.out.println("Dibujar");
-                            Aux=null;
+                        }
+                        if (p.getX() + 200 >= lienzo.getWidth()) {
+                            lienzo.setWidth(lienzo.getWidth() + 210);
+                            repintar(cuadro);
                         }
 
-                    }
+                        Figura b = detectarFigura1((int) p.getX(), (int) p.getY());
+                        int px = (int) p.getX();
+                        int py = (int) p.getY();
+                        if (b != null) {
+                            System.out.println("Superposicion");
+                        }
+                        if (Aux != null && b != null) {
+                            if (py >= b.getY1() && py <= b.getY3() && px >= b.getX1() && px <= b.getX2()) {
+                                System.out.println("Sobre mi mismo");
+                                Aux = null;
+                            } else {
+                                System.out.println("Dibujar");
+                                Aux = null;
+                            }
 
-                });
+                        }
 
-            }
-            }
-                else{
+                    });
+
+                }
+            } else {
                 System.out.println("No hay nada");
-            
-            }});
+
+            }
+        });
 
     }
 
@@ -192,13 +194,13 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Etapa etapa = new Etapa();
         TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Text de etapa.");
-            dialog.setHeaderText("");
-            dialog.setContentText("Ingrese el texto que va en la etapa:");
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()){
-                etapa.setTextoFigura(result.get());
-            }
+        dialog.setTitle("Text de etapa.");
+        dialog.setHeaderText("");
+        dialog.setContentText("Ingrese el texto que va en la etapa:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            etapa.setTextoFigura(result.get());
+        }
         //etapa.setTextoFigura(respuestaEtapa);
         System.out.println("el texto en esta etapa es: " + etapa.getTextoFigura());
         //texto = "";
@@ -234,13 +236,13 @@ public class FXMLDocumentController implements Initializable {
         EntradaSalida entrada = new EntradaSalida();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Text de entrada.");
-            dialog.setHeaderText("");
-            dialog.setContentText("Ingrese el texto que va en la entrada:");
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()){
-                entrada.setTextoFigura(result.get());
-            }
+        dialog.setTitle("Text de entrada.");
+        dialog.setHeaderText("");
+        dialog.setContentText("Ingrese el texto que va en la entrada:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            entrada.setTextoFigura(result.get());
+        }
         //entrada.setTextoFigura(respuesta);
         System.out.println("el texto en esta entrada o salida es: " + entrada.getTextoFigura());
         click = true;
@@ -276,13 +278,13 @@ public class FXMLDocumentController implements Initializable {
         InicioFin inicioFin = new InicioFin();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Text de inicio.");
-            dialog.setHeaderText("");
-            dialog.setContentText("Ingrese el texto que va en el inicio:");
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()){
-                inicioFin.setTextoFigura(result.get());
-            }
+        dialog.setTitle("Text de inicio.");
+        dialog.setHeaderText("");
+        dialog.setContentText("Ingrese el texto que va en el inicio:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            inicioFin.setTextoFigura(result.get());
+        }
         //inicioFin.setTextoFigura(respuesta);
         System.out.println("el texto en este inicio o fin es: " + inicioFin.getTextoFigura());
         click = true;
@@ -343,13 +345,13 @@ public class FXMLDocumentController implements Initializable {
         Documento documento = new Documento();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Text de documento.");
-            dialog.setHeaderText("");
-            dialog.setContentText("Ingrese el texto que va en el documento:");
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()){
-                documento.setTextoFigura(result.get());
-            }
+        dialog.setTitle("Text de documento.");
+        dialog.setHeaderText("");
+        dialog.setContentText("Ingrese el texto que va en el documento:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            documento.setTextoFigura(result.get());
+        }
         //documento.setTextoFigura(respuesta);
         System.out.println("el texto en este documento es: " + documento.getTextoFigura());
         click = true;
@@ -378,74 +380,70 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    
-    public void reConectarFlujo(Figura eliminar){
+    public void reConectarFlujo(Figura eliminar) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        int indiceFigura=0;
-        if(formas.size()==2){
+        int indiceFigura = 0;
+        if (formas.size() == 2) {
             Figura inicio = formas.get(0);
             Figura fin = formas.get(1);
             enlaces.clear();
             Flujo nuevo = new Flujo();
-            nuevo.dibujar(inicio.getMedioX(), inicio.getMedioY()+70, fin.getMedioX(), fin.getMedioY(), cuadro);
+            nuevo.dibujar(inicio.getMedioX(), inicio.getMedioY() + 70, fin.getMedioX(), fin.getMedioY(), cuadro);
             enlaces.add(nuevo);
-        }
-        else{
-            if(eliminar instanceof InicioFin==false){
+        } else {
+            if (eliminar instanceof InicioFin == false) {
                 for (int i = 0; i < formas.size(); i++) {
-                   if(formas.get(i)==eliminar){
-                       indiceFigura=i;
-                       System.out.println("Encontre forma");
-                   }
-               }
-               Figura anterior = formas.get(indiceFigura-1);
-               Figura siguiente = formas.get(indiceFigura+1);
-               Flujo combinacion = new Flujo();
-               combinacion.dibujar(anterior.getMedioX(), anterior.getMedioY()+70, siguiente.getMedioX(), siguiente.getMedioY(), cuadro);
-               enlaces.add(combinacion);   
-            
+                    if (formas.get(i) == eliminar) {
+                        indiceFigura = i;
+                        System.out.println("Encontre forma");
+                    }
+                }
+                Figura anterior = formas.get(indiceFigura - 1);
+                Figura siguiente = formas.get(indiceFigura + 1);
+                Flujo combinacion = new Flujo();
+                combinacion.dibujar(anterior.getMedioX(), anterior.getMedioY() + 70, siguiente.getMedioX(), siguiente.getMedioY(), cuadro);
+                enlaces.add(combinacion);
+
             }
-             
-             
-        
+
         }
     }
-    
-    public void borrarFlujos(Figura eliminar){
-        Flujo enlaceSuperior= new Flujo();
+
+    public void borrarFlujos(Figura eliminar) {
+        Flujo enlaceSuperior = new Flujo();
         Flujo enlaceInferior = new Flujo();
-        if(formas.size()>2){
+        if (formas.size() > 2) {
             for (int i = 0; i < enlaces.size(); i++) {
                 Flujo fAux = enlaces.get(i);
-                if(fAux.getX1()== eliminar.getMedioX()&&fAux.getY2()== eliminar.getMedioY()){
+                if (fAux.getX1() == eliminar.getMedioX() && fAux.getY2() == eliminar.getMedioY()) {
                     enlaceSuperior = enlaces.get(i);
                 }
-                if(fAux.getX()== eliminar.getMedioX()&&fAux.getY()== eliminar.getMedioY()+70){
-                    enlaceInferior= enlaces.get(i);
+                if (fAux.getX() == eliminar.getMedioX() && fAux.getY() == eliminar.getMedioY() + 70) {
+                    enlaceInferior = enlaces.get(i);
                 }
             }
-            if(enlaceInferior !=null && enlaceSuperior!=null){
-            enlaces.remove(enlaceSuperior);
-            enlaces.remove(enlaceInferior);
+            if (enlaceInferior != null && enlaceSuperior != null) {
+                enlaces.remove(enlaceSuperior);
+                enlaces.remove(enlaceInferior);
             }
         }
-    
+
     }
+
     public void detectarBorrar(int x, int y) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        Figura eliminar = detectarFigura1(x,y);
-        if(eliminar!=null){
-            if(eliminar instanceof InicioFin==false){
+        Figura eliminar = detectarFigura1(x, y);
+        if (eliminar != null) {
+            if (eliminar instanceof InicioFin == false) {
                 borrarFlujos(eliminar);
                 reConectarFlujo(eliminar);
                 formas.remove(eliminar);
                 repintar(cuadro);
                 System.out.println("Borrar");
             }
-        }
-        else{
+        } else {
             System.out.println("no hay nada para eliminar");
-        
+
         }
     }
 
@@ -469,6 +467,22 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    @FXML
+    private void borrarAll(ActionEvent event) throws Exception {
+        System.out.println("limpieza");
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        System.out.println("*********Estamos borrando*****");
+        for (int i = 0; i < formas.size(); i++) {
+            int getx = (int) formas.get(i).getX1();
+            int gety = (int) formas.get(i).getY1();
+            detectarBorrar(getx, gety);
+            if (formas.get(i) instanceof InicioFin == false){
+                i=i-1;
+            }       
+        }
+        System.out.println("****Terminamos de borrar*****");
+
+    }
 
     int d = 1;
     Flujo c;
@@ -584,7 +598,7 @@ public class FXMLDocumentController implements Initializable {
             dialog.setHeaderText("");
             dialog.setContentText("Ingrese el texto que va en el inicio:");
             Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()){
+            if (result.isPresent()) {
                 respuesta = result.get();
             }
 
