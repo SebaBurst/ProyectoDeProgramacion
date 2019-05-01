@@ -530,7 +530,7 @@ public class FXMLDocumentController implements Initializable {
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda para poder detectar XY de un click
             for (int i = 0; i < enlaces.size(); i++) {// se recorre el arreglo de lineas de flujo
                 Flujo aux = enlaces.get(i);// Se guarda el enlace i en una variable auxiliar
-                 if((aux.getX()== aux.getX1())||aux.getX1()>=aux.getX()-30 || aux.getX1()<=aux.getX()+30){
+                 if((aux.getX()== aux.getX1())||aux.getX1()>=aux.getX()-20 || aux.getX1()<=aux.getX()+20){
                      System.out.println("son iguales");
             if((int)e.getX()<= aux.getX()+30&&(int)e.getX()>=aux.getX()-30){
                 if ((int) e.getY() >= aux.getY() && (int) e.getY() <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
@@ -567,7 +567,7 @@ public class FXMLDocumentController implements Initializable {
                     }
                     // se agrega la figura al arreglo de figuras
                     formas.add(n);
-
+                    moverabajo(o, f, n);
                     //Funcion que ordena la lista con las nuevas figuras
                     Collections.sort(formas, new Comparator<Figura>() {
                         @Override
@@ -577,7 +577,7 @@ public class FXMLDocumentController implements Initializable {
                     });
 
                     //luego se mueven las figuras que esten debajo de la figura creada
-                    moverabajo(o, f, n);
+                    
                     // luego se limpia el canvas
                     cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
                     // Se vuelven a dibujar todas las figuras y los enlaces de flujos
