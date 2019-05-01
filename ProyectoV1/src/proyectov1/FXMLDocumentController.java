@@ -530,7 +530,7 @@ public class FXMLDocumentController implements Initializable {
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda para poder detectar XY de un click
             for (int i = 0; i < enlaces.size(); i++) {// se recorre el arreglo de lineas de flujo
                 Flujo aux = enlaces.get(i);// Se guarda el enlace i en una variable auxiliar
-                 if((aux.getX()== aux.getX1())||aux.getX1()>=aux.getX()-20 || aux.getX1()<=aux.getX()+20){
+                 if((aux.getX()== aux.getX1())||aux.getX1()>=aux.getX()-30 || aux.getX1()<=aux.getX()+30){
                      System.out.println("son iguales");
             if((int)e.getX()<= aux.getX()+30&&(int)e.getX()>=aux.getX()-30){
                 if ((int) e.getY() >= aux.getY() && (int) e.getY() <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
