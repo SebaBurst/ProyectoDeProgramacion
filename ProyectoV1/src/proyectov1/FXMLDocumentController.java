@@ -44,7 +44,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     Button EntradaSalida;
-    
+
     @FXML
     Button Correr;
 
@@ -57,37 +57,39 @@ public class FXMLDocumentController implements Initializable {
     @FXML
 
     int numero = 0;
-    
-    boolean reiniciarHilo=true;
-    class hilo implements Runnable{ 
-         
+
+    boolean reiniciarHilo = true;
+
+    class hilo implements Runnable {
+
         @Override
         public void run() {
             GraphicsContext cuadro = lienzo.getGraphicsContext2D();
             for (int i = 0; i < formas.size(); i++) {
-            try {
-                Figura corriendo = formas.get(i);
-                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha.png"));
-                cuadro.drawImage(image,corriendo.getMedioX()-280, corriendo.getMedioY());
-                Thread.sleep(2000);
-                cuadro.clearRect(corriendo.getMedioX()-280, corriendo.getMedioY(),120,65);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    Figura corriendo = formas.get(i);
+                    Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha.png"));
+                    cuadro.drawImage(image, corriendo.getMedioX() - 280, corriendo.getMedioY());
+                    Thread.sleep(2000);
+                    cuadro.clearRect(corriendo.getMedioX() - 280, corriendo.getMedioY(), 120, 65);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-            }
-            reiniciarHilo=true;
+            reiniciarHilo = true;
         }
-     
-     }
+
+    }
 
     @FXML
-    public void correr(ActionEvent event){
-        reiniciarHilo=false;
+    public void correr(ActionEvent event) {
+        reiniciarHilo = false;
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Thread a = new Thread(new hilo());
         a.start();
-    
+
     }
+
     /**
      * Metodo que se encarga de dibujar todos los objetos en la pantalla del
      * canvas
@@ -163,7 +165,7 @@ public class FXMLDocumentController implements Initializable {
                 if (Aux != null) {
                     System.out.println("Entreee");
                     lienzo.setOnMouseDragged(en -> {
-                        if (Aux != null&&reiniciarHilo==true) {
+                        if (Aux != null && reiniciarHilo == true) {
                             for (int i = 0; i < enlaces.size(); i++) {
                                 Flujo link = enlaces.get(i);
                                 if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY()) {
@@ -225,8 +227,6 @@ public class FXMLDocumentController implements Initializable {
         });
 
     }
-    
-    
 
     @FXML
     private void dibujarEtapa(ActionEvent event) throws Exception {
@@ -511,56 +511,8 @@ public class FXMLDocumentController implements Initializable {
         formas.clear();
         enlaces.clear();
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        Flujo crear = new Flujo();
-        boolean validacion = false;
-        InicioFin inicio = new InicioFin();
-        String respuesta = "";
-        while (validacion == false) {
-            //respuesta = JOptionPane.showInputDialog("Ingrese texto que va en el inicio: ");
-            TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Text de inicio.");
-            dialog.setHeaderText("");
-            dialog.setContentText("Ingrese el texto que va en el inicio:");
-            Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()) {
-                respuesta = result.get();
-            }
-
-            validacion = true;
-            if (respuesta == null || respuesta.replaceAll(" ", "").equals("")) {
-                respuesta = "Inicio";
-            } else if (respuesta.length() > 15) {
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Cantidad de caracteres.");
-                alert.setHeaderText("Ocurrio un error.");
-                alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
-                validacion = false;
-                alert.showAndWait();
-            }
-        }
-        cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-        inicio.textoFigura = respuesta;
-        inicio.dibujar(cuadro, 351, 41);
-
-        InicioFin fin = new InicioFin();
-        fin.setTextoFigura("         Fin");
-        int g = inicio.getX1();
-        int d = inicio.getX2();
-        int f = (int) ((g + d) / 2);
-        crear.dibujar(351, 41, 351, 400, cuadro);
-        fin.dibujar(cuadro, 351, 400);
-        inicio.dibujar(cuadro, 351, 41);
-        enlaces.add(crear);
-        formas.add(inicio);
-
-        formas.add(fin);
-        moverFigura(cuadro, lienzo);
-        for(int i = 0; i<formas.size(); i++){
-            System.out.println(formas.get(i).toString());
-        }
-        for(int i=0; i<enlaces.size(); i++){
-            System.out.println(enlaces.get(i).toString());
-        }
+        ini();
+        repintar(cuadro);
     }
 
     int d = 1;
@@ -663,8 +615,7 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void ini() {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Flujo crear = new Flujo();
         boolean validacion = false;
@@ -707,8 +658,13 @@ public class FXMLDocumentController implements Initializable {
         enlaces.add(crear);
         formas.add(inicio);
         formas.add(fin);
-        
+
         moverFigura(cuadro, lienzo);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        ini();
     }
 
 }
