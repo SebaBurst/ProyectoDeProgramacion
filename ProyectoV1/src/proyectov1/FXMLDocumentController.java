@@ -22,6 +22,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -469,19 +470,58 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void borrarAll(ActionEvent event) throws Exception {
-        System.out.println("limpieza");
+        formas.clear();
+        enlaces.clear();
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        System.out.println("*********Estamos borrando*****");
-        for (int i = 0; i < formas.size(); i++) {
-            int getx = (int) formas.get(i).getX1();
-            int gety = (int) formas.get(i).getY1();
-            detectarBorrar(getx, gety);
-            if (formas.get(i) instanceof InicioFin == false){
-                i=i-1;
-            }       
-        }
-        System.out.println("****Terminamos de borrar*****");
+        Flujo crear = new Flujo();
+        boolean validacion = false;
+        InicioFin inicio = new InicioFin();
+        String respuesta = "";
+        while (validacion == false) {
+            //respuesta = JOptionPane.showInputDialog("Ingrese texto que va en el inicio: ");
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Text de inicio.");
+            dialog.setHeaderText("");
+            dialog.setContentText("Ingrese el texto que va en el inicio:");
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                respuesta = result.get();
+            }
 
+            validacion = true;
+            if (respuesta == null || respuesta.replaceAll(" ", "").equals("")) {
+                respuesta = "Inicio";
+            } else if (respuesta.length() > 15) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Cantidad de caracteres.");
+                alert.setHeaderText("Ocurrio un error.");
+                alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
+                validacion = false;
+                alert.showAndWait();
+            }
+        }
+        cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
+        inicio.textoFigura = respuesta;
+        inicio.dibujar(cuadro, 351, 41);
+
+        InicioFin fin = new InicioFin();
+        fin.setTextoFigura("         Fin");
+        int g = inicio.getX1();
+        int d = inicio.getX2();
+        int f = (int) ((g + d) / 2);
+        crear.dibujar(351, 41, 351, 400, cuadro);
+        fin.dibujar(cuadro, 351, 400);
+        inicio.dibujar(cuadro, 351, 41);
+        enlaces.add(crear);
+        formas.add(fin);
+        formas.add(inicio);
+        moverFigura(cuadro, lienzo);
+        for(int i = 0; i<formas.size(); i++){
+            System.out.println(formas.get(i).toString());
+        }
+        for(int i=0; i<enlaces.size(); i++){
+            System.out.println(enlaces.get(i).toString());
+        }
     }
 
     int d = 1;
@@ -604,12 +644,7 @@ public class FXMLDocumentController implements Initializable {
 
             validacion = true;
             if (respuesta == null || respuesta.replaceAll(" ", "").equals("")) {
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setTitle("Cantidad de caracteres.");
-                alert.setHeaderText("Ocurrio un error.");
-                alert.setContentText("Inicio no puede no tener texto o ser blanco!.");
-                validacion = false;
-                alert.showAndWait();
+                respuesta = "Inicio";
             } else if (respuesta.length() > 15) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Cantidad de caracteres.");
