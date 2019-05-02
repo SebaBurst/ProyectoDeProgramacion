@@ -140,21 +140,22 @@ public class FXMLDocumentController implements Initializable {
     int x = 0, x4 = 0, x2 = 0, x3 = 0, y = 0, y4 = 0, y2 = 0, y3 = 0;
     Figura Aux;
 
-    public void moverEnlaces(Figura move, int x, int y){
+    public void moverEnlaces(Figura move, int x, int y) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         for (int i = 0; i < enlaces.size(); i++) {
             Flujo aux = enlaces.get(i);
             // mover enlace superior
-            if(aux.getX1()== move.getMedioX() && aux.getY2()== move.getMedioY()){
+            if (aux.getX1() == move.getMedioX() && aux.getY2() == move.getMedioY()) {
                 aux.dibujar(aux.getX(), aux.getY(), x, y, cuadro);
             }//mover enlace inferior.
-            if (aux.getX()== move.getMedioX()&& aux.getY()== move.getMedioY()+70){
-                aux.dibujar(x, y+70, aux.getX1(), aux.getY2(), cuadro);
+            if (aux.getX() == move.getMedioX() && aux.getY() == move.getMedioY() + 70) {
+                aux.dibujar(x, y + 70, aux.getX1(), aux.getY2(), cuadro);
             }
             enlaces.set(i, aux);
         }
         repintar(cuadro);
     }
+
     /**
      * Metodo que se encarga de mover las figuras arrastrando el mouse.
      *
@@ -181,8 +182,8 @@ public class FXMLDocumentController implements Initializable {
                     System.out.println("Entreee");
                     lienzo.setOnMouseDragged(en -> {
                         if (Aux != null && reiniciarHilo == true) {
-                            
-                            moverEnlaces(Aux,(int)en.getX(),(int)en.getY());
+
+                            moverEnlaces(Aux, (int) en.getX(), (int) en.getY());
 
                             cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
                             Aux.dibujar(cuadro, (int) en.getX(), (int) en.getY());
@@ -518,7 +519,7 @@ public class FXMLDocumentController implements Initializable {
     Flujo c;
     int h = 0;
 
-      /**
+    /**
      * Metodo que se encarga de dibujar una figura dentro de una linea de flujo
      * y separarla en dos.
      *
@@ -527,63 +528,63 @@ public class FXMLDocumentController implements Initializable {
     public void cut(Figura n) {//Metodo para dentro de un flujo
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda para poder detectar XY de un click
-            for (int i = 0; i < enlaces.size(); i++) {// se recorre el arreglo de lineas de flujo
-                Flujo aux = enlaces.get(i);// Se guarda el enlace i en una variable auxiliar
-                 if((aux.getX()== aux.getX1())||aux.getX1()>=aux.getX()-20 || aux.getX1()<=aux.getX()+20){
-                     System.out.println("son iguales");
-            if((int)e.getX()<= aux.getX()+30&&(int)e.getX()>=aux.getX()-30){
-                if ((int) e.getY() >= aux.getY() && (int) e.getY() <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
-                    c = enlaces.get(i);// se guarda el enlace en una objeto auxiliae
-                    h = i;// se guarda el indice
+            Figura mover = detectarFigura1((int) e.getX(), (int) e.getY());
+            System.out.println(mover);
+            if (mover == null){
+                for (int i = 0; i < enlaces.size(); i++) {// se recorre el arreglo de lineas de flujo
+                    Flujo aux = enlaces.get(i);// Se guarda el enlace i en una variable auxiliar
+                    if ((aux.getX() == aux.getX1()) || aux.getX1() >= aux.getX() - 20 || aux.getX1() <= aux.getX() + 20) {
+                        System.out.println("son iguales");
+                        if ((int) e.getX() <= aux.getX() + 30 && (int) e.getX() >= aux.getX() - 30) {
+                            if ((int) e.getY() >= aux.getY() && (int) e.getY() <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
+                                c = enlaces.get(i);// se guarda el enlace en una objeto auxiliae
+                                h = i;// se guarda el indice
 
-                    // se guardan el X e Y en una variable individual
-                    int f = (int) e.getY();
-                    int o = (int) e.getX();
-                    
-                    cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());// se limpia el canvas
+                                // se guardan el X e Y en una variable individual
+                                int f = (int) e.getY();
+                                int o = (int) e.getX();
 
-                    Flujo nuevo = new Flujo();
-                    nuevo.dibujar(aux.getX(), aux.getY(), o,f, cuadro);
-                    aux.dibujar(o, f+70, aux.getX1(), aux.getY2(), cuadro);
-                    n.dibujar(cuadro, o, f);// se dibuja la figura 
-                    formas.add(n);
-                    //Funcion que ordena la lista con las nuevas figuras
-                    Collections.sort(formas, new Comparator<Figura>() {
-                        @Override
-                        public int compare(Figura t, Figura t1) {
-                            return new Integer(t.getY3()).compareTo(t1.getY3());
+                                cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());// se limpia el canvas
+
+                                Flujo nuevo = new Flujo();
+                                nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
+                                aux.dibujar(o, f + 70, aux.getX1(), aux.getY2(), cuadro);
+                                n.dibujar(cuadro, o, f);// se dibuja la figura 
+                                formas.add(n);
+                                //Funcion que ordena la lista con las nuevas figuras
+                                Collections.sort(formas, new Comparator<Figura>() {
+                                    @Override
+                                    public int compare(Figura t, Figura t1) {
+                                        return new Integer(t.getY3()).compareTo(t1.getY3());
+                                    }
+                                });
+                                enlaces.set(i, aux);
+                                enlaces.add(nuevo);
+                                // Se vuelven a dibujar todas las figuras y los enlaces de flujos
+                                repintar(cuadro);
+                                // se anula la posibilidad de seguir presionando el canvas
+                                lienzo.setOnMouseClicked(null);
+                                // se detiene el metodo para que no entre a un ciclo infinito.
+
+                                break;
+
+                            }
+                        } else {
+
+                            Alert alert = new Alert(AlertType.INFORMATION);
+                            alert.setTitle("Dibujar Figura");
+                            alert.setHeaderText("Ocurrio un error.");
+                            alert.setContentText("El objeto no puede se pude dibujar en ese lugar");
+
+                            alert.showAndWait();
+                            lienzo.setOnMouseClicked(null);
+                            break;
+
                         }
-                    });
-                    enlaces.set(i, aux);
-                    enlaces.add(nuevo);
-                    // Se vuelven a dibujar todas las figuras y los enlaces de flujos
-                    repintar(cuadro);
-                    // se anula la posibilidad de seguir presionando el canvas
-                    lienzo.setOnMouseClicked(null);
-                    // se detiene el metodo para que no entre a un ciclo infinito.
-                    
-
-                    
-                    break;
-                        
-                }
-                }
-                 else{
-  
-                    Alert alert = new Alert(AlertType.INFORMATION);
-                    alert.setTitle("Dibujar Figura");
-                    alert.setHeaderText("Ocurrio un error.");
-                    alert.setContentText("El objeto no puede se pude dibujar en ese lugar");
-
-                    alert.showAndWait();
-                    lienzo.setOnMouseClicked(null);
-                    break;
-                
+                    }
                 }
             }
-                
-                 
-            }
+
         });
 
     }
@@ -606,25 +607,24 @@ public class FXMLDocumentController implements Initializable {
                     lienzo.setHeight(lienzo.getHeight() + 190);// si se sale del canvas a este ultimo se le da mas altura
 
                 }
-                if(a.getMedioY()+70 > n.getMedioY()+70){
+                if (a.getMedioY() + 70 > n.getMedioY() + 70) {
                     a.dibujar(cuadro, a.getMedioX(), a.getY1() + 70);// se dibuja la figura actual con nuevas coordenadas
                 }
-           }
+            }
         }
 
     }
 
-    public void bajarFin(Figura fin){
+    public void bajarFin(Figura fin) {
         for (int i = 0; i < enlaces.size(); i++) {
-             Flujo link = enlaces.get(i);
-             if(link.getX1()==fin.getMedioX()&& link.getY2()==fin.getMedioY()){
-                 
-                 
-             
-             }
+            Flujo link = enlaces.get(i);
+            if (link.getX1() == fin.getMedioX() && link.getY2() == fin.getMedioY()) {
+
+            }
         }
-    
+
     }
+
     public void ini() {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Flujo crear = new Flujo();
