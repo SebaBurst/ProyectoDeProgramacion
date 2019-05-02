@@ -140,6 +140,21 @@ public class FXMLDocumentController implements Initializable {
     int x = 0, x4 = 0, x2 = 0, x3 = 0, y = 0, y4 = 0, y2 = 0, y3 = 0;
     Figura Aux;
 
+    public void moverEnlaces(Figura move, int x, int y){
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        for (int i = 0; i < enlaces.size(); i++) {
+            Flujo aux = enlaces.get(i);
+            // mover enlace superior
+            if(aux.getX1()== move.getMedioX() && aux.getY2()== move.getMedioY()){
+                aux.dibujar(aux.getX(), aux.getY(), x, y, cuadro);
+            }//mover enlace inferior.
+            if (aux.getX()== move.getMedioX()&& aux.getY()== move.getMedioY()+70){
+                aux.dibujar(x, y+70, aux.getX1(), aux.getY2(), cuadro);
+            }
+            enlaces.set(i, aux);
+        }
+        repintar(cuadro);
+    }
     /**
      * Metodo que se encarga de mover las figuras arrastrando el mouse.
      *
@@ -166,24 +181,8 @@ public class FXMLDocumentController implements Initializable {
                     System.out.println("Entreee");
                     lienzo.setOnMouseDragged(en -> {
                         if (Aux != null && reiniciarHilo == true) {
-                            for (int i = 0; i < enlaces.size(); i++) {
-                                Flujo link = enlaces.get(i);
-                                if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY()) {
-                                    link.dibujar((int) en.getX(), (int) en.getY(), link.getX1(), link.getY2(), cuadro);
-                                    System.out.println("Entre");
-                                } else if (link.getX1() == Aux.getMedioX() && link.getY2() == Aux.getMedioY()) {
-                                    link.dibujar(link.getX(), link.getY(), (int) en.getX(), (int) en.getY(), cuadro);
-                                    System.out.println("Entre");
-                                } else if (link.getX() == Aux.getMedioX() && link.getY() == Aux.getMedioY() + 70) {
-                                    link.dibujar((int) en.getX(), (int) en.getY() + 70, link.getX1(), link.getY2(), cuadro);
-                                    System.out.println("Entre");
-                                } else if (link.getX1() == Aux.getMedioX() && link.getY2() == Aux.getMedioY() + 70) {
-                                    link.dibujar(link.getX(), link.getY(), (int) en.getX(), (int) en.getY() + 70, cuadro);
-                                    System.out.println("Entre");
-                                }
-
-                                enlaces.set(i, link);
-                            }
+                            
+                            moverEnlaces(Aux,(int)en.getX(),(int)en.getY());
 
                             cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
                             Aux.dibujar(cuadro, (int) en.getX(), (int) en.getY());
@@ -540,34 +539,14 @@ public class FXMLDocumentController implements Initializable {
                     // se guardan el X e Y en una variable individual
                     int f = (int) e.getY();
                     int o = (int) e.getX();
-
-                    Flujo p1 = new Flujo();// se declara un nuevo flujo
+                    
                     cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());// se limpia el canvas
+
+                    Flujo nuevo = new Flujo();
+                    nuevo.dibujar(aux.getX(), aux.getY(), o,f, cuadro);
+                    aux.dibujar(o, f+70, aux.getX1(), aux.getY2(), cuadro);
                     n.dibujar(cuadro, o, f);// se dibuja la figura 
-
-                    //se dibuja un nuevo flujo desde la figura al inicio superior
-                    p1.dibujar(c.getX(), c.getY(), (int) e.getX(), (int) e.getY(), cuadro);
-                    //El enlace actual se modifica para comenzar desde abajo de la figura creada
-                    enlaces.get(i).dibujar(o, f + 70, c.getX1(), c.getY2() + 70, cuadro);
-
-                    //se agrega el nuevo enlace a su lista
-                    enlaces.add(p1);
-
-                    // se recorre la nueva lista de enlaces para verificar si algun enlace se sale del 
-                    //canvas
-                    for (int j = 0; j < enlaces.size(); j++) {
-                        Flujo a = enlaces.get(j);
-                        // pregunta si el enlace actual es mayor al y del click y si es distinto al enlace actual
-                        if (a.getY() >= f && a != enlaces.get(i)) {
-                            if (a.getY2() + 70 > lienzo.getHeight()) {// ahora pregunta el punto final del enlace es mayor al del canvas
-                                lienzo.setHeight(lienzo.getHeight() + 190);// si ese es el caso el canvas aumenta en 190;
-                            }   // luego se dibuja nuevamente el enlace
-                            a.dibujar(a.getX(), a.getY() + 70, a.getX1(), a.getY2() + 70, cuadro);
-                        }
-                    }
-                    // se agrega la figura al arreglo de figuras
                     formas.add(n);
-                    moverabajo(o, f, n);
                     //Funcion que ordena la lista con las nuevas figuras
                     Collections.sort(formas, new Comparator<Figura>() {
                         @Override
@@ -575,18 +554,18 @@ public class FXMLDocumentController implements Initializable {
                             return new Integer(t.getY3()).compareTo(t1.getY3());
                         }
                     });
-
-                    //luego se mueven las figuras que esten debajo de la figura creada
-                    
-                    // luego se limpia el canvas
-                    cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
+                    enlaces.set(i, aux);
+                    enlaces.add(nuevo);
                     // Se vuelven a dibujar todas las figuras y los enlaces de flujos
                     repintar(cuadro);
                     // se anula la posibilidad de seguir presionando el canvas
                     lienzo.setOnMouseClicked(null);
                     // se detiene el metodo para que no entre a un ciclo infinito.
-                    break;
+                    
 
+                    
+                    break;
+                        
                 }
                 }
             }
@@ -613,12 +592,25 @@ public class FXMLDocumentController implements Initializable {
                     lienzo.setHeight(lienzo.getHeight() + 190);// si se sale del canvas a este ultimo se le da mas altura
 
                 }
-                a.dibujar(cuadro, a.getMedioX(), a.getY1() + 70);// se dibuja la figura actual con nuevas coordenadas
-            }
+                if(a.getMedioY()+70 > n.getMedioY()+70){
+                    a.dibujar(cuadro, a.getMedioX(), a.getY1() + 70);// se dibuja la figura actual con nuevas coordenadas
+                }
+           }
         }
 
     }
 
+    public void bajarFin(Figura fin){
+        for (int i = 0; i < enlaces.size(); i++) {
+             Flujo link = enlaces.get(i);
+             if(link.getX1()==fin.getMedioX()&& link.getY2()==fin.getMedioY()){
+                 
+                 
+             
+             }
+        }
+    
+    }
     public void ini() {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Flujo crear = new Flujo();
@@ -656,7 +648,7 @@ public class FXMLDocumentController implements Initializable {
         int g = inicio.getX1();
         int d = inicio.getX2();
         int f = (int) ((g + d) / 2);
-        crear.dibujar(351, 41, 351, 400, cuadro);
+        crear.dibujar(351, 111, 351, 400, cuadro);
         fin.dibujar(cuadro, 351, 400);
         inicio.dibujar(cuadro, 351, 41);
         enlaces.add(crear);
