@@ -518,7 +518,7 @@ public class FXMLDocumentController implements Initializable {
     Flujo c;
     int h = 0;
 
-    /**
+      /**
      * Metodo que se encarga de dibujar una figura dentro de una linea de flujo
      * y separarla en dos.
      *
@@ -568,7 +568,21 @@ public class FXMLDocumentController implements Initializable {
                         
                 }
                 }
+                 else{
+  
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Dibujar Figura");
+                    alert.setHeaderText("Ocurrio un error.");
+                    alert.setContentText("El objeto no puede se pude dibujar en ese lugar");
+
+                    alert.showAndWait();
+                    lienzo.setOnMouseClicked(null);
+                    break;
+                
+                }
             }
+                
+                 
             }
         });
 
