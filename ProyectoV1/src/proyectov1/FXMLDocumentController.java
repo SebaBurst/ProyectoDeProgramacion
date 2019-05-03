@@ -47,6 +47,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     Button Correr;
+    
 
     @FXML
     Button Documento;
