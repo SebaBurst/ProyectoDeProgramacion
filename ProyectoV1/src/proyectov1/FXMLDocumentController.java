@@ -30,6 +30,7 @@ import javafx.scene.paint.Color;
 public class FXMLDocumentController implements Initializable {
 
     ArrayList<Figura> formas = new ArrayList();
+    ArrayList<String> variables = new ArrayList();
     @FXML
     Button borrarAll;
 
@@ -320,10 +321,18 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
         }
+        
+        if(click == true){
+            variables.add(entrada.getTextoFigura());
+            for(int i = 0; i<variables.size(); i++){
+                System.out.println("la variable "+(i+1)+" es: "+variables.get(i));
+            }
+        }
+        
         if (click == true) {
             cut(entrada);
         }
-
+        
     }
 
     @FXML
