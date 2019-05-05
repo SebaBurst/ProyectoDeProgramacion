@@ -65,14 +65,29 @@ public class FXMLDocumentController implements Initializable {
 
         @Override
         public void run() {
-            GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+    GraphicsContext cuadro = lienzo.getGraphicsContext2D();
             for (int i = 0; i < formas.size(); i++) {
                 try {
                     Figura corriendo = formas.get(i);
-                    Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha.png"));
-                    cuadro.drawImage(image, corriendo.getMedioX() - 280, corriendo.getMedioY());
+                    if (corriendo instanceof InicioFin) {
+                        Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha.png"));
+                        cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+                    }
+                    if (corriendo instanceof Etapa) {
+                        Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
+                        cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+                    }
+                    if (corriendo instanceof EntradaSalida) {
+                        Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_verde.png"));
+                        cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+                    }
+                    if (corriendo instanceof Documento) {
+                        Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_roja.png"));
+                        cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+
+                    }
                     Thread.sleep(2000);
-                    cuadro.clearRect(corriendo.getMedioX() - 280, corriendo.getMedioY(), 120, 65);
+                    cuadro.clearRect(corriendo.getMedioX() - 230, corriendo.getMedioY(), 60, 60);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -81,7 +96,8 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-
+    
+    
     @FXML
     public void correr(ActionEvent event) {
         reiniciarHilo = false;
