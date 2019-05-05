@@ -47,7 +47,6 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     Button Correr;
-    
 
     @FXML
     Button Documento;
@@ -65,7 +64,7 @@ public class FXMLDocumentController implements Initializable {
 
         @Override
         public void run() {
-    GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+            GraphicsContext cuadro = lienzo.getGraphicsContext2D();
             for (int i = 0; i < formas.size(); i++) {
                 try {
                     Figura corriendo = formas.get(i);
@@ -96,8 +95,7 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-    
-    
+
     @FXML
     public void correr(ActionEvent event) {
         reiniciarHilo = false;
@@ -531,11 +529,6 @@ public class FXMLDocumentController implements Initializable {
         ini();
         repintar(cuadro);
     }
-
-    int d = 1;
-    Flujo c;
-    int h = 0;
-
     /**
      * Metodo que se encarga de dibujar una figura dentro de una linea de flujo
      * y separarla en dos.
@@ -547,15 +540,13 @@ public class FXMLDocumentController implements Initializable {
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda para poder detectar XY de un click
             Figura mover = detectarFigura1((int) e.getX(), (int) e.getY());
             System.out.println(mover);
-            if (mover == null){
+            if (mover == null) {
                 for (int i = 0; i < enlaces.size(); i++) {// se recorre el arreglo de lineas de flujo
                     Flujo aux = enlaces.get(i);// Se guarda el enlace i en una variable auxiliar
-                    if ((aux.getX() == aux.getX1()) || aux.getX1() >= aux.getX() - 20 || aux.getX1() <= aux.getX() + 20) {
+                    if ((aux.getX() == aux.getX1()) || aux.getX1() >= aux.getX() - 40 || aux.getX1() <= aux.getX() + 40) {
                         System.out.println("son iguales");
                         if ((int) e.getX() <= aux.getX() + 30 && (int) e.getX() >= aux.getX() - 30) {
                             if ((int) e.getY() >= aux.getY() && (int) e.getY() <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
-                                c = enlaces.get(i);// se guarda el enlace en una objeto auxiliae
-                                h = i;// se guarda el indice
 
                                 // se guardan el X e Y en una variable individual
                                 int f = (int) e.getY();
@@ -587,21 +578,12 @@ public class FXMLDocumentController implements Initializable {
 
                             }
                         } else {
-
-                            Alert alert = new Alert(AlertType.INFORMATION);
-                            alert.setTitle("Dibujar Figura");
-                            alert.setHeaderText("Ocurrio un error.");
-                            alert.setContentText("El objeto no puede se pude dibujar en ese lugar");
-
-                            alert.showAndWait();
                             lienzo.setOnMouseClicked(null);
-                            break;
 
                         }
                     }
                 }
             }
-
         });
 
     }
