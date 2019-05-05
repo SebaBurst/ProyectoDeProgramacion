@@ -12,6 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Sebastian
  */
 public class Decision extends Figura{
+    
 
     @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
