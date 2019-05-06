@@ -33,6 +33,14 @@ and open the template in the editor.
     -fx-background-color: #e3dbc7;
 }
 
+.decision{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/Decision.png');  
+}
+.decision:hover{
+    -fx-background-color: #e3dbc7;
+}
 
 .correr{
     -fx-border-radius: 0px;

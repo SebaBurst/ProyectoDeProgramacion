@@ -1,5 +1,6 @@
 package proyectov1;
 
+import Clases_Figura.Decision;
 import Clases_Figura.Documento;
 import Clases_Figura.EntradaSalida;
 import Clases_Figura.Etapa;
@@ -42,6 +43,8 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     Button Etapa;
+    @FXML
+    Button Decision;
 
     @FXML
     Button EntradaSalida;
@@ -85,6 +88,10 @@ public class FXMLDocumentController implements Initializable {
                         Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_roja.png"));
                         cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
 
+                    }
+                    if(corriendo instanceof Decision){
+                        Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_morado.png"));
+                        cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
                     }
                     Thread.sleep(2000);
                     cuadro.clearRect(corriendo.getMedioX() - 230, corriendo.getMedioY(), 60, 60);
@@ -336,23 +343,23 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void dibujarInicioFin(ActionEvent event) {
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        InicioFin inicioFin = new InicioFin();
-        //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
+    private void dibujarDecision(ActionEvent event) {
+         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        Decision etapa = new Decision();
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Text de inicio.");
+        dialog.setTitle("Text de etapa.");
         dialog.setHeaderText("");
-        dialog.setContentText("Ingrese el texto que va en el inicio:");
+        dialog.setContentText("Ingrese el texto que va en la etapa:");
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-            inicioFin.setTextoFigura(result.get());
+            etapa.setTextoFigura(result.get());
         }
-        //inicioFin.setTextoFigura(respuesta);
-        System.out.println("el texto en este inicio o fin es: " + inicioFin.getTextoFigura());
+        //etapa.setTextoFigura(respuestaEtapa);
+        System.out.println("el texto en esta etapa es: " + etapa.getTextoFigura());
+        //texto = "";
         click = true;
 
-        if (inicioFin.getTextoFigura() == null || inicioFin.getTextoFigura().replaceAll(" ", "").equals("")) {
+        if (etapa.getTextoFigura() == null || etapa.getTextoFigura().replaceAll(" ", "").equals("")) {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Cantidad de caracteres.");
@@ -361,7 +368,7 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
 
-        } else if (inicioFin.getTextoFigura().length() > 15) {
+        } else if (etapa.getTextoFigura().length() > 15) {
             System.out.println("soy muy grande");
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -372,33 +379,7 @@ public class FXMLDocumentController implements Initializable {
             alert.showAndWait();
         }
         if (click == true) {
-            lienzo.setOnMouseClicked(e -> {
-                System.out.println("XY: " + e.getX() + "," + e.getY());
-                Figura Aux = detectarFigura2((int) e.getX(), (int) e.getY());
-                if (click == true && ((e.getX() + 235) < lienzo.getWidth()) && ((e.getX() - 40) > 0) && ((e.getY() + 70) < lienzo.getHeight())) {
-                    if (Aux == null) {
-                        inicioFin.dibujar(cuadro, (int) e.getX(), (int) e.getY());
-                        inicioFin.setNombre("Inicio " + numero);
-
-                        click = false;
-                        formas.add(inicioFin);
-                    }
-                } else if ((e.getY() + 70) > lienzo.getHeight()) {
-                    lienzo.setHeight(lienzo.getHeight() + 80);
-                    inicioFin.dibujar(cuadro, (int) e.getX(), (int) e.getY());
-                    inicioFin.setNombre("Inicio " + numero);
-                    numero++;
-                    formas.add(inicioFin);
-                    click = false;
-                } else if ((e.getX() + 70) > lienzo.getWidth()) {
-                    lienzo.setWidth(lienzo.getWidth() + 250);
-                    inicioFin.dibujar(cuadro, (int) e.getX(), (int) e.getY());
-                    inicioFin.setNombre("Inicio " + numero);
-                    numero++;
-                    formas.add(inicioFin);
-                    click = false;
-                }
-            });
+            cut(etapa);
         }
     }
 

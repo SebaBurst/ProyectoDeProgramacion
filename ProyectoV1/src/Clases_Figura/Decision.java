@@ -38,11 +38,25 @@ public class Decision extends Figura{
         this.setX4(ix+120);
         this.setY4(y+70);
         
-        lienzo.setStroke(Color.valueOf("#0F3D1D"));
+        lienzo.setStroke(Color.valueOf("#A325EA"));
         lienzo.setLineWidth(3.0);
+        
+        for (int i = 0; i < 30; i++) {
+            lienzo.strokeLine(x,y+i, x+100, y+30);
+            lienzo.strokeLine(x,y+i, x-100,y+30);
+        }
+        int ys =y+70;
+        for (int i = 0; i < 40; i++) {
+            lienzo.strokeLine(x,ys-i, x+100, y+30);
+            lienzo.strokeLine(x-100,y+30, x, ys-i);
+
+
+        }
+        
         System.out.println("ix: "+ix);
-        lienzo.strokeLine(x,y, x+100, y+30); 
-        lienzo.strokeLine(x,y, x-100,y+30);
+        lienzo.setStroke(Color.valueOf("#311740"));
+        lienzo.strokeLine(x,y, x+100, y+30); //\
+        lienzo.strokeLine(x,y, x-100,y+30);//
         lienzo.strokeLine(x-100,y+30, x, y+70);
         lienzo.strokeLine(x,y+70, x+100, y+30);
         lienzo.setStroke(Color.WHITE);
