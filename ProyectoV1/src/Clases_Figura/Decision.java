@@ -6,6 +6,10 @@
 package Clases_Figura;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 
 /**
  *
@@ -15,8 +19,37 @@ public class Decision extends Figura{
     
 
     @Override
-    public void dibujar(GraphicsContext lienzo, int x, int y) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void dibujar(GraphicsContext lienzo,int x,int y) {
+        lienzo.setStroke(Color.valueOf("#75FFA1"));
+        this.setMedioX(x);
+        this.setMedioY(y);
+        int ix= x;
+        int x1=x;
+        int y1=y;
+        int x2=x;
+        
+       
+        this.setX1(ix);
+        this.setY1(y);
+        this.setX2(ix+190);
+        this.setY2(y);
+        this.setX3(ix-70);
+        this.setY3(y+70);
+        this.setX4(ix+120);
+        this.setY4(y+70);
+        
+        lienzo.setStroke(Color.valueOf("#0F3D1D"));
+        lienzo.setLineWidth(3.0);
+        System.out.println("ix: "+ix);
+        lienzo.strokeLine(x,y, x+100, y+30); 
+        lienzo.strokeLine(x,y, x-100,y+30);
+        lienzo.strokeLine(x-100,y+30, x, y+70);
+        lienzo.strokeLine(x,y+70, x+100, y+30);
+        lienzo.setStroke(Color.WHITE);
+        lienzo.setFont(Font.font("Verdana", FontWeight.LIGHT, FontPosture.ITALIC, 15.0));
+        lienzo.setFill(Color.BLACK);
+        lienzo.fillText(this.getTextoFigura(), Math.round(ix+25),Math.round(y+35));//y
     }
-    
+
 }
+
