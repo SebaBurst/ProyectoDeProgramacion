@@ -51,7 +51,23 @@ and open the template in the editor.
     -fx-background-color: #e3dbc7;
 }
 
+.ciclo{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/ciclo.png');  
+}
+.ciclo:hover{
+    -fx-background-color: #e3dbc7;
+}
 
+.salida{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/Salida.png');  
+}
+.salida:hover{
+    -fx-background-color: #e3dbc7;
+}
 
 .limpiar{
     -fx-border-radius: 0px;

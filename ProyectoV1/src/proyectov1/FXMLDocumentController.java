@@ -1,5 +1,6 @@
 package proyectov1;
 
+import Clases_Figura.Ciclo;
 import Clases_Figura.Decision;
 import Clases_Figura.Documento;
 import Clases_Figura.EntradaSalida;
@@ -7,6 +8,7 @@ import Clases_Figura.Etapa;
 import Clases_Figura.Figura;
 import Clases_Figura.Flujo;
 import Clases_Figura.InicioFin;
+import Clases_Figura.Salida;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,6 +54,11 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     Button Correr;
 
+    @FXML
+    Button Salida;
+    
+    @FXML
+    Button  Ciclo;
     @FXML
     Button Documento;
 
@@ -424,6 +431,93 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    
+
+    
+
+    @FXML
+    private void dibujarCiclo(ActionEvent event) {
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        Ciclo documento = new Ciclo();
+        //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Text de documento.");
+        dialog.setHeaderText("");
+        dialog.setContentText("Ingrese el texto que va en el documento:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            documento.setTextoFigura(result.get());
+        }
+        //documento.setTextoFigura(respuesta);
+        System.out.println("el texto en este documento es: " + documento.getTextoFigura());
+        click = true;
+
+        if (documento.getTextoFigura() == null || documento.getTextoFigura().replaceAll(" ", "").equals("")) {
+            click = false;
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Cantidad de caracteres.");
+            alert.setHeaderText("Ocurrio un error.");
+            alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
+
+            alert.showAndWait();
+
+        } else if (documento.getTextoFigura().length() > 15) {
+            System.out.println("soy muy grande");
+            click = false;
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Cantidad de caracteres.");
+            alert.setHeaderText("Ocurrio un error.");
+            alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
+
+            alert.showAndWait();
+        }
+        if (click == true) {
+            cut(documento);
+        }
+    }
+    
+    @FXML
+    private void dibujarSalida(ActionEvent event) {
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        Salida documento = new Salida();
+        //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Text de documento.");
+        dialog.setHeaderText("");
+        dialog.setContentText("Ingrese el texto que va en el documento:");
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            documento.setTextoFigura(result.get());
+        }
+        //documento.setTextoFigura(respuesta);
+        System.out.println("el texto en este documento es: " + documento.getTextoFigura());
+        click = true;
+
+        if (documento.getTextoFigura() == null || documento.getTextoFigura().replaceAll(" ", "").equals("")) {
+            click = false;
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Cantidad de caracteres.");
+            alert.setHeaderText("Ocurrio un error.");
+            alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
+
+            alert.showAndWait();
+
+        } else if (documento.getTextoFigura().length() > 15) {
+            System.out.println("soy muy grande");
+            click = false;
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Cantidad de caracteres.");
+            alert.setHeaderText("Ocurrio un error.");
+            alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
+
+            alert.showAndWait();
+        }
+        if (click == true) {
+            cut(documento);
+        }
+    }
+    
+    
     public void reConectarFlujo(Figura eliminar) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         int indiceFigura = 0;
