@@ -58,9 +58,9 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     Button Salida;
-    
+
     @FXML
-    Button  Ciclo;
+    Button Ciclo;
     @FXML
     Button Documento;
 
@@ -98,7 +98,7 @@ public class FXMLDocumentController implements Initializable {
                         cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
 
                     }
-                    if(corriendo instanceof Decision){
+                    if (corriendo instanceof Decision) {
                         Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_morado.png"));
                         cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
                     }
@@ -140,17 +140,15 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public Figura detectarFigura2(int x, int y) {
-        for (int i = 0; i < formas.size(); i++) {
+         for (int i = 0; i < formas.size(); i++) {
             Figura aux = formas.get(i);
             System.out.println("Coordenadas " + i + " " + aux.getY1() + "," + aux.getY3());
             if (y >= aux.getY1() - 100 && y <= aux.getY3() + 20 && x >= aux.getX1() - 220 && x <= aux.getX2() + 80) {
                 System.out.println("Espacio No disponible");
                 System.out.println(aux.getNombre());
                 return aux;
-            } else {
-                return null;
-            }
 
+            }
         }
         return null;
     }
@@ -188,6 +186,8 @@ public class FXMLDocumentController implements Initializable {
         repintar(cuadro);
     }
 
+    int mx = 0, my = 0;
+
     /**
      * Metodo que se encarga de mover las figuras arrastrando el mouse.
      *
@@ -195,7 +195,6 @@ public class FXMLDocumentController implements Initializable {
      * @param lienzo
      */
     public void moverFigura(GraphicsContext cuadro, Canvas lienzo) {
-
         lienzo.setOnMousePressed(e -> {
             Aux = detectarFigura1((int) e.getX(), (int) e.getY());
             System.out.println("Aux mover:" + Aux);
@@ -209,6 +208,8 @@ public class FXMLDocumentController implements Initializable {
                     y3 = Aux.getY3();
                     x4 = Aux.getX4();
                     y4 = Aux.getY4();
+                    mx = Aux.getMedioX();
+                    my = Aux.getMedioY();
                 }
                 if (Aux != null) {
                     System.out.println("Entreee");
@@ -216,7 +217,6 @@ public class FXMLDocumentController implements Initializable {
                         if (Aux != null && reiniciarHilo == true) {
 
                             moverEnlaces(Aux, (int) en.getX(), (int) en.getY());
-
                             cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
                             Aux.dibujar(cuadro, (int) en.getX(), (int) en.getY());
                             repintar(cuadro);
@@ -232,29 +232,55 @@ public class FXMLDocumentController implements Initializable {
                             repintar(cuadro);
                         }
 
-                        Figura b = detectarFigura1((int) p.getX(), (int) p.getY());
-                        int px = (int) p.getX();
-                        int py = (int) p.getY();
-                        if (b != null) {
-                            System.out.println("Superposicion");
-                        }
-                        if (Aux != null && b != null) {
-                            if (py >= b.getY1() && py <= b.getY3() && px >= b.getX1() && px <= b.getX2()) {
-                                System.out.println("Sobre mi mismo");
-                                Aux = null;
+                        System.out.println("Me detuve");
+                        if (Aux != null) {
+                            int mp = Aux.getMedioX();
+                            int mo = Aux.getMedioY();
+                            Aux.setMedioX(mx);
+                            Aux.setMedioY(my);
+                            Aux.setX1(x);
+                            Aux.setY1(y);
+                            Aux.setX2(x2);
+                            Aux.setY2(y2);
+                            Aux.setX3(x3);
+                            Aux.setY3(y3);
+                            Aux.setX4(x4);
+                            Aux.setY4(y4);
+                            Figura b = detectarFigura2((int) p.getX(), (int) p.getY());
+                            if (Aux != null && b != null && b != Aux) {
+                                System.out.println("Entrennnn");
+                                if (enlaces.size() != 0) {
+                                    for (int t = 0; t < enlaces.size(); t++) {
+                                        Flujo link = enlaces.get(t);
+                                        // mover enlace superior
+                                        if (link.getX1() == (int) p.getX() && link.getY2() == (int) p.getY()) {
+                                            link.dibujar(link.getX(), link.getY(), mx, my, cuadro);
+                                        }//mover enlace inferior.
+                                        if (link.getX() == (int) p.getX() && link.getY() == (int) p.getY() + 70) {
+                                            link.dibujar(mx, my + 70, link.getX1(), link.getY2(), cuadro);
+                                        }
+                                        enlaces.set(t, link);
+                                        repintar(cuadro);
+
+                                    }
+                                }
+
+                                Aux.dibujar(cuadro, (mx), my);
+                                repintar(cuadro);
+
                             } else {
-                                System.out.println("Dibujar");
-                                Aux = null;
+                                Aux.dibujar(cuadro, mp, mo);
+                                repintar(cuadro);
                             }
 
                         }
+                        Aux = null;
 
                     });
 
+                } else {
+                    System.out.println("Error");
                 }
-            } else {
-                System.out.println("No hay nada");
-
             }
         });
 
@@ -340,14 +366,14 @@ public class FXMLDocumentController implements Initializable {
         Pattern p = Pattern.compile("[A-Za-z]{1,7}\\=[A-Za-z0-9|0-9]{1,7}$");
         Matcher matcher = p.matcher(entrada.getTextoFigura());
         boolean cadenaValida = matcher.matches();
-        if(cadenaValida){
+        if (cadenaValida) {
             click = true;
             Variable variable = new Variable();
             int posicion = entrada.getTextoFigura().indexOf("=");
             variable.setNombre(entrada.getTextoFigura().substring(0, posicion));
             variable.setTexto(entrada.getTextoFigura().substring(entrada.getTextoFigura().indexOf("=") + 1));
             variables.add(variable);
-        }else{
+        } else {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Formato.");
@@ -355,13 +381,13 @@ public class FXMLDocumentController implements Initializable {
             alert.setContentText("El formato ingresado es incorrecto.");
 
             alert.showAndWait();
-        }    
+        }
         if (click == true) {
             cut(entrada);
         }
-        for(int i = 0; i < variables.size(); i++){
-            System.out.println("el nombre de la variable "+(i+1)+" es: "+variables.get(i).getNombre());
-            System.out.println("el texto de la variable "+(i+1)+" es: "+variables.get(i).getTexto());
+        for (int i = 0; i < variables.size(); i++) {
+            System.out.println("el nombre de la variable " + (i + 1) + " es: " + variables.get(i).getNombre());
+            System.out.println("el texto de la variable " + (i + 1) + " es: " + variables.get(i).getTexto());
         }
     }
 
@@ -447,10 +473,6 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    
-
-    
-
     @FXML
     private void dibujarCiclo(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
@@ -491,7 +513,7 @@ public class FXMLDocumentController implements Initializable {
             cut(ciclo);
         }
     }
-    
+
     @FXML
     private void dibujarSalida(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
@@ -532,8 +554,7 @@ public class FXMLDocumentController implements Initializable {
             cut(salida);
         }
     }
-    
-    
+
     public void reConectarFlujo(Figura eliminar) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         int indiceFigura = 0;
@@ -629,6 +650,7 @@ public class FXMLDocumentController implements Initializable {
         ini();
         repintar(cuadro);
     }
+
     /**
      * Metodo que se encarga de dibujar una figura dentro de una linea de flujo
      * y separarla en dos.
@@ -744,7 +766,7 @@ public class FXMLDocumentController implements Initializable {
             validacion = true;
             if (respuesta == null || respuesta.replaceAll(" ", "").equals("")) {
                 respuesta = "Inicio";
-            }else if (respuesta.length() > 15) {
+            } else if (respuesta.length() > 15) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Cantidad de caracteres.");
                 alert.setHeaderText("Ocurrio un error.");
@@ -755,9 +777,9 @@ public class FXMLDocumentController implements Initializable {
             Pattern p = Pattern.compile("[a-zA-Z0-9]{1,15}$");
             Matcher matcher = p.matcher(respuesta);
             boolean cadenaValida = matcher.matches();
-            if(cadenaValida){
+            if (cadenaValida) {
                 validacion = true;
-            }else{
+            } else {
                 validacion = false;
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Formato.");
