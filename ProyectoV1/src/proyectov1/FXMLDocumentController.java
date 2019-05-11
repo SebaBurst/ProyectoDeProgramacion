@@ -17,6 +17,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -33,7 +35,7 @@ import javafx.scene.paint.Color;
 public class FXMLDocumentController implements Initializable {
 
     ArrayList<Figura> formas = new ArrayList();
-    ArrayList<String> variables = new ArrayList();
+    ArrayList<Variable> variables = new ArrayList();
     @FXML
     Button borrarAll;
 
@@ -335,18 +337,32 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
         }
-        
-        if(click == true){
-            variables.add(entrada.getTextoFigura());
-            for(int i = 0; i<variables.size(); i++){
-                System.out.println("la variable "+(i+1)+" es: "+variables.get(i));
-            }
-        }
-        
+        Pattern p = Pattern.compile("[A-Za-z]{1,7}\\=[A-Za-z0-9|0-9]{1,7}$");
+        Matcher matcher = p.matcher(entrada.getTextoFigura());
+        boolean cadenaValida = matcher.matches();
+        if(cadenaValida){
+            click = true;
+            Variable variable = new Variable();
+            int posicion = entrada.getTextoFigura().indexOf("=");
+            variable.setNombre(entrada.getTextoFigura().substring(0, posicion));
+            variable.setTexto(entrada.getTextoFigura().substring(entrada.getTextoFigura().indexOf("=") + 1));
+            variables.add(variable);
+        }else{
+            click = false;
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Formato.");
+            alert.setHeaderText("Ocurrio un error.");
+            alert.setContentText("El formato ingresado es incorrecto.");
+
+            alert.showAndWait();
+        }    
         if (click == true) {
             cut(entrada);
         }
-        
+        for(int i = 0; i < variables.size(); i++){
+            System.out.println("el nombre de la variable "+(i+1)+" es: "+variables.get(i).getNombre());
+            System.out.println("el texto de la variable "+(i+1)+" es: "+variables.get(i).getTexto());
+        }
     }
 
     @FXML
@@ -728,12 +744,26 @@ public class FXMLDocumentController implements Initializable {
             validacion = true;
             if (respuesta == null || respuesta.replaceAll(" ", "").equals("")) {
                 respuesta = "Inicio";
-            } else if (respuesta.length() > 15) {
+            }else if (respuesta.length() > 15) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setTitle("Cantidad de caracteres.");
                 alert.setHeaderText("Ocurrio un error.");
                 alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
                 validacion = false;
+                alert.showAndWait();
+            }
+            Pattern p = Pattern.compile("[a-zA-Z0-9]{1,15}$");
+            Matcher matcher = p.matcher(respuesta);
+            boolean cadenaValida = matcher.matches();
+            if(cadenaValida){
+                validacion = true;
+            }else{
+                validacion = false;
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Formato.");
+                alert.setHeaderText("Ocurrio un error.");
+                alert.setContentText("El formato ingresado es incorrecto.");
+
                 alert.showAndWait();
             }
         }
