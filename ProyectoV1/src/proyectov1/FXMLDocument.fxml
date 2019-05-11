@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane id="AnchorPane" fx:id="root" prefHeight="664.0" prefWidth="1171.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectov1.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="664.0" prefWidth="1171.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectov1.FXMLDocumentController">
     <children>
       <ScrollPane layoutY="75.0" prefHeight="590.0" prefWidth="934.0" styleClass="canvas" stylesheets="@../Clases_Figura/Estilos/Estilos.css">
          <content>
@@ -19,7 +19,7 @@
       <Rectangle fill="#f9f7f4" height="29.0" layoutX="944.0" layoutY="470.0" stroke="#c2a889" strokeType="INSIDE" strokeWidth="0.5" width="246.0" />
       <Rectangle fill="#f9f7f4" height="665.0" layoutX="932.0" layoutY="-1.0" stroke="#c2a889" strokeType="INSIDE" strokeWidth="0.5" width="15.0" />
       <Button fx:id="Documento" layoutX="1065.0" layoutY="89.0" mnemonicParsing="false" onAction="#dibujarDocumento" prefHeight="107.0" prefWidth="100.0" styleClass="documento" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
-      <Button fx:id="EntradaSalida" layoutX="957.0" layoutY="89.0" onAction="#dibujarEntradaSalida" prefHeight="107.0" prefWidth="100.0" styleClass="entrada" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="Entrada" layoutX="957.0" layoutY="89.0" onAction="#dibujarEntrada" prefHeight="107.0" prefWidth="100.0" styleClass="entrada" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
         <Button fx:id="Etapa" layoutX="957.0" layoutY="219.0" onAction="#dibujarEtapa" prefHeight="107.0" prefWidth="100.0" styleClass="etapa" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="cut" layoutX="841.0" mnemonicParsing="false" onAction="#borrarFigura" prefHeight="75.0" prefWidth="88.0" styleClass="cortar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="borrarAll" layoutX="752.0" mnemonicParsing="false" onAction="#borrarAll" prefHeight="75.0" prefWidth="88.0" styleClass="limpiar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />

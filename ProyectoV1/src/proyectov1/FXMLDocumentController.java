@@ -3,7 +3,7 @@ package proyectov1;
 import Clases_Figura.Ciclo;
 import Clases_Figura.Decision;
 import Clases_Figura.Documento;
-import Clases_Figura.EntradaSalida;
+import Clases_Figura.Entrada;
 import Clases_Figura.Etapa;
 import Clases_Figura.Figura;
 import Clases_Figura.Flujo;
@@ -49,7 +49,7 @@ public class FXMLDocumentController implements Initializable {
     Button Decision;
 
     @FXML
-    Button EntradaSalida;
+    Button Entrada;
 
     @FXML
     Button Correr;
@@ -87,7 +87,7 @@ public class FXMLDocumentController implements Initializable {
                         Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
                         cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
                     }
-                    if (corriendo instanceof EntradaSalida) {
+                    if (corriendo instanceof Entrada) {
                         Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_verde.png"));
                         cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
                     }
@@ -300,9 +300,9 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void dibujarEntradaSalida(ActionEvent event) {
+    private void dibujarEntrada(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        EntradaSalida entrada = new EntradaSalida();
+        Entrada entrada = new Entrada();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Text de entrada.");
@@ -351,22 +351,22 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void dibujarDecision(ActionEvent event) {
-         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        Decision etapa = new Decision();
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        Decision decision = new Decision();
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Text de etapa.");
         dialog.setHeaderText("");
-        dialog.setContentText("Ingrese el texto que va en la etapa:");
+        dialog.setContentText("Ingrese el texto que va en la decision:");
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-            etapa.setTextoFigura(result.get());
+            decision.setTextoFigura(result.get());
         }
         //etapa.setTextoFigura(respuestaEtapa);
-        System.out.println("el texto en esta etapa es: " + etapa.getTextoFigura());
+        System.out.println("el texto en esta etapa es: " + decision.getTextoFigura());
         //texto = "";
         click = true;
 
-        if (etapa.getTextoFigura() == null || etapa.getTextoFigura().replaceAll(" ", "").equals("")) {
+        if (decision.getTextoFigura() == null || decision.getTextoFigura().replaceAll(" ", "").equals("")) {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Cantidad de caracteres.");
@@ -375,7 +375,7 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
 
-        } else if (etapa.getTextoFigura().length() > 15) {
+        } else if (decision.getTextoFigura().length() > 15) {
             System.out.println("soy muy grande");
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -386,7 +386,7 @@ public class FXMLDocumentController implements Initializable {
             alert.showAndWait();
         }
         if (click == true) {
-            cut(etapa);
+            cut(decision);
         }
     }
 
@@ -438,21 +438,21 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void dibujarCiclo(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        Ciclo documento = new Ciclo();
+        Ciclo ciclo = new Ciclo();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Text de documento.");
         dialog.setHeaderText("");
-        dialog.setContentText("Ingrese el texto que va en el documento:");
+        dialog.setContentText("Ingrese el texto que va en el ciclo:");
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-            documento.setTextoFigura(result.get());
+            ciclo.setTextoFigura(result.get());
         }
         //documento.setTextoFigura(respuesta);
-        System.out.println("el texto en este documento es: " + documento.getTextoFigura());
+        System.out.println("el texto en este documento es: " + ciclo.getTextoFigura());
         click = true;
 
-        if (documento.getTextoFigura() == null || documento.getTextoFigura().replaceAll(" ", "").equals("")) {
+        if (ciclo.getTextoFigura() == null || ciclo.getTextoFigura().replaceAll(" ", "").equals("")) {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Cantidad de caracteres.");
@@ -461,7 +461,7 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
 
-        } else if (documento.getTextoFigura().length() > 15) {
+        } else if (ciclo.getTextoFigura().length() > 15) {
             System.out.println("soy muy grande");
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -472,28 +472,28 @@ public class FXMLDocumentController implements Initializable {
             alert.showAndWait();
         }
         if (click == true) {
-            cut(documento);
+            cut(ciclo);
         }
     }
     
     @FXML
     private void dibujarSalida(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        Salida documento = new Salida();
+        Salida salida = new Salida();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
         dialog.setTitle("Text de documento.");
         dialog.setHeaderText("");
-        dialog.setContentText("Ingrese el texto que va en el documento:");
+        dialog.setContentText("Ingrese el texto que va en la salida:");
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-            documento.setTextoFigura(result.get());
+            salida.setTextoFigura(result.get());
         }
         //documento.setTextoFigura(respuesta);
-        System.out.println("el texto en este documento es: " + documento.getTextoFigura());
+        System.out.println("el texto en este documento es: " + salida.getTextoFigura());
         click = true;
 
-        if (documento.getTextoFigura() == null || documento.getTextoFigura().replaceAll(" ", "").equals("")) {
+        if (salida.getTextoFigura() == null || salida.getTextoFigura().replaceAll(" ", "").equals("")) {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Cantidad de caracteres.");
@@ -502,7 +502,7 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
 
-        } else if (documento.getTextoFigura().length() > 15) {
+        } else if (salida.getTextoFigura().length() > 15) {
             System.out.println("soy muy grande");
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -513,7 +513,7 @@ public class FXMLDocumentController implements Initializable {
             alert.showAndWait();
         }
         if (click == true) {
-            cut(documento);
+            cut(salida);
         }
     }
     
