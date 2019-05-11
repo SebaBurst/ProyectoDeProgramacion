@@ -27,6 +27,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -42,6 +43,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     AnchorPane root;
 
+    @FXML
+    TextArea consola;
     @FXML
     Canvas lienzo;
 
@@ -366,9 +369,10 @@ public class FXMLDocumentController implements Initializable {
         Pattern p = Pattern.compile("[A-Za-z]{1,7}\\=[A-Za-z0-9|0-9]{1,7}$");
         Matcher matcher = p.matcher(entrada.getTextoFigura());
         boolean cadenaValida = matcher.matches();
+        Variable variable = new Variable();
         if (cadenaValida) {
             click = true;
-            Variable variable = new Variable();
+            
             int posicion = entrada.getTextoFigura().indexOf("=");
             variable.setNombre(entrada.getTextoFigura().substring(0, posicion));
             variable.setTexto(entrada.getTextoFigura().substring(entrada.getTextoFigura().indexOf("=") + 1));
@@ -384,6 +388,7 @@ public class FXMLDocumentController implements Initializable {
         }
         if (click == true) {
             cut(entrada);
+            consola.setText(consola.getText()+"\n"+variable.getNombre()+" <-- "+variable.getTexto());
         }
         for (int i = 0; i < variables.size(); i++) {
             System.out.println("el nombre de la variable " + (i + 1) + " es: " + variables.get(i).getNombre());
