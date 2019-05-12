@@ -27,9 +27,11 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 
@@ -86,18 +88,25 @@ public class FXMLDocumentController implements Initializable {
                 try {
                     Figura corriendo = formas.get(i);
                     if (corriendo instanceof InicioFin) {
+                        consola.setText(consola.getText() + "\n" + corriendo.getTextoFigura());
+
                         Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha.png"));
                         cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
                     }
                     if (corriendo instanceof Etapa) {
+                        consola.setText(consola.getText() + "\n" + "Etapa: " + corriendo.getTextoFigura());
+
                         Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
                         cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
                     }
                     if (corriendo instanceof Entrada) {
+
                         Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_verde.png"));
                         cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
                     }
                     if (corriendo instanceof Documento) {
+                        consola.setText(consola.getText() + "\n" + "Documento" + corriendo.getTextoFigura());
+
                         Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_roja.png"));
                         cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
 
@@ -111,6 +120,7 @@ public class FXMLDocumentController implements Initializable {
                         cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
                     }
                     if (corriendo instanceof Salida) {
+
                         Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_naranja.png"));
                         cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
                     }
@@ -235,18 +245,17 @@ public class FXMLDocumentController implements Initializable {
                         }
                     });
                     lienzo.setOnMouseReleased(p -> {
-                      
 
                         System.out.println("Me detuve");
                         if (Aux != null) {
-                              if (Aux.getY3() >= lienzo.getHeight()||Aux.getMedioY() >= lienzo.getHeight()) {
-                            lienzo.setHeight(Aux.getY3()+50);
-                            repintar(cuadro);
-                        }
-                        if (Aux.getX2() >= lienzo.getWidth()|| Aux.getX1() >= lienzo.getWidth()) {
-                            lienzo.setWidth(Aux.getX2()+ 60);
-                            repintar(cuadro);
-                        }
+                            if (Aux.getY3() >= lienzo.getHeight() || Aux.getMedioY() >= lienzo.getHeight()) {
+                                lienzo.setHeight(Aux.getY3() + 50);
+                                repintar(cuadro);
+                            }
+                            if (Aux.getX2() >= lienzo.getWidth() || Aux.getX1() >= lienzo.getWidth()) {
+                                lienzo.setWidth(Aux.getX2() + 60);
+                                repintar(cuadro);
+                            }
                             int mp = Aux.getMedioX();
                             int mo = Aux.getMedioY();
                             Aux.setMedioX(mx);
@@ -260,18 +269,21 @@ public class FXMLDocumentController implements Initializable {
                             Aux.setX4(x4);
                             Aux.setY4(y4);
                             Figura b = detectarFigura2((int) p.getX(), (int) p.getY());
-                            if (Aux != null && b != null && b != Aux) {
+                            if ((Aux != null && b != null && b != Aux) || (mo < 0 || mo + 90 < 0) || (mp < 0)) {
                                 System.out.println("Entrennnn");
                                 if (enlaces.size() != 0) {
                                     for (int t = 0; t < enlaces.size(); t++) {
                                         Flujo link = enlaces.get(t);
                                         // mover enlace superior
-                                        if (link.getX1() == (int) p.getX() && link.getY2() == (int) p.getY()) {
+
+                                        if (link.getId() == Aux.getFlujoSuperior()) {
                                             link.dibujar(link.getX(), link.getY(), mx, my, cuadro);
-                                        }//mover enlace inferior.
-                                        if (link.getX() == (int) p.getX() && link.getY() == (int) p.getY() + 70) {
-                                            link.dibujar(mx, my + 70, link.getX1(), link.getY2(), cuadro);
                                         }
+                                        if (link.getId() == Aux.getFlujoInferior()) {
+                                            link.dibujar(mx, my + 70, link.getX1(), link.getY2(), cuadro);
+
+                                        }
+
                                         enlaces.set(t, link);
                                         repintar(cuadro);
 
@@ -306,6 +318,9 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Etapa etapa = new Etapa();
         TextInputDialog dialog = new TextInputDialog();
+        Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/Etapa.png").toExternalForm());
+        ImageView imageView = new ImageView(image);
+        dialog.setGraphic(imageView);
         dialog.setTitle("Text de etapa.");
         dialog.setHeaderText("");
         dialog.setContentText("Ingrese el texto que va en la etapa:");
@@ -321,6 +336,9 @@ public class FXMLDocumentController implements Initializable {
         if (etapa.getTextoFigura() == null || etapa.getTextoFigura().replaceAll(" ", "").equals("")) {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
+            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+            ImageView imageVie = new ImageView(images);
+            alert.setGraphic(imageVie);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
@@ -331,6 +349,9 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("soy muy grande");
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
+            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+            ImageView imageVie = new ImageView(images);
+            alert.setGraphic(imageVie);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
@@ -349,6 +370,9 @@ public class FXMLDocumentController implements Initializable {
         Entrada entrada = new Entrada();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
+        Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/Entrada.png").toExternalForm());
+        ImageView imageView = new ImageView(image);
+        dialog.setGraphic(imageView);
         dialog.setTitle("Text de entrada.");
         dialog.setHeaderText("");
         dialog.setContentText("Ingrese el texto que va en la entrada:");
@@ -363,6 +387,9 @@ public class FXMLDocumentController implements Initializable {
         if (entrada.getTextoFigura() == null || entrada.getTextoFigura().replaceAll(" ", "").equals("")) {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
+            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+            ImageView imageVie = new ImageView(images);
+            alert.setGraphic(imageVie);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
@@ -372,6 +399,9 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("soy muy grande");
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
+            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+            ImageView imageVie = new ImageView(images);
+            alert.setGraphic(imageVie);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
@@ -384,25 +414,28 @@ public class FXMLDocumentController implements Initializable {
             boolean cadenaValida = matcher.matches();
             Variable variable = new Variable();
             if (cadenaValida) {
-                if(!variables.isEmpty()){
+                if (!variables.isEmpty()) {
                     int posicionValidar = entrada.getTextoFigura().indexOf("=");
-                    for(int i = 0; i < variables.size(); i++){
-                        if(entrada.getTextoFigura().substring(0, posicionValidar).equals(variables.get(i).getNombre())){
-                            System.out.println("izquierdo = "+entrada.getTextoFigura().substring(0, posicionValidar));
-                            System.out.println("la lista tiene: "+(i+1)+". "+variables.get(i).getNombre());
+                    for (int i = 0; i < variables.size(); i++) {
+                        if (entrada.getTextoFigura().substring(0, posicionValidar).equals(variables.get(i).getNombre())) {
+                            System.out.println("izquierdo = " + entrada.getTextoFigura().substring(0, posicionValidar));
+                            System.out.println("la lista tiene: " + (i + 1) + ". " + variables.get(i).getNombre());
                             click = false;
                             valida = false;
                         }
                     }
-                    if(valida == false){
+                    if (valida == false) {
                         Alert alert = new Alert(AlertType.INFORMATION);
+                        Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                        ImageView imageVie = new ImageView(images);
+                        alert.setGraphic(imageVie);
                         alert.setTitle("Nombre.");
                         alert.setHeaderText("Ocurrio un error.");
                         alert.setContentText("El nombre ingresado ya esta en uso.");
                         alert.showAndWait();
                     }
                 }
-                if(valida == true){
+                if (valida == true) {
                     click = true;
                     int posicion = entrada.getTextoFigura().indexOf("=");
                     variable.setNombre(entrada.getTextoFigura().substring(0, posicion));
@@ -411,6 +444,9 @@ public class FXMLDocumentController implements Initializable {
             } else {
                 click = false;
                 Alert alert = new Alert(AlertType.INFORMATION);
+                Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                ImageView imageVie = new ImageView(images);
+                alert.setGraphic(imageVie);
                 alert.setTitle("Formato.");
                 alert.setHeaderText("Ocurrio un error.");
                 alert.setContentText("El formato ingresado es incorrecto.");
@@ -433,7 +469,7 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Decision decision = new Decision();
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Text de etapa.");
+        dialog.setTitle("Texto de etapa.");
         dialog.setHeaderText("");
         dialog.setContentText("Ingrese el texto que va en la decision:");
         Optional<String> result = dialog.showAndWait();
@@ -448,6 +484,9 @@ public class FXMLDocumentController implements Initializable {
         if (decision.getTextoFigura() == null || decision.getTextoFigura().replaceAll(" ", "").equals("")) {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
+            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+            ImageView imageVie = new ImageView(images);
+            alert.setGraphic(imageVie);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
@@ -457,7 +496,11 @@ public class FXMLDocumentController implements Initializable {
         } else if (decision.getTextoFigura().length() > 15) {
             System.out.println("soy muy grande");
             click = false;
+
             Alert alert = new Alert(AlertType.INFORMATION);
+            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+            ImageView imageVie = new ImageView(images);
+            alert.setGraphic(imageVie);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
@@ -478,7 +521,10 @@ public class FXMLDocumentController implements Initializable {
         Documento documento = new Documento();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Text de documento.");
+        Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/Documento.png").toExternalForm());
+        ImageView imageView = new ImageView(image);
+        dialog.setGraphic(imageView);
+        dialog.setTitle("Texto de documento.");
         dialog.setHeaderText("");
         dialog.setContentText("Ingrese el texto que va en el documento:");
         Optional<String> result = dialog.showAndWait();
@@ -492,6 +538,9 @@ public class FXMLDocumentController implements Initializable {
         if (documento.getTextoFigura() == null || documento.getTextoFigura().replaceAll(" ", "").equals("")) {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
+            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+            ImageView imageVie = new ImageView(images);
+            alert.setGraphic(imageVie);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
@@ -502,6 +551,9 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("soy muy grande");
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
+            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+            ImageView imageVie = new ImageView(images);
+            alert.setGraphic(imageVie);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
@@ -522,7 +574,10 @@ public class FXMLDocumentController implements Initializable {
         Ciclo ciclo = new Ciclo();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Text de documento.");
+        Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/ciclo.png").toExternalForm());
+        ImageView imageView = new ImageView(image);
+        dialog.setGraphic(imageView);
+        dialog.setTitle("Texto del ciclo");
         dialog.setHeaderText("");
         dialog.setContentText("Ingrese el texto que va en el ciclo:");
         Optional<String> result = dialog.showAndWait();
@@ -536,6 +591,9 @@ public class FXMLDocumentController implements Initializable {
         if (ciclo.getTextoFigura() == null || ciclo.getTextoFigura().replaceAll(" ", "").equals("")) {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
+            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+            ImageView imageVie = new ImageView(images);
+            alert.setGraphic(imageVie);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
@@ -546,6 +604,9 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("soy muy grande");
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
+            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+            ImageView imageVie = new ImageView(images);
+            alert.setGraphic(imageVie);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
@@ -564,7 +625,10 @@ public class FXMLDocumentController implements Initializable {
         Salida salida = new Salida();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Text de documento.");
+        Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/Salida.png").toExternalForm());
+        ImageView imageView = new ImageView(image);
+        dialog.setGraphic(imageView);
+        dialog.setTitle("Texto de salida.");
         dialog.setHeaderText("");
         dialog.setContentText("Ingrese el texto que va en la salida:");
         Optional<String> result = dialog.showAndWait();
@@ -578,6 +642,9 @@ public class FXMLDocumentController implements Initializable {
         if (salida.getTextoFigura() == null || salida.getTextoFigura().replaceAll(" ", "").equals("")) {
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
+            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+            ImageView imageVie = new ImageView(images);
+            alert.setGraphic(imageVie);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
@@ -588,6 +655,9 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("soy muy grande");
             click = false;
             Alert alert = new Alert(AlertType.INFORMATION);
+            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+            ImageView imageVie = new ImageView(images);
+            alert.setGraphic(imageVie);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
@@ -641,7 +711,6 @@ public class FXMLDocumentController implements Initializable {
 
         }
     }
-
 
     public void detectarBorrar(int x, int y) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
@@ -771,56 +840,26 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    /**
-     * Metodo que se encarga de mover todas las figuras hacia abajo en caso de
-     * que se dibuje una nueva figura sobre estas.
-     *
-     * @param x - coordenada x
-     * @param y - coordenada y
-     * @param n - nueva figura creada
-     */
-    public void moverabajo(int x, int y, Figura n) {
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el espacio del canvas
-        for (int i = 0; i < formas.size(); i++) { // se recorre el arreglo de figuras
-            Figura a = formas.get(i);// se guarda la figura actual en un 
-            // se pregunta si la parte superior de la figura es mayor que el nuevo enlace y la figura es distinta a la nueva
-            if (a.getY1() >= y && a != n) {
-                if (a.getY1() + 180 > lienzo.getHeight()) {// ahora pregunta si al mover la figura esta se saldria del canvas
-                    lienzo.setHeight(lienzo.getHeight() + 190);// si se sale del canvas a este ultimo se le da mas altura
-
-                }
-                if (a.getMedioY() + 70 > n.getMedioY() + 70) {
-                    a.dibujar(cuadro, a.getMedioX(), a.getY1() + 70);// se dibuja la figura actual con nuevas coordenadas
-                }
-            }
-        }
-
-    }
-
-    public void bajarFin(Figura fin) {
-        for (int i = 0; i < enlaces.size(); i++) {
-            Flujo link = enlaces.get(i);
-            if (link.getX1() == fin.getMedioX() && link.getY2() == fin.getMedioY()) {
-
-            }
-        }
-
-    }
-
     public void ini() {
         idFlujos = 0;
         consola.setText("");
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Flujo crear = new Flujo();
         crear.setId(idFlujos);
-        idFlujos++;
         boolean validacion = false;
         InicioFin inicio = new InicioFin();
         String respuesta = "";
         while (validacion == false) {
             //respuesta = JOptionPane.showInputDialog("Ingrese texto que va en el inicio: ");
             TextInputDialog dialog = new TextInputDialog();
-            dialog.setTitle("Text de inicio.");
+            dialog.setTitle("Texto de inicio.");
+            Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/Inicio.png").toExternalForm());
+            ImageView imageView = new ImageView(image);
+            /* DialogPane dialogPane = dialog.getDialogPane();
+dialogPane.getStylesheets().add(
+   getClass().getResource("/Clases_Figura/Estilos/Alertas.css").toExternalForm());
+dialogPane.getStyleClass().add("myDialog");*/
+            dialog.setGraphic(imageView);
             dialog.setHeaderText("");
             dialog.setContentText("Ingrese el texto que va en el inicio:");
             Optional<String> result = dialog.showAndWait();
@@ -861,6 +900,7 @@ public class FXMLDocumentController implements Initializable {
         lienzo.setHeight(589);
         InicioFin fin = new InicioFin();
         fin.setFlujoSuperior(idFlujos);
+        fin.setFlujoInferior(-1);
         fin.setTextoFigura("         Fin");
         int g = inicio.getX1();
         int d = inicio.getX2();
@@ -869,10 +909,11 @@ public class FXMLDocumentController implements Initializable {
         fin.dibujar(cuadro, 400, 400);
         inicio.dibujar(cuadro, 400, 41);
         inicio.setFlujoInferior(idFlujos);
+        inicio.setFlujoSuperior(-2);
         enlaces.add(crear);
         formas.add(inicio);
         formas.add(fin);
-
+        idFlujos++;
         moverFigura(cuadro, lienzo);
     }
 
