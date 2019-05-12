@@ -20,7 +20,7 @@ public class Decision extends Figura{
 
     @Override
     public void dibujar(GraphicsContext lienzo,int x,int y) {
-        lienzo.setStroke(Color.valueOf("#75FFA1"));
+        lienzo.setStroke(Color.valueOf("#b44cd9"));
         this.setMedioX(x);
         this.setMedioY(y);
         int ix= x;
@@ -38,7 +38,7 @@ public class Decision extends Figura{
         this.setX4(ix+120);
         this.setY4(y+70);
         
-        lienzo.setStroke(Color.valueOf("#A325EA"));
+        lienzo.setStroke(Color.valueOf("#8a08b8"));
         lienzo.setLineWidth(3.0);
         
         for (int i = 0; i < 30; i++) {

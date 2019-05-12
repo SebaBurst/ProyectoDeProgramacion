@@ -18,7 +18,7 @@ public class Documento extends Figura {
         
         int ix = x-100;
         
-        lienzo.setStroke(Color.valueOf("#FA6C61"));
+        lienzo.setStroke(Color.valueOf("#f95363"));
         lienzo.setLineWidth(3.0);
  
         setX1(ix);
@@ -64,7 +64,7 @@ public class Documento extends Figura {
         lienzo.setLineWidth(4.6);
 
         // Se dibujan los arcos
-        lienzo.setFill(Color.valueOf("#FA6C61"));
+        lienzo.setFill(Color.valueOf("#f95363"));
         lienzo.fillArc(ix, y+23, 110, 100, 180, 175, ArcType.OPEN);        
         lienzo.strokeArc(ix, y+23, 110, 100, 180, 175, ArcType.OPEN);
         lienzo.strokeArc(ix+110, y+55, 102, 50, 42, 135, ArcType.OPEN);
@@ -84,7 +84,7 @@ public class Documento extends Figura {
         
         
         // Pintar los bordes//
-        lienzo.setStroke(Color.valueOf("#85100B"));
+        lienzo.setStroke(Color.valueOf("#c31c2c"));
         lienzo.setLineWidth(3.3);
 
         lienzo.strokeLine(ix,y, ix+200, y);

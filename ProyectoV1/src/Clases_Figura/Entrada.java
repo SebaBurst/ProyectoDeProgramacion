@@ -11,7 +11,7 @@ public class Entrada extends Figura {
 
     @Override
     public void dibujar(GraphicsContext lienzo,int x,int y) {
-        lienzo.setStroke(Color.valueOf("#75FFA1"));
+        lienzo.setStroke(Color.valueOf("#adfaaa"));
         this.setMedioX(x);
         this.setMedioY(y);
         int ix= x-90;
@@ -38,7 +38,7 @@ public class Entrada extends Figura {
         this.setX4(ix+120);
         this.setY4(y+70);
         
-        lienzo.setStroke(Color.valueOf("#0F3D1D"));
+        lienzo.setStroke(Color.valueOf("#4dc66c"));
         lienzo.setLineWidth(3.0);
         System.out.println("ix: "+ix);
         lienzo.strokeLine(ix,y, ix+190, y);

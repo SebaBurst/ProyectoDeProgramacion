@@ -14,7 +14,7 @@ public class InicioFin extends Figura {
         
         this.setMedioX(x);
         this.setMedioY(y);
-        lienzo.setStroke(Color.valueOf("#ffcf4c"));
+        lienzo.setStroke(Color.valueOf("#f8f76a"));
         lienzo.setLineWidth(3.0);
         
         int x1= x-100;
@@ -35,10 +35,10 @@ public class InicioFin extends Figura {
         this.setX4(x1+200);
         this.setY4(y+70);        
         
-        lienzo.setStroke(Color.valueOf("#5A660E"));
+        lienzo.setStroke(Color.valueOf("#b4b314"));
         lienzo.strokeLine(x1,y, x1+200, y);
         lienzo.strokeLine(x1, y+70, x1+200, y+70);
-        lienzo.setFill(Color.valueOf("#ffcf4c"));
+        lienzo.setFill(Color.valueOf("#f8f76a"));
         lienzo.fillArc(x1-35, y, 70, 70, 90, 180, ArcType.OPEN);
         lienzo.fillArc(x1+165, y, 70, 70, 270, 180, ArcType.OPEN);
         lienzo.strokeArc(x1-35, y, 70, 70, 90, 180, ArcType.OPEN);

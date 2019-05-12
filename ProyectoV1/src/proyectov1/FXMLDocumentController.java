@@ -105,6 +105,14 @@ public class FXMLDocumentController implements Initializable {
                         Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_morado.png"));
                         cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
                     }
+                    if (corriendo instanceof Ciclo) {
+                        Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_rosa.png"));
+                        cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+                    }
+                    if (corriendo instanceof Salida) {
+                        Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_naranja.png"));
+                        cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+                    }
                     Thread.sleep(2000);
                     cuadro.clearRect(corriendo.getMedioX() - 230, corriendo.getMedioY(), 60, 60);
                 } catch (InterruptedException ex) {
@@ -143,7 +151,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public Figura detectarFigura2(int x, int y) {
-         for (int i = 0; i < formas.size(); i++) {
+        for (int i = 0; i < formas.size(); i++) {
             Figura aux = formas.get(i);
             System.out.println("Coordenadas " + i + " " + aux.getY1() + "," + aux.getY3());
             if (y >= aux.getY1() - 100 && y <= aux.getY3() + 20 && x >= aux.getX1() - 220 && x <= aux.getX2() + 80) {
@@ -291,6 +299,8 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void dibujarEtapa(ActionEvent event) throws Exception {
+        Variable variable = new Variable();
+
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Etapa etapa = new Etapa();
         TextInputDialog dialog = new TextInputDialog();
@@ -326,12 +336,13 @@ public class FXMLDocumentController implements Initializable {
             alert.showAndWait();
         }
         if (click == true) {
-            cut(etapa);
+            separarFlujo(etapa, variable);
         }
     }
 
     @FXML
     private void dibujarEntrada(ActionEvent event) {
+
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Entrada entrada = new Entrada();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
@@ -353,7 +364,6 @@ public class FXMLDocumentController implements Initializable {
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
-
             alert.showAndWait();
 
         } else if (entrada.getTextoFigura().length() > 15) {
@@ -372,7 +382,6 @@ public class FXMLDocumentController implements Initializable {
         Variable variable = new Variable();
         if (cadenaValida) {
             click = true;
-            
             int posicion = entrada.getTextoFigura().indexOf("=");
             variable.setNombre(entrada.getTextoFigura().substring(0, posicion));
             variable.setTexto(entrada.getTextoFigura().substring(entrada.getTextoFigura().indexOf("=") + 1));
@@ -383,21 +392,19 @@ public class FXMLDocumentController implements Initializable {
             alert.setTitle("Formato.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("El formato ingresado es incorrecto.");
-
             alert.showAndWait();
         }
         if (click == true) {
-            cut(entrada);
-            consola.setText(consola.getText()+"\n"+variable.getNombre()+" <-- "+variable.getTexto());
+            separarFlujo(entrada, variable);
+
         }
-        for (int i = 0; i < variables.size(); i++) {
-            System.out.println("el nombre de la variable " + (i + 1) + " es: " + variables.get(i).getNombre());
-            System.out.println("el texto de la variable " + (i + 1) + " es: " + variables.get(i).getTexto());
-        }
+      
     }
 
     @FXML
     private void dibujarDecision(ActionEvent event) {
+        Variable variable = new Variable();
+
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Decision decision = new Decision();
         TextInputDialog dialog = new TextInputDialog();
@@ -433,12 +440,15 @@ public class FXMLDocumentController implements Initializable {
             alert.showAndWait();
         }
         if (click == true) {
-            cut(decision);
+            separarFlujo(decision, variable);
+
         }
     }
 
     @FXML
     private void dibujarDocumento(ActionEvent event) {
+        Variable variable = new Variable();
+
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Documento documento = new Documento();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
@@ -474,12 +484,15 @@ public class FXMLDocumentController implements Initializable {
             alert.showAndWait();
         }
         if (click == true) {
-            cut(documento);
+            separarFlujo(documento, variable);
+
         }
     }
 
     @FXML
     private void dibujarCiclo(ActionEvent event) {
+        Variable variable = new Variable();
+
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Ciclo ciclo = new Ciclo();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
@@ -515,13 +528,14 @@ public class FXMLDocumentController implements Initializable {
             alert.showAndWait();
         }
         if (click == true) {
-            cut(ciclo);
+            separarFlujo(ciclo, variable);
         }
     }
 
     @FXML
     private void dibujarSalida(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        Variable variable = new Variable();
         Salida salida = new Salida();
         //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
         TextInputDialog dialog = new TextInputDialog();
@@ -556,7 +570,8 @@ public class FXMLDocumentController implements Initializable {
             alert.showAndWait();
         }
         if (click == true) {
-            cut(salida);
+
+            separarFlujo(salida, variable);
         }
     }
 
@@ -662,7 +677,7 @@ public class FXMLDocumentController implements Initializable {
      *
      * @param n - figura a dibujar.
      */
-    public void cut(Figura n) {//Metodo para dentro de un flujo
+    public void separarFlujo(Figura n, Variable variable) {//Metodo para dentro de un flujo
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda para poder detectar XY de un click
             Figura mover = detectarFigura1((int) e.getX(), (int) e.getY());
@@ -700,11 +715,18 @@ public class FXMLDocumentController implements Initializable {
                                 // se anula la posibilidad de seguir presionando el canvas
                                 lienzo.setOnMouseClicked(null);
                                 // se detiene el metodo para que no entre a un ciclo infinito.
+                                if (n instanceof Entrada&& variable!=null) {
+                                    consola.setText(consola.getText() + "\n" + variable.getNombre() + " ← " + variable.getTexto());
 
+                                }
                                 break;
 
                             }
                         } else {
+                            if (n instanceof Entrada && variable!=null) {
+                                System.out.println("Me caigoooo");
+                                variables.remove(variable);
+                            }
                             lienzo.setOnMouseClicked(null);
 
                         }
@@ -795,16 +817,16 @@ public class FXMLDocumentController implements Initializable {
             }
         }
         inicio.textoFigura = respuesta;
-        inicio.dibujar(cuadro, 351, 41);
+        inicio.dibujar(cuadro, 400, 41);
 
         InicioFin fin = new InicioFin();
         fin.setTextoFigura("         Fin");
         int g = inicio.getX1();
         int d = inicio.getX2();
         int f = (int) ((g + d) / 2);
-        crear.dibujar(351, 111, 351, 400, cuadro);
-        fin.dibujar(cuadro, 351, 400);
-        inicio.dibujar(cuadro, 351, 41);
+        crear.dibujar(400, 111, 400, 400, cuadro);
+        fin.dibujar(cuadro, 400, 400);
+        inicio.dibujar(cuadro, 400, 41);
         enlaces.add(crear);
         formas.add(inicio);
         formas.add(fin);

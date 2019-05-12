@@ -19,7 +19,7 @@ public class Salida extends Figura{
 
     @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
-        lienzo.setStroke(Color.valueOf("#bccef4"));
+        lienzo.setStroke(Color.valueOf("#fec973"));
         this.setMedioX(x);
         this.setMedioY(y);
         int ix= x-90;
@@ -46,7 +46,7 @@ public class Salida extends Figura{
         this.setX4(ix+120);
         this.setY4(y+70);
         
-        lienzo.setStroke(Color.valueOf("#5e8ef3"));
+        lienzo.setStroke(Color.valueOf("#d5700d"));
         lienzo.setLineWidth(3.0);
         System.out.println("ix: "+ix);
         lienzo.strokeLine(ix,y, ix+190, y);

@@ -10,7 +10,7 @@ public class Etapa extends Figura {
 
    @Override
     public void dibujar(GraphicsContext lienzo,int x,int y) {
-        lienzo.setStroke(Color.valueOf("#79A6FF"));
+        lienzo.setStroke(Color.valueOf("#61bbef"));
         this.setMedioX(x);
         this.setMedioY(y);
         System.out.println("X: "+x);
@@ -40,7 +40,7 @@ public class Etapa extends Figura {
             aux++;
         }
         
-        lienzo.setStroke(Color.valueOf("#021E56"));
+        lienzo.setStroke(Color.valueOf("#3b83ad"));
         lienzo.setLineWidth(3.0);
         System.out.println("X1; "+x1);
         lienzo.strokeLine(x1,y1+70, x1+180,y1+70);
