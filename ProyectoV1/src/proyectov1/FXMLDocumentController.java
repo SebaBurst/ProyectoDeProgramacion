@@ -376,6 +376,7 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
         }
+        else {
         Pattern p = Pattern.compile("[A-Za-z]{1,7}\\=[A-Za-z0-9|0-9]{1,7}$");
         Matcher matcher = p.matcher(entrada.getTextoFigura());
         boolean cadenaValida = matcher.matches();
@@ -394,9 +395,11 @@ public class FXMLDocumentController implements Initializable {
             alert.setContentText("El formato ingresado es incorrecto.");
             alert.showAndWait();
         }
+        
         if (click == true) {
             separarFlujo(entrada, variable);
 
+        }
         }
       
     }
