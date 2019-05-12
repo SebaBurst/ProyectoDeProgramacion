@@ -378,16 +378,36 @@ public class FXMLDocumentController implements Initializable {
 
             alert.showAndWait();
         } else {
+            boolean valida = true;
             Pattern p = Pattern.compile("[A-Za-z]{1,7}\\=[A-Za-z0-9|0-9]{1,7}$");
             Matcher matcher = p.matcher(entrada.getTextoFigura());
             boolean cadenaValida = matcher.matches();
             Variable variable = new Variable();
             if (cadenaValida) {
-                click = true;
-                int posicion = entrada.getTextoFigura().indexOf("=");
-                variable.setNombre(entrada.getTextoFigura().substring(0, posicion));
-                variable.setTexto(entrada.getTextoFigura().substring(entrada.getTextoFigura().indexOf("=") + 1));
-                variables.add(variable);
+                if(!variables.isEmpty()){
+                    int posicionValidar = entrada.getTextoFigura().indexOf("=");
+                    for(int i = 0; i < variables.size(); i++){
+                        if(entrada.getTextoFigura().substring(0, posicionValidar).equals(variables.get(i).getNombre())){
+                            System.out.println("izquierdo = "+entrada.getTextoFigura().substring(0, posicionValidar));
+                            System.out.println("la lista tiene: "+(i+1)+". "+variables.get(i).getNombre());
+                            click = false;
+                            valida = false;
+                        }
+                    }
+                    if(valida == false){
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        alert.setTitle("Nombre.");
+                        alert.setHeaderText("Ocurrio un error.");
+                        alert.setContentText("El nombre ingresado ya esta en uso.");
+                        alert.showAndWait();
+                    }
+                }
+                if(valida == true){
+                    click = true;
+                    int posicion = entrada.getTextoFigura().indexOf("=");
+                    variable.setNombre(entrada.getTextoFigura().substring(0, posicion));
+                    variable.setTexto(entrada.getTextoFigura().substring(entrada.getTextoFigura().indexOf("=") + 1));
+                }
             } else {
                 click = false;
                 Alert alert = new Alert(AlertType.INFORMATION);
@@ -398,6 +418,7 @@ public class FXMLDocumentController implements Initializable {
             }
 
             if (click == true) {
+                variables.add(variable);
                 separarFlujo(entrada, variable);
 
             }
