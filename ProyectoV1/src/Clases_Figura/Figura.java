@@ -6,7 +6,24 @@ public abstract class Figura {
     public String textoFigura;
     public int medioY=0;
     public int medioX=0;
+    public int FlujoSuperior;
+    public int FlujoInferior;
 
+    public int getFlujoSuperior() {
+        return FlujoSuperior;
+    }
+    public void setFlujoSuperior(int FlujoSuperior) {
+        this.FlujoSuperior = FlujoSuperior;
+    }
+
+    public int getFlujoInferior() {
+        return FlujoInferior;
+    }
+
+    public void setFlujoInferior(int FlujoInferior) {
+        this.FlujoInferior = FlujoInferior;
+    }
+    
     public int getMedioY(){
         return medioY;
     }

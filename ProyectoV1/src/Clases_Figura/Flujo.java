@@ -14,8 +14,18 @@ import javafx.scene.paint.Color;
  */
 public class Flujo {
 
+    int id;
     int x, y, x1, y2;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    
     public int getX() {
         return x;
     }
