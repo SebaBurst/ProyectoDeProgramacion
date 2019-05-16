@@ -27,66 +27,73 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 
+/**
+ * Controlador de las funciones principales dentro del programa
+ *
+ * @author Enfermos
+ */
 public class FXMLDocumentController implements Initializable {
 
-    ArrayList<Figura> formas = new ArrayList();
-    ArrayList<Variable> variables = new ArrayList();
+    private ArrayList<Figura> formas = new ArrayList();// Coleccion de las Figuras que se van creando
+    private ArrayList<Variable> variables = new ArrayList();// Coleccion de Variables ingresadas por el usuario
+    private ArrayList<Flujo> enlaces = new ArrayList();// Coleccion de enlaces dentro del diagrama
+    private boolean click = false; // Booleano que desactiva un boton cuando se hace click
+    private boolean reiniciarHilo = true;// Booleano que verifica para 
+    private int idFlujos = 0;
     @FXML
     Button borrarAll;
-
-    public int idFlujos = 0;
     @FXML
     AnchorPane root;
-
     @FXML
     TextArea consola;
     @FXML
     Canvas lienzo;
-
     @FXML
     Button Etapa;
     @FXML
     Button Decision;
-
     @FXML
     Button Entrada;
-
+    @FXML
+    Button moverTodo;
     @FXML
     Button Correr;
-
     @FXML
     Button Salida;
-
     @FXML
     Button Ciclo;
     @FXML
     Button Documento;
 
-    ArrayList<Flujo> enlaces = new ArrayList();
-
-    boolean click = false;
-    @FXML
-
-    int numero = 0;
-
-    boolean reiniciarHilo = true;
-
+    /**
+     * Clase interna Hilo que implementa Runnable para crear la funcionalidad
+     * "Correr" se implementa la clase Abstracta "Run" para ejecutarlo ademas se
+     * usa sleep para que tenga una "Descanso" Durante cada iteracion del ciclo.
+     */
     class hilo implements Runnable {
 
         @Override
-        public void run() {
-            GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-            for (int i = 0; i < formas.size(); i++) {
+        public void run() {// Se implementa el Metodo Run
+            
+            
+            
+            GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el Lienzo del programa
+            
+        Figura aux = formas.get(0);
+        System.out.println("Figura: "+formas.get(0).getTextoFigura());
+        for (int i = 0;aux.getSiguiente()!=-1; i++) {
+            for (int j = 0; j < formas.size(); j++) {
+                if(formas.get(j).getID()==aux.getSiguiente()){
+                System.out.println("Figura: "+formas.get(j).getTextoFigura());
+                aux=formas.get(j);
                 try {
-                    Figura corriendo = formas.get(i);
+                    Figura corriendo = formas.get(j);
                     if (corriendo instanceof InicioFin) {
                         consola.setText(consola.getText() + "\n" + corriendo.getTextoFigura());
 
@@ -130,18 +137,46 @@ public class FXMLDocumentController implements Initializable {
                     Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            }
+            
+        }
             reiniciarHilo = true;
         }
 
     }
 
+    /**
+     * Metodo que se encarga de crear un crear un nuevo Thread y ejecutar la
+     * funcion correr dentro del diagrama
+     *
+     * @param event
+     */
     @FXML
-    public void correr(ActionEvent event) {
-        reiniciarHilo = false;
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        Thread a = new Thread(new hilo());
-        a.start();
+    private void correr(ActionEvent event) {
+        reiniciarHilo = false;// se convierte el Boolean en false para que se pueda ejecutar
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo.
+        Thread a = new Thread(new hilo());// Se crea un Thread con la clase Hilo como argumento
+        a.start();// Se "Ejecuta el Hilo"
 
+    }
+
+    /**
+     *
+     * @param event
+     */
+    @FXML
+    private void moverDiagrama(ActionEvent event) {
+        Figura aux = formas.get(0);
+        System.out.println("Figura: "+formas.get(0).getTextoFigura());
+        for (int i = 0;aux.getSiguiente()!=-1; i++) {
+            for (int j = 0; j < formas.size(); j++) {
+                if(formas.get(j).getID()==aux.getSiguiente()){
+                System.out.println("Figura: "+formas.get(j).getTextoFigura());
+                aux=formas.get(j);
+            }
+            }
+            
+        }
     }
 
     /**
@@ -151,12 +186,14 @@ public class FXMLDocumentController implements Initializable {
      * @param cuadro
      */
     public void repintar(GraphicsContext cuadro) {
-        cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-        for (int i = 0; i < enlaces.size(); i++) {
-            Flujo enlace = enlaces.get(i);
+        cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());// Se limpia la pantalla
+        for (int i = 0; i < enlaces.size(); i++) {//Se recorre la lista de enlaces
+            Flujo enlace = enlaces.get(i);//Se obtiene el enlace de la posicion i
+            //Se dibuja el enlace con las coordenadas correspondientes
             enlace.dibujar(enlace.getX(), enlace.getY(), enlace.getX1(), enlace.getY2(), cuadro);
         }
-        for (int i = 0; i < formas.size(); i++) {
+        for (int i = 0; i < formas.size(); i++) {// Se recorre la lista de las figuras
+            //Se dibuja la figura con las coordenadas correspondientes
             formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
         }
     }
@@ -175,13 +212,18 @@ public class FXMLDocumentController implements Initializable {
         return null;
     }
 
+    /**
+     * Metodo que detecta una figura en base a una par de coordenadas x e y
+     *
+     * @param x
+     * @param y
+     * @return
+     */
     public Figura detectarFigura1(int x, int y) {
-        for (int i = 0; i < formas.size(); i++) {
-            Figura aux = formas.get(i);
-            if (y >= aux.getY1() && y <= aux.getY3() && x >= aux.getX1() && x <= aux.getX2()) {
-                System.out.println("Espacio No disponible");
-                System.out.println(aux.getNombre());
-                return aux;
+        for (int i = 0; i < formas.size(); i++) {//Se recorre la lista de las figuras
+            Figura aux = formas.get(i);//  se guarda en una figura aux
+            if (y >= aux.getY1() && y <= aux.getY3() && x >= aux.getX1() && x <= aux.getX2()) {// se pregunta si las coordenadas estan contenidas dentro de la figura
+                return aux;// se retorna la figura.
             } else {
                 System.out.println("Espacio Disponible");
             }
@@ -192,20 +234,28 @@ public class FXMLDocumentController implements Initializable {
     int x = 0, x4 = 0, x2 = 0, x3 = 0, y = 0, y4 = 0, y2 = 0, y3 = 0;
     Figura Aux;
 
+    /**
+     * Metodo que se encarga de mover los enlaces asociados a una figura en
+     * movimiento
+     *
+     * @param move - Figura en movimiento
+     * @param x - coordenada x actual
+     * @param y - coordenada y actual
+     */
     public void moverEnlaces(Figura move, int x, int y) {
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        for (int i = 0; i < enlaces.size(); i++) {
-            Flujo aux = enlaces.get(i);
-            // mover enlace superior
-            if (aux.getX1() == move.getMedioX() && aux.getY2() == move.getMedioY()) {
-                aux.dibujar(aux.getX(), aux.getY(), x, y, cuadro);
-            }//mover enlace inferior.
-            if (aux.getX() == move.getMedioX() && aux.getY() == move.getMedioY() + 70) {
-                aux.dibujar(x, y + 70, aux.getX1(), aux.getY2(), cuadro);
-            }
-            enlaces.set(i, aux);
-        }
-        repintar(cuadro);
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo
+        for (int i = 0; i < enlaces.size(); i++) {// se recorren la lista de enlaces
+                    Flujo fAux = enlaces.get(i);// se guarda en un enlace auxiliar
+                    if (fAux.getId() == move.getFlujoSuperior()) {// se pregunta si el ID del Auxiliar es igual al flujo superior de la figura
+                        fAux.dibujar(fAux.getX(), fAux.getY(), x, y, cuadro);
+                    }
+                    if (fAux.getId() == move.getFlujoInferior()) {// se pregunta si el Id del Aux es igual al Flujo inferior del eliminar
+                        fAux.dibujar(x, y+70, fAux.getX1(), fAux.getY2(), cuadro);
+                        
+                    }
+       }
+
+        repintar(cuadro);// Se vuelven a pintar todos los objetos dentro del canvas
     }
 
     int mx = 0, my = 0;
@@ -311,103 +361,68 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    @FXML
-    private void dibujarEtapa(ActionEvent event) throws Exception {
-        Variable variable = new Variable();
-
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        Etapa etapa = new Etapa();
+    /**
+     * Metodo que se encarga de recibir y validar el texto ingresa por el
+     * usuario mediante ventanas emergentes
+     *
+     * @param crear
+     * @param texto
+     * @return
+     */
+    private boolean ingresarTexto(Figura crear, String texto) {
         TextInputDialog dialog = new TextInputDialog();
-        Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/Etapa.png").toExternalForm());
-        ImageView imageView = new ImageView(image);
-        dialog.setGraphic(imageView);
-        dialog.setTitle("Text de etapa.");
+        dialog.setTitle("Texto de " + texto);
         dialog.setHeaderText("");
-        dialog.setContentText("Ingrese el texto que va en la etapa:");
+        dialog.setContentText("Ingrese el texto que va en " + texto + ":");
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-            etapa.setTextoFigura(result.get());
+            crear.setTextoFigura(result.get());
         }
-        //etapa.setTextoFigura(respuestaEtapa);
-        System.out.println("el texto en esta etapa es: " + etapa.getTextoFigura());
-        //texto = "";
-        click = true;
-
-        if (etapa.getTextoFigura() == null || etapa.getTextoFigura().replaceAll(" ", "").equals("")) {
-            click = false;
+        if (crear.getTextoFigura() == null || crear.getTextoFigura().replaceAll(" ", "").equals("")) {
             Alert alert = new Alert(AlertType.INFORMATION);
-            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-            ImageView imageVie = new ImageView(images);
-            alert.setGraphic(imageVie);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
-
             alert.showAndWait();
+            return false;
 
-        } else if (etapa.getTextoFigura().length() > 15) {
-            System.out.println("soy muy grande");
-            click = false;
+        } else if (crear.getTextoFigura().length() > 15) {
             Alert alert = new Alert(AlertType.INFORMATION);
-            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-            ImageView imageVie = new ImageView(images);
-            alert.setGraphic(imageVie);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
             alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
-
             alert.showAndWait();
+            return false;
         }
+        return true;
+
+    }
+
+    /**
+     * Metodo que se encarga de dibujar una etapa
+     * @param event
+     * @throws Exception 
+     */
+    @FXML private void dibujarEtapa(ActionEvent event) throws Exception {
+        Variable variable = new Variable();
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        Etapa etapa = new Etapa();
+        click = ingresarTexto(etapa, "etapa");
         if (click == true) {
             separarFlujo(etapa, variable);
         }
     }
 
+    /**
+     * Metodo que se encarga de dibujar una entrada
+     * @param event 
+     */
     @FXML
     private void dibujarEntrada(ActionEvent event) {
-
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Entrada entrada = new Entrada();
-        //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
-        TextInputDialog dialog = new TextInputDialog();
-        Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/Entrada.png").toExternalForm());
-        ImageView imageView = new ImageView(image);
-        dialog.setGraphic(imageView);
-        dialog.setTitle("Text de entrada.");
-        dialog.setHeaderText("");
-        dialog.setContentText("Ingrese el texto que va en la entrada:");
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            entrada.setTextoFigura(result.get());
-        }
-        //entrada.setTextoFigura(respuesta);
-        System.out.println("el texto en esta entrada o salida es: " + entrada.getTextoFigura());
-        click = true;
-
-        if (entrada.getTextoFigura() == null || entrada.getTextoFigura().replaceAll(" ", "").equals("")) {
-            click = false;
-            Alert alert = new Alert(AlertType.INFORMATION);
-            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-            ImageView imageVie = new ImageView(images);
-            alert.setGraphic(imageVie);
-            alert.setTitle("Cantidad de caracteres.");
-            alert.setHeaderText("Ocurrio un error.");
-            alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
-            alert.showAndWait();
-
-        } else if (entrada.getTextoFigura().length() > 15) {
-            System.out.println("soy muy grande");
-            click = false;
-            Alert alert = new Alert(AlertType.INFORMATION);
-            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-            ImageView imageVie = new ImageView(images);
-            alert.setGraphic(imageVie);
-            alert.setTitle("Cantidad de caracteres.");
-            alert.setHeaderText("Ocurrio un error.");
-            alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
-
-            alert.showAndWait();
-        } else {
+        click = ingresarTexto(entrada, "Entrada");
+        if (click == true) {
             boolean valida = true;
             Pattern p = Pattern.compile("[A-Za-z]{1,7}\\=[A-Za-z0-9|0-9]{1,7}$");
             Matcher matcher = p.matcher(entrada.getTextoFigura());
@@ -468,45 +483,7 @@ public class FXMLDocumentController implements Initializable {
 
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Decision decision = new Decision();
-        TextInputDialog dialog = new TextInputDialog();
-        dialog.setTitle("Texto de etapa.");
-        dialog.setHeaderText("");
-        dialog.setContentText("Ingrese el texto que va en la decision:");
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            decision.setTextoFigura(result.get());
-        }
-        //etapa.setTextoFigura(respuestaEtapa);
-        System.out.println("el texto en esta etapa es: " + decision.getTextoFigura());
-        //texto = "";
-        click = true;
-
-        if (decision.getTextoFigura() == null || decision.getTextoFigura().replaceAll(" ", "").equals("")) {
-            click = false;
-            Alert alert = new Alert(AlertType.INFORMATION);
-            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-            ImageView imageVie = new ImageView(images);
-            alert.setGraphic(imageVie);
-            alert.setTitle("Cantidad de caracteres.");
-            alert.setHeaderText("Ocurrio un error.");
-            alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
-
-            alert.showAndWait();
-
-        } else if (decision.getTextoFigura().length() > 15) {
-            System.out.println("soy muy grande");
-            click = false;
-
-            Alert alert = new Alert(AlertType.INFORMATION);
-            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-            ImageView imageVie = new ImageView(images);
-            alert.setGraphic(imageVie);
-            alert.setTitle("Cantidad de caracteres.");
-            alert.setHeaderText("Ocurrio un error.");
-            alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
-
-            alert.showAndWait();
-        }
+        click=ingresarTexto(decision,"Decision");
         if (click == true) {
             separarFlujo(decision, variable);
 
@@ -516,211 +493,108 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void dibujarDocumento(ActionEvent event) {
         Variable variable = new Variable();
-
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Documento documento = new Documento();
-        //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
-        TextInputDialog dialog = new TextInputDialog();
-        Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/Documento.png").toExternalForm());
-        ImageView imageView = new ImageView(image);
-        dialog.setGraphic(imageView);
-        dialog.setTitle("Texto de documento.");
-        dialog.setHeaderText("");
-        dialog.setContentText("Ingrese el texto que va en el documento:");
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            documento.setTextoFigura(result.get());
-        }
-        //documento.setTextoFigura(respuesta);
-        System.out.println("el texto en este documento es: " + documento.getTextoFigura());
-        click = true;
-
-        if (documento.getTextoFigura() == null || documento.getTextoFigura().replaceAll(" ", "").equals("")) {
-            click = false;
-            Alert alert = new Alert(AlertType.INFORMATION);
-            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-            ImageView imageVie = new ImageView(images);
-            alert.setGraphic(imageVie);
-            alert.setTitle("Cantidad de caracteres.");
-            alert.setHeaderText("Ocurrio un error.");
-            alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
-
-            alert.showAndWait();
-
-        } else if (documento.getTextoFigura().length() > 15) {
-            System.out.println("soy muy grande");
-            click = false;
-            Alert alert = new Alert(AlertType.INFORMATION);
-            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-            ImageView imageVie = new ImageView(images);
-            alert.setGraphic(imageVie);
-            alert.setTitle("Cantidad de caracteres.");
-            alert.setHeaderText("Ocurrio un error.");
-            alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
-
-            alert.showAndWait();
-        }
+        click = ingresarTexto(documento, "documento");
         if (click == true) {
             separarFlujo(documento, variable);
 
         }
     }
 
+    /**
+     * Metodo que se encarga de dibujar la figura ciclo
+     *
+     * @param event
+     */
     @FXML
     private void dibujarCiclo(ActionEvent event) {
         Variable variable = new Variable();
-
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Ciclo ciclo = new Ciclo();
-        //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
-        TextInputDialog dialog = new TextInputDialog();
-        Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/ciclo.png").toExternalForm());
-        ImageView imageView = new ImageView(image);
-        dialog.setGraphic(imageView);
-        dialog.setTitle("Texto del ciclo");
-        dialog.setHeaderText("");
-        dialog.setContentText("Ingrese el texto que va en el ciclo:");
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            ciclo.setTextoFigura(result.get());
-        }
-        //documento.setTextoFigura(respuesta);
-        System.out.println("el texto en este documento es: " + ciclo.getTextoFigura());
-        click = true;
-
-        if (ciclo.getTextoFigura() == null || ciclo.getTextoFigura().replaceAll(" ", "").equals("")) {
-            click = false;
-            Alert alert = new Alert(AlertType.INFORMATION);
-            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-            ImageView imageVie = new ImageView(images);
-            alert.setGraphic(imageVie);
-            alert.setTitle("Cantidad de caracteres.");
-            alert.setHeaderText("Ocurrio un error.");
-            alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
-
-            alert.showAndWait();
-
-        } else if (ciclo.getTextoFigura().length() > 15) {
-            System.out.println("soy muy grande");
-            click = false;
-            Alert alert = new Alert(AlertType.INFORMATION);
-            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-            ImageView imageVie = new ImageView(images);
-            alert.setGraphic(imageVie);
-            alert.setTitle("Cantidad de caracteres.");
-            alert.setHeaderText("Ocurrio un error.");
-            alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
-
-            alert.showAndWait();
-        }
+        click = ingresarTexto(ciclo, "ciclo");
         if (click == true) {
             separarFlujo(ciclo, variable);
         }
     }
 
+    /**
+     * Metodo que se encarga de dibujar una salida
+     *
+     * @param event
+     */
     @FXML
     private void dibujarSalida(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Variable variable = new Variable();
         Salida salida = new Salida();
-        //String respuesta = JOptionPane.showInputDialog("Ingrese texto: ");
-        TextInputDialog dialog = new TextInputDialog();
-        Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/Salida.png").toExternalForm());
-        ImageView imageView = new ImageView(image);
-        dialog.setGraphic(imageView);
-        dialog.setTitle("Texto de salida.");
-        dialog.setHeaderText("");
-        dialog.setContentText("Ingrese el texto que va en la salida:");
-        Optional<String> result = dialog.showAndWait();
-        if (result.isPresent()) {
-            salida.setTextoFigura(result.get());
-        }
-        //documento.setTextoFigura(respuesta);
-        System.out.println("el texto en este documento es: " + salida.getTextoFigura());
-        click = true;
-
-        if (salida.getTextoFigura() == null || salida.getTextoFigura().replaceAll(" ", "").equals("")) {
-            click = false;
-            Alert alert = new Alert(AlertType.INFORMATION);
-            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-            ImageView imageVie = new ImageView(images);
-            alert.setGraphic(imageVie);
-            alert.setTitle("Cantidad de caracteres.");
-            alert.setHeaderText("Ocurrio un error.");
-            alert.setContentText("El objeto no puede no tener texto o ser blanco!.");
-
-            alert.showAndWait();
-
-        } else if (salida.getTextoFigura().length() > 15) {
-            System.out.println("soy muy grande");
-            click = false;
-            Alert alert = new Alert(AlertType.INFORMATION);
-            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-            ImageView imageVie = new ImageView(images);
-            alert.setGraphic(imageVie);
-            alert.setTitle("Cantidad de caracteres.");
-            alert.setHeaderText("Ocurrio un error.");
-            alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
-
-            alert.showAndWait();
-        }
+        click = ingresarTexto(salida, "salida");
         if (click == true) {
 
             separarFlujo(salida, variable);
         }
     }
 
+    /**
+     * Metodo que se encarga de unir dos flujos luego de que una figura ha sido
+     * eliminada y asi no afecte drasticamente al diagrama
+     *
+     * @param eliminar
+     */
     public void reConectarFlujo(Figura eliminar) {
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        int indiceFigura = 0;
-        if (formas.size() == 2) {
-            Figura inicio = formas.get(0);
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
+        if (formas.size() == 2) {// se pregunta si solo hay dos objetos 
+            Figura inicio = formas.get(0); // Cuando solo hay dos objetos estos son inicioFin
             Figura fin = formas.get(1);
-            enlaces.clear();
-            Flujo nuevo = new Flujo();
+            enlaces.clear();// se limpian la lista de enlaces
+            Flujo nuevo = new Flujo();// se crea un nuevo flujo y se conecta al inicioFin
             nuevo.dibujar(inicio.getMedioX(), inicio.getMedioY() + 70, fin.getMedioX(), fin.getMedioY(), cuadro);
-            enlaces.add(nuevo);
+            enlaces.add(nuevo);// se agrega a la lista
         } else {
-            if (eliminar instanceof InicioFin == false) {
-                Flujo superior = new Flujo();
+            if (eliminar instanceof InicioFin == false) {// se pregunta si es distinto a InicioFin
+                Flujo superior = new Flujo();// Se crean dos objetos flujos.
                 Flujo inferior = new Flujo();
-
-                for (int i = 0; i < enlaces.size(); i++) {
-                    Flujo fAux = enlaces.get(i);
-                    if (fAux.getId() == eliminar.getFlujoSuperior()) {
-                        superior = enlaces.get(i);
+                for (int i = 0; i < enlaces.size(); i++) {// se recorren la lista de enlaces
+                    Flujo fAux = enlaces.get(i);// se guarda en un enlace auxiliar
+                    if (fAux.getId() == eliminar.getFlujoSuperior()) {// se pregunta si el ID del Auxiliar es igual al flujo superior de la figura
+                        superior = enlaces.get(i);// se guarda el enlace superior
                     }
-                    if (fAux.getId() == eliminar.getFlujoInferior()) {
-                        inferior = enlaces.get(i);
+                    if (fAux.getId() == eliminar.getFlujoInferior()) {// se pregunta si el Id del Aux es igual al Flujo inferior del eliminar
+                        inferior = enlaces.get(i);// Se guarda el enlace inferior
                     }
                 }
-                System.out.println("Enlace Superior ID: " + superior.getId());
-                System.out.println("Enlace Inferior ID: " + inferior.getId());
+                // se actualiza el enlace inferior combinando las coordenadas del superior e inferior
                 inferior.dibujar(superior.getX(), superior.getY(), inferior.getX1(), inferior.getY2(), cuadro);
 
+                // se recorre la lista de formas
                 for (int i = 0; i < formas.size(); i++) {
-                    if (formas.get(i).getFlujoInferior() == superior.getId()) {
-                        formas.get(i).setFlujoInferior(inferior.getId());
+                    if (formas.get(i).getFlujoInferior() == superior.getId()) {// se pregunta si la id del flujo inferior es igual a la del flujo superior eliminado
+                        formas.get(i).setFlujoInferior(inferior.getId());// se actualiza el el flujo inferior por el nuevo flujo combinado
                     }
                 }
-
-                if (inferior != null && superior != null) {
-                    enlaces.remove(superior);
+                if (inferior != null && superior != null) {// se pregunta si se encontraron dos enlaces
+                    enlaces.remove(superior);// si entra a la condicion y se elimina el enlace de la lista.
                 }
             }
 
         }
     }
 
+    /**
+     * Metodo que se encarga de detectar la figura a eliminar y reconectar los
+     * flujos de estas
+     *
+     * @param x
+     * @param y
+     */
     public void detectarBorrar(int x, int y) {
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        Figura eliminar = detectarFigura1(x, y);
-        if (eliminar != null) {
-            if (eliminar instanceof InicioFin == false) {
-                reConectarFlujo(eliminar);
-                formas.remove(eliminar);
-                repintar(cuadro);
-                System.out.println("Borrar");
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
+        Figura eliminar = detectarFigura1(x, y);// se usa el metodo dectectarFigura 1 para encontrar la figura
+        if (eliminar != null) {// se entra en la condicion solo si se logra detectar una figura
+            if (eliminar instanceof InicioFin == false) {// solo se puede eliminar una figura distinta a un InicioFin
+                reConectarFlujo(eliminar);// Se llama al metodo reconectarFlujo
+                formas.remove(eliminar);// se elimina la figura detectada
+                repintar(cuadro);// se vuelve a pintar todos los elementos en la pantalla
             }
         } else {
             System.out.println("no hay nada para eliminar");
@@ -732,29 +606,41 @@ public class FXMLDocumentController implements Initializable {
     Button cut;
     boolean borrar = false;
 
+    /**
+     * Metodo que se encarga de borrar una figura
+     *
+     * @param event
+     * @throws Exception
+     */
     @FXML
     private void borrarFigura(ActionEvent event) throws Exception {
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        borrar = false;
-        if (borrar == false) {
-            lienzo.setOnMouseClicked(e -> {
-                int i = 1;
-                System.out.println("************************************");
-                detectarBorrar((int) e.getX(), (int) e.getY());
-                borrar = true;
-                lienzo.setOnMouseClicked(null);
-
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
+        borrar = false;//el boolean borrar se convierte en false para activar el boton
+        if (borrar == false) {//La condicion solo funciona si el borrar es igual a false
+            lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
+                detectarBorrar((int) e.getX(), (int) e.getY());// se llama al metodo detectarBorrar y se le ingresa un x e y
+                borrar = true;// el borrar se hace true
+                lienzo.setOnMouseClicked(null);// se termina el evento setOnMouseClicked
             });
         }
     }
 
+    /**
+     * Metodo que se encarga de borrar el diagrama actual y comenzar uno
+     * completamente nuevo
+     *
+     * @param event
+     * @throws Exception
+     */
     @FXML
     private void borrarAll(ActionEvent event) throws Exception {
+        //Se borran todos los elementos de todas las listas
         formas.clear();
         enlaces.clear();
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        ini();
-        repintar(cuadro);
+        variables.clear();
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo
+        ini();// se llama al metodo ini
+        repintar(cuadro);// se vuelven a dibujar todos los objetos
     }
 
     /**
@@ -764,10 +650,6 @@ public class FXMLDocumentController implements Initializable {
      * @param n - figura a dibujar.
      */
     public void separarFlujo(Figura n, Variable variable) {//Metodo para dentro de un flujo
-        for (int i = 0; i < enlaces.size(); i++) {
-            System.out.println("Enlaces " + i + ": " + enlaces.get(i).getId());
-        }
-
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda para poder detectar XY de un click
             Figura mover = detectarFigura1((int) e.getX(), (int) e.getY());
@@ -801,16 +683,24 @@ public class FXMLDocumentController implements Initializable {
                                         formas.get(d).setFlujoInferior(nuevo.getId());
                                     }
                                 }
-                                System.out.println("Enlace Superior ID: " + nuevo.getId());
-                                System.out.println("Enlace Inferior ID: " + aux.getId());
+                                n.setID(ids);
+
+                                for (int j = 0; j < formas.size(); j++) {
+                                    if(formas.get(j).getFlujoInferior()==nuevo.getId()){
+                                        formas.get(j).setSiguiente(ids);
+                                        n.setAnterior(formas.get(j).getID());
+                                    }
+                                    if(formas.get(j).getFlujoSuperior()==aux.getId()){
+                                        formas.get(j).setAnterior(ids);
+                                        n.setSiguiente(formas.get(j).getID());
+                                    }
+                                    
+                                }
+                                                                ids++;
+                                
+                                
                                 formas.add(n);
                                 //Funcion que ordena la lista con las nuevas figuras
-                                Collections.sort(formas, new Comparator<Figura>() {
-                                    @Override
-                                    public int compare(Figura t, Figura t1) {
-                                        return new Integer(t.getY3()).compareTo(t1.getY3());
-                                    }
-                                });
                                 enlaces.set(i, aux);
                                 enlaces.add(nuevo);
                                 // Se vuelven a dibujar todas las figuras y los enlaces de flujos
@@ -840,8 +730,10 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
+    int ids =0;
     public void ini() {
         idFlujos = 0;
+        ids=0;
         consola.setText("");
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Flujo crear = new Flujo();
@@ -850,15 +742,10 @@ public class FXMLDocumentController implements Initializable {
         InicioFin inicio = new InicioFin();
         String respuesta = "";
         while (validacion == false) {
-            //respuesta = JOptionPane.showInputDialog("Ingrese texto que va en el inicio: ");
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Texto de inicio.");
             Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/Inicio.png").toExternalForm());
             ImageView imageView = new ImageView(image);
-            /* DialogPane dialogPane = dialog.getDialogPane();
-dialogPane.getStylesheets().add(
-   getClass().getResource("/Clases_Figura/Estilos/Alertas.css").toExternalForm());
-dialogPane.getStyleClass().add("myDialog");*/
             dialog.setGraphic(imageView);
             dialog.setHeaderText("");
             dialog.setContentText("Ingrese el texto que va en el inicio:");
@@ -911,6 +798,15 @@ dialogPane.getStyleClass().add("myDialog");*/
         inicio.setFlujoInferior(idFlujos);
         inicio.setFlujoSuperior(-2);
         enlaces.add(crear);
+        inicio.setID(ids);
+        ids++;
+        fin.setID(ids);
+        ids++;
+        
+        inicio.setAnterior(-2);
+        inicio.setSiguiente(fin.getID());
+        fin.setAnterior(inicio.getID());
+        fin.setSiguiente(-1);
         formas.add(inicio);
         formas.add(fin);
         idFlujos++;

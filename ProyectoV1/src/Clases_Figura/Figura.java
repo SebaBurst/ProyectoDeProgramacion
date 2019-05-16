@@ -8,7 +8,37 @@ public abstract class Figura {
     public int medioX=0;
     public int FlujoSuperior;
     public int FlujoInferior;
+    public int anterior;
+    public int siguiente;
+    private int ID;
+    
 
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+    public int getAnterior() {
+        return anterior;
+    }
+
+    public void setAnterior(int anterior) {
+        this.anterior = anterior;
+    }
+
+    public int getSiguiente() {
+        return siguiente;
+    }
+
+    public void setSiguiente(int siguiente) {
+        this.siguiente = siguiente;
+    }
+    
+    
+    
+    
     public int getFlujoSuperior() {
         return FlujoSuperior;
     }

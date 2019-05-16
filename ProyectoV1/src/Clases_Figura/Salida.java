@@ -27,12 +27,18 @@ public class Salida extends Figura{
         int y1=y;
         int x2=ix;
         if(this.getTextoFigura().length()>15){
-            ix= x-180;
+            
+            System.out.println("Punto Medio: "+x);
+            int diferencia = this.getTextoFigura().length()-15;
+            ix= x-90-(diferencia*7);
+            System.out.println("Diferencia: "+diferencia);
+            System.out.println("X: "+ix);
             x1=ix;
             y1=y;
             x2=ix;
-             
-        for (int j = 0; j < 370; j++) {
+            int total = (190)+(diferencia*14);
+            System.out.println("Total: "+total);
+        for (int j = 0; j < total; j++) {
             x1=x2;
             y1=y;
             for (int i = 0; i < 70; i++) {
@@ -41,6 +47,7 @@ public class Salida extends Figura{
             x2+=1;
         }
 
+        /*
         this.setX1(ix);
         this.setY1(y);
         this.setX2(ix+370);
@@ -59,7 +66,7 @@ public class Salida extends Figura{
         lienzo.strokeLine(ix,y, ix-70,y+70);
         lienzo.strokeLine(ix-70,y+70, ix+300, y+70);
         lienzo.strokeLine(ix+300,y+70, ix+370, y);
-            
+          */  
         }
         else{
              ix= x-90;

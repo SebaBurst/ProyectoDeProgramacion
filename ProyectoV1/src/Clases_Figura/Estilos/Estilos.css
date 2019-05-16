@@ -18,6 +18,9 @@ and open the template in the editor.
     
     
 }
+.fondo{
+    -fx-background-color: #efebe3;
+}
 
 .etapa:hover{
     -fx-background-color: #e3dbc7;

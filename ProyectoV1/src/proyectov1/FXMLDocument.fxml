@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="root" prefHeight="664.0" prefWidth="1171.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectov1.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="664.0" prefWidth="1171.0" styleClass="fondo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectov1.FXMLDocumentController">
     <children>
       <ScrollPane layoutY="75.0" prefHeight="590.0" prefWidth="934.0" styleClass="canvas" stylesheets="@../Clases_Figura/Estilos/Estilos.css">
          <content>
@@ -34,5 +34,6 @@
       <Button fx:id="Decision" layoutX="1065.0" layoutY="219.0" onAction="#dibujarDecision" prefHeight="107.0" prefWidth="100.0" styleClass="decision" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="Ciclo" layoutX="958.0" layoutY="347.0" onAction="#dibujarCiclo" prefHeight="107.0" prefWidth="100.0" styleClass="ciclo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="Salida" layoutX="1067.0" layoutY="346.0" onAction="#dibujarSalida" prefHeight="107.0" prefWidth="100.0" styleClass="salida" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="moverTodo" layoutX="567.0" layoutY="-1.0" mnemonicParsing="false" onAction="#moverDiagrama" prefHeight="75.0" prefWidth="88.0" text="Button" />
     </children>
 </AnchorPane>
