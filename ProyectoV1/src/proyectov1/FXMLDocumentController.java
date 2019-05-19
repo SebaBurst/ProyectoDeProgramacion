@@ -424,12 +424,16 @@ public class FXMLDocumentController implements Initializable {
         click = ingresarTexto(entrada, "Entrada");
         if (click == true) {
             boolean valida = true;
-            Pattern p = Pattern.compile("[A-Za-z]{1,7}\\=[A-Za-z0-9|0-9]{1,7}$");
+            Pattern p = Pattern.compile("[A-Za-z]{1,7}\\=[A-Za-z0-9|0-9]{1,7}((\\,)?[A-Za-z]{1,7}\\=[A-Za-z|0-9]{1,7}){0,3}$");
             Matcher matcher = p.matcher(entrada.getTextoFigura());
             boolean cadenaValida = matcher.matches();
-            Variable variable = new Variable();
-            if (cadenaValida) {
-                if (!variables.isEmpty()) {
+            String comas = "";
+            int cantidadComas;
+            if(cadenaValida){
+            comas=entrada.getTextoFigura().replaceAll("[\\sA-Za-z0-9\\=]", "");
+            cantidadComas=comas.length();
+            if(cantidadComas == 0){
+                if(!variables.isEmpty()){
                     int posicionValidar = entrada.getTextoFigura().indexOf("=");
                     for (int i = 0; i < variables.size(); i++) {
                         if (entrada.getTextoFigura().substring(0, posicionValidar).equals(variables.get(i).getNombre())) {
@@ -450,13 +454,265 @@ public class FXMLDocumentController implements Initializable {
                         alert.showAndWait();
                     }
                 }
-                if (valida == true) {
-                    click = true;
+                if(valida){
                     int posicion = entrada.getTextoFigura().indexOf("=");
+                    Variable variable = new Variable();
                     variable.setNombre(entrada.getTextoFigura().substring(0, posicion));
                     variable.setTexto(entrada.getTextoFigura().substring(entrada.getTextoFigura().indexOf("=") + 1));
+                    variables.add(variable);
                 }
-            } else {
+            }else if(cantidadComas == 1){
+                int lastComa = entrada.getTextoFigura().lastIndexOf(",");
+                int lastEqual = entrada.getTextoFigura().lastIndexOf("=");
+                int firstEqual = entrada.getTextoFigura().indexOf("=");
+                String nombre2 = entrada.getTextoFigura().substring(lastComa+1, lastEqual);
+                String der2 = entrada.getTextoFigura().substring(lastEqual+1);
+                String nombre1 = entrada.getTextoFigura().substring(0, firstEqual);
+                String der1 = entrada.getTextoFigura().substring(firstEqual+1, lastComa);
+                System.out.println("la var1 nombre: "+nombre1);
+                System.out.println("la var1 texto: "+der1);
+                System.out.println("la var2 nombre: "+nombre2);
+                System.out.println("la var2 texto: "+der2);
+                if(nombre1.equals(nombre2)){
+                    click = false;
+                    valida = false;
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                    ImageView imageVie = new ImageView(images);
+                    alert.setGraphic(imageVie);
+                    alert.setTitle("Nombre.");
+                    alert.setHeaderText("Ocurrio un error.");
+                    alert.setContentText("Los nombres ingresados no pueden ser iguales.");
+                    alert.showAndWait();
+                }
+                if(!variables.isEmpty()){
+                    for (int i = 0; i < variables.size(); i++) {
+                        if (nombre1.equals(variables.get(i).getNombre())) {
+                            click = false;
+                            valida = false;
+                        }
+                    }
+                    for (int i = 0; i < variables.size(); i++) {
+                        if (nombre2.equals(variables.get(i).getNombre())) {
+                            click = false;
+                            valida = false;
+                        }
+                    }
+                }
+                if (valida == false) {
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                        ImageView imageVie = new ImageView(images);
+                        alert.setGraphic(imageVie);
+                        alert.setTitle("Nombre.");
+                        alert.setHeaderText("Ocurrio un error.");
+                        alert.setContentText("Alguno de los nombres ingresados ya esta en uso.");
+                        alert.showAndWait();
+                    }
+                if(valida){
+                    Variable variable1 = new Variable();
+                    Variable variable2 = new Variable();
+                    variable1.setNombre(nombre1);
+                    variable1.setTexto(der1);
+                    variable2.setNombre(nombre2);
+                    variable2.setTexto(der2);
+                    variables.add(variable1);
+                    variables.add(variable2);
+                }
+            }else if(cantidadComas == 2){
+                int lastComa = entrada.getTextoFigura().lastIndexOf(",");
+                int lastEqual = entrada.getTextoFigura().lastIndexOf("=");
+                int firstEqual = entrada.getTextoFigura().indexOf("=");
+                String nombre3 = entrada.getTextoFigura().substring(lastComa+1, lastEqual);
+                String der3 = entrada.getTextoFigura().substring(lastEqual+1);
+                entrada.setTextoFigura(entrada.getTextoFigura().substring(0, lastComa-1));
+                lastComa = entrada.getTextoFigura().lastIndexOf(",");
+                lastEqual = entrada.getTextoFigura().lastIndexOf("=");
+                firstEqual = entrada.getTextoFigura().indexOf("=");
+                String nombre2 = entrada.getTextoFigura().substring(lastComa+1, lastEqual);
+                String der2 = entrada.getTextoFigura().substring(lastEqual+1);
+                String nombre1 = entrada.getTextoFigura().substring(0, firstEqual);
+                String der1 = entrada.getTextoFigura().substring(firstEqual+1, lastComa);
+                System.out.println("la var1 nombre: "+nombre1);
+                System.out.println("la var1 texto: "+der1);
+                System.out.println("la var2 nombre: "+nombre2);
+                System.out.println("la var2 texto: "+der2);
+                System.out.println("la var3 nombre: "+nombre3);
+                System.out.println("la var3 texto: "+der3);
+                if(nombre1.equals(nombre2) || nombre1.equals(nombre3) || nombre2.equals(nombre3)){
+                    click = false;
+                    valida = false;
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                    ImageView imageVie = new ImageView(images);
+                    alert.setGraphic(imageVie);
+                    alert.setTitle("Nombre.");
+                    alert.setHeaderText("Ocurrio un error.");
+                    alert.setContentText("Los nombres ingresados no pueden ser iguales.");
+                    alert.showAndWait();
+                }
+                if(!variables.isEmpty()){
+                    for (int i = 0; i < variables.size(); i++) {
+                        if (nombre1.equals(variables.get(i).getNombre())) {
+                            click = false;
+                            valida = false;
+                        }
+                    }
+                    for (int i = 0; i < variables.size(); i++) {
+                        if (nombre2.equals(variables.get(i).getNombre())) {
+                            click = false;
+                            valida = false;
+                        }
+                    }
+                    for (int i = 0; i < variables.size(); i++) {
+                        if (nombre3.equals(variables.get(i).getNombre())) {
+                            click = false;
+                            valida = false;
+                        }
+                    }
+                }
+                if (valida == false) {
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                        ImageView imageVie = new ImageView(images);
+                        alert.setGraphic(imageVie);
+                        alert.setTitle("Nombre.");
+                        alert.setHeaderText("Ocurrio un error.");
+                        alert.setContentText("Alguno de los nombres ingresados ya esta en uso.");
+                        alert.showAndWait();
+                    }
+                if(valida){
+                    Variable variable1 = new Variable();
+                    Variable variable2 = new Variable();
+                    Variable variable3 = new Variable();
+                    variable1.setNombre(nombre1);
+                    variable1.setTexto(der1);
+                    variable2.setNombre(nombre2);
+                    variable2.setTexto(der2);
+                    variable3.setNombre(nombre3);
+                    variable3.setTexto(der3);
+                    variables.add(variable1);
+                    variables.add(variable2);
+                    variables.add(variable3);
+                }
+            }else if(cantidadComas == 3){
+                int lastComa = entrada.getTextoFigura().lastIndexOf(",");
+                int lastEqual = entrada.getTextoFigura().lastIndexOf("=");
+                int firstEqual = entrada.getTextoFigura().indexOf("=");
+                String nombre4 = entrada.getTextoFigura().substring(lastComa+1, lastEqual);
+                String der4 = entrada.getTextoFigura().substring(lastEqual+1);
+                entrada.setTextoFigura(entrada.getTextoFigura().substring(0, lastComa));
+                lastComa = entrada.getTextoFigura().lastIndexOf(",");
+                lastEqual = entrada.getTextoFigura().lastIndexOf("=");
+                firstEqual = entrada.getTextoFigura().indexOf("=");
+                String nombre3 = entrada.getTextoFigura().substring(lastComa+1, lastEqual);
+                String der3 = entrada.getTextoFigura().substring(lastEqual+1);
+                entrada.setTextoFigura(entrada.getTextoFigura().substring(0, lastComa));
+                lastComa = entrada.getTextoFigura().lastIndexOf(",");
+                lastEqual = entrada.getTextoFigura().lastIndexOf("=");
+                firstEqual = entrada.getTextoFigura().indexOf("=");
+                String nombre2 = entrada.getTextoFigura().substring(lastComa+1, lastEqual);
+                String der2 = entrada.getTextoFigura().substring(lastEqual+1);
+                String nombre1 = entrada.getTextoFigura().substring(0, firstEqual);
+                String der1 = entrada.getTextoFigura().substring(firstEqual+1, lastComa);
+                System.out.println("la var1 nombre: "+nombre1);
+                System.out.println("la var1 texto: "+der1);
+                System.out.println("la var2 nombre: "+nombre2);
+                System.out.println("la var2 texto: "+der2);
+                System.out.println("la var3 nombre: "+nombre3);
+                System.out.println("la var3 texto: "+der3);
+                System.out.println("la var4 nombre: "+nombre4);
+                System.out.println("la var4 texto: "+der4);
+                if(nombre1.equals(nombre2) || nombre1.equals(nombre3) || nombre1.equals(nombre4)){
+                    click = false;
+                    valida = false;
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                    ImageView imageVie = new ImageView(images);
+                    alert.setGraphic(imageVie);
+                    alert.setTitle("Nombre.");
+                    alert.setHeaderText("Ocurrio un error.");
+                    alert.setContentText("Los nombres ingresados no pueden ser iguales.");
+                    alert.showAndWait();
+                }else if(nombre2.equals(nombre3) || nombre2.equals(nombre4)){
+                    click = false;
+                    valida = false;
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                    ImageView imageVie = new ImageView(images);
+                    alert.setGraphic(imageVie);
+                    alert.setTitle("Nombre.");
+                    alert.setHeaderText("Ocurrio un error.");
+                    alert.setContentText("Los nombres ingresados no pueden ser iguales.");
+                    alert.showAndWait();
+                }else if(nombre3.equals(nombre4)){
+                    click = false;
+                    valida = false;
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                    ImageView imageVie = new ImageView(images);
+                    alert.setGraphic(imageVie);
+                    alert.setTitle("Nombre.");
+                    alert.setHeaderText("Ocurrio un error.");
+                    alert.setContentText("Los nombres ingresados no pueden ser iguales.");
+                    alert.showAndWait();
+                }
+                if(!variables.isEmpty()){
+                    for (int i = 0; i < variables.size(); i++) {
+                        if (nombre1.equals(variables.get(i).getNombre())) {
+                            click = false;
+                            valida = false;
+                        }
+                    }
+                    for (int i = 0; i < variables.size(); i++) {
+                        if (nombre2.equals(variables.get(i).getNombre())) {
+                            click = false;
+                            valida = false;
+                        }
+                    }
+                    for (int i = 0; i < variables.size(); i++) {
+                        if (nombre3.equals(variables.get(i).getNombre())) {
+                            click = false;
+                            valida = false;
+                        }
+                    }
+                    for (int i = 0; i < variables.size(); i++) {
+                        if (nombre4.equals(variables.get(i).getNombre())) {
+                            click = false;
+                            valida = false;
+                        }
+                    }
+                }
+                if (valida == false) {
+                        Alert alert = new Alert(AlertType.INFORMATION);
+                        Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                        ImageView imageVie = new ImageView(images);
+                        alert.setGraphic(imageVie);
+                        alert.setTitle("Nombre.");
+                        alert.setHeaderText("Ocurrio un error.");
+                        alert.setContentText("Alguno de los nombres ingresados ya esta en uso.");
+                        alert.showAndWait();
+                    }
+                if(valida){
+                    Variable variable1 = new Variable();
+                    Variable variable2 = new Variable();
+                    Variable variable3 = new Variable();
+                    Variable variable4 = new Variable();
+                    variable1.setNombre(nombre1);
+                    variable1.setTexto(der1);
+                    variable2.setNombre(nombre2);
+                    variable2.setTexto(der2);
+                    variable3.setNombre(nombre3);
+                    variable3.setTexto(der3);
+                    variable4.setNombre(nombre4);
+                    variable4.setTexto(der4);
+                    variables.add(variable1);
+                    variables.add(variable2);
+                    variables.add(variable3);
+                    variables.add(variable4);
+                }
+            }
+        } else {
                 click = false;
                 Alert alert = new Alert(AlertType.INFORMATION);
                 Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
@@ -469,7 +725,7 @@ public class FXMLDocumentController implements Initializable {
             }
 
             if (click == true) {
-                variables.add(variable);
+                Variable variable = new Variable();
                 separarFlujo(entrada, variable);
 
             }
