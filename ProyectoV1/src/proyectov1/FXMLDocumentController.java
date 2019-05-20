@@ -377,6 +377,7 @@ public class FXMLDocumentController implements Initializable {
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
             crear.setTextoFigura(result.get());
+            System.out.println("Figurita: "+crear.getTextoFigura());
         }
         if (crear.getTextoFigura() == null || crear.getTextoFigura().replaceAll(" ", "").equals("")) {
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -386,7 +387,7 @@ public class FXMLDocumentController implements Initializable {
             alert.showAndWait();
             return false;
 
-        } else if (crear.getTextoFigura().length() > 15) {
+        } else if (crear.getTextoFigura().length() > 60) {
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Cantidad de caracteres.");
             alert.setHeaderText("Ocurrio un error.");
@@ -405,11 +406,12 @@ public class FXMLDocumentController implements Initializable {
      */
     @FXML private void dibujarEtapa(ActionEvent event) throws Exception {
         Variable variable = new Variable();
+        int cantidad=0;
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Etapa etapa = new Etapa();
         click = ingresarTexto(etapa, "etapa");
         if (click == true) {
-            separarFlujo(etapa, variable);
+            separarFlujo(etapa, cantidad);
         }
     }
 
@@ -421,7 +423,10 @@ public class FXMLDocumentController implements Initializable {
     private void dibujarEntrada(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Entrada entrada = new Entrada();
+        int cantidad=0;
         click = ingresarTexto(entrada, "Entrada");
+        String aux= entrada.getTextoFigura();
+        System.out.println("Aux: "+aux);
         if (click == true) {
             boolean valida = true;
             Pattern p = Pattern.compile("[A-Za-z]{1,7}\\=[A-Za-z0-9|0-9]{1,7}((\\,)?[A-Za-z]{1,7}\\=[A-Za-z|0-9]{1,7}){0,3}$");
@@ -460,6 +465,7 @@ public class FXMLDocumentController implements Initializable {
                     variable.setNombre(entrada.getTextoFigura().substring(0, posicion));
                     variable.setTexto(entrada.getTextoFigura().substring(entrada.getTextoFigura().indexOf("=") + 1));
                     variables.add(variable);
+                    cantidad =1;
                 }
             }else if(cantidadComas == 1){
                 int lastComa = entrada.getTextoFigura().lastIndexOf(",");
@@ -518,6 +524,7 @@ public class FXMLDocumentController implements Initializable {
                     variable2.setTexto(der2);
                     variables.add(variable1);
                     variables.add(variable2);
+                    cantidad=2;
                 }
             }else if(cantidadComas == 2){
                 int lastComa = entrada.getTextoFigura().lastIndexOf(",");
@@ -594,6 +601,7 @@ public class FXMLDocumentController implements Initializable {
                     variables.add(variable1);
                     variables.add(variable2);
                     variables.add(variable3);
+                    cantidad=3;
                 }
             }else if(cantidadComas == 3){
                 int lastComa = entrada.getTextoFigura().lastIndexOf(",");
@@ -710,6 +718,7 @@ public class FXMLDocumentController implements Initializable {
                     variables.add(variable2);
                     variables.add(variable3);
                     variables.add(variable4);
+                    cantidad=4;
                 }
             }
         } else {
@@ -726,7 +735,9 @@ public class FXMLDocumentController implements Initializable {
 
             if (click == true) {
                 Variable variable = new Variable();
-                separarFlujo(entrada, variable);
+                System.out.println("Figura antes: "+entrada.getTextoFigura());
+                entrada.setTextoFigura(aux);
+                separarFlujo(entrada, cantidad);
 
             }
         }
@@ -735,13 +746,12 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void dibujarDecision(ActionEvent event) {
-        Variable variable = new Variable();
-
+        int cantidad=0;
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Decision decision = new Decision();
         click=ingresarTexto(decision,"Decision");
         if (click == true) {
-            separarFlujo(decision, variable);
+            separarFlujo(decision, cantidad);
 
         }
     }
@@ -752,8 +762,9 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Documento documento = new Documento();
         click = ingresarTexto(documento, "documento");
+        int cantidad=0;
         if (click == true) {
-            separarFlujo(documento, variable);
+            separarFlujo(documento,cantidad);
 
         }
     }
@@ -768,9 +779,10 @@ public class FXMLDocumentController implements Initializable {
         Variable variable = new Variable();
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Ciclo ciclo = new Ciclo();
+        int cantidad=0;
         click = ingresarTexto(ciclo, "ciclo");
         if (click == true) {
-            separarFlujo(ciclo, variable);
+            separarFlujo(ciclo, cantidad);
         }
     }
 
@@ -784,10 +796,11 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Variable variable = new Variable();
         Salida salida = new Salida();
+        int cantidad=0;
         click = ingresarTexto(salida, "salida");
         if (click == true) {
 
-            separarFlujo(salida, variable);
+            separarFlujo(salida, cantidad);
         }
     }
 
@@ -905,7 +918,7 @@ public class FXMLDocumentController implements Initializable {
      *
      * @param n - figura a dibujar.
      */
-    public void separarFlujo(Figura n, Variable variable) {//Metodo para dentro de un flujo
+    public void separarFlujo(Figura n, int variable) {//Metodo para dentro de un flujo
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda para poder detectar XY de un click
             Figura mover = detectarFigura1((int) e.getX(), (int) e.getY());
@@ -964,15 +977,22 @@ public class FXMLDocumentController implements Initializable {
                                 // se anula la posibilidad de seguir presionando el canvas
                                 lienzo.setOnMouseClicked(null);
                                 // se detiene el metodo para que no entre a un ciclo infinito.
-                                if (n instanceof Entrada && variable != null) {
-                                    consola.setText(consola.getText() + "\n" + variable.getNombre() + " ← " + variable.getTexto());
+                                if (n instanceof Entrada && variable != 0) {
+                                    int size= variables.size();
+                                    size= size-variable;
+                                    for (int j = size; j < variables.size(); j++) {
+                                        Variable variable2 = variables.get(j);
+                                        consola.setText(consola.getText() + "\n" + variable2.getNombre() + " ← " + variable2.getTexto());
+
+                                    }
+                                    
 
                                 }
                                 break;
 
                             }
                         } else {
-                            if (n instanceof Entrada && variable != null) {
+                            if (n instanceof Entrada && variable != 0) {
                                 System.out.println("Me caigoooo");
                                 variables.remove(variable);
                             }
@@ -1067,6 +1087,8 @@ public class FXMLDocumentController implements Initializable {
         formas.add(fin);
         idFlujos++;
         moverFigura(cuadro, lienzo);
+        consola.setText("*****Consola Iniciada*****");
+        
     }
 
     @Override

@@ -17,7 +17,7 @@ import javafx.scene.text.FontWeight;
  */
 public class Salida extends Figura{
 
-    @Override
+   @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
         lienzo.setStroke(Color.valueOf("#fec973"));
         this.setMedioX(x);
@@ -27,16 +27,17 @@ public class Salida extends Figura{
         int y1=y;
         int x2=ix;
         if(this.getTextoFigura().length()>15){
-            
             System.out.println("Punto Medio: "+x);
             int diferencia = this.getTextoFigura().length()-15;
-            ix= x-90-(diferencia*7);
+            System.out.println("Diferencia actual: "+diferencia);
+            ix= x-90-(diferencia*6);
             System.out.println("Diferencia: "+diferencia);
             System.out.println("X: "+ix);
             x1=ix;
             y1=y;
             x2=ix;
-            int total = (190)+(diferencia*14);
+            int total = (190)+(diferencia*12);
+            int total2 = (total)-70;
             System.out.println("Total: "+total);
         for (int j = 0; j < total; j++) {
             x1=x2;
@@ -47,26 +48,26 @@ public class Salida extends Figura{
             x2+=1;
         }
 
-        /*
+      
         this.setX1(ix);
         this.setY1(y);
-        this.setX2(ix+370);
+        this.setX2(ix+total);
         this.setY2(y);
         this.setX3(ix-70);
         this.setY3(y+70);
-        this.setX4(ix+120);
+        this.setX4(ix+total2);
         this.setY4(y+70);
         
         lienzo.setStroke(Color.valueOf("#d5700d"));
         lienzo.setLineWidth(3.0);
         System.out.println("ix: "+ix);
-        lienzo.strokeLine(ix,y, ix+370, y);
+        lienzo.strokeLine(ix,y, ix+total, y);
         
         
         lienzo.strokeLine(ix,y, ix-70,y+70);
-        lienzo.strokeLine(ix-70,y+70, ix+300, y+70);
-        lienzo.strokeLine(ix+300,y+70, ix+370, y);
-          */  
+        lienzo.strokeLine(ix-70,y+70, ix+total2, y+70);
+        lienzo.strokeLine(ix+total2,y+70, ix+total, y);
+           
         }
         else{
              ix= x-90;
@@ -105,7 +106,7 @@ public class Salida extends Figura{
         
        
         lienzo.setStroke(Color.WHITE);
-        lienzo.setFont(Font.font("Arial", FontWeight.LIGHT, FontPosture.REGULAR, 15.0));
+        lienzo.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 15.0));
         lienzo.setFill(Color.BLACK);
         lienzo.fillText(this.getTextoFigura(), Math.round(ix),Math.round(y+35));//y
     }
