@@ -34,6 +34,6 @@
       <Button fx:id="Decision" layoutX="1065.0" layoutY="219.0" onAction="#dibujarDecision" prefHeight="107.0" prefWidth="100.0" styleClass="decision" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="Ciclo" layoutX="958.0" layoutY="347.0" onAction="#dibujarCiclo" prefHeight="107.0" prefWidth="100.0" styleClass="ciclo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="Salida" layoutX="1067.0" layoutY="346.0" onAction="#dibujarSalida" prefHeight="107.0" prefWidth="100.0" styleClass="salida" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
-      <Button fx:id="moverTodo" layoutX="567.0" layoutY="-1.0" mnemonicParsing="false" onAction="#moverDiagrama" prefHeight="75.0" prefWidth="88.0" text="Button" />
+      <Button fx:id="moverTodo" layoutX="574.0" mnemonicParsing="false" onAction="#moverDiagrama" prefHeight="75.0" prefWidth="88.0" styleClass="mover" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
     </children>
 </AnchorPane>

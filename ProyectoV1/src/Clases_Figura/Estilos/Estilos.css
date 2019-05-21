@@ -121,3 +121,15 @@ and open the template in the editor.
     
     
 }
+
+
+.mover{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/Move.png');  
+}
+.mover:hover{
+    -fx-background-color: #e3dbc7;
+    
+    
+}
