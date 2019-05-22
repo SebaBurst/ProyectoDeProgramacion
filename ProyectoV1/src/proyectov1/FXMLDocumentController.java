@@ -167,10 +167,8 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo.
         lienzo.setOnMouseDragged(e -> {
             if (inicio == true) {
-                System.out.println("Entre a In");
                 in = (int) e.getX();
                 yn = (int) e.getY();
-                System.out.println("Innn: " + in);
                 inicio = false;
 
             } else {
@@ -181,10 +179,12 @@ public class FXMLDocumentController implements Initializable {
                 int df2 = diferencia2 - (yn);
                 for (int i = 0; i < formas.size(); i++) {
                     Figura a = formas.get(i);
-                    System.out.println("In: " + in);
-                    System.out.println("Medio: " + (a.getMedioX() + df));
-                    System.out.println("Diferencia suma: " + df);
-
+                    System.out.println("Diferencia suma df: " + df);
+                    System.out.println("Diferencia suma df2: "+df2);
+                    System.out.println("AuxX:"+a.getMedioX());
+                    System.out.println("AuxY:"+a.getMedioY());
+                    System.out.println("Diferencia x: "+(a.getMedioX()+df));
+                    System.out.println("Diferencia y: "+(a.getMedioY()+df2));
                     for (int j = 0; j < enlaces.size(); j++) {
                         Flujo aux = enlaces.get(j);
                         if (aux.getId() == a.getFlujoInferior()) {
@@ -960,9 +960,9 @@ public class FXMLDocumentController implements Initializable {
             if (mover == null) {
                 for (int i = 0; i < enlaces.size(); i++) {// se recorre el arreglo de lineas de flujo
                     Flujo aux = enlaces.get(i);// Se guarda el enlace i en una variable auxiliar
-                    if ((aux.getX() == aux.getX1()) || aux.getX1() >= aux.getX() - 40 || aux.getX1() <= aux.getX() + 40) {
+                if ((int) e.getX() >= aux.getX() && (int) e.getY() >= aux.getY() && (int) e.getY() <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
                         System.out.println("son iguales");
-                        if ((int) e.getX() <= aux.getX() + 30 && (int) e.getX() >= aux.getX() - 30) {
+                        if ((int) e.getX() >= aux.getX() ) {
                             if ((int) e.getY() >= aux.getY() && (int) e.getY() <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
 
                                 // se guardan el X e Y en una variable individual

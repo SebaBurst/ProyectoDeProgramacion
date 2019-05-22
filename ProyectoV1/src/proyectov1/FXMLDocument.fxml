@@ -29,11 +29,17 @@
       <Button fx:id="Entrada" layoutX="957.0" layoutY="89.0" onAction="#dibujarEntrada" prefHeight="107.0" prefWidth="100.0" styleClass="entrada" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
         <Button fx:id="Etapa" layoutX="957.0" layoutY="219.0" onAction="#dibujarEtapa" prefHeight="107.0" prefWidth="100.0" styleClass="etapa" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="cut" layoutX="841.0" mnemonicParsing="false" onAction="#borrarFigura" prefHeight="75.0" prefWidth="88.0" styleClass="cortar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
-      <Button fx:id="borrarAll" layoutX="752.0" mnemonicParsing="false" onAction="#borrarAll" prefHeight="75.0" prefWidth="88.0" styleClass="limpiar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
-      <Button fx:id="Correr" layoutX="663.0" mnemonicParsing="false" onAction="#correr" prefHeight="75.0" prefWidth="88.0" styleClass="correr" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="borrarAll" layoutX="747.0" layoutY="-1.0" mnemonicParsing="false" onAction="#borrarAll" prefHeight="75.0" prefWidth="88.0" styleClass="limpiar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="Correr" layoutX="658.0" mnemonicParsing="false" onAction="#correr" prefHeight="75.0" prefWidth="88.0" styleClass="correr" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="Decision" layoutX="1065.0" layoutY="219.0" onAction="#dibujarDecision" prefHeight="107.0" prefWidth="100.0" styleClass="decision" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="Ciclo" layoutX="958.0" layoutY="347.0" onAction="#dibujarCiclo" prefHeight="107.0" prefWidth="100.0" styleClass="ciclo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="Salida" layoutX="1067.0" layoutY="346.0" onAction="#dibujarSalida" prefHeight="107.0" prefWidth="100.0" styleClass="salida" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
-      <Button fx:id="moverTodo" layoutX="574.0" mnemonicParsing="false" onAction="#moverDiagrama" prefHeight="75.0" prefWidth="88.0" styleClass="mover" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="moverTodo" layoutX="569.0" mnemonicParsing="false" onAction="#moverDiagrama" prefHeight="75.0" prefWidth="88.0" styleClass="mover" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="14.0" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ddc9b2" height="162.0" layoutX="13.0" layoutY="-86.0" stroke="#ddc9b2" strokeType="INSIDE" width="1.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ddc9b2" height="83.0" layoutX="839.0" layoutY="-8.0" stroke="#ddc9b2" strokeType="INSIDE" width="2.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ddc9b2" height="83.0" layoutX="747.0" layoutY="-8.0" stroke="#ddc9b2" strokeType="INSIDE" width="2.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ddc9b2" height="83.0" layoutX="659.0" layoutY="-8.0" stroke="#ddc9b2" strokeType="INSIDE" width="2.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ddc9b2" height="83.0" layoutX="568.0" layoutY="-8.0" stroke="#ddc9b2" strokeType="INSIDE" width="2.0" />
     </children>
 </AnchorPane>

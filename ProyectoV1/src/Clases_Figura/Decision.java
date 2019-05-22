@@ -38,7 +38,7 @@ public class Decision extends Figura{
         this.setX4(ix+120);
         this.setY4(y+70);
         
-        lienzo.setStroke(Color.valueOf("#8a08b8"));
+        lienzo.setStroke(Color.valueOf("#b44cd9"));
         lienzo.setLineWidth(3.0);
         
         for (int i = 0; i < 30; i++) {
@@ -54,7 +54,7 @@ public class Decision extends Figura{
         }
         
         System.out.println("ix: "+ix);
-        lienzo.setStroke(Color.valueOf("#311740"));
+        lienzo.setStroke(Color.valueOf("#8a08b8"));
         lienzo.strokeLine(x,y, x+100, y+30); //\
         lienzo.strokeLine(x,y, x-100,y+30);//
         lienzo.strokeLine(x-100,y+30, x, y+70);
