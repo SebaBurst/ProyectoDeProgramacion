@@ -102,8 +102,16 @@ public class Flujo {
         
         
         cuadro.setLineWidth(3.3);
+    
+    }
+        public void dibujarDecision(int x, int y, int y2, GraphicsContext lienzo) {
+        lienzo.setStroke(Color.valueOf("#5F04B4"));
+        lienzo.strokeLine(x-200, y + 120, x +200, y + 120);
+        lienzo.strokeLine(x+200, y + 30, x +200, y + 120);
+        lienzo.strokeLine(x-200, y + 30, x-200, y + 120);
+        lienzo.strokeLine(x+200, y + 30, x+100, y+30);
+        lienzo.strokeLine(x-100, y + 30, x-200, y+30);
 
-        
     }
 
 }

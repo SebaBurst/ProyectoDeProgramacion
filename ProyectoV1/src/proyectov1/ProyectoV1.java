@@ -5,6 +5,7 @@
  */
 package proyectov1;
 
+import Clases_Figura.Flujo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
  * @author Sebastian
  */
 public class ProyectoV1 extends Application {
+        public static Flujo dFlujo= new Flujo();
     
     @Override
     public void start(Stage stage) throws Exception {

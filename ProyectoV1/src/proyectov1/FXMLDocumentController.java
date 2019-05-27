@@ -181,7 +181,6 @@ public class FXMLDocumentController implements Initializable {
                 for (int i = 0; i < formas.size(); i++) {
                     Figura a = formas.get(i);
 
-
                     if (a.getMedioY() + df2 < 0) {
                         df2 = 0;
                     }
@@ -292,7 +291,12 @@ public class FXMLDocumentController implements Initializable {
                 fAux.dibujar(fAux.getX(), fAux.getY(), x, y, cuadro);
             }
             if (fAux.getId() == move.getFlujoInferior()) {// se pregunta si el Id del Aux es igual al Flujo inferior del eliminar
-                fAux.dibujar(x, y + 70, fAux.getX1(), fAux.getY2(), cuadro);
+                if (Aux instanceof Decision) {
+                    fAux.dibujar(x, y + 70 + 50, fAux.getX1(), fAux.getY2(), cuadro);
+                } else {
+                    fAux.dibujar(x, y + 70, fAux.getX1(), fAux.getY2(), cuadro);
+
+                }
 
             }
         }
@@ -466,8 +470,7 @@ public class FXMLDocumentController implements Initializable {
     private void dibujarEntrada(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Entrada entrada = new Entrada();
- 
-        
+
         int cantidad = 0;
         click = ingresarTexto(entrada, "Entrada");
         String aux = entrada.getTextoFigura();
@@ -972,7 +975,6 @@ public class FXMLDocumentController implements Initializable {
                 for (int i = 0; i < enlaces.size(); i++) {// se recorre el arreglo de lineas de flujo
                     Flujo aux = enlaces.get(i);// Se guarda el enlace i en una variable auxiliar
                     if ((int) e.getX() >= aux.getX() && (int) e.getY() >= aux.getY() && (int) e.getY() <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
-                        
 
                         // se guardan el X e Y en una variable individual
                         int f = (int) e.getY();
@@ -982,6 +984,12 @@ public class FXMLDocumentController implements Initializable {
                         nuevo.setId(idFlujos);
                         int opcion = 1;
                         int diferenciaY = f - aux.getY();
+
+                        if (n instanceof Decision) {
+                            proyectov1.ProyectoV1.dFlujo = nuevo;
+                            nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
+                            aux.dibujar(o, f + 70 + 50, aux.getX1(), aux.getY2(), cuadro);
+                        }
                         if (diferenciaY < 60) {
                             nuevo.dibujar(aux.getX(), aux.getY(), o, aux.getY() + 60, cuadro);
                             aux.dibujar(o, aux.getY() + 130, aux.getX1(), aux.getY2(), cuadro);
@@ -1000,7 +1008,7 @@ public class FXMLDocumentController implements Initializable {
                             n.dibujar(cuadro, o, f);
 
                         }
-                        
+
                         n.setFlujoSuperior(nuevo.getId());
                         idFlujos++;
                         n.setFlujoInferior(aux.getId());
@@ -1023,10 +1031,9 @@ public class FXMLDocumentController implements Initializable {
                             }
 
                         }
-                        if(n instanceof Ciclo){
-                        nuevo.setCiclo(ids);
-                        }
-                        else{
+                        if (n instanceof Ciclo) {
+                            nuevo.setCiclo(ids);
+                        } else {
                             nuevo.setCiclo(-7);
                         }
                         ids++;
@@ -1043,7 +1050,7 @@ public class FXMLDocumentController implements Initializable {
                                         ((Ciclo) ciclo).setConexionH(nuevo);
                                         aux.setCiclo(-7);
                                         System.out.println("Encontre un Ciclo");
-                                        
+
                                     }
                                 }
                             }
