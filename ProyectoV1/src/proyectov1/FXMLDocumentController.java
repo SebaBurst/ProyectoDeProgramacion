@@ -86,56 +86,97 @@ public class FXMLDocumentController implements Initializable {
             GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el Lienzo del programa
 
             Figura aux = formas.get(0);
+
+            try {
+                Figura corriendo = aux;
+                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_naranja.png"));
+                cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+
+                Thread.sleep(2000);
+                cuadro.clearRect(corriendo.getMedioX() - 230, corriendo.getMedioY(), 60, 60);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
             System.out.println("Figura: " + formas.get(0).getTextoFigura());
             for (int i = 0; aux.getSiguiente() != -1; i++) {
+
                 for (int j = 0; j < formas.size(); j++) {
                     if (formas.get(j).getID() == aux.getSiguiente()) {
                         System.out.println("Figura: " + formas.get(j).getTextoFigura());
                         aux = formas.get(j);
                         try {
-                            Figura corriendo = formas.get(j);
-                            if (corriendo instanceof InicioFin) {
-                                consola.setText(consola.getText() + "\n" + corriendo.getTextoFigura());
 
-                                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha.png"));
-                                cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
-                            }
-                            if (corriendo instanceof Etapa) {
-                                consola.setText(consola.getText() + "\n" + "Etapa: " + corriendo.getTextoFigura());
+                            Figura corriendo = aux;
+                            if (aux instanceof Entrada) {
+                                System.out.println("Soy una entrada");
+                                String expression = corriendo.getTextoFigura();
+                                expression = expression.replaceAll("=", ")");
+                                expression = expression.replaceAll(",", "(");
+                                System.out.println("expression= " + expression);
+                                String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[-+*/()])|(?=[-+*/()])");
 
-                                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
-                                cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
-                            }
-                            if (corriendo instanceof Entrada) {
+                                ArrayList<String> nombresVar = new ArrayList();
+                                for (int k = 0; k < tokens.length; k++) {
+                                    if (tokens[k].equals(")")) {
+                                        nombresVar.add(tokens[k - 1]);
+                                    }
 
-                                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_verde.png"));
-                                cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
-                            }
-                            if (corriendo instanceof Documento) {
-                                consola.setText(consola.getText() + "\n" + "Documento" + corriendo.getTextoFigura());
+                                }
 
-                                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_roja.png"));
-                                cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+                                String var = tokens[0];
+                                for (String token : tokens) {
+                                    System.out.println(token);
+                                }
+                                System.out.println("Var: " + var);
+                                ArrayList<Variable> vars = new ArrayList();
+                                Variable mostrar = null;
+                                for (int t = 0; t < nombresVar.size(); t++) {
+                                    for (int k = 0; k < variables.size(); k++) {
+                                        if (variables.get(k).getNombre().equals(nombresVar.get(t))) {
+                                            Variable variable = variables.get(k);
+                                            vars.add(variable);
+                                        }
 
-                            }
-                            if (corriendo instanceof Decision) {
-                                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_morado.png"));
-                                cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
-                            }
-                            if (corriendo instanceof Ciclo) {
-                                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_rosa.png"));
-                                cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
-                            }
-                            if (corriendo instanceof Salida) {
+                                    }
+                                }
 
-                                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_naranja.png"));
-                                cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+                                for (int k = 0; k < vars.size(); k++) {
+                                    consola.setText(consola.getText() + "\n" + vars.get(k).getNombre() + " ← " + vars.get(k).getTexto());
+
+                                }
                             }
+
+                            
+                                if (aux instanceof Etapa) {
+                                System.out.println("Soy una etapa");
+                                String expression = corriendo.getTextoFigura();
+                                expression = expression.replaceAll("=", "_");
+                                System.out.println("expression= " + expression);
+                                String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[-+*/()_])|(?=[-+*/()_])");
+
+                                Variable m= null;
+                                String var = tokens[0];
+                                    for (int k = 0; k < variables.size(); k++) {
+                                        if(variables.get(k).getNombre().equals(var)){
+                                            m=variables.get(k);
+                                        }
+                                    }
+                                    if(m!=null){
+                                    consola.setText(consola.getText() + "\n" + m.getNombre() + " ← " +m.getTexto());
+                                    }
+                            }
+                            
+                            
+                            Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
+                            cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+
                             Thread.sleep(2000);
                             cuadro.clearRect(corriendo.getMedioX() - 230, corriendo.getMedioY(), 60, 60);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
+
                     }
                 }
 
@@ -626,6 +667,7 @@ public class FXMLDocumentController implements Initializable {
                             System.out.println(posicionesVariablesEnArrayTokens.get(i));
                         }
                         //
+                        boolean existe =false;
                         if(!variablesEnTokens.isEmpty()){
                             System.out.println("variablesEnTokens no esta vacio");
                             for(int i = 0; i<variablesEnTokens.size(); i++){
@@ -635,7 +677,14 @@ public class FXMLDocumentController implements Initializable {
                                     System.out.println(variables.get(j).getNombre());
                                     if(variablesEnTokens.get(i).equals(variables.get(j).getNombre())){
                                         valoresVariables.add(variables.get(j).getTexto());
+                                        existe=true;
                                     }
+                                }
+                                if(existe==false){
+                                    valoresVariables.add("0");
+                                }
+                                else{
+                                    existe=false;
                                 }
                             }
                             System.out.println("valores de variables en arraytokens");
