@@ -17,6 +17,17 @@ import javafx.scene.text.FontWeight;
  */
 public class Ciclo extends Figura {
 
+    Flujo conexionH;
+
+    public Flujo getConexionH() {
+        return conexionH;
+    }
+
+    public void setConexionH(Flujo conexionH) {
+        this.conexionH = conexionH;
+    }
+    
+    
     @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
         lienzo.setStroke(Color.valueOf("#ffa8b8"));
@@ -58,6 +69,20 @@ public class Ciclo extends Figura {
         lienzo.setFont(Font.font("Verdana", FontWeight.LIGHT, FontPosture.ITALIC, 15.0));
         lienzo.setFill(Color.BLACK);
         lienzo.fillText(this.getTextoFigura(), Math.round(ix + 25), Math.round(y + 35));//y
+        
+        
+        
+        int diferenciax=(this.getConexionH().getX1()+this.getConexionH().getX())/2;
+        int diferenciaY=(this.getConexionH().getY2()+this.getConexionH().getY())/2;
+        
+        
+        lienzo.setLineWidth(3.3);
+        lienzo.setStroke(Color.valueOf("#FF3342"));
+
+        lienzo.strokeLine(x-200,y+30,diferenciax-200,diferenciaY);
+        lienzo.strokeLine(diferenciax-200,diferenciaY,diferenciax,diferenciaY);
+                lienzo.strokeLine(x-100,y+30,x-200,y+30);
+
         
         
 

@@ -14,9 +14,20 @@ import javafx.scene.paint.Color;
  */
 public class Flujo {
 
+    int ciclo;
     int id;
     int x, y, x1, y2;
 
+    public int getCiclo() {
+        return ciclo;
+    }
+
+    public void setCiclo(int ciclo) {
+        this.ciclo = ciclo;
+    }
+
+    
+    
     public int getId() {
         return id;
     }
@@ -66,13 +77,14 @@ public class Flujo {
         cuadro.setStroke(Color.valueOf("#353333"));
         cuadro.strokeLine(x, y, x2, y2);
 
+        System.out.println("this:");
         double angle = Math.atan2((y2 - y), (x2 - x)) - Math.PI / 2.0;
         double sin = Math.sin(angle);
         double cos = Math.cos(angle);
         double fx = (-1.0 / 2.0 * cos + Math.sqrt(3) / 2 * sin) * 10.0 + x2;
-        double fy = (-1.0 / 2.0 * sin - Math.sqrt(3) / 2 * cos) * 10.0 + y2 - 4;
+        double fy = (-1.0 / 2.0 * sin - Math.sqrt(3) / 2 * cos) * 10.0 + y2-2;
         double fx2 = (1.0 / 2.0 * cos + Math.sqrt(3) / 2 * sin) * 10.0 + x2;
-        double fy2 = (1.0 / 2.0 * sin - Math.sqrt(3) / 2 * cos) * 10.0 + y2 - 4;
+        double fy2 = (1.0 / 2.0 * sin - Math.sqrt(3) / 2 * cos) * 10.0 + y2-2;
 
         cuadro.setStroke(Color.valueOf("#ffffff"));
         cuadro.setLineWidth(1.3);
@@ -83,9 +95,15 @@ public class Flujo {
 
         cuadro.setStroke(Color.valueOf("#353333"));
         cuadro.strokeLine(fx, fy, fx2, fy2);
-        cuadro.strokeLine(fx, fy, x2, y2 - 4);
-        cuadro.strokeLine(fx2, fy2, x2, y2 - 4);
+        cuadro.strokeLine(fx, fy, x2, y2-2);
+        cuadro.strokeLine(fx2, fy2, x2, y2-2);
+        int diferenciax=(x2+x)/2;
+        int diferenciaY=(y2+y)/2;
+        
+        
         cuadro.setLineWidth(3.3);
+
+        
     }
 
 }
