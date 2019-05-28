@@ -147,27 +147,25 @@ public class FXMLDocumentController implements Initializable {
                                 }
                             }
 
-                            
-                                if (aux instanceof Etapa) {
+                            if (aux instanceof Etapa) {
                                 System.out.println("Soy una etapa");
                                 String expression = corriendo.getTextoFigura();
                                 expression = expression.replaceAll("=", "_");
                                 System.out.println("expression= " + expression);
                                 String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[-+*/()_])|(?=[-+*/()_])");
 
-                                Variable m= null;
+                                Variable m = null;
                                 String var = tokens[0];
-                                    for (int k = 0; k < variables.size(); k++) {
-                                        if(variables.get(k).getNombre().equals(var)){
-                                            m=variables.get(k);
-                                        }
+                                for (int k = 0; k < variables.size(); k++) {
+                                    if (variables.get(k).getNombre().equals(var)) {
+                                        m = variables.get(k);
                                     }
-                                    if(m!=null){
-                                    consola.setText(consola.getText() + "\n" + m.getNombre() + " ← " +m.getTexto());
-                                    }
+                                }
+                                if (m != null) {
+                                    consola.setText(consola.getText() + "\n" + m.getNombre() + " ← " + m.getTexto());
+                                }
                             }
-                            
-                            
+
                             Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
                             cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
 
@@ -335,7 +333,7 @@ public class FXMLDocumentController implements Initializable {
             }
             if (fAux.getId() == move.getFlujoInferior()) {// se pregunta si el Id del Aux es igual al Flujo inferior del eliminar
                 if (Aux instanceof Decision) {
-                    fAux.dibujar(x, y + 70 + 50, fAux.getX1(), fAux.getY2(), cuadro);
+                    fAux.dibujar(x, y + 120, fAux.getX1(), fAux.getY2(), cuadro);
                 } else {
                     fAux.dibujar(x, y + 70, fAux.getX1(), fAux.getY2(), cuadro);
 
@@ -505,202 +503,201 @@ public class FXMLDocumentController implements Initializable {
         int parentesisCerrados = 0;
         String ladoIzquierdo = "";
         String ladoDerecho = "";
-        if(click == true){
+        if (click == true) {
             ArrayList<Integer> posParentesisIzq = new ArrayList<>();
             ArrayList<Integer> posParentesisDer = new ArrayList<>();
             boolean valida = true;
             Pattern p = Pattern.compile("([A-Za-z0-9]{1,7}\\=)((\\(|\\))|(\\+|\\-|\\/|\\*)|([A-Za-z0-9])){3,40}");
             Matcher matcher = p.matcher(etapa.getTextoFigura());
             boolean cadenaValida = matcher.matches();
-            if(cadenaValida){
+            if (cadenaValida) {
                 parentesisAbierto = etapa.getTextoFigura().replaceAll("[A-Za-z0-9\\+\\-\\*\\/\\=\\)]", "");
                 parentesisCerrado = etapa.getTextoFigura().replaceAll("[A-Za-z0-9\\+\\-\\*\\/\\=\\(]", "");
                 parentesisAbiertos = parentesisAbierto.length();
                 parentesisCerrados = parentesisCerrado.length();
-                if(parentesisAbiertos == parentesisCerrados){
+                if (parentesisAbiertos == parentesisCerrados) {
                     int posIgual;
                     int posVariableIgual = 0;
                     posIgual = etapa.getTextoFigura().indexOf("=");
                     ladoIzquierdo = etapa.getTextoFigura().substring(0, posIgual);
-                    ladoDerecho = etapa.getTextoFigura().substring(posIgual+1, etapa.getTextoFigura().length());
+                    ladoDerecho = etapa.getTextoFigura().substring(posIgual + 1, etapa.getTextoFigura().length());
                     boolean validaLadoDerecho = true;
                     String expression = ladoDerecho;
-                        String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[-+/()])|(?=[-+/()])");
-                        for (String token : tokens){
-                            System.out.println(token);
-                        }
+                    String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[-+/()])|(?=[-+/()])");
+                    for (String token : tokens) {
+                        System.out.println(token);
+                    }
                     ArrayList<String> arrayTokens = new ArrayList<>();
-                    for (String token: tokens){
+                    for (String token : tokens) {
                         arrayTokens.add(token);
                     }
-                    for(int i = 0; i<tokens.length; i++){
-                        if(tokens[i].equals("(")){
+                    for (int i = 0; i < tokens.length; i++) {
+                        if (tokens[i].equals("(")) {
                             System.out.println("hay un parentesis izquierdo");
                             posParentesisIzq.add(i);
-                        } 
-                    }  
-                    for(int i = 0; i<tokens.length; i++){
-                        if(tokens[i].equals(")")){
-                            System.out.println("hay un parentesis derecho");
-                            posParentesisIzq.add(i);
-                        } 
-                    }
-                    //validaciones del lado derecho
-                    if(validaLadoDerecho){
-                        System.out.println("Llegue a validacion 1");
-                        if(arrayTokens.get(0).equals(")")){
-                            validaLadoDerecho = false; 
                         }
                     }
-                    if(validaLadoDerecho){
+                    for (int i = 0; i < tokens.length; i++) {
+                        if (tokens[i].equals(")")) {
+                            System.out.println("hay un parentesis derecho");
+                            posParentesisIzq.add(i);
+                        }
+                    }
+                    //validaciones del lado derecho
+                    if (validaLadoDerecho) {
+                        System.out.println("Llegue a validacion 1");
+                        if (arrayTokens.get(0).equals(")")) {
+                            validaLadoDerecho = false;
+                        }
+                    }
+                    if (validaLadoDerecho) {
                         System.out.println("Llegue a validacion 2");
-                        if(arrayTokens.get(0).equals("(")){
-                            for(int i = 1; i < arrayTokens.size(); i++){
-                                if(arrayTokens.get(i).equals("(")){
-                                    if(arrayTokens.get((i)-1).matches("[A-Za-z0-9]")){
+                        if (arrayTokens.get(0).equals("(")) {
+                            for (int i = 1; i < arrayTokens.size(); i++) {
+                                if (arrayTokens.get(i).equals("(")) {
+                                    if (arrayTokens.get((i) - 1).matches("[A-Za-z0-9]")) {
                                         validaLadoDerecho = false;
                                     }
                                 }
                             }
                         }
                     }
-                    if(validaLadoDerecho){
+                    if (validaLadoDerecho) {
                         System.out.println("Llegue a validacion 3");
-                        for(int i = 1; i < arrayTokens.size(); i++){
-                            if(arrayTokens.get(i).equals(")")){
-                                if(arrayTokens.get((i)-1).matches("[\\+\\-\\*\\/]")){
+                        for (int i = 1; i < arrayTokens.size(); i++) {
+                            if (arrayTokens.get(i).equals(")")) {
+                                if (arrayTokens.get((i) - 1).matches("[\\+\\-\\*\\/]")) {
                                     validaLadoDerecho = false;
                                 }
                             }
                         }
                     }
-                    if(validaLadoDerecho){
+                    if (validaLadoDerecho) {
                         System.out.println("Llegue a validacion 4");
-                        for(int i = 0; i < arrayTokens.size(); i++){
-                            if(arrayTokens.get(i).equals(")")){
-                                if((i+1)<arrayTokens.size() && arrayTokens.get(i+1).matches("[\\(]")){
+                        for (int i = 0; i < arrayTokens.size(); i++) {
+                            if (arrayTokens.get(i).equals(")")) {
+                                if ((i + 1) < arrayTokens.size() && arrayTokens.get(i + 1).matches("[\\(]")) {
                                     validaLadoDerecho = false;
                                 }
                             }
                         }
                     }
-                    if(validaLadoDerecho){
+                    if (validaLadoDerecho) {
                         System.out.println("Llegue a validacion 5");
-                        if(arrayTokens.get(0).matches("[\\+\\-\\*\\/]")){
+                        if (arrayTokens.get(0).matches("[\\+\\-\\*\\/]")) {
                             validaLadoDerecho = false;
                         }
                     }
-                    if(validaLadoDerecho){
+                    if (validaLadoDerecho) {
                         System.out.println("Llegue a validacion 6");
-                        for(int i = 0; i < arrayTokens.size(); i++){
-                            if(arrayTokens.get(i).equals("(")){
-                                if((i+1)<arrayTokens.size() && arrayTokens.get(i+1).matches("[\\+\\-\\*\\/]")){
+                        for (int i = 0; i < arrayTokens.size(); i++) {
+                            if (arrayTokens.get(i).equals("(")) {
+                                if ((i + 1) < arrayTokens.size() && arrayTokens.get(i + 1).matches("[\\+\\-\\*\\/]")) {
                                     validaLadoDerecho = false;
                                 }
                             }
                         }
                     }
-                    if(validaLadoDerecho){
+                    if (validaLadoDerecho) {
                         System.out.println("Llegue a validacion 7");
-                        for(int i = 0; i < arrayTokens.size(); i++){
-                            if(arrayTokens.get(i).equals(")")){
-                                if((i+1)<arrayTokens.size() && arrayTokens.get(i+1).matches("[\\(]")){
+                        for (int i = 0; i < arrayTokens.size(); i++) {
+                            if (arrayTokens.get(i).equals(")")) {
+                                if ((i + 1) < arrayTokens.size() && arrayTokens.get(i + 1).matches("[\\(]")) {
                                     validaLadoDerecho = false;
                                 }
                             }
                         }
                     }
-                    if(validaLadoDerecho){
+                    if (validaLadoDerecho) {
                         System.out.println("Llegue a validacion 8");
-                        for(int i = 0; i < arrayTokens.size(); i++){
-                            if(arrayTokens.get(0).equals("(")){
+                        for (int i = 0; i < arrayTokens.size(); i++) {
+                            if (arrayTokens.get(0).equals("(")) {
                                 i++;
-                            }else if(arrayTokens.get(i).equals("(")){
-                                  if(arrayTokens.get(i-1).matches("[A-Za-z0-9\\+\\-\\*\\/]")){
-                                      validaLadoDerecho = false;
-                                  }else if(Integer.parseInt(arrayTokens.get(i-1))>9){
-                                      validaLadoDerecho = false;
-                                  }
-                            }
-                        }
-                    }
-                    if(validaLadoDerecho){
-                        System.out.println("Llegue a validacion 9");
-                        for(int i = 0; i < arrayTokens.size(); i++){
-                            if(arrayTokens.get(i).matches("[\\+\\-\\*\\/]")){
-                                if((i+1)<arrayTokens.size() && arrayTokens.get(i+1).matches("[\\+\\-\\*\\/]")){
+                            } else if (arrayTokens.get(i).equals("(")) {
+                                if (arrayTokens.get(i - 1).matches("[A-Za-z0-9\\+\\-\\*\\/]")) {
+                                    validaLadoDerecho = false;
+                                } else if (Integer.parseInt(arrayTokens.get(i - 1)) > 9) {
                                     validaLadoDerecho = false;
                                 }
                             }
                         }
                     }
-                    if(validaLadoDerecho){
+                    if (validaLadoDerecho) {
+                        System.out.println("Llegue a validacion 9");
+                        for (int i = 0; i < arrayTokens.size(); i++) {
+                            if (arrayTokens.get(i).matches("[\\+\\-\\*\\/]")) {
+                                if ((i + 1) < arrayTokens.size() && arrayTokens.get(i + 1).matches("[\\+\\-\\*\\/]")) {
+                                    validaLadoDerecho = false;
+                                }
+                            }
+                        }
+                    }
+                    if (validaLadoDerecho) {
                         System.out.println("Llegue a validacion 10");
-                        if(arrayTokens.get(arrayTokens.size()-1).equals("(")){
+                        if (arrayTokens.get(arrayTokens.size() - 1).equals("(")) {
                             validaLadoDerecho = false;
                         }
                     }
-                    if(validaLadoDerecho){
+                    if (validaLadoDerecho) {
                         System.out.println("Llegue a validacion 11");
-                        if(arrayTokens.get(arrayTokens.size()-1).matches("[\\+\\-\\*\\/]")){
+                        if (arrayTokens.get(arrayTokens.size() - 1).matches("[\\+\\-\\*\\/]")) {
                             validaLadoDerecho = false;
                         }
                     }
-                    if(validaLadoDerecho){
+                    if (validaLadoDerecho) {
                         ArrayList<String> variablesEnTokens = new ArrayList<>();
                         ArrayList<Integer> posicionesVariablesEnArrayTokens = new ArrayList<>();
                         ArrayList<String> valoresVariables = new ArrayList<>();
-                        for(int i = 0; i<arrayTokens.size(); i++){
+                        for (int i = 0; i < arrayTokens.size(); i++) {
                             System.out.println(arrayTokens.get(i).replaceAll("[0-9\\+\\-\\*\\/\\(\\)]", ""));
-                            if(!(arrayTokens.get(i).replaceAll("[0-9\\+\\-\\*\\/\\(\\)]", "").equals(""))){
+                            if (!(arrayTokens.get(i).replaceAll("[0-9\\+\\-\\*\\/\\(\\)]", "").equals(""))) {
                                 variablesEnTokens.add(arrayTokens.get(i));
                                 posicionesVariablesEnArrayTokens.add(i);
                             }
                         }
                         //print
                         System.out.println("variables en tokens");
-                        for(int i = 0; i<variablesEnTokens.size(); i++){
+                        for (int i = 0; i < variablesEnTokens.size(); i++) {
                             System.out.println(variablesEnTokens.get(i));
                         }
                         System.out.println("posiciones variables en array tokens original");
-                        for(int i = 0; i<posicionesVariablesEnArrayTokens.size(); i++){
+                        for (int i = 0; i < posicionesVariablesEnArrayTokens.size(); i++) {
                             System.out.println(posicionesVariablesEnArrayTokens.get(i));
                         }
                         //
-                        boolean existe =false;
-                        if(!variablesEnTokens.isEmpty()){
+                        boolean existe = false;
+                        if (!variablesEnTokens.isEmpty()) {
                             System.out.println("variablesEnTokens no esta vacio");
-                            for(int i = 0; i<variablesEnTokens.size(); i++){
-                                for(int j = 0; j<variables.size(); j++){
+                            for (int i = 0; i < variablesEnTokens.size(); i++) {
+                                for (int j = 0; j < variables.size(); j++) {
                                     System.out.println(variablesEnTokens.get(i));
                                     System.out.println("coma");
                                     System.out.println(variables.get(j).getNombre());
-                                    if(variablesEnTokens.get(i).equals(variables.get(j).getNombre())){
+                                    if (variablesEnTokens.get(i).equals(variables.get(j).getNombre())) {
                                         valoresVariables.add(variables.get(j).getTexto());
-                                        existe=true;
+                                        existe = true;
                                     }
                                 }
-                                if(existe==false){
+                                if (existe == false) {
                                     valoresVariables.add("0");
-                                }
-                                else{
-                                    existe=false;
+                                } else {
+                                    existe = false;
                                 }
                             }
                             System.out.println("valores de variables en arraytokens");
-                            for(int i = 0; i<valoresVariables.size(); i++){
+                            for (int i = 0; i < valoresVariables.size(); i++) {
                                 System.out.println(valoresVariables.get(i));
                             }
                             System.out.println("imprimir los tokens originales");
-                            for(int i = 0; i<arrayTokens.size(); i++){
+                            for (int i = 0; i < arrayTokens.size(); i++) {
                                 System.out.println(arrayTokens.get(i));
                             }
                             System.out.println("llege al segundo if");
-                            for(int i = 0; i<posicionesVariablesEnArrayTokens.size(); i++){
+                            for (int i = 0; i < posicionesVariablesEnArrayTokens.size(); i++) {
                                 arrayTokens.set(posicionesVariablesEnArrayTokens.get(i), valoresVariables.get(i));
                             }
                             System.out.println("imprimir los tokens despues: ");
-                            for(int i = 0; i<arrayTokens.size(); i++){
+                            for (int i = 0; i < arrayTokens.size(); i++) {
                                 System.out.println(arrayTokens.get(i));
                             }
                         }
@@ -708,27 +705,28 @@ public class FXMLDocumentController implements Initializable {
                         posicionesVariablesEnArrayTokens.clear();
                         valoresVariables.clear();
                     }
-                    if(validaLadoDerecho){
+                    if (validaLadoDerecho) {
                         System.out.println("el lado derecho esta validado");
                         boolean iguales = false;
-                        for(int i = 0; i < variables.size(); i++){
-                            if(variables.get(i).getNombre().equals(ladoIzquierdo)){
+                        for (int i = 0; i < variables.size(); i++) {
+                            if (variables.get(i).getNombre().equals(ladoIzquierdo)) {
                                 iguales = true;
-                                posVariableIgual=i;
+                                posVariableIgual = i;
                             }
-                        }System.out.println("termine ese ciclo");
-                        if(iguales){
+                        }
+                        System.out.println("termine ese ciclo");
+                        if (iguales) {
                             System.out.println("ya hay variable con ese nombre");
                             //cuando la variable ya esta en el arreglo
                             ScriptEngineManager mgr = new ScriptEngineManager();
                             ScriptEngine engine = mgr.getEngineByName("JavaScript");
                             //vamos a unir el string
                             ladoDerecho = String.join("", arrayTokens);
-                            
+
                             String ecuacion = ladoDerecho;
                             System.out.println(engine.eval(ecuacion));
                             variables.get(posVariableIgual).setTexto(engine.eval(ecuacion).toString());
-                        }else{
+                        } else {
                             //cuando la variable no esta en el arreglo
                             System.out.println("no hay variable con ese nombre");
                             Variable variableNueva = new Variable();
@@ -737,13 +735,13 @@ public class FXMLDocumentController implements Initializable {
                             ScriptEngine engine = mgr.getEngineByName("JavaScript");
                             //vamos a unir el string
                             ladoDerecho = String.join("", arrayTokens);
-                            
+
                             String ecuacion = ladoDerecho;
                             System.out.println(engine.eval(ecuacion));
                             variableNueva.setTexto(engine.eval(ecuacion).toString());
                             variables.add(variableNueva);
                         }
-                    }else{
+                    } else {
                         Alert alert = new Alert(AlertType.INFORMATION);
                         Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
                         ImageView imageVie = new ImageView(images);
@@ -754,7 +752,7 @@ public class FXMLDocumentController implements Initializable {
                         alert.showAndWait();
                         click = false;
                     }
-                }else{
+                } else {
                     Alert alert = new Alert(AlertType.INFORMATION);
                     Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
                     ImageView imageVie = new ImageView(images);
@@ -765,7 +763,7 @@ public class FXMLDocumentController implements Initializable {
                     alert.showAndWait();
                     click = false;
                 }
-            }else{
+            } else {
                 click = false;
                 Alert alert = new Alert(AlertType.INFORMATION);
                 Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
@@ -778,8 +776,8 @@ public class FXMLDocumentController implements Initializable {
             }
         }
         if (click == true) {
-            for(int i = 0; i < variables.size(); i++){
-                System.out.println("variable "+(i+1)+". nombre: "+variables.get(i).getNombre()+". lado derecho: "+variables.get(i).getTexto());
+            for (int i = 0; i < variables.size(); i++) {
+                System.out.println("variable " + (i + 1) + ". nombre: " + variables.get(i).getNombre() + ". lado derecho: " + variables.get(i).getTexto());
             }
             separarFlujo(etapa, cantidad);
         }
@@ -1123,6 +1121,7 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Decision decision = new Decision();
         click = ingresarTexto(decision, "Decision");
+
         if (click == true) {
             separarFlujo(decision, cantidad);
 
@@ -1308,107 +1307,104 @@ public class FXMLDocumentController implements Initializable {
                         nuevo.setId(idFlujos);
                         int opcion = 1;
                         int diferenciaY = f - aux.getY();
-
                         if (n instanceof Decision) {
-                            proyectov1.ProyectoV1.dFlujo = nuevo;
                             nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
                             aux.dibujar(o, f + 70 + 50, aux.getX1(), aux.getY2(), cuadro);
-                        }
-                        if (diferenciaY < 60) {
-                            nuevo.dibujar(aux.getX(), aux.getY(), o, aux.getY() + 60, cuadro);
-                            aux.dibujar(o, aux.getY() + 130, aux.getX1(), aux.getY2(), cuadro);
-                            if (n instanceof Ciclo) {
-                                ((Ciclo) n).setConexionH(nuevo);
-
-                            }
-                            n.dibujar(cuadro, o, nuevo.getY2());
-                            opcion = 2;
-                        } else {
-                            nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
-                            aux.dibujar(o, f + 70, aux.getX1(), aux.getY2(), cuadro);
-                            if (n instanceof Ciclo) {
-                                ((Ciclo) n).setConexionH(nuevo);
-                            }
                             n.dibujar(cuadro, o, f);
-
-                        }
-
-                        n.setFlujoSuperior(nuevo.getId());
-                        idFlujos++;
-                        n.setFlujoInferior(aux.getId());
-
-                        for (int d = 0; d < formas.size(); d++) {
-                            if (formas.get(d).getFlujoInferior() == aux.getId()) {
-                                formas.get(d).setFlujoInferior(nuevo.getId());
-                            }
-                        }
-                        n.setID(ids);
-
-                        for (int j = 0; j < formas.size(); j++) {
-                            if (formas.get(j).getFlujoInferior() == nuevo.getId()) {
-                                formas.get(j).setSiguiente(ids);
-                                n.setAnterior(formas.get(j).getID());
-                            }
-                            if (formas.get(j).getFlujoSuperior() == aux.getId()) {
-                                formas.get(j).setAnterior(ids);
-                                n.setSiguiente(formas.get(j).getID());
-                            }
-
-                        }
-                        if (n instanceof Ciclo) {
-                            nuevo.setCiclo(ids);
                         } else {
-                            nuevo.setCiclo(-7);
+                            if (diferenciaY < 60) {
+                                nuevo.dibujar(aux.getX(), aux.getY(), o, aux.getY() + 60, cuadro);
+                                aux.dibujar(o, aux.getY() + 130, aux.getX1(), aux.getY2(), cuadro);
+                                if (n instanceof Ciclo) {
+                                    ((Ciclo) n).setConexionH(nuevo);
+                                }
+                                n.dibujar(cuadro, o, nuevo.getY2());
+                                opcion = 2;
+                            } else {
+                                nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
+                                aux.dibujar(o, f + 70, aux.getX1(), aux.getY2(), cuadro);
+                                if (n instanceof Ciclo) {
+                                    ((Ciclo) n).setConexionH(nuevo);
+                                }
+                                n.dibujar(cuadro, o, f);
+                            }
                         }
-                        ids++;
-                        int diferenciaX = (aux.getX() + aux.getX1()) / 2;
-                        int diferenciay = (nuevo.getY() + nuevo.getY2()) / 2;
-                        formas.add(n);
-                        System.out.println("Ciclo Aux: " + aux.getCiclo());
+                            n.setFlujoSuperior(nuevo.getId());
+                            idFlujos++;
+                            n.setFlujoInferior(aux.getId());
 
-                        if (aux.getCiclo() >= 0) {
+                            for (int d = 0; d < formas.size(); d++) {
+                                if (formas.get(d).getFlujoInferior() == aux.getId()) {
+                                    formas.get(d).setFlujoInferior(nuevo.getId());
+                                }
+                            }
+                            n.setID(ids);
+
                             for (int j = 0; j < formas.size(); j++) {
-                                if (formas.get(j).getID() == aux.getCiclo()) {
-                                    Figura ciclo = formas.get(j);
-                                    if (ciclo instanceof Ciclo) {
-                                        ((Ciclo) ciclo).setConexionH(nuevo);
-                                        aux.setCiclo(-7);
-                                        System.out.println("Encontre un Ciclo");
+                                if (formas.get(j).getFlujoInferior() == nuevo.getId()) {
+                                    formas.get(j).setSiguiente(ids);
+                                    n.setAnterior(formas.get(j).getID());
+                                }
+                                if (formas.get(j).getFlujoSuperior() == aux.getId()) {
+                                    formas.get(j).setAnterior(ids);
+                                    n.setSiguiente(formas.get(j).getID());
+                                }
 
+                            }
+                            if (n instanceof Ciclo) {
+                                nuevo.setCiclo(ids);
+                            } else {
+                                nuevo.setCiclo(-7);
+                            }
+                            ids++;
+                            int diferenciaX = (aux.getX() + aux.getX1()) / 2;
+                            int diferenciay = (nuevo.getY() + nuevo.getY2()) / 2;
+                            formas.add(n);
+                            System.out.println("Ciclo Aux: " + aux.getCiclo());
+
+                            if (aux.getCiclo() >= 0) {
+                                for (int j = 0; j < formas.size(); j++) {
+                                    if (formas.get(j).getID() == aux.getCiclo()) {
+                                        Figura ciclo = formas.get(j);
+                                        if (ciclo instanceof Ciclo) {
+                                            ((Ciclo) ciclo).setConexionH(nuevo);
+                                            aux.setCiclo(-7);
+                                            System.out.println("Encontre un Ciclo");
+
+                                        }
                                     }
                                 }
                             }
-                        }
-                        bajarFiguras(n, opcion);
-                        //Funcion que ordena la lista con las nuevas figuras
-                        enlaces.set(i, aux);
-                        enlaces.add(nuevo);
-                        // Se vuelven a dibujar todas las figuras y los enlaces de flujos
-                        repintar(cuadro);
-                        // se anula la posibilidad de seguir presionando el canvas
-                        lienzo.setOnMouseClicked(null);
-                        // se detiene el metodo para que no entre a un ciclo infinito.
-                        if (n instanceof Entrada && variable != 0) {
-                            int size = variables.size();
-                            size = size - variable;
-                            for (int j = size; j < variables.size(); j++) {
-                                Variable variable2 = variables.get(j);
-                                consola.setText(consola.getText() + "\n" + variable2.getNombre() + " ← " + variable2.getTexto());
+                            bajarFiguras(n, opcion);
+                            //Funcion que ordena la lista con las nuevas figuras
+                            enlaces.set(i, aux);
+                            enlaces.add(nuevo);
+                            // Se vuelven a dibujar todas las figuras y los enlaces de flujos
+                            repintar(cuadro);
+                            // se anula la posibilidad de seguir presionando el canvas
+                            lienzo.setOnMouseClicked(null);
+                            // se detiene el metodo para que no entre a un ciclo infinito.
+                            if (n instanceof Entrada && variable != 0) {
+                                int size = variables.size();
+                                size = size - variable;
+                                for (int j = size; j < variables.size(); j++) {
+                                    Variable variable2 = variables.get(j);
+                                    consola.setText(consola.getText() + "\n" + variable2.getNombre() + " ← " + variable2.getTexto());
+                                }
                             }
-                        }
-                        break;
-                    } else {
+                            break;
+                        }else {
                         if (n instanceof Entrada && variable != 0) {
                             variables.remove(variable);
                         }
                         lienzo.setOnMouseClicked(null);
                     }
 
+                    }
                 }
-            }
-        });
+            });
 
-    }
+        }
 
     public void bajarFiguras(Figura bajar, int opcion) {
         Figura inicio2 = formas.get(0);
