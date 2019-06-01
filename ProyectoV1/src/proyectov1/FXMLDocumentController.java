@@ -1199,7 +1199,102 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Decision decision = new Decision();
         click = ingresarTexto(decision, "Decision");
-
+        if(click){
+            boolean valida = true;
+            Pattern p = Pattern.compile("[A-Za-z0-9]{1,10}([|>\\|<\\=]|[\\>|\\<|\\=|\\!]{2})[A-Za-z0-9]{1,10}");
+            Matcher matcher = p.matcher(decision.getTextoFigura());
+            boolean cadenaValida = matcher.matches();
+            if(cadenaValida){
+                String[] tokens = decision.getTextoFigura().replaceAll("\\s+", "").split("(?<=[-+/()><=!])|(?=[-+/()><=!])");
+                for (String token : tokens) {
+                    System.out.println(token);
+                }
+                ArrayList<String> arrayTokens = new ArrayList<>();
+                for (String token : tokens) {
+                    arrayTokens.add(token);
+                }
+                System.out.println("imprimir tokens ciclo");
+                for(int i=0; i<arrayTokens.size(); i++){
+                    System.out.println(arrayTokens.get(i));
+                }
+                if(arrayTokens.size() == 3){
+                    //valido que el simbolo entremedio no sea un !
+                    if(arrayTokens.get(1).equals("!")){
+                        valida = false;
+                    }
+                }else if(arrayTokens.size() == 4){
+                    //valido que no este presente !>
+                    if(arrayTokens.get(1).equals("!")){
+                        if(arrayTokens.get(2).equals(">")){
+                            valida = false;
+                        }
+                    }
+                    //valido que no este presente !<
+                    if(arrayTokens.get(1).equals("!")){
+                        if(arrayTokens.get(2).equals("<")){
+                            valida = false;
+                        }
+                    }
+                    //valido que no este 2 simbolos iguales seguidos
+                    if(arrayTokens.get(1).equals(arrayTokens.get(2))){
+                        valida = false;
+                    }
+                    //valido que no este >!
+                    if(arrayTokens.get(1).equals(">")){
+                        if(arrayTokens.get(2).equals("!")){
+                            valida = false;
+                        }
+                    }
+                    //valido que no este <!
+                    if(arrayTokens.get(1).equals("<")){
+                        if(arrayTokens.get(2).equals("!")){
+                            valida = false;
+                        }
+                    }
+                    //valido que no este ><
+                    if(arrayTokens.get(1).equals(">")){
+                        if(arrayTokens.get(2).equals("<")){
+                            valida = false;
+                        }
+                    }
+                    //valido que no este <>
+                    if(arrayTokens.get(1).equals("!")){
+                        if(arrayTokens.get(2).equals("<")){
+                            valida = false;
+                        }
+                    }
+                    //valido que no este =!
+                    if(arrayTokens.get(1).equals("<")){
+                        if(arrayTokens.get(2).equals(">")){
+                            valida = false;
+                        }
+                    }
+                }
+                if(valida){
+                    //falta hacer todo lo que hace el ciclo y esta validado el formato ingresado.
+                }else{
+                    click = false;
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                    ImageView imageVie = new ImageView(images);
+                    alert.setGraphic(imageVie);
+                    alert.setTitle("Formato.");
+                    alert.setHeaderText("Ocurrio un error.");
+                    alert.setContentText("El formato ingresado es incorrecto.");
+                    alert.showAndWait();
+                }
+            }else{
+                click = false;
+                Alert alert = new Alert(AlertType.INFORMATION);
+                Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                ImageView imageVie = new ImageView(images);
+                alert.setGraphic(imageVie);
+                alert.setTitle("Formato.");
+                alert.setHeaderText("Ocurrio un error.");
+                alert.setContentText("El formato ingresado es incorrecto.");
+                alert.showAndWait();
+            }
+        }
         if (click == true) {
             separarFlujo(decision, cantidad);
 
@@ -1231,6 +1326,102 @@ public class FXMLDocumentController implements Initializable {
         Ciclo ciclo = new Ciclo();
         int cantidad = 0;
         click = ingresarTexto(ciclo, "ciclo");
+        if(click){
+            boolean valida = true;
+            Pattern p = Pattern.compile("[A-Za-z0-9]{1,10}([|>\\|<\\=]|[\\>|\\<|\\=|\\!]{2})[A-Za-z0-9]{1,10}");
+            Matcher matcher = p.matcher(ciclo.getTextoFigura());
+            boolean cadenaValida = matcher.matches();
+            if(cadenaValida){
+                String[] tokens = ciclo.getTextoFigura().replaceAll("\\s+", "").split("(?<=[-+/()><=!])|(?=[-+/()><=!])");
+                for (String token : tokens) {
+                    System.out.println(token);
+                }
+                ArrayList<String> arrayTokens = new ArrayList<>();
+                for (String token : tokens) {
+                    arrayTokens.add(token);
+                }
+                System.out.println("imprimir tokens ciclo");
+                for(int i=0; i<arrayTokens.size(); i++){
+                    System.out.println(arrayTokens.get(i));
+                }
+                if(arrayTokens.size() == 3){
+                    //valido que el simbolo entremedio no sea un !
+                    if(arrayTokens.get(1).equals("!")){
+                        valida = false;
+                    }
+                }else if(arrayTokens.size() == 4){
+                    //valido que no este presente !>
+                    if(arrayTokens.get(1).equals("!")){
+                        if(arrayTokens.get(2).equals(">")){
+                            valida = false;
+                        }
+                    }
+                    //valido que no este presente !<
+                    if(arrayTokens.get(1).equals("!")){
+                        if(arrayTokens.get(2).equals("<")){
+                            valida = false;
+                        }
+                    }
+                    //valido que no este 2 simbolos iguales seguidos
+                    if(arrayTokens.get(1).equals(arrayTokens.get(2))){
+                        valida = false;
+                    }
+                    //valido que no este >!
+                    if(arrayTokens.get(1).equals(">")){
+                        if(arrayTokens.get(2).equals("!")){
+                            valida = false;
+                        }
+                    }
+                    //valido que no este <!
+                    if(arrayTokens.get(1).equals("<")){
+                        if(arrayTokens.get(2).equals("!")){
+                            valida = false;
+                        }
+                    }
+                    //valido que no este ><
+                    if(arrayTokens.get(1).equals(">")){
+                        if(arrayTokens.get(2).equals("<")){
+                            valida = false;
+                        }
+                    }
+                    //valido que no este <>
+                    if(arrayTokens.get(1).equals("!")){
+                        if(arrayTokens.get(2).equals("<")){
+                            valida = false;
+                        }
+                    }
+                    //valido que no este =!
+                    if(arrayTokens.get(1).equals("<")){
+                        if(arrayTokens.get(2).equals(">")){
+                            valida = false;
+                        }
+                    }
+                }
+                if(valida){
+                    //falta hacer todo lo que hace el ciclo y esta validado el formato ingresado.
+                }else{
+                    click = false;
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                    ImageView imageVie = new ImageView(images);
+                    alert.setGraphic(imageVie);
+                    alert.setTitle("Formato.");
+                    alert.setHeaderText("Ocurrio un error.");
+                    alert.setContentText("El formato ingresado es incorrecto.");
+                    alert.showAndWait();
+                }
+            }else{
+                click = false;
+                Alert alert = new Alert(AlertType.INFORMATION);
+                Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                ImageView imageVie = new ImageView(images);
+                alert.setGraphic(imageVie);
+                alert.setTitle("Formato.");
+                alert.setHeaderText("Ocurrio un error.");
+                alert.setContentText("El formato ingresado es incorrecto.");
+                alert.showAndWait();
+            }
+        }
         if (click == true) {
             separarFlujo(ciclo, cantidad);
         }
