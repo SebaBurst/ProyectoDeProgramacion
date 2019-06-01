@@ -1447,7 +1447,7 @@ public class FXMLDocumentController implements Initializable {
         String ladoDerecho = "";
         if(click){
             boolean valida = true;
-            Pattern p = Pattern.compile("(\\\"[A-Za-z0-9\\ \\+\\-\\*\\/]{1,25}\\\"\\,)((((\\(|\\))|(\\+|\\-|\\/|\\*)|([A-Za-z0-9])){3,40})|([A-Za-z0-9]{1,40}))");
+            Pattern p = Pattern.compile("(\\\"[A-Za-z0-9\\ \\+\\-\\*\\/]{1,25}\\\"\\,\\ )((((\\(|\\))|(\\+|\\-|\\/|\\*)|([A-Za-z0-9])){3,40})|([A-Za-z0-9]{1,40}))");
             Matcher matcher = p.matcher(salida.getTextoFigura());
             boolean cadenaValida = matcher.matches();
             if(cadenaValida){
@@ -1457,9 +1457,11 @@ public class FXMLDocumentController implements Initializable {
                 parentesisCerrados = parentesisCerrado.length();
                 if(parentesisAbiertos == parentesisCerrados){
                     int posComa;
+                    int posEspacio;
                     posComa = salida.getTextoFigura().indexOf(",");
+                    posEspacio = salida.getTextoFigura().lastIndexOf(" ");
                     ladoIzquierdo = salida.getTextoFigura().substring(0, posComa);
-                    ladoDerecho = salida.getTextoFigura().substring(posComa + 1, salida.getTextoFigura().length());
+                    ladoDerecho = salida.getTextoFigura().substring(posEspacio + 1, salida.getTextoFigura().length());
                     boolean validaLadoDerecho = true;
                     String expression = ladoDerecho;
                     String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[-+/()])|(?=[-+/()])");
