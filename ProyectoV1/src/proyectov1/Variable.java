@@ -12,6 +12,7 @@ package proyectov1;
 public class Variable {
     String nombre = "";
     String texto = "";
+    String tipo = "";
 
     public String getNombre() {
         return nombre;
@@ -28,6 +29,13 @@ public class Variable {
     public void setTexto(String texto) {
         this.texto = texto;
     }
-    
-    
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+      
 }
