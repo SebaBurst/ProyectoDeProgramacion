@@ -530,6 +530,10 @@ public class FXMLDocumentController implements Initializable {
                     for (String token : tokens) {
                         arrayTokens.add(token);
                     }
+                    System.out.println("imprimos el array de tokens antes de evaluar el lado derecho");
+                    for(int i = 0; i<arrayTokens.size(); i++){
+                        System.out.println(arrayTokens.get(i).toString());
+                    }
                     //validaciones del lado derecho
                     //ver que no empieze el lado derecho con un )
                     //variable=)
@@ -660,19 +664,21 @@ public class FXMLDocumentController implements Initializable {
                         ArrayList<String> variablesEnTokens = new ArrayList<>();
                         ArrayList<Integer> posicionesVariablesEnArrayTokens = new ArrayList<>();
                         ArrayList<String> valoresVariables = new ArrayList<>();
+                        System.out.println("hora de imprimir todos los tokens en el arreglo para asi reemplazar");
                         for (int i = 0; i < arrayTokens.size(); i++) {
-                            System.out.println(arrayTokens.get(i).replaceAll("[0-9\\+\\-\\*\\/\\(\\)]", ""));
+                            System.out.println("token original: "+arrayTokens.get(i).toString());
+                            System.out.println("token sin num o simbolos: "+arrayTokens.get(i).replaceAll("[0-9\\+\\-\\*\\/\\(\\)]", ""));
                             if (!(arrayTokens.get(i).replaceAll("[0-9\\+\\-\\*\\/\\(\\)]", "").equals(""))) {
                                 variablesEnTokens.add(arrayTokens.get(i));
                                 posicionesVariablesEnArrayTokens.add(i);
                             }
                         }
                         //print
-                        System.out.println("variables en tokens");
+                        System.out.println("variables en tokens: ");
                         for (int i = 0; i < variablesEnTokens.size(); i++) {
                             System.out.println(variablesEnTokens.get(i));
                         }
-                        System.out.println("posiciones variables en array tokens original");
+                        System.out.println("posiciones variables en array tokens original: ");
                         for (int i = 0; i < posicionesVariablesEnArrayTokens.size(); i++) {
                             System.out.println(posicionesVariablesEnArrayTokens.get(i));
                         }
@@ -682,9 +688,9 @@ public class FXMLDocumentController implements Initializable {
                             System.out.println("variablesEnTokens no esta vacio");
                             for (int i = 0; i < variablesEnTokens.size(); i++) {
                                 for (int j = 0; j < variables.size(); j++) {
-                                    System.out.println(variablesEnTokens.get(i));
-                                    System.out.println("coma");
-                                    System.out.println(variables.get(j).getNombre());
+                                    //System.out.println(variablesEnTokens.get(i));
+                                    //System.out.println("coma");
+                                    //System.out.println(variables.get(j).getNombre());
                                     if (variablesEnTokens.get(i).equals(variables.get(j).getNombre())) {
                                         valoresVariables.add(variables.get(j).getTexto());
                                         existe = true;
@@ -695,6 +701,9 @@ public class FXMLDocumentController implements Initializable {
                                 } else {
                                     existe = false;
                                 }
+                            }
+                            for(int i = 0; i<posicionesVariablesEnArrayTokens.size(); i++){
+                                arrayTokens.set(posicionesVariablesEnArrayTokens.get(i), valoresVariables.get(i));
                             }
                             /*
                             System.out.println("valores de variables en arraytokens");
@@ -735,8 +744,8 @@ public class FXMLDocumentController implements Initializable {
                             ScriptEngine engine = mgr.getEngineByName("JavaScript");
                             //vamos a unir el string
                             ladoDerecho = String.join("", arrayTokens);
-
                             String ecuacion = ladoDerecho;
+                            
                             if(Double.isNaN(Double.parseDouble(engine.eval(ecuacion).toString()))){
                                 variables.get(posVariableIgual).setTexto("No es un numero.");
                             }else if(Double.isInfinite(Double.parseDouble(engine.eval(ecuacion).toString()))){
@@ -755,15 +764,19 @@ public class FXMLDocumentController implements Initializable {
                             ScriptEngine engine = mgr.getEngineByName("JavaScript");
                             //vamos a unir el string
                             ladoDerecho = String.join("", arrayTokens);
-                            
                             String ecuacion = ladoDerecho;
+
+                            System.out.println("voy a validar si la ecuacion no da numero como resultado");
                             if(Double.isNaN(Double.parseDouble(engine.eval(ecuacion).toString()))){
                                 variableNueva.setTexto("No es un numero.");
                                 variables.add(variableNueva);
-                            }else if(Double.isInfinite(Double.parseDouble(engine.eval(ecuacion).toString()))){
+                            }else
+                                System.out.println("voy a validar que esto no sea infinito");
+                                if(Double.isInfinite(Double.parseDouble(engine.eval(ecuacion).toString()))){
                                 variableNueva.setTexto("Infinito.");
                                 variables.add(variableNueva);
-                            }else {
+                            }else 
+                                System.out.println("voy a validar que esto este normal");{
                                 variableNueva.setTexto(engine.eval(ecuacion).toString());
                                 variables.add(variableNueva);
                             }
