@@ -748,10 +748,13 @@ public class FXMLDocumentController implements Initializable {
                             
                             if(Double.isNaN(Double.parseDouble(engine.eval(ecuacion).toString()))){
                                 variables.get(posVariableIgual).setTexto("No es un numero.");
+                                variables.get(posVariableIgual).setTipo("texto");
                             }else if(Double.isInfinite(Double.parseDouble(engine.eval(ecuacion).toString()))){
                                 variables.get(posVariableIgual).setTexto("Infinito.");
+                                variables.get(posVariableIgual).setTipo("texto");
                             }else {
                                 variables.get(posVariableIgual).setTexto(engine.eval(ecuacion).toString());
+                                variables.get(posVariableIgual).setTipo("numero");
                             }
                             System.out.println(engine.eval(ecuacion));
                             variables.get(posVariableIgual).setTexto(engine.eval(ecuacion).toString());
@@ -769,15 +772,18 @@ public class FXMLDocumentController implements Initializable {
                             System.out.println("voy a validar si la ecuacion no da numero como resultado");
                             if(Double.isNaN(Double.parseDouble(engine.eval(ecuacion).toString()))){
                                 variableNueva.setTexto("No es un numero.");
+                                variableNueva.setTipo("texto");
                                 variables.add(variableNueva);
                             }else
                                 System.out.println("voy a validar que esto no sea infinito");
                                 if(Double.isInfinite(Double.parseDouble(engine.eval(ecuacion).toString()))){
                                 variableNueva.setTexto("Infinito.");
+                                variableNueva.setTipo("texto");
                                 variables.add(variableNueva);
                             }else 
                                 System.out.println("voy a validar que esto este normal");{
                                 variableNueva.setTexto(engine.eval(ecuacion).toString());
+                                variableNueva.setTipo("numero");
                                 variables.add(variableNueva);
                             }
                             System.out.println(engine.eval(ecuacion));
