@@ -5,6 +5,7 @@
  */
 package Clases_Figura;
 
+import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -16,6 +17,80 @@ import javafx.scene.text.FontWeight;
  * @author Sebastian
  */
 public class Decision extends Figura {
+
+    boolean tipoFlujo;
+    int idF;
+    int idT;
+    ArrayList<Flujo> flujosT = new ArrayList();
+    ArrayList<Flujo> flujosF = new ArrayList();
+    ArrayList<Figura> figurasT = new ArrayList();
+    ArrayList<Figura> figurasF = new ArrayList();
+    Flujo flujo = new Flujo();
+
+    public ArrayList<Figura> getFigurasT() {
+        return figurasT;
+    }
+
+    public void setFigurasT(ArrayList<Figura> figurasT) {
+        this.figurasT = figurasT;
+    }
+
+    public ArrayList<Figura> getFigurasF() {
+        return figurasF;
+    }
+
+    public void setFigurasF(ArrayList<Figura> figurasF) {
+        this.figurasF = figurasF;
+    }
+
+
+    public Flujo getFlujo() {
+        return flujo;
+    }
+
+    public void setFlujo(Flujo flujo) {
+        this.flujo = flujo;
+    }
+
+    public int getIdF() {
+        return idF;
+    }
+
+    public void setIdF(int idF) {
+        this.idF = idF;
+    }
+
+    public int getIdT() {
+        return idT;
+    }
+
+    public void setIdT(int idT) {
+        this.idT = idT;
+    }
+
+    public boolean getTipoFlujo() {
+        return tipoFlujo;
+    }
+
+    public void setTipoFlujo(boolean tipoFlujo) {
+        this.tipoFlujo = tipoFlujo;
+    }
+
+    public ArrayList<Flujo> getFlujosT() {
+        return flujosT;
+    }
+
+    public void setFlujosT(ArrayList<Flujo> flujosT) {
+        this.flujosT = flujosT;
+    }
+
+    public ArrayList<Flujo> getFlujosF() {
+        return flujosF;
+    }
+
+    public void setFlujosF(ArrayList<Flujo> flujosF) {
+        this.flujosF = flujosF;
+    }
 
     @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
@@ -60,9 +135,22 @@ public class Decision extends Figura {
         lienzo.setFont(Font.font("Verdana", FontWeight.LIGHT, FontPosture.ITALIC, 15.0));
         lienzo.setFill(Color.BLACK);
         lienzo.fillText(this.getTextoFigura(), Math.round(ix + 25), Math.round(y + 35));//y
-        proyectov1.ProyectoV1.dFlujo.dibujarDecision(x, y, y2, lienzo);
 
+        this.flujo.dibujar(x + 300, y + 30, x + 300, y + 200, lienzo);
+        flujosT.add(flujo);
+        lienzo.setStroke(Color.valueOf("#298A08"));
+        //lienzo.strokeLine(x + 300, y + 30, x + 300, y + 200);
+        lienzo.strokeLine(x + 300, y + 200, x, y + 200);
+        lienzo.strokeLine(x + 100, y + 30, x + 300, y + 30);
+
+        this.flujo.dibujar(x - 300, y + 30, x - 300, y + 200, lienzo);
+        flujosF.add(flujo);
+        lienzo.setStroke(Color.valueOf("#DF0101"));
+        //lienzo.strokeLine(x - 300, y + 30, x - 300, y + 200);
+        lienzo.strokeLine(x - 300, y + 200, x, y + 200);
+        lienzo.strokeLine(x - 100, y + 30, x - 300, y + 30);
 
     }
+
 
 }
