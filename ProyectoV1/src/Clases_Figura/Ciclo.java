@@ -5,6 +5,7 @@
  */
 package Clases_Figura;
 
+import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -17,8 +18,39 @@ import javafx.scene.text.FontWeight;
  */
 public class Ciclo extends Figura {
 
+    int aumento =0;
+    
+    
     Flujo conexionH;
 
+    
+    boolean verdadero= false;
+
+    public int getAumento() {
+        return aumento;
+    }
+
+    public void setAumento(int aumento) {
+        this.aumento = aumento;
+    }
+
+    public boolean isVerdadero() {
+        return verdadero;
+    }
+
+    public void setVerdadero(boolean verdadero) {
+        this.verdadero = verdadero;
+    }
+    public ArrayList<Integer> idsFiguras= new ArrayList();
+
+    public ArrayList<Integer> getIdsFiguras() {
+        return idsFiguras;
+    }
+
+    public void setIdsFiguras(int id) {
+        idsFiguras.add(id);
+    }
+    
     public Flujo getConexionH() {
         return conexionH;
     }
@@ -75,13 +107,14 @@ public class Ciclo extends Figura {
         int diferenciax=(this.getConexionH().getX1()+this.getConexionH().getX())/2;
         int diferenciaY=(this.getConexionH().getY2()+this.getConexionH().getY())/2;
         
+        int incremento = this.getAumento()*20;
         
         lienzo.setLineWidth(3.3);
         lienzo.setStroke(Color.valueOf("#FF3342"));
 
-        lienzo.strokeLine(x-200,y+30,diferenciax-200,diferenciaY);
-        lienzo.strokeLine(diferenciax-200,diferenciaY,diferenciax,diferenciaY);
-                lienzo.strokeLine(x-100,y+30,x-200,y+30);
+        lienzo.strokeLine(x-(130+incremento),y+30,diferenciax-(130+incremento),diferenciaY);
+        lienzo.strokeLine(diferenciax-(130+incremento),diferenciaY,diferenciax,diferenciaY);
+        lienzo.strokeLine(x-100,y+30,x-(130+incremento),y+30);
 
         
         

@@ -81,6 +81,8 @@ public class FXMLDocumentController implements Initializable {
      */
     class hilo implements Runnable {
 
+        int infinity = 0;
+
         @Override
         public void run() {// Se implementa el Metodo Run
 
@@ -107,46 +109,7 @@ public class FXMLDocumentController implements Initializable {
                         System.out.println("Figura: " + formas.get(j).getTextoFigura());
                         aux = formas.get(j);
                         try {
-
                             Figura corriendo = aux;
-                            if (aux instanceof Entrada) {
-                                System.out.println("Soy una entrada");
-                                String expression = corriendo.getTextoFigura();
-                                expression = expression.replaceAll("=", ")");
-                                expression = expression.replaceAll(",", "(");
-                                System.out.println("expression= " + expression);
-                                String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[-+*/()])|(?=[-+*/()])");
-
-                                ArrayList<String> nombresVar = new ArrayList();
-                                for (int k = 0; k < tokens.length; k++) {
-                                    if (tokens[k].equals(")")) {
-                                        nombresVar.add(tokens[k - 1]);
-                                    }
-
-                                }
-
-                                String var = tokens[0];
-                                for (String token : tokens) {
-                                    System.out.println(token);
-                                }
-                                System.out.println("Var: " + var);
-                                ArrayList<Variable> vars = new ArrayList();
-                                Variable mostrar = null;
-                                for (int t = 0; t < nombresVar.size(); t++) {
-                                    for (int k = 0; k < variables.size(); k++) {
-                                        if (variables.get(k).getNombre().equals(nombresVar.get(t))) {
-                                            Variable variable = variables.get(k);
-                                            vars.add(variable);
-                                        }
-
-                                    }
-                                }
-
-                                for (int k = 0; k < vars.size(); k++) {
-                                    consola.setText(consola.getText() + "\n" + vars.get(k).getNombre() + " ← " + vars.get(k).getTexto());
-
-                                }
-                            }
 
                             if (aux instanceof Etapa) {
                                 System.out.println("Soy una etapa");
@@ -162,9 +125,348 @@ public class FXMLDocumentController implements Initializable {
                                         m = variables.get(k);
                                     }
                                 }
+
+                                String ladoDerecho = "";
+                                ArrayList<String> vars = new ArrayList();
+                                for (int k = 2; k < tokens.length; k++) {
+                                    ladoDerecho = ladoDerecho + tokens[k];
+                                    vars.add(tokens[k]);
+
+                                }
+
+                                for (int k = 0; k < vars.size(); k++) {
+                                    boolean exist = false;
+                                   if (vars.get(k).equals("+")==false||vars.get(k).equals("*")==false||vars.get(k).equals("/")==false||vars.get(k).equals("-")==false||vars.get(k).equals("(")==false||vars.get(k).equals(")")==false) {
+ 
+                                        boolean resultado1;
+                                        try {
+                                            Integer.parseInt(vars.get(k));
+                                            resultado1 = true;
+                                        } catch (NumberFormatException excepcion) {
+                                            resultado1 = false;
+                                        }
+
+                                        if (resultado1 != true) {
+                                            for (int l = 0; l < variables.size(); l++) {
+                                                if (variables.get(l).getNombre().equals(vars.get(k))) {
+                                                    vars.set(k, variables.get(l).getTexto());
+                                                    exist = true;
+                                                }
+                                            }
+                                            if (exist == false) {
+                                                vars.set(k, "0");
+
+                                            } else {
+                                                exist = true;
+
+                                            }
+
+                                        }
+
+                                    }
+                                   
+
+                                }
+                                
+                                String ladoDer = "";
+                                    for (int l = 0; l < vars.size(); l++) {
+                                        ladoDer = ladoDer + vars.get(l);
+                                    }
+                                System.out.println(">>Lado Derecho: " + ladoDerecho);
+
+                                boolean existeString = false;
+
+                                for (int k = 0; k < vars.size(); k++) {
+                                    if (vars.get(k).equals("+")==false||vars.get(k).equals("*")==false||vars.get(k).equals("/")==false||vars.get(k).equals("-")==false||vars.get(k).equals("(")==false||vars.get(k).equals(")")==false) {
+                                        boolean resultado1;
+                                        System.out.println(">>> K: "+vars.get(k));
+                                        
+                                        try {
+                                            Integer.parseInt(vars.get(k));
+                                            resultado1 = true;
+                                        } catch (NumberFormatException excepcion) {
+                                            resultado1 = false;
+                                        }
+
+                                        System.out.println(">> Resultado: "+resultado1);
+                                        if (resultado1 != true) {
+                                            existeString = true;
+                                        }
+
+                                    }
+                                }
+
+                                System.out.println(">> antes de evaluar Llegue");
+                                if (existeString == false&&m!=null) {
+                                    ScriptEngineManager mgr = new ScriptEngineManager();
+                                    ScriptEngine engine = mgr.getEngineByName("JavaScript");
+                                    System.out.println(">>Lado Derecho: "+ladoDer);
+                                    m.setTexto(engine.eval(ladoDer).toString());
+                                    for (int k = 0; k < variables.size(); k++) {
+                                          if(m.getNombre().equals(variables.get(k).getNombre())){
+                                              variables.set(k, m);
+                                          }
+                                    }
+
+                                }
+                                else if(m!=null){
+                                    ladoDer = ladoDer.replaceAll("/+", "");
+                                    ladoDer = ladoDer.replaceAll("/-", "");
+                                    ladoDer = ladoDer.replaceAll("/*", "");
+                                    ladoDer = ladoDer.replaceAll("/", "");
+                                    ladoDer = ladoDer.replaceAll("//)", "");
+                                    ladoDer = ladoDer.replaceAll("//(", "");
+                                    m.setTexto(ladoDer);
+                                    
+                                }
+                               
                                 if (m != null) {
                                     consola.setText(consola.getText() + "\n" + m.getNombre() + " ← " + m.getTexto());
                                 }
+                            }
+
+                            
+                            if(aux instanceof Salida){
+                                
+                                String ex = aux.getTextoFigura();
+                                ex= ex.replaceAll(",", "_");
+                                String[] tokens = ex.replaceAll("\\s+", "").split("(?<=[-+*/()_])|(?=[-+*/()_])");
+                                ArrayList<String> tok = new ArrayList();
+
+                                for (int k = 0; k < tokens.length; k++) {
+                                    System.out.println(">>Tokens: "+ tokens[k]);
+                                    tok.add(tokens[k]);
+                                }
+                                String valor="0";
+                                if(tokens.length==3){
+                                    String var = tok.get(2);
+                                    
+                                    for (int k = 0; k < variables.size(); k++) {
+                                        if(var.equals(variables.get(k).getNombre())){
+                                            valor = variables.get(k).getTexto();
+                                        
+                                        }
+                                    }
+                                    consola.setText(consola.getText() + "\n" + tok.get(0)+valor);
+                                }
+                                
+                                
+                            
+                            
+                            }
+                            
+                            
+                            if (aux instanceof Ciclo) {
+                                Ciclo c = (Ciclo) aux;
+                                System.out.println("Is Verdadero: " + c.isVerdadero());
+                                if (c.isVerdadero() == false) {
+                                    String[] tokens = c.getTextoFigura().replaceAll("\\s+", "").split("(?<=[-+/()><=!])|(?=[-+/()><=!])");
+                                    System.out.println("Tokens Ciclo");
+                                    for (String token : tokens) {
+                                        System.out.println(token);
+                                    }
+                                    ArrayList<String> arrayTokens = new ArrayList<>();
+                                    for (String token : tokens) {
+                                        arrayTokens.add(token);
+                                    }
+                                    Variable a = null;
+                                    Variable b = null;
+                                    String a1 = "";
+                                    String b1 = "";
+                                    String simbolo = "";
+                                    if (arrayTokens.size() == 3) {
+                                        simbolo = arrayTokens.get(1);
+                                        a1 = arrayTokens.get(0);
+                                        b1 = arrayTokens.get(2);
+
+                                    } else if (arrayTokens.size() == 4) {
+                                        simbolo = arrayTokens.get(1) + arrayTokens.get(2);
+                                        a1 = arrayTokens.get(0);
+                                        b1 = arrayTokens.get(3);
+                                    }
+
+                                    boolean existeA = false;
+                                    boolean existeB = false;
+                                    //BuscarVariables
+                                    for (int k = 0; k < variables.size(); k++) {
+                                        if (variables.get(k).getNombre().equals(a1)) {
+                                            a1 = variables.get(k).getTexto();
+                                            existeA = true;
+
+                                        } else if (variables.get(k).getNombre().equals(b1)) {
+                                            b1 = variables.get(k).getTexto();
+                                            existeB = true;
+                                        }
+                                    }
+
+                                    boolean resultado1;
+                                    try {
+                                        Integer.parseInt(a1);
+                                        resultado1 = true;
+                                    } catch (NumberFormatException excepcion) {
+                                        resultado1 = false;
+                                    }
+
+                                    System.out.println("B2:" + b1);
+                                    boolean resultado2;
+                                    try {
+                                        Integer.parseInt(b1);
+                                        resultado2 = true;
+                                    } catch (NumberFormatException excepcion) {
+                                        resultado2 = false;
+                                    }
+                                    System.out.println("Llegue a ver si existen");
+                                    System.out.println("ABoleando: " + resultado1);
+                                    System.out.println("BBoleando: " + resultado2);
+
+                                    System.out.println("ExisteABoleando: " + existeA);
+                                    System.out.println("ExisteBBoleando: " + existeB);
+//ver si existen
+                                    if (existeA == false) {
+                                        a1 = "0";
+
+                                    }
+                                    else if(resultado2 == true){
+                                        
+                                    }
+                                    else if (existeB == false&&resultado2!=true) {
+                                        b1 = "0";
+                                    }
+                                    
+
+                                    boolean resultado;
+                                    try {
+                                        Integer.parseInt(a1);
+                                        resultado = true;
+                                    } catch (NumberFormatException excepcion) {
+                                        resultado = false;
+                                    }
+
+                                    boolean resultadoB;
+                                    try {
+                                        Integer.parseInt(b1);
+                                        resultadoB = true;
+                                    } catch (NumberFormatException excepcion) {
+                                        resultadoB = false;
+                                    }
+
+                                    String primerA = "";
+                                    String primerB = "";
+                                    if (infinity == 0) {
+                                        primerA = a1;
+                                        primerB = b1;
+                                    }
+                                    if (a1.equals(primerA)) {
+                                        infinity++;
+                                    }
+
+                                    boolean FinEjecucion = false;
+
+                                    System.out.println(">>>a: "+a1);
+                                    System.out.println(">>>b: "+b1);
+                                    // ver si el simbolo es >
+                                    if (simbolo.equals(">")) {
+                                        if (resultado == true && resultadoB == true) {
+                                            if (Integer.parseInt(a1) > Integer.parseInt(b1)) {
+                                                c.setVerdadero(false);
+                                            }
+                                            if (Integer.parseInt(a1) < Integer.parseInt(b1)) {
+                                                c.setVerdadero(true);
+                                            }
+
+                                        } else {
+
+                                            FinEjecucion = true;
+                                        }
+
+                                    } else if (simbolo.equals("<")) {
+
+                                        if (resultado == true && resultadoB == true) {
+                                            if (Integer.parseInt(a1) < Integer.parseInt(b1)) {
+                                                c.setVerdadero(false);
+                                                System.out.println(">> Se volvio verdadero");
+
+                                            }
+                                            else if(Integer.parseInt(a1) > Integer.parseInt(b1)){
+                                                c.setVerdadero(true);
+                                            
+                                            }
+
+                                        } else {
+                                            System.out.println(">> Sigue siendo Falso");
+                                            FinEjecucion = true;
+                                        }
+
+                                    } else if (simbolo.equals("=")) {
+                                        if (a1.equals(b1)) {
+                                            c.setVerdadero(false);
+                                        }
+                                        if (!a1.equals(b1)) {
+                                            c.setVerdadero(true);
+                                        }
+                                        
+                                    } else if (simbolo.equals("!=")) {
+                                        if (a1.equals(b1) == false) {
+                                            c.setVerdadero(true);
+                                        }
+
+                                    } else if (simbolo.equals("<=")) {
+
+                                        if (resultado == true && resultadoB == true) {
+                                            if (Integer.parseInt(a1) <= Integer.parseInt(b1)) {
+                                                c.setVerdadero(false);
+
+                                            }
+                                            else  if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
+                                                c.setVerdadero(true);
+
+                                            }
+
+                                        } else {
+
+                                            FinEjecucion = true;
+                                        }
+                                    } else if (simbolo.equals(">=")) {
+
+                                        if (resultado == true && resultadoB == true) {
+                                            if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
+                                                c.setVerdadero(false);
+
+                                            }
+                                            else  if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
+                                                c.setVerdadero(true);
+
+                                            } 
+
+                                        } else {
+
+                                            FinEjecucion = true;
+                                        }
+                                    }
+
+                                    for (int k = 0; k < c.getIdsFiguras().size(); k++) {
+                                        System.out.println("Indice Ciclo: " + c.getIdsFiguras().get(k));
+                                    }
+
+                                    System.out.println(">> Entre al if del Ciclo");
+                                    System.out.println("Corriendo text: " + corriendo.getTextoFigura());
+                                    if (FinEjecucion == true) {
+                                        aux = formas.get(1);
+                                    }
+                                    if (infinity == 5) {
+                                        infinity = 0;
+                                        ((Ciclo) aux).setVerdadero(true);
+                                    } else if (c.isVerdadero() == false && FinEjecucion != true) {
+                                        aux = formas.get(c.getIdsFiguras().get(0));
+                                        for (int k = 0; k < formas.size(); k++) {
+                                            if (formas.get(k).getID() == aux.getAnterior()) {
+                                                aux = formas.get(k);
+                                            }
+                                        }
+
+                                    }
+                                }
+
                             }
 
                             Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
@@ -174,16 +476,26 @@ public class FXMLDocumentController implements Initializable {
                             cuadro.clearRect(corriendo.getMedioX() - 230, corriendo.getMedioY(), 60, 60);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ScriptException ex) {
+                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         }
 
                     }
                 }
 
             }
+            for (int i = 0; i < formas.size(); i++) {
+                if (formas.get(i) instanceof Ciclo) {
+                    Ciclo ciclo = (Ciclo) formas.get(i);
+                    ciclo.setVerdadero(false);
+                }
+            }
+
             reiniciarHilo = true;
         }
 
     }
+
 
     /**
      * Metodo que se encarga de crear un crear un nuevo Thread y ejecutar la
@@ -2111,6 +2423,8 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda para poder detectar XY de un click
             Figura mover = detectarFigura1((int) e.getX(), (int) e.getY());
+            
+            boolean enCiclo = false;
             System.out.println("****DETECTAR FLUJO INI*****");
             Decision figura = new Decision();
             figura = (Decision) detectarFlujo((int) e.getX(), (int) e.getY(), cuadro, n);
@@ -2134,7 +2448,7 @@ public class FXMLDocumentController implements Initializable {
                     for (int i = 0; i < enlaces.size(); i++) {// se recorre el arreglo de lineas de flujo
                         Flujo aux = enlaces.get(i);// Se guarda el enlace i en una variable auxiliar
                         if ((int) e.getX() >= aux.getX() && (int) e.getY() >= aux.getY() && (int) e.getY() <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
-
+          enCiclo = false;
                             // se guardan el X e Y en una variable individual
                             int f = (int) e.getY();
                             int o = (int) e.getX();
@@ -2143,7 +2457,16 @@ public class FXMLDocumentController implements Initializable {
                             nuevo.setId(idFlujos);
                             int opcion = 1;
                             int diferenciaY = f - aux.getY();
+                        int diferenciaX = (aux.getY() + aux.getY2()) / 2;
 
+                        if (f > diferenciaX) {
+                            enCiclo = true;
+                            System.out.println("En el ciclo");
+                        } else if (f < diferenciaX) {
+                            enCiclo = false;
+                            System.out.println("Sobre el ciclo");
+
+                        }
                             if (diferenciaY < 60) {
                                 nuevo.dibujar(aux.getX(), aux.getY(), o, aux.getY() + 60, cuadro);
                                 aux.dibujar(o, aux.getY() + 130, aux.getX1(), aux.getY2(), cuadro);
@@ -2191,34 +2514,48 @@ public class FXMLDocumentController implements Initializable {
                                 }
 
                             }
-                            if (n instanceof Ciclo) {
-                                nuevo.setCiclo(ids);
-                            } else {
-                                nuevo.setCiclo(-7);
-                            }
-                            ids++;
-                            int diferenciaX = (aux.getX() + aux.getX1()) / 2;
-                            int diferenciay = (nuevo.getY() + nuevo.getY2()) / 2;
-                            formas.add(n);
-                            System.out.println("Ciclo Aux: " + aux.getCiclo());
+                       if (n instanceof Ciclo) {
+                            nuevo.setCiclo(ids);
+                        } else {
+                            nuevo.setCiclo(-7);
+                        }
+                        ids++;
 
-                            if (aux.getCiclo() >= 0) {
-                                for (int j = 0; j < formas.size(); j++) {
-                                    if (formas.get(j).getID() == aux.getCiclo()) {
-                                        Figura ciclo = formas.get(j);
-                                        if (ciclo instanceof Ciclo) {
-                                            ((Ciclo) ciclo).setConexionH(nuevo);
-                                            aux.setCiclo(-7);
-                                            System.out.println("Encontre un Ciclo");
+                        int diferenciay = (nuevo.getY() + nuevo.getY2()) / 2;
 
-                                        }
+                        System.out.println("Ciclo Aux: " + aux.getCiclo());
+                        formas.add(n);
+                        if (enCiclo == true && !(n instanceof Ciclo)) {
+
+                            for (int j = 0; j < formas.size(); j++) {
+                                if (formas.get(j) instanceof Ciclo) {
+                                    Ciclo iteracion = (Ciclo) formas.get(j);
+                                    //prints
+                                    for (int k = 0; k < iteracion.getIdsFiguras().size(); k++) {
+                                        System.out.println("ID " + i + ": " + iteracion.getIdsFiguras().get(k));
+
+                                    }
+
+                                    if (iteracion.getConexionH() == aux) {
+                                        iteracion.setConexionH(nuevo);
+
                                     }
                                 }
                             }
+                        }
                             bajarFiguras(n, opcion);
                             //Funcion que ordena la lista con las nuevas figuras
                             enlaces.set(i, aux);
                             enlaces.add(nuevo);
+                            
+                                for (int j = 0; j < formas.size(); j++) {
+                            if (formas.get(j) instanceof Ciclo) {
+                                Ciclo iteracion = (Ciclo) formas.get(j);
+                                bloqueCiclo(iteracion);
+
+                            }
+                        }
+
                             // Se vuelven a dibujar todas las figuras y los enlaces de flujos
                             repintar(cuadro);
                             // se anula la posibilidad de seguir presionando el canvas
@@ -2234,9 +2571,6 @@ public class FXMLDocumentController implements Initializable {
                             }
                             break;
                         } else {
-                            if (n instanceof Entrada && variable != 0) {
-                                variables.remove(variable);
-                            }
                             lienzo.setOnMouseClicked(null);
                         }
 
@@ -2248,6 +2582,48 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
+    public void bloqueCiclo(Ciclo iteracion) {
+        iteracion.getIdsFiguras().clear();
+        System.out.println("*****Formas dentro del ciclo " + iteracion.getTextoFigura() + "*******");
+        Flujo flujoCiclo = iteracion.getConexionH();
+        Figura i2 = null;
+        for (int i = 0; i < formas.size(); i++) {
+            if (formas.get(i).getFlujoSuperior() == flujoCiclo.getId() && formas.get(i) instanceof Ciclo == false) {
+                i2 = formas.get(i);
+                iteracion.setIdsFiguras(i);
+                iteracion.setIdsFiguras(i);
+            }
+
+        }
+        System.out.println(">> Flujo ID: " + flujoCiclo.getId());
+
+        if (i2 != null) {
+
+            boolean Ciclico = false;
+            System.out.println(">> " + i2.getTextoFigura());
+
+            for (int i = 0; i < formas.size(); i++) {
+                for (int j = 0; j < formas.size(); j++) {
+                    if (formas.get(j).getID() == i2.getSiguiente() && Ciclico != true) {
+                        i2 = formas.get(j);
+                        System.out.println(">> " + i2.getTextoFigura());
+                        iteracion.setIdsFiguras(j);
+                        if (i2.getID() == iteracion.getID()) {
+                            Ciclico = true;
+                            System.out.println(">> Aqui deberia terminar la busqueda");
+                        }
+
+                    }
+                }
+            }
+
+            for (int i = 0; i < iteracion.getIdsFiguras().size(); i++) {
+                System.out.println("Indice; " + i + " " + iteracion.getIdsFiguras().get(i));
+            }
+
+        }
+
+    }
     public void bajarFiguras(Figura bajar, int opcion) {
         Figura inicio2 = formas.get(0);
 
