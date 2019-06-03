@@ -1275,7 +1275,7 @@ public class FXMLDocumentController implements Initializable {
                                         ArrayList<String> tokensVariables = new ArrayList<>();
                                         ArrayList<String> palabrasTokensVariables = new ArrayList<>();
                                         for(int i = 0; i < arrayTokens.size(); i++){
-                                            if(arrayTokens.get(i).matches("[A-Za-z0-9]")){
+                                            if(arrayTokens.get(i).matches("[A-Za-z0-9]+")){
                                                 tokensVariables.add(arrayTokens.get(i));
                                             }
                                         }
