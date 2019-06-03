@@ -325,6 +325,32 @@ public class FXMLDocumentController implements Initializable {
         }
         return null;
     }
+        public Figura detectarFiguraB(int x, int y) {
+        for (int i = 0; i < formas.size(); i++) {//Se recorre la lista de las figuras
+            Figura aux = formas.get(i);//  se guarda en una figura aux
+            if (aux instanceof Decision) {
+                Decision fig = (Decision) formas.get(i);
+                for (int j = 0; j < fig.getFigurasT().size(); j++) {
+                    Figura aux2 = fig.getFigurasT().get(j);
+                    if (y >= aux2.getY1() && y <= aux2.getY3() && x >= aux2.getX1() && x <= aux2.getX2()) {// se pregunta si las coordenadas estan contenidas dentro de la figura
+                        return aux2;// se retorna la figura.
+                    }
+                }
+                for (int j = 0; j < fig.getFigurasF().size(); j++) {
+                    Figura aux2 = fig.getFigurasF().get(j);
+                    if (y >= aux2.getY1() && y <= aux2.getY3() && x >= aux2.getX1() && x <= aux2.getX2()) {// se pregunta si las coordenadas estan contenidas dentro de la figura
+                        return aux2;// se retorna la figura.
+                    }
+                }
+            } else {
+                aux=detectarFigura1(x,y);
+                if(aux!=null){
+                    return aux;
+                }
+            }
+        }
+        return null;
+    }
 
     public Figura detectarFlujo(int x, int y, GraphicsContext cuadro, Figura n) {
         for (int i = 0; i < formas.size(); i++) {
@@ -1984,18 +2010,55 @@ public class FXMLDocumentController implements Initializable {
      */
     public void detectarBorrar(int x, int y) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
-        Figura eliminar = detectarFigura1(x, y);// se usa el metodo dectectarFigura 1 para encontrar la figura
+        Figura eliminar = detectarFiguraB(x, y);// se usa el metodo dectectarFigura 1 para encontrar la figura
         if (eliminar != null) {// se entra en la condicion solo si se logra detectar una figura
             if (eliminar instanceof InicioFin == false) {// solo se puede eliminar una figura distinta a un InicioFin
-                reConectarFlujo(eliminar);// Se llama al metodo reconectarFlujo
-                formas.remove(eliminar);// se elimina la figura detectada
-                repintar(cuadro);// se vuelve a pintar todos los elementos en la pantalla
+                boolean decidir = borrarFiguraDecision(x, y, eliminar);
+                if (decidir == false) {
+                    reConectarFlujo(eliminar);// Se llama al metodo reconectarFlujo
+                    formas.remove(eliminar);// se elimina la figura detectada
+                    repintar(cuadro);// se vuelve a pintar todos los elementos en la pantalla
+                }
             }
         } else {
             System.out.println("no hay nada para eliminar");
 
         }
     }
+        private boolean borrarFiguraDecision(int x, int y, Figura eliminar) {
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        for (int i = 0; i < formas.size(); i++) {
+            if (formas.get(i) instanceof Decision) {
+                System.out.println("Soy una decision");
+                Decision figura = (Decision) formas.get(i);
+                for (int j = 0; j < figura.getFigurasT().size(); j++) {
+                    System.out.println("Soy un for wui" + j);
+                    Figura f = figura.getFigurasT().get(j);
+                    System.out.println("Recorriendo");
+                    if (y >= f.getY1() && y <= f.getY3() && x >= f.getX1() && x <= f.getX2()) {
+                        System.out.println("Soy esta figura" + f.getClass());
+                        ((Decision) formas.get(i)).getFigurasT().remove(j);
+                        repintar(cuadro);
+                        return true;
+                    }
+                }
+                for (int j = 0; j < figura.getFigurasF().size(); j++) {
+                    System.out.println("Soy un for wui" + j);
+                    Figura f = figura.getFigurasF().get(j);
+                    System.out.println("Recorriendo");
+                    if (y >= f.getY1() && y <= f.getY3() && x >= f.getX1() && x <= f.getX2()) {
+                        System.out.println("Soy esta figura" + f.getClass());
+                        ((Decision) formas.get(i)).getFigurasF().remove(j);
+                        repintar(cuadro);
+                        return true;
+                    }
+
+                }
+            }
+        }
+        return false;
+    }
+    
 
     @FXML
     Button cut;
