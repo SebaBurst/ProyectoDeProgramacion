@@ -27,6 +27,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -247,6 +248,8 @@ public class FXMLDocumentController implements Initializable {
 
                                         }
                                     }
+                                    
+                                    consola.setStyle("-fx-text-inner-color:blue;");
                                     consola.setText(consola.getText() + "\n" + tok.get(0) + valor);
                                 }
 
@@ -894,6 +897,10 @@ public class FXMLDocumentController implements Initializable {
      */
     private boolean ingresarTexto(Figura crear, String texto) {
         TextInputDialog dialog = new TextInputDialog();
+                    DialogPane dialogPane = dialog.getDialogPane();
+dialogPane.getStylesheets().add(
+   getClass().getResource("/Clases_Figura/Estilos/Alertas.css").toExternalForm());
+dialogPane.getStyleClass().add("myDialog");
         dialog.setTitle("Texto de " + texto);
         dialog.setHeaderText("");
         dialog.setContentText("Ingrese el texto que va en " + texto + ":");
@@ -2718,7 +2725,14 @@ public class FXMLDocumentController implements Initializable {
         InicioFin inicio = new InicioFin();
         String respuesta = "";
         while (validacion == false) {
+            
+          
             TextInputDialog dialog = new TextInputDialog();
+              
+            DialogPane dialogPane = dialog.getDialogPane();
+dialogPane.getStylesheets().add(
+   getClass().getResource("/Clases_Figura/Estilos/Alertas.css").toExternalForm());
+dialogPane.getStyleClass().add("myDialog");
             dialog.setTitle("Texto de inicio.");
             Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/Inicio.png").toExternalForm());
             ImageView imageView = new ImageView(image);
