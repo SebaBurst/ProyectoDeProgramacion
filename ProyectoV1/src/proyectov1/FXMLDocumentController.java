@@ -89,7 +89,7 @@ public class FXMLDocumentController implements Initializable {
         public void run() {// Se implementa el Metodo Run
 
             GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el Lienzo del programa
-
+            int contador = 0;
             Figura aux = formas.get(0);
 
             try {
@@ -248,13 +248,12 @@ public class FXMLDocumentController implements Initializable {
 
                                         }
                                     }
-                                    
+
                                     consola.setStyle("-fx-text-inner-color:blue;");
                                     consola.setText(consola.getText() + "\n" + tok.get(0) + valor);
                                 }
 
                             }
-
                             if (aux instanceof Ciclo) {
                                 Ciclo c = (Ciclo) aux;
                                 System.out.println("Is Verdadero: " + c.isVerdadero());
@@ -477,7 +476,9 @@ public class FXMLDocumentController implements Initializable {
                 }
 
             }
-            for (int i = 0; i < formas.size(); i++) {
+            for (int i = 0;
+                    i < formas.size();
+                    i++) {
                 if (formas.get(i) instanceof Ciclo) {
                     Ciclo ciclo = (Ciclo) formas.get(i);
                     ciclo.setVerdadero(false);
@@ -534,6 +535,36 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    public void moverDiagramaDecision(ArrayList<Flujo> enlaces,Figura a, int df2, int df) {
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo.
+        if (a.getMedioY() + df2 < 0) {
+            df2 = 0;
+        }
+        if ((a.getMedioX() + df) - 100 < 0) {
+            df = 0;
+
+        }
+        if (a.getMedioY() + df2 + 70 > lienzo.getHeight() || a.getMedioY() + df2 > lienzo.getHeight()) {
+            lienzo.setHeight(lienzo.getHeight() + 80);
+
+        }
+        if (a.getMedioX() + df + 200 > lienzo.getWidth() || a.getMedioX() + df > lienzo.getWidth()) {
+            lienzo.setWidth(lienzo.getWidth() + 130);
+
+        }
+        for (int j = 0; j < enlaces.size(); j++) {
+            Flujo aux = enlaces.get(j);
+            if (aux.getId() == a.getFlujoInferior()) {
+                aux.dibujar(aux.getX() + df, aux.getY() + df2, aux.getX1(), aux.getY2(), cuadro);
+            }
+            if (aux.getId() == a.getFlujoSuperior()) {
+                aux.dibujar(aux.getX(), aux.getY(), aux.getX1() + df, aux.getY2() + df2, cuadro);
+
+            }
+        }
+        a.dibujar(cuadro, a.getMedioX() + df, a.getMedioY() + df2);
+    }
+
     boolean inicio = true;
     int in = 0;
     int yn = 0;
@@ -556,7 +587,15 @@ public class FXMLDocumentController implements Initializable {
                 df2 = df2 * 2;
                 for (int i = 0; i < formas.size(); i++) {
                     Figura a = formas.get(i);
-
+                    if (a instanceof Decision) {
+                        Decision d = (Decision) a;
+                        for (int j = 0; j < d.getFigurasT().size(); j++) {
+                            moverDiagramaDecision(d.getFlujosT(), d.getFigurasT().get(j),df2,df);
+                        }
+                        for (int j = 0; j < d.getFigurasF().size(); j++) {
+                            moverDiagramaDecision(d.getFlujosF(),d.getFigurasF().get(j),df2,df);
+                        }
+                    }
                     if (a.getMedioY() + df2 < 0) {
                         df2 = 0;
                     }
@@ -897,10 +936,10 @@ public class FXMLDocumentController implements Initializable {
      */
     private boolean ingresarTexto(Figura crear, String texto) {
         TextInputDialog dialog = new TextInputDialog();
-                    DialogPane dialogPane = dialog.getDialogPane();
-dialogPane.getStylesheets().add(
-   getClass().getResource("/Clases_Figura/Estilos/Alertas.css").toExternalForm());
-dialogPane.getStyleClass().add("myDialog");
+        DialogPane dialogPane = dialog.getDialogPane();
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/Clases_Figura/Estilos/Alertas.css").toExternalForm());
+        dialogPane.getStyleClass().add("myDialog");
         dialog.setTitle("Texto de " + texto);
         dialog.setHeaderText("");
         dialog.setContentText("Ingrese el texto que va en " + texto + ":");
@@ -2725,14 +2764,13 @@ dialogPane.getStyleClass().add("myDialog");
         InicioFin inicio = new InicioFin();
         String respuesta = "";
         while (validacion == false) {
-            
-          
+
             TextInputDialog dialog = new TextInputDialog();
-              
+
             DialogPane dialogPane = dialog.getDialogPane();
-dialogPane.getStylesheets().add(
-   getClass().getResource("/Clases_Figura/Estilos/Alertas.css").toExternalForm());
-dialogPane.getStyleClass().add("myDialog");
+            dialogPane.getStylesheets().add(
+                    getClass().getResource("/Clases_Figura/Estilos/Alertas.css").toExternalForm());
+            dialogPane.getStyleClass().add("myDialog");
             dialog.setTitle("Texto de inicio.");
             Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/Inicio.png").toExternalForm());
             ImageView imageView = new ImageView(image);
