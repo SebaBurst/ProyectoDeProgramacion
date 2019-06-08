@@ -19,13 +19,55 @@ import javafx.scene.text.FontWeight;
 public class Decision extends Figura {
 
     boolean tipoFlujo;
+    int agrandar=0;
     int idF;
     int idT;
     ArrayList<Flujo> flujosT = new ArrayList();
     ArrayList<Flujo> flujosF = new ArrayList();
     ArrayList<Figura> figurasT = new ArrayList();
     ArrayList<Figura> figurasF = new ArrayList();
-    Flujo flujo = new Flujo();
+    Flujo flujoT = new Flujo();
+    Flujo flujoF = new Flujo();
+
+    public int getAgrandar() {
+        return agrandar;
+    }
+
+    public void setAgrandar(int agrandar) {
+        this.agrandar = agrandar+60;
+    }
+
+    public ArrayList<Flujo> getFlujosT() {
+        return flujosT;
+    }
+
+    public void setFlujosT(ArrayList<Flujo> flujosT) {
+        this.flujosT = flujosT;
+    }
+
+    public ArrayList<Flujo> getFlujosF() {
+        return flujosF;
+    }
+
+    public void setFlujosF(ArrayList<Flujo> flujosF) {
+        this.flujosF = flujosF;
+    }
+
+    public Flujo getFlujoT() {
+        return flujoT;
+    }
+
+    public void setFlujoT(Flujo flujoT) {
+        this.flujoT = flujoT;
+    }
+
+    public Flujo getFlujoF() {
+        return flujoF;
+    }
+
+    public void setFlujoF(Flujo flujoF) {
+        this.flujoF = flujoF;
+    }
 
     public ArrayList<Figura> getFigurasT() {
         return figurasT;
@@ -41,15 +83,6 @@ public class Decision extends Figura {
 
     public void setFigurasF(ArrayList<Figura> figurasF) {
         this.figurasF = figurasF;
-    }
-
-
-    public Flujo getFlujo() {
-        return flujo;
-    }
-
-    public void setFlujo(Flujo flujo) {
-        this.flujo = flujo;
     }
 
     public int getIdF() {
@@ -74,22 +107,6 @@ public class Decision extends Figura {
 
     public void setTipoFlujo(boolean tipoFlujo) {
         this.tipoFlujo = tipoFlujo;
-    }
-
-    public ArrayList<Flujo> getFlujosT() {
-        return flujosT;
-    }
-
-    public void setFlujosT(ArrayList<Flujo> flujosT) {
-        this.flujosT = flujosT;
-    }
-
-    public ArrayList<Flujo> getFlujosF() {
-        return flujosF;
-    }
-
-    public void setFlujosF(ArrayList<Flujo> flujosF) {
-        this.flujosF = flujosF;
     }
 
     @Override
@@ -135,22 +152,31 @@ public class Decision extends Figura {
         lienzo.setFont(Font.font("Verdana", FontWeight.LIGHT, FontPosture.ITALIC, 15.0));
         lienzo.setFill(Color.BLACK);
         lienzo.fillText(this.getTextoFigura(), Math.round(ix + 25), Math.round(y + 35));//y
-
-        this.flujo.dibujar(x + 300, y + 30, x + 300, y + 200, lienzo);
-        flujosT.add(flujo);
+        int sumar = getAgrandar();
+        this.flujoT.dibujar(x + 300, y + 30, x + 300, y+200+sumar, lienzo);
+        flujosT.add(flujoT);
         lienzo.setStroke(Color.valueOf("#298A08"));
-        //lienzo.strokeLine(x + 300, y + 30, x + 300, y + 200);
-        lienzo.strokeLine(x + 300, y + 200, x, y + 200);
+
         lienzo.strokeLine(x + 100, y + 30, x + 300, y + 30);
 
-        this.flujo.dibujar(x - 300, y + 30, x - 300, y + 200, lienzo);
-        flujosF.add(flujo);
+        this.flujoF.dibujar(x - 300, y + 30, x - 300, y+200+sumar, lienzo);
+        flujosF.add(flujoF);
         lienzo.setStroke(Color.valueOf("#DF0101"));
-        //lienzo.strokeLine(x - 300, y + 30, x - 300, y + 200);
-        lienzo.strokeLine(x - 300, y + 200, x, y + 200);
+
         lienzo.strokeLine(x - 100, y + 30, x - 300, y + 30);
+        
+        dibujarAbajo(lienzo,x,y,sumar);
 
     }
 
+    public void dibujarAbajo(GraphicsContext lienzo, int x, int y,int sumar) {
+        //t
+        lienzo.setStroke(Color.valueOf("#298A08"));
+        lienzo.strokeLine(x + 300, y + 200+sumar, x, y + 200+sumar);
+
+        //f
+        lienzo.setStroke(Color.valueOf("#DF0101"));
+        lienzo.strokeLine(x - 300, y + 200+sumar, x, y + 200+sumar);
+    }
 
 }
