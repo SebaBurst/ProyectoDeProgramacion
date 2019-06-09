@@ -8,8 +8,8 @@ public abstract class Figura {
     public int medioX=0;
     public int FlujoSuperior;
     public int FlujoInferior;
-    public int anterior;
-    public int siguiente;
+    public int anterior=-8;
+    public int siguiente=-9;
     private int ID;
     
 
