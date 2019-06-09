@@ -45,9 +45,9 @@ import javax.script.ScriptException;
  */
 public class FXMLDocumentController implements Initializable {
 
-    private ArrayList<Figura> formas = new ArrayList();// Coleccion de las Figuras que se van creando
+    public static ArrayList<Figura> formas = new ArrayList();// Coleccion de las Figuras que se van creando
     private ArrayList<Variable> variables = new ArrayList();// Coleccion de Variables ingresadas por el usuario
-    private ArrayList<Flujo> enlaces = new ArrayList();// Coleccion de enlaces dentro del diagrama
+    public static ArrayList<Flujo> enlaces = new ArrayList();// Coleccion de enlaces dentro del diagrama
     private boolean click = false; // Booleano que desactiva un boton cuando se hace click
     private boolean reiniciarHilo = true;// Booleano que verifica para 
     private int idFlujos = 0;
@@ -460,38 +460,218 @@ public class FXMLDocumentController implements Initializable {
                                 }
 
                             }
-                            if (aux instanceof Decision) {
-                                System.out.println(variables.get(j));
-                                try {
-                                    Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
-                                    cuadro.drawImage(image, aux.getMedioX() - 230, aux.getMedioY());
 
-                                    Thread.sleep(2000);
-                                    cuadro.clearRect(aux.getMedioX() - 230, aux.getMedioY(), 60, 60);
-                                } catch (InterruptedException ex) {
-                                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                            if (aux instanceof Decision) {
+
+                                //Inicio validacion condicional
+                                Decision c = (Decision) aux;
+                                System.out.println("Is Verdadero: " + c.isVerdadero());
+                                String[] tokens = c.getTextoFigura().replaceAll("\\s+", "").split("(?<=[-+/()><=!])|(?=[-+/()><=!])");
+                                System.out.println("Tokens Ciclo");
+                                for (String token : tokens) {
+                                    System.out.println(token);
+                                }
+                                ArrayList<String> arrayTokens = new ArrayList<>();
+                                for (String token : tokens) {
+                                    arrayTokens.add(token);
+                                }
+                                Variable a = null;
+                                Variable b = null;
+                                String a1 = "";
+                                String b1 = "";
+                                String simbolo = "";
+                                if (arrayTokens.size() == 3) {
+                                    simbolo = arrayTokens.get(1);
+                                    a1 = arrayTokens.get(0);
+                                    b1 = arrayTokens.get(2);
+
+                                } else if (arrayTokens.size() == 4) {
+                                    simbolo = arrayTokens.get(1) + arrayTokens.get(2);
+                                    a1 = arrayTokens.get(0);
+                                    b1 = arrayTokens.get(3);
                                 }
 
-                                for (int k = 0; k < ((Decision) aux).getFigurasT().size(); k++) {
-                                    try {
-                                        Figura f = ((Decision) aux).getFigurasT().get(k);
-                                        Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
-                                        cuadro.drawImage(image, f.getMedioX() - 230, f.getMedioY());
+                                boolean existeA = false;
+                                boolean existeB = false;
+                                //BuscarVariables
+                                for (int k = 0; k < variables.size(); k++) {
+                                    if (variables.get(k).getNombre().equals(a1)) {
+                                        a1 = variables.get(k).getTexto();
+                                        existeA = true;
 
-                                        Thread.sleep(2000);
-                                        cuadro.clearRect(f.getMedioX() - 230, f.getMedioY(), 60, 60);
-                                    } catch (InterruptedException ex) {
-                                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                                    } else if (variables.get(k).getNombre().equals(b1)) {
+                                        b1 = variables.get(k).getTexto();
+                                        existeB = true;
                                     }
                                 }
-                                break;
+
+                                boolean resultado1;
+                                try {
+                                    Integer.parseInt(a1);
+                                    resultado1 = true;
+                                } catch (NumberFormatException excepcion) {
+                                    resultado1 = false;
+                                }
+
+                                System.out.println("B2:" + b1);
+                                boolean resultado2;
+                                try {
+                                    Integer.parseInt(b1);
+                                    resultado2 = true;
+                                } catch (NumberFormatException excepcion) {
+                                    resultado2 = false;
+                                }
+                                System.out.println("Llegue a ver si existen");
+                                System.out.println("ABoleando: " + resultado1);
+                                System.out.println("BBoleando: " + resultado2);
+
+                                System.out.println("ExisteABoleando: " + existeA);
+                                System.out.println("ExisteBBoleando: " + existeB);
+//ver si existen
+                                if (existeA == false) {
+                                    a1 = "0";
+
+                                } else if (resultado2 == true) {
+
+                                } else if (existeB == false && resultado2 != true) {
+                                    b1 = "0";
+                                }
+
+                                boolean resultado;
+                                try {
+                                    Integer.parseInt(a1);
+                                    resultado = true;
+                                } catch (NumberFormatException excepcion) {
+                                    resultado = false;
+                                }
+
+                                boolean resultadoB;
+                                try {
+                                    Integer.parseInt(b1);
+                                    resultadoB = true;
+                                } catch (NumberFormatException excepcion) {
+                                    resultadoB = false;
+                                }
+
+                                String primerA = "";
+                                String primerB = "";
+                                if (infinity == 0) {
+                                    primerA = a1;
+                                    primerB = b1;
+                                }
+                                if (a1.equals(primerA)) {
+                                    infinity++;
+                                }
+
+                                boolean FinEjecucion = false;
+
+                                System.out.println(">>>a: " + a1);
+                                System.out.println(">>>b: " + b1);
+                                // ver si el simbolo es >
+                                if (simbolo.equals(">")) {
+                                    if (resultado == true && resultadoB == true) {
+                                        if (Integer.parseInt(a1) > Integer.parseInt(b1)) {
+                                            c.setVerdadero(true);
+                                        }
+                                        if (Integer.parseInt(a1) < Integer.parseInt(b1)) {
+                                            c.setVerdadero(false);
+                                        }
+                                    }  
+                                } else if (simbolo.equals("<")) {
+
+                                        if (resultado == true && resultadoB == true) {
+                                            if (Integer.parseInt(a1) < Integer.parseInt(b1)) {
+                                                c.setVerdadero(true);
+                                                System.out.println(">> Se volvio verdadero");
+
+                                            } else if (Integer.parseInt(a1) > Integer.parseInt(b1)) {
+                                                c.setVerdadero(false);
+
+                                            }
+                                        }
+                                        } else if (simbolo.equals("=")) {
+                                            if (a1.equals(b1)) {
+                                                c.setVerdadero(true);
+                                            }
+                                            if (!a1.equals(b1)) {
+                                                c.setVerdadero(false);
+                                            }
+                                        }
+                                        else if (simbolo.equals("!=")) {
+                                            if (a1.equals(b1) == false) {
+                                                c.setVerdadero(true);
+                                            }
+
+                                        } else if (simbolo.equals("<=")) {
+
+                                            if (resultado == true && resultadoB == true) {
+                                                if (Integer.parseInt(a1) <= Integer.parseInt(b1)) {
+                                                    c.setVerdadero(true);
+
+                                                } else if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
+                                                    c.setVerdadero(false);
+
+                                                }
+                                            }}else if (simbolo.equals(">=")) {
+
+                                                if (resultado == true && resultadoB == true) {
+                                                    if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
+                                                        c.setVerdadero(true);
+
+                                                    } else if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
+                                                        c.setVerdadero(false);
+
+                                                    }
+
+                                                }
+                                            }
+                                       
+                                    
+                                
+                                
+                                
+                                
+                                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
+                                cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+
+                                Thread.sleep(2000);
+                                cuadro.clearRect(corriendo.getMedioX() - 230, corriendo.getMedioY(), 60, 60);
+
+                                if (c.isVerdadero()) {
+                                    Figura inicio2 = null;
+                                    for (int w = 0; w < c.getVerdaderas().size(); w++) {
+                                        if (c.getVerdaderas().get(w).getAnterior() == -8) {
+                                            inicio2 = c.getVerdaderas().get(w);
+
+                                        }
+                                    }
+                                    Image image2 = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
+                                    cuadro.drawImage(image2, inicio2.getMedioX() - 230, inicio2.getMedioY());
+
+                                    Thread.sleep(2000);
+                                    cuadro.clearRect(inicio2.getMedioX() - 230, inicio2.getMedioY(), 60, 60);
+                                    
+                                    
+                                    
+
+                                } else {
+
+                                    
+                                    
+                                    
+                                    
+                                    
+                                }
+
+                            }
+                            if (corriendo instanceof Decision == false) {
+                                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
+                                cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+
+                                Thread.sleep(2000);
+                                cuadro.clearRect(corriendo.getMedioX() - 230, corriendo.getMedioY(), 60, 60);
                             }
 
-                            Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
-                            cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
-
-                            Thread.sleep(2000);
-                            cuadro.clearRect(corriendo.getMedioX() - 230, corriendo.getMedioY(), 60, 60);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (ScriptException ex) {
@@ -604,17 +784,7 @@ public class FXMLDocumentController implements Initializable {
                 df2 = df2 * 2;
                 for (int i = 0; i < formas.size(); i++) {
                     Figura a = formas.get(i);
-                    if (a instanceof Decision) {
-                        Decision d = (Decision) a;
-                        for (int j = 0; j < d.getFigurasT().size(); j++) {
-                            moverDiagramaDecision(d.getFigurasT().get(j), df2, df);
-                            repintar(cuadro);
-                        }
-                        for (int j = 0; j < d.getFigurasF().size(); j++) {
-                            moverDiagramaDecision(d.getFigurasF().get(j), df2, df);
-                            repintar(cuadro);
-                        }
-                    }
+
                     if (a.getMedioY() + df2 < 0) {
                         df2 = 0;
                     }
@@ -644,90 +814,6 @@ public class FXMLDocumentController implements Initializable {
                     repintar(cuadro);
                     inicio = true;
                 }
-
-            }
-            lienzo.setOnMouseReleased(t -> {
-                lienzo.setOnMouseDragged(null);
-                in = 0;
-                inicio = true;
-            });
-
-        });
-
-    }
-
-    private void moverDecision(Decision d) {
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo.
-        lienzo.setOnMouseDragged(e -> {
-            if (inicio == true) {
-                in = (int) e.getX();
-                yn = (int) e.getY();
-                inicio = false;
-
-            } else {
-                int diferencia = (int) e.getX();
-                int df = (diferencia - (in)) * 2;
-                int diferencia2 = (int) e.getY();
-                int df2 = ((diferencia2 - (yn)) * 2);
-
-                for (int j = 0; j < d.getFigurasT().size(); j++) {
-                    Figura a = d.getFigurasT().get(j);
-                    if (a.getMedioY() + df2 < 0) {
-                        df2 = 0;
-                    }
-                    if ((a.getMedioX() + df) - 100 < 0) {
-                        df = 0;
-
-                    }
-                    if (a.getMedioY() + df2 + 70 > lienzo.getHeight() || a.getMedioY() + df2 > lienzo.getHeight()) {
-                        lienzo.setHeight(lienzo.getHeight() + 80);
-
-                    }
-                    if (a.getMedioX() + df + 200 > lienzo.getWidth() || a.getMedioX() + df > lienzo.getWidth()) {
-                        lienzo.setWidth(lienzo.getWidth() + 130);
-
-                    }
-
-                    a.dibujar(cuadro, d.getMedioX() + 300, a.getMedioY() + df2);
-
-                    repintar(cuadro);
-
-                }
-                for (int j = 0; j < d.getFigurasF().size(); j++) {
-                    Figura a = d.getFigurasF().get(j);
-                    if (a.getMedioY() + df2 < 0) {
-                        df2 = 0;
-                    }
-                    if ((a.getMedioX() + df) - 100 < 0) {
-                        df = 0;
-
-                    }
-                    if (a.getMedioY() + df2 + 70 > lienzo.getHeight() || a.getMedioY() + df2 > lienzo.getHeight()) {
-                        lienzo.setHeight(lienzo.getHeight() + 80);
-
-                    }
-                    if (a.getMedioX() + df + 200 > lienzo.getWidth() || a.getMedioX() + df > lienzo.getWidth()) {
-                        lienzo.setWidth(lienzo.getWidth() + 130);
-
-                    }
-
-                    a.dibujar(cuadro, d.getMedioX() - 300, a.getMedioY() + df2);
-                    repintar(cuadro);
-                }
-                for (int j = 0; j < enlaces.size(); j++) {
-                    Flujo aux = enlaces.get(j);
-                    if (aux.getId() == d.getFlujoInferior()) {
-                        aux.dibujar(aux.getX() + df, aux.getY() + df2, aux.getX1(), aux.getY2(), cuadro);
-                    }
-                    if (aux.getId() == d.getFlujoSuperior()) {
-                        aux.dibujar(aux.getX(), aux.getY(), aux.getX1() + df, aux.getY2() + df2, cuadro);
-
-                    }
-                }
-                inicio = true;
-                d.dibujar(cuadro, d.getMedioX() + df, d.getMedioY() + df2);
-                repintar(cuadro);
-
             }
             lienzo.setOnMouseReleased(t -> {
                 lienzo.setOnMouseDragged(null);
@@ -755,17 +841,6 @@ public class FXMLDocumentController implements Initializable {
         for (int i = 0; i < formas.size(); i++) {// Se recorre la lista de las figuras
             //Se dibuja la figura con las coordenadas correspondientes
             formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
-            if (formas.get(i) instanceof Decision) {
-                for (int j = 0; j < ((Decision) formas.get(i)).getFigurasT().size(); j++) {
-                    Figura figura = ((Decision) formas.get(i)).getFigurasT().get(j);
-                    figura.dibujar(cuadro, figura.getMedioX(), figura.getY1());
-                }
-                for (int j = 0; j < ((Decision) formas.get(i)).getFigurasF().size(); j++) {
-                    Figura figura = ((Decision) formas.get(i)).getFigurasF().get(j);
-                    figura.dibujar(cuadro, figura.getMedioX(), figura.getY1());
-                }
-
-            }
         }
     }
 
@@ -802,118 +877,6 @@ public class FXMLDocumentController implements Initializable {
         return null;
     }
 
-    public Figura detectarFiguraB(int x, int y) {
-        for (int i = 0; i < formas.size(); i++) {//Se recorre la lista de las figuras
-            Figura aux = formas.get(i);//  se guarda en una figura aux
-            if (aux instanceof Decision) {
-                Decision fig = (Decision) formas.get(i);
-                for (int j = 0; j < fig.getFigurasT().size(); j++) {
-                    Figura aux2 = fig.getFigurasT().get(j);
-                    if (y >= aux2.getY1() && y <= aux2.getY3() && x >= aux2.getX1() && x <= aux2.getX2()) {// se pregunta si las coordenadas estan contenidas dentro de la figura
-                        return aux2;// se retorna la figura.
-                    }
-                }
-                for (int j = 0; j < fig.getFigurasF().size(); j++) {
-                    Figura aux2 = fig.getFigurasF().get(j);
-                    if (y >= aux2.getY1() && y <= aux2.getY3() && x >= aux2.getX1() && x <= aux2.getX2()) {// se pregunta si las coordenadas estan contenidas dentro de la figura
-                        return aux2;// se retorna la figura.
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    public Figura detectarFlujo(int x, int y, GraphicsContext cuadro, Figura n) {
-        for (int i = 0; i < formas.size(); i++) {
-            if(formas.get(i) instanceof Decision && n instanceof Decision){
-                System.out.println("Por el momento no se puede dibujar una decision dentro de otra");
-                return null;
-            }
-            if (formas.get(i) instanceof Decision) {
-                for (int j = 0; j < ((Decision) formas.get(i)).getFlujosT().size(); j++) {
-                    Flujo auxf = ((Decision) formas.get(i)).getFlujosT().get(j);
-                    int medioX = ((Decision) formas.get(i)).getMedioX();
-                    if (y >= auxf.getY() && y <= auxf.getY2() && x > medioX && x < medioX + 400) {
-                        System.out.println("Holi soy true");
-                        if (((Decision) formas.get(i)).getFlujoT() != null) {
-                            ((Decision) formas.get(i)).setTipoFlujo(true);
-                            int porte = auxf.getY2() - y;
-                            System.out.println("porte " + porte);
-                            if (porte < 75) {
-                                ((Decision) formas.get(i)).setAgrandar(80);
-                                moverEnlaces(((Decision) formas.get(i)), ((Decision) formas.get(i)).getX1(), ((Decision) formas.get(i)).getY1());
-                            }
-                            cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-                            Flujo aux = ((Decision) formas.get(i)).getFlujoT();
-                            Flujo nuevo = new Flujo();
-                            int diferenciaY = y - aux.getY();
-                            nuevo.setId(((Decision) formas.get(i)).getIdT() + 1);
-                            cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-                            nuevo.dibujar(aux.getX(), aux.getY(), x, y, cuadro);
-                            aux.dibujar(x, aux.getY() + 130, aux.getX1(), aux.getY2(), cuadro);
-                            n.dibujar(cuadro, medioX + 300, nuevo.getY2());
-
-                            n.setFlujoSuperior(nuevo.getId());
-                            ((Decision) formas.get(i)).setIdT(((Decision) formas.get(i)).getIdT() + 1);
-                            n.setFlujoInferior(aux.getId());
-
-                            ((Decision) ((Decision) formas.get(i))).getFlujosT().add(nuevo);
-                            ((Decision) ((Decision) formas.get(i))).getFigurasT().add(n);
-                            cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-                            // Se vuelven a dibujar todas las figuras y los enlaces de flujos
-                            repintar(cuadro);
-                        }
-                        return ((Decision) formas.get(i));
-
-                    }
-                    if (y >= auxf.getY() && y <= auxf.getY2() && x < medioX && x > medioX - 400) {
-                        System.out.println("Holi soy falsa");
-                        if (((Decision) formas.get(i)).getFlujoF() != null) {
-                            ((Decision) formas.get(i)).setTipoFlujo(false);
-                            int porte = auxf.getY2() - y;
-                            System.out.println("porte " + porte);
-                            if (porte < 75) {
-                                ((Decision) formas.get(i)).setAgrandar(80);
-                                moverEnlaces(((Decision) formas.get(i)), ((Decision) formas.get(i)).getX1(), ((Decision) formas.get(i)).getY1());
-                            }
-                            cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-                            Flujo aux = ((Decision) formas.get(i)).getFlujoF();
-                            Flujo nuevo = new Flujo();
-                            nuevo.setId(((Decision) formas.get(i)).getIdT());
-                            cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-                            nuevo.dibujar(aux.getX(), aux.getY(), x, y, cuadro);
-                            aux.dibujar(x, aux.getY() + 130, aux.getX1(), aux.getY2(), cuadro);
-                            n.dibujar(cuadro, medioX - 300, nuevo.getY2());
-
-                            n.setFlujoSuperior(nuevo.getId());
-                            ((Decision) formas.get(i)).setIdT(((Decision) formas.get(i)).getIdT() + 1);
-                            n.setFlujoInferior(aux.getId());
-
-                            ((Decision) ((Decision) formas.get(i))).getFlujosF().add(nuevo);
-                            ((Decision) ((Decision) formas.get(i))).getFigurasF().add(n);
-                            cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
-                            // Se vuelven a dibujar todas las figuras y los enlaces de flujos
-                            repintar(cuadro);
-
-                        }
-                        return ((Decision) formas.get(i));
-
-                    } else {
-                        System.out.println("No soy true ;c");
-                        System.out.println("Ni false ;c");
-                    }
-
-                }
-
-            }
-            lienzo.setOnMouseClicked(null);
-        }
-        return null;
-    }
-
-    
-
     int x = 0, x4 = 0, x2 = 0, x3 = 0, y = 0, y4 = 0, y2 = 0, y3 = 0;
     Figura Aux;
 
@@ -929,24 +892,48 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo
         for (int i = 0; i < enlaces.size(); i++) {// se recorren la lista de enlaces
             Flujo fAux = enlaces.get(i);// se guarda en un enlace auxiliar
+            if (move instanceof Decision) {// mover conexion verdadera de la decision
+                for (int j = 0; j < enlaces.size(); j++) {
+                    if (enlaces.get(j).getId() == ((Decision) move).getLadoDerecho().getId()) {
+                        enlaces.get(j).dibujar(x + 180, y + 30, enlaces.get(j).getX1(), enlaces.get(j).getY2(), cuadro);
+                    }
+                    if (enlaces.get(j).getId() == ((Decision) move).getLadoIzquierdo().getId()) {
+                        enlaces.get(j).dibujar(x - 180, y + 30, enlaces.get(j).getX1(), enlaces.get(j).getY2(), cuadro);
+
+                    }
+                }
+            }
+
             if (fAux.getId() == move.getFlujoSuperior()) {// se pregunta si el ID del Auxiliar es igual al flujo superior de la figura
                 fAux.dibujar(fAux.getX(), fAux.getY(), x, y, cuadro);
             }
             if (fAux.getId() == move.getFlujoInferior()) {// se pregunta si el Id del Aux es igual al Flujo inferior del eliminar
-                if (move instanceof Decision) {
-                    int sumar = ((Decision) move).getAgrandar();
-                    fAux.dibujar(x, y + 70 + 130 + sumar, fAux.getX1(), fAux.getY2(), cuadro);
+                if (Aux instanceof Decision) {
+                    Decision a = (Decision) Aux;
+                    if (a.getTipo() == 1) {
+                        fAux.dibujar(x, y + 300, fAux.getX1(), fAux.getY2(), cuadro);
+                    } else if (a.getTipo() == 2) {
+                        fAux.dibujar(x, y + 150, fAux.getX1(), fAux.getY2(), cuadro);
+
+                    }
                 } else {
                     fAux.dibujar(x, y + 70, fAux.getX1(), fAux.getY2(), cuadro);
+
                 }
+
             }
         }
 
         repintar(cuadro);// Se vuelven a pintar todos los objetos dentro del canvas
     }
-
     int mx = 0, my = 0;
 
+    /**
+     * Metodo que se encarga de mover las figuras arrastrando el mouse.
+     *
+     * @param cuadro
+     * @param lienzo
+     */
     /**
      * Metodo que se encarga de mover las figuras arrastrando el mouse.
      *
@@ -956,11 +943,6 @@ public class FXMLDocumentController implements Initializable {
     public void moverFigura(GraphicsContext cuadro, Canvas lienzo) {
         lienzo.setOnMousePressed(e -> {
             Aux = detectarFigura1((int) e.getX(), (int) e.getY());
-            Figura aux = detectarFiguraB((int) e.getX(), (int) e.getY());
-            if (aux != null) {
-                Aux = null;
-            }
-
             if (Aux != null) {
                 if (Aux != null) {
                     x = Aux.getX1();
@@ -976,17 +958,7 @@ public class FXMLDocumentController implements Initializable {
                 }
                 if (Aux != null) {
                     lienzo.setOnMouseDragged(en -> {
-                        int diferencia = (int) en.getX();
-                        int df = diferencia - diferencia;
-                        df = df * 2;
-                        int diferencia2 = (int) en.getY();
-                        int df2 = diferencia2 - diferencia2;
-                        df2 = df2 * 2;
                         if (Aux != null && reiniciarHilo == true) {
-                            if (Aux instanceof Decision) {
-                                moverDecision(((Decision) Aux));
-
-                            }
 
                             moverEnlaces(Aux, (int) en.getX(), (int) en.getY());
                             cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());
@@ -995,6 +967,7 @@ public class FXMLDocumentController implements Initializable {
                         }
                     });
                     lienzo.setOnMouseReleased(p -> {
+
                         System.out.println("Me detuve");
                         if (Aux != null) {
                             if (Aux.getY3() >= lienzo.getHeight() || Aux.getMedioY() >= lienzo.getHeight()) {
@@ -1028,8 +1001,20 @@ public class FXMLDocumentController implements Initializable {
                                         if (link.getId() == Aux.getFlujoSuperior()) {
                                             link.dibujar(link.getX(), link.getY(), mx, my, cuadro);
                                         }
+
                                         if (link.getId() == Aux.getFlujoInferior()) {
-                                            link.dibujar(mx, my + 70, link.getX1(), link.getY2(), cuadro);
+                                            if (Aux instanceof Decision) {
+                                                Decision a = (Decision) Aux;
+                                                if (a.getTipo() == 1) {
+                                                    link.dibujar(mx, my + 300, link.getX1(), link.getY2(), cuadro);
+                                                } else if (a.getTipo() == 2) {
+                                                    link.dibujar(mx, my + 140, link.getX1(), link.getY2(), cuadro);
+
+                                                }
+                                            } else {
+                                                link.dibujar(mx, my + 70, link.getX1(), link.getY2(), cuadro);
+
+                                            }
 
                                         }
 
@@ -1037,6 +1022,20 @@ public class FXMLDocumentController implements Initializable {
                                         repintar(cuadro);
 
                                     }
+                                    if (Aux instanceof Decision) {
+                                        Decision a = (Decision) Aux;
+                                        for (int i = 0; i < enlaces.size(); i++) {
+                                            if (enlaces.get(i).getId() == a.getLadoDerecho().getId()) {
+                                                enlaces.get(i).dibujar(mx + 180, my + 30, enlaces.get(i).getX1(), enlaces.get(i).getY2(), cuadro);
+                                            }
+                                            if (enlaces.get(i).getId() == a.getLadoIzquierdo().getId()) {
+                                                enlaces.get(i).dibujar(mx - 180, my + 30, enlaces.get(i).getX1(), enlaces.get(i).getY2(), cuadro);
+
+                                            }
+                                        }
+
+                                    }
+
                                 }
 
                                 Aux.dibujar(cuadro, (mx), my);
@@ -1045,7 +1044,6 @@ public class FXMLDocumentController implements Initializable {
                             } else {
                                 Aux.dibujar(cuadro, mp, mo);
                                 repintar(cuadro);
-
                             }
 
                         }
@@ -2470,6 +2468,53 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    public void borrarDecision(Decision eliminar) {
+
+        for (int i = 0; i < ((Decision) eliminar).getVerdaderas().size(); i++) {
+
+            if (eliminar.getVerdaderas().get(i) instanceof Decision) {
+                borrarDecision((Decision) eliminar.getVerdaderas().get(i));
+
+            }
+            reConectarFlujo(((Decision) eliminar).getVerdaderas().get(i));// Se llama al metodo reconectarFlujo
+            formas.remove(((Decision) eliminar).getVerdaderas().get(i));// se elimina la figura detectada
+
+        }
+
+        for (int i = 0; i < ((Decision) eliminar).getFalsas().size(); i++) {
+
+            if (eliminar.getFalsas().get(i) instanceof Decision) {
+                borrarDecision((Decision) eliminar.getFalsas().get(i));
+
+            }
+            reConectarFlujo(((Decision) eliminar).getFalsas().get(i));// Se llama al metodo reconectarFlujo
+            formas.remove(((Decision) eliminar).getFalsas().get(i));// se elimina la figura detectada
+
+        }
+        for (int i = 0; i < enlaces.size(); i++) {
+            if (enlaces.get(i).getDecision() == eliminar.getID()) {
+                if (enlaces.get(i).isDerecho()) {
+                    enlaces.remove(enlaces.get(i));
+                    i = enlaces.size();
+
+                }
+
+            }
+        }
+
+        for (int i = 0; i < enlaces.size(); i++) {
+            if (enlaces.get(i).getDecision() == eliminar.getID()) {
+                if (enlaces.get(i).isDerecho() == false) {
+                    enlaces.remove(enlaces.get(i));
+                    i = enlaces.size();
+
+                }
+
+            }
+        }
+
+    }
+
     /**
      * Metodo que se encarga de unir dos flujos luego de que una figura ha sido
      * eliminada y asi no afecte drasticamente al diagrama
@@ -2524,58 +2569,52 @@ public class FXMLDocumentController implements Initializable {
      */
     public void detectarBorrar(int x, int y) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
-        Figura eliminar = detectarFiguraB(x, y);// se usa el metodo dectectarFigura 1 para encontrar la figura
-        if (eliminar == null) {
-            eliminar = detectarFigura1(x, y);
-
-        }
+        Figura eliminar = detectarFigura1(x, y);// se usa el metodo dectectarFigura 1 para encontrar la figura
         if (eliminar != null) {// se entra en la condicion solo si se logra detectar una figura
             if (eliminar instanceof InicioFin == false) {// solo se puede eliminar una figura distinta a un InicioFin
-                boolean decidir = borrarFiguraDecision(x, y);
-                if (decidir == false) {
-                    reConectarFlujo(eliminar);// Se llama al metodo reconectarFlujo
-                    formas.remove(eliminar);// se elimina la figura detectada
-                    repintar(cuadro);// se vuelve a pintar todos los elementos en la pantalla
+                if (eliminar instanceof Decision) {
+                    borrarDecision((Decision) eliminar);
                 }
+                if (eliminar instanceof Ciclo) {
+                    for (int i = 0; i < ((Ciclo) eliminar).getIdsFiguras().size(); i++) {
+                        for (int j = 0; j < formas.size(); j++) {
+                            if (formas.get(j).getID() == ((Ciclo) eliminar).getIdsFiguras().get(i)) {
+                                if (eliminar instanceof Decision) {
+                                    borrarDecision((Decision) eliminar);
+                                } else {
+                                    reConectarFlujo(formas.get(j));// Se llama al metodo reconectarFlujo
+                                    formas.remove(formas.get(j));// 
+
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+                reConectarFlujo(eliminar);// Se llama al metodo reconectarFlujo
+                formas.remove(eliminar);// se elimina la figura detectada
+                for (int i = 0; i < formas.size(); i++) {
+                    if (formas.get(i) instanceof Decision) {
+                        Decision aux = (Decision) formas.get(i);
+                        aux.actualizarFlujos();
+                        formas.set(i, aux);
+                    }
+                }
+
+                for (int i = 0; i < formas.size(); i++) {
+                    if (formas.get(i) instanceof Ciclo) {
+                        Ciclo aux = (Ciclo) formas.get(i);
+                        aux.actualizarBloque();
+                        formas.set(i, aux);
+                    }
+                }
+                repintar(cuadro);// se vuelve a pintar todos los elementos en la pantalla
             }
         } else {
             System.out.println("no hay nada para eliminar");
 
         }
-    }
-
-    private boolean borrarFiguraDecision(int x, int y) {
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
-        for (int i = 0; i < formas.size(); i++) {
-            if (formas.get(i) instanceof Decision) {
-                System.out.println("Soy una decision");
-                Decision figura = (Decision) formas.get(i);
-                for (int j = 0; j < figura.getFigurasT().size(); j++) {
-                    System.out.println("Soy un for wui" + j);
-                    Figura f = figura.getFigurasT().get(j);
-                    System.out.println("Recorriendo");
-                    if (y >= f.getY1() && y <= f.getY3() && x >= f.getX1() && x <= f.getX2()) {
-                        System.out.println("Soy esta figura" + f.getClass());
-                        ((Decision) formas.get(i)).getFigurasT().remove(j);
-                        repintar(cuadro);
-                        return true;
-                    }
-                }
-                for (int j = 0; j < figura.getFigurasF().size(); j++) {
-                    System.out.println("Soy un for wui" + j);
-                    Figura f = figura.getFigurasF().get(j);
-                    System.out.println("Recorriendo");
-                    if (y >= f.getY1() && y <= f.getY3() && x >= f.getX1() && x <= f.getX2()) {
-                        System.out.println("Soy esta figura" + f.getClass());
-                        ((Decision) formas.get(i)).getFigurasF().remove(j);
-                        repintar(cuadro);
-                        return true;
-                    }
-
-                }
-            }
-        }
-        return false;
     }
 
     @FXML
@@ -2619,8 +2658,6 @@ public class FXMLDocumentController implements Initializable {
         repintar(cuadro);// se vuelven a dibujar todos los objetos
     }
 
-    
-
     /**
      * Metodo que se encarga de dibujar una figura dentro de una linea de flujo
      * y separarla en dos.
@@ -2631,43 +2668,55 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda para poder detectar XY de un click
             Figura mover = detectarFigura1((int) e.getX(), (int) e.getY());
+            if (mover == null) {
+                for (int i = 0; i < enlaces.size(); i++) {// se recorre el arreglo de lineas de flujo
+                    Flujo aux = enlaces.get(i);// Se guarda el enlace i en una variable auxiliar
+                    if ((int) e.getX() <= aux.getX() + 40 && (int) e.getX() >= aux.getX() - 40 && (int) e.getY() >= aux.getY() && (int) e.getY() <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
+                        Decision condicional = new Decision();
+                        cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());// se limpia el canvas
+                        // se guardan el X e Y en una variable individual
+                        int f = (int) e.getY();
+                        int o = (int) e.getX();
+                        //Preguntar si el flujo es parte de una decision
+                        if (aux.getDecision() >= 0) {
+                            //Buscar la figura decision enlazada al flujo;
+                            for (int j = 0; j < formas.size(); j++) {
+                                if (formas.get(j).getID() == aux.getDecision()) {
+                                    condicional = (Decision) formas.get(j);//Asignar condicional
+                                    System.out.println(">> Encontre una decision");
+                                }
+                            }
 
-            boolean enCiclo = false;
-            System.out.println("****DETECTAR FLUJO INI*****");
-            Decision figura = new Decision();
-            figura = (Decision) detectarFlujo((int) e.getX(), (int) e.getY(), cuadro,n);
-
-            if (figura != null) {
-                if (figura.getTipoFlujo() == true) {
-                    System.out.println("Hola true");
-                    for (int i = 0; i < figura.getFigurasT().size(); i++) {
-                        System.out.println(figura.getFigurasT().get(i).getClass());
-                    }
-
-                }
-                if (figura.getTipoFlujo() == false) {
-                    System.out.println("Hola false");
-                    for (int i = 0; i < figura.getFigurasF().size(); i++) {
-                        System.out.println(figura.getFigurasF().get(i).getClass());
-                    }
-                }
-                System.out.println("****DETECTAR FLUJO FIN*****");
-            } else {
-                if (mover == null) {
-                    for (int i = 0; i < enlaces.size(); i++) {// se recorre el arreglo de lineas de flujo
-                        Flujo aux = enlaces.get(i);// Se guarda el enlace i en una variable auxiliar
-                        if ((int) e.getX() >= aux.getX() && (int) e.getY() >= aux.getY() && (int) e.getY() <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
-                            enCiclo = false;
-                            // se guardan el X e Y en una variable individual
-                            int f = (int) e.getY();
-                            int o = (int) e.getX();
-                            cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());// se limpia el canvas
                             Flujo nuevo = new Flujo();
                             nuevo.setId(idFlujos);
+                            if (n instanceof Decision) {
+                                Flujo derecho = new Flujo();
+                                Flujo izquierdo = new Flujo();
+                                derecho.dibujar(o + 180, f + 30, o + 180, f + 140, cuadro);
+                                izquierdo.dibujar(o - 180, f + 30, o - 180, f + 140, cuadro);
+                                idFlujos++;
+                                ((Decision) n).setTipo(2);
+                                derecho.setId(idFlujos);
+                                idFlujos++;
+                                izquierdo.setId(idFlujos);
+                                idFlujos++;
+                                izquierdo.setDecision(ids);
+                                derecho.setDerecho(true);
+                                derecho.setDecision(ids);
+                                izquierdo.setDerecho(false);
+                                enlaces.add(derecho);
+                                enlaces.add(izquierdo);
+                                ((Decision) n).setLadoIzquierdo(izquierdo);
+                                ((Decision) n).setLadoDerecho(derecho);
+                                ((Decision) n).setFinalDerecho(derecho);
+                                ((Decision) n).setFinalIzquierdo(izquierdo);
+                            }
+
+                            nuevo.setDecision(condicional.getID());
                             int opcion = 1;
                             int diferenciaY = f - aux.getY();
                             int diferenciaX = (aux.getY() + aux.getY2()) / 2;
-
+                            boolean enCiclo = false;
                             if (f > diferenciaX) {
                                 enCiclo = true;
                                 System.out.println("En el ciclo");
@@ -2676,38 +2725,28 @@ public class FXMLDocumentController implements Initializable {
                                 System.out.println("Sobre el ciclo");
 
                             }
-                            if (diferenciaY < 60) {
-                                nuevo.dibujar(aux.getX(), aux.getY(), o, aux.getY() + 60, cuadro);
-                                if (n instanceof Ciclo) {
-                                    ((Ciclo) n).setConexionH(nuevo);
-                                    aux.dibujar(o, aux.getY() + 130, aux.getX1(), aux.getY2(), cuadro);
-                                }
-                                if (n instanceof Decision) {
-                                    ((Decision) n).setIdF(0);
-                                    ((Decision) n).setIdT(0);
-                                    aux.dibujar(o, aux.getY() + 130 + 70, aux.getX1(), aux.getY2(), cuadro);
-                                } else {
-                                    aux.dibujar(o, aux.getY() + 130, aux.getX1(), aux.getY2(), cuadro);
-                                }
-                                n.dibujar(cuadro, o, nuevo.getY2());
-                                opcion = 2;
-                            } else {
+                            if (n instanceof Decision) {
                                 nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
-
-                                if (n instanceof Ciclo) {
-                                    ((Ciclo) n).setConexionH(nuevo);
-                                    aux.dibujar(o, f + 70, aux.getX1(), aux.getY2(), cuadro);
-                                }
-                                if (n instanceof Decision) {
-                                    ((Decision) n).setIdF(0);
-                                    ((Decision) n).setIdT(0);
-                                    aux.dibujar(o, f + 70 + 130, aux.getX1(), aux.getY2(), cuadro);
-                                } else {
-                                    aux.dibujar(o, f + 70, aux.getX1(), aux.getY2(), cuadro);
-                                }
+                                aux.dibujar(o, f + 140, aux.getX1(), aux.getY2(), cuadro);
                                 n.dibujar(cuadro, o, f);
+                            } else {
+                                if (diferenciaY < 60) {
+                                    nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
+                                    aux.dibujar(o, f + 70, aux.getX1(), aux.getY2(), cuadro);
+                                    if (n instanceof Ciclo) {
+                                        ((Ciclo) n).setConexionH(nuevo);
+                                    }
+                                    n.dibujar(cuadro, o, f);
+                                    opcion = 2;
+                                } else {
+                                    nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
+                                    aux.dibujar(o, f + 70, aux.getX1(), aux.getY2(), cuadro);
+                                    if (n instanceof Ciclo) {
+                                        ((Ciclo) n).setConexionH(nuevo);
+                                    }
+                                    n.dibujar(cuadro, o, f);
+                                }
                             }
-
                             n.setFlujoSuperior(nuevo.getId());
                             idFlujos++;
                             n.setFlujoInferior(aux.getId());
@@ -2736,11 +2775,37 @@ public class FXMLDocumentController implements Initializable {
                                 nuevo.setCiclo(-7);
                             }
                             ids++;
-
                             int diferenciay = (nuevo.getY() + nuevo.getY2()) / 2;
+                            formas.add(n);
+                            if (aux.isDerecho()) {
+                                condicional.setVerdaderas(n);
+                                nuevo.setDerecho(true);
+                            } else {
+                                condicional.setFalsas(n);
+                                nuevo.setDerecho(false);
+
+                            }
 
                             System.out.println("Ciclo Aux: " + aux.getCiclo());
-                            formas.add(n);
+
+                            if (aux.getCiclo() >= 0) {
+                                for (int j = 0; j < formas.size(); j++) {
+                                    if (formas.get(j).getID() == aux.getCiclo()) {
+                                        Figura ciclo = formas.get(j);
+                                        if (ciclo instanceof Ciclo) {
+                                            ((Ciclo) ciclo).setConexionH(nuevo);
+                                            aux.setCiclo(-7);
+                                            System.out.println("Encontre un Ciclo");
+
+                                        }
+                                    }
+                                }
+                            }
+                            System.out.println(">> Entre al dibujar dentro de la decision");
+                            //bajarFiguras(n, opcion);//
+
+                            nuevo.setDecision(condicional.getID());
+
                             if (enCiclo == true && !(n instanceof Ciclo)) {
 
                                 for (int j = 0; j < formas.size(); j++) {
@@ -2759,7 +2824,146 @@ public class FXMLDocumentController implements Initializable {
                                     }
                                 }
                             }
-                            bajarFiguras(n, opcion);
+                            //Funcion que ordena la lista con las nuevas figuras
+                            enlaces.set(i, aux);
+                            enlaces.add(nuevo);
+                            condicional.nodo();
+
+                            //Actualizar Condicional
+                            for (int j = 0; j < formas.size(); j++) {
+                                if (aux.getDecision() == formas.get(j).getID()) {
+                                    formas.set(j, condicional);
+
+                                }
+                            }
+
+                            for (int j = 0; j < formas.size(); j++) {
+                                if (formas.get(j) instanceof Ciclo) {
+                                    Ciclo iteracion = (Ciclo) formas.get(j);
+                                    bloqueCiclo(iteracion);
+
+                                }
+                            }
+                            //condicional.Bajar(n, opcion, lienzo);
+                            //bajarFiguras(condicional, opcion);
+
+                        } else {
+
+                            Flujo nuevo = new Flujo();
+                            nuevo.setId(idFlujos);
+                            if (n instanceof Decision) {
+                                Flujo derecho = new Flujo();
+                                Flujo izquierdo = new Flujo();
+                                derecho.dibujar(o + 180, f + 30, o + 180, f + 300, cuadro);
+                                izquierdo.dibujar(o - 180, f + 30, o - 180, f + 300, cuadro);
+                                idFlujos++;
+                                derecho.setId(idFlujos);
+                                idFlujos++;
+                                izquierdo.setId(idFlujos);
+                                idFlujos++;
+                                derecho.setDerecho(true);
+                                derecho.setDecision(ids);
+                                izquierdo.setDerecho(false);
+                                izquierdo.setDecision(ids);
+
+                                enlaces.add(derecho);
+                                enlaces.add(izquierdo);
+                                ((Decision) n).setLadoIzquierdo(izquierdo);
+                                ((Decision) n).setLadoDerecho(derecho);
+                                ((Decision) n).setFinalDerecho(derecho);
+                                ((Decision) n).setFinalIzquierdo(izquierdo);
+                            }
+                            boolean enCiclo = false;
+                            int opcion = 1;
+                            int diferenciaY = f - aux.getY();
+                            int diferenciaX = (aux.getY() + aux.getY2()) / 2;
+                            enCiclo = false;
+                            if (f > diferenciaX) {
+                                enCiclo = true;
+                                System.out.println("En el ciclo");
+                            } else if (f < diferenciaX) {
+                                enCiclo = false;
+                                System.out.println("Sobre el ciclo");
+
+                            }
+                            if (n instanceof Decision) {
+                                nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
+                                aux.dibujar(o, f + 300, aux.getX1(), aux.getY2(), cuadro);
+                                n.dibujar(cuadro, o, f);
+                            } else {
+                                if (diferenciaY < 60) {
+                                    nuevo.dibujar(aux.getX(), aux.getY(), o, aux.getY() + 60, cuadro);
+                                    aux.dibujar(o, aux.getY() + 130, aux.getX1(), aux.getY2(), cuadro);
+                                    if (n instanceof Ciclo) {
+                                        ((Ciclo) n).setConexionH(nuevo);
+                                    }
+                                    n.dibujar(cuadro, o, nuevo.getY2());
+                                    opcion = 2;
+                                } else {
+                                    nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
+                                    aux.dibujar(o, f + 70, aux.getX1(), aux.getY2(), cuadro);
+                                    if (n instanceof Ciclo) {
+                                        ((Ciclo) n).setConexionH(nuevo);
+                                    }
+                                    n.dibujar(cuadro, o, f);
+                                }
+                            }
+                            n.setFlujoSuperior(nuevo.getId());
+                            idFlujos++;
+                            n.setFlujoInferior(aux.getId());
+
+                            for (int d = 0; d < formas.size(); d++) {
+                                if (formas.get(d).getFlujoInferior() == aux.getId()) {
+                                    formas.get(d).setFlujoInferior(nuevo.getId());
+                                }
+                            }
+                            n.setID(ids);
+
+                            for (int j = 0; j < formas.size(); j++) {
+                                if (formas.get(j).getFlujoInferior() == nuevo.getId()) {
+                                    formas.get(j).setSiguiente(ids);
+                                    n.setAnterior(formas.get(j).getID());
+                                }
+                                if (formas.get(j).getFlujoSuperior() == aux.getId()) {
+                                    formas.get(j).setAnterior(ids);
+                                    n.setSiguiente(formas.get(j).getID());
+                                }
+
+                            }
+                            if (n instanceof Ciclo) {
+                                nuevo.setCiclo(ids);
+                            } else {
+                                nuevo.setCiclo(-7);
+                            }
+                            ids++;
+                            int diferenciay = (nuevo.getY() + nuevo.getY2()) / 2;
+                            formas.add(n);
+                            System.out.println("Ciclo Aux: " + aux.getCiclo());
+
+                            if (enCiclo == true && !(n instanceof Ciclo)) {
+
+                                for (int j = 0; j < formas.size(); j++) {
+                                    if (formas.get(j) instanceof Ciclo) {
+                                        Ciclo iteracion = (Ciclo) formas.get(j);
+                                        //prints
+                                        for (int k = 0; k < iteracion.getIdsFiguras().size(); k++) {
+                                            System.out.println("ID " + i + ": " + iteracion.getIdsFiguras().get(k));
+
+                                        }
+
+                                        if (iteracion.getConexionH() == aux) {
+                                            iteracion.setConexionH(nuevo);
+
+                                        }
+                                    }
+                                }
+                            }
+                            if (n instanceof Decision == false) {
+                                bajarFiguras(n, opcion, 150, 60);
+                            } else {
+                                bajarFiguras(n, opcion, 300, 150);
+                            }
+
                             //Funcion que ordena la lista con las nuevas figuras
                             enlaces.set(i, aux);
                             enlaces.add(nuevo);
@@ -2771,30 +2975,28 @@ public class FXMLDocumentController implements Initializable {
 
                                 }
                             }
-
-                            // Se vuelven a dibujar todas las figuras y los enlaces de flujos
-                            repintar(cuadro);
-                            // se anula la posibilidad de seguir presionando el canvas
-                            lienzo.setOnMouseClicked(null);
-                            // se detiene el metodo para que no entre a un ciclo infinito.
-                            if (n instanceof Entrada && variable != 0) {
-                                int size = variables.size();
-                                size = size - variable;
-                                for (int j = size; j < variables.size(); j++) {
-                                    Variable variable2 = variables.get(j);
-                                    consola.setText(consola.getText() + "\n" + variable2.getNombre() + " ← " + variable2.getTexto());
-                                }
-                            }
-                            break;
-                        } else {
-                            lienzo.setOnMouseClicked(null);
                         }
-
+                        // Se vuelven a dibujar todas las figuras y los enlaces de flujos
+                        repintar(cuadro);
+                        // se anula la posibilidad de seguir presionando el canvas
+                        lienzo.setOnMouseClicked(null);
+                        // se detiene el metodo para que no entre a un ciclo infinito.
+                        if (n instanceof Entrada && variable != 0) {
+                            int size = variables.size();
+                            size = size - variable;
+                            for (int j = size; j < variables.size(); j++) {
+                                Variable variable2 = variables.get(j);
+                                consola.setText(consola.getText() + "\n" + variable2.getNombre() + " ← " + variable2.getTexto());
+                            }
+                        }
+                        break;
+                    } else {
+                        lienzo.setOnMouseClicked(null);
                     }
+
                 }
             }
-        }
-        );
+        });
 
     }
 
@@ -2841,9 +3043,8 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    public void bajarFiguras(Figura bajar, int opcion) {
+    public void bajarFiguras(Figura bajar, int opcion, int xPlus, int yPlus) {
         Figura inicio2 = formas.get(0);
-
         for (int i = 0; i < formas.size(); i++) {
             if (formas.get(i) == bajar) {
                 inicio2 = formas.get(i);
@@ -2865,29 +3066,29 @@ public class FXMLDocumentController implements Initializable {
                     for (int k = 0; k < enlaces.size(); k++) {
                         if (enlaces.get(k).getId() == inicio2.getFlujoSuperior()) {
                             if (opcion == 2) {
-                                enlaces.get(k).dibujar(enlaces.get(k).getX(), enlaces.get(k).getY(), enlaces.get(k).getX1(), enlaces.get(k).getY2() + 130, cuadro);
+                                enlaces.get(k).dibujar(enlaces.get(k).getX(), enlaces.get(k).getY(), enlaces.get(k).getX1(), enlaces.get(k).getY2() + yPlus, cuadro);
                             } else {
-                                enlaces.get(k).dibujar(enlaces.get(k).getX(), enlaces.get(k).getY(), enlaces.get(k).getX1(), enlaces.get(k).getY2() + 40, cuadro);
+                                enlaces.get(k).dibujar(enlaces.get(k).getX(), enlaces.get(k).getY(), enlaces.get(k).getX1(), enlaces.get(k).getY2() + xPlus, cuadro);
 
                             }
                         }
                         if (enlaces.get(k).getId() == inicio2.getFlujoInferior()) {
                             if (opcion == 2) {
-                                enlaces.get(k).dibujar(enlaces.get(k).getX(), enlaces.get(k).getY() + 130, enlaces.get(k).getX1(), enlaces.get(k).getY2(), cuadro);
+                                enlaces.get(k).dibujar(enlaces.get(k).getX(), enlaces.get(k).getY() + yPlus, enlaces.get(k).getX1(), enlaces.get(k).getY2(), cuadro);
                             } else {
-                                enlaces.get(k).dibujar(enlaces.get(k).getX(), enlaces.get(k).getY() + 40, enlaces.get(k).getX1(), enlaces.get(k).getY2(), cuadro);
+                                enlaces.get(k).dibujar(enlaces.get(k).getX(), enlaces.get(k).getY() + xPlus, enlaces.get(k).getX1(), enlaces.get(k).getY2(), cuadro);
 
                             }
                         }
                     }
                     if (opcion == 2) {
-                        inicio2.dibujar(cuadro, inicio2.getMedioX(), inicio2.getMedioY() + 130);
+                        inicio2.dibujar(cuadro, inicio2.getMedioX(), inicio2.getMedioY() + yPlus);
                     } else {
-                        inicio2.dibujar(cuadro, inicio2.getMedioX(), inicio2.getMedioY() + 40);
+                        inicio2.dibujar(cuadro, inicio2.getMedioX(), inicio2.getMedioY() + xPlus);
 
                     }
-                    if (inicio2.getMedioY() + 120 > lienzo.getHeight()) {
-                        lienzo.setHeight(lienzo.getHeight() + 100);
+                    if (inicio2.getMedioY() + (xPlus * 2) > lienzo.getHeight()) {
+                        lienzo.setHeight(lienzo.getHeight() + 250);
                     }
                     repintar(cuadro);
                     System.out.println("Siguiente: " + inicio2.getID());

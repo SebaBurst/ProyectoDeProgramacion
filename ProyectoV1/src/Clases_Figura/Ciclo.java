@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import static proyectov1.FXMLDocumentController.formas;
 
 /**
  *
@@ -115,11 +116,24 @@ public class Ciclo extends Figura {
         lienzo.strokeLine(x-(130+incremento),y+30,diferenciax-(130+incremento),diferenciaY);
         lienzo.strokeLine(diferenciax-(130+incremento),diferenciaY,diferenciax,diferenciaY);
         lienzo.strokeLine(x-100,y+30,x-(130+incremento),y+30);
-
+ 
+    }
+    
+    
+    public void actualizarBloque(){
+        ArrayList<Integer> nuevosIds = new ArrayList();
+        for (int i = 0; i < idsFiguras.size(); i++) {
+            for (int j = 0; j < formas.size(); j++) {
+                if(formas.get(j).getID()==idsFiguras.get(i)){
+                    nuevosIds.add(formas.get(j).getID());
+                
+                }
+            }
+        }
         
-        
-
-        
+        idsFiguras.clear();
+        idsFiguras=nuevosIds;
+    
     }
 
 }

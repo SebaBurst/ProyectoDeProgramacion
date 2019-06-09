@@ -14,9 +14,31 @@ import javafx.scene.paint.Color;
  */
 public class Flujo {
 
+    int decision =-19;
     int ciclo;
     int id;
     int x, y, x1, y2;
+    boolean derecho = true;
+
+    public boolean isDerecho() {
+        return derecho;
+    }
+
+    
+    public void setDerecho(boolean derecho) {
+        this.derecho = derecho;
+    }
+    
+    
+    
+    
+    public int getDecision() {
+        return decision;
+    }
+
+    public void setDecision(int decision) {
+        this.decision = decision;
+    }
 
     public int getCiclo() {
         return ciclo;
@@ -111,6 +133,11 @@ public class Flujo {
         lienzo.strokeLine(x-200, y + 30, x-200, y + 120);
         lienzo.strokeLine(x+200, y + 30, x+100, y+30);
         lienzo.strokeLine(x-100, y + 30, x-200, y+30);
+        
+      
+        
+       
+        
 
     }
 

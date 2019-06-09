@@ -6,11 +6,14 @@
 package Clases_Figura;
 
 import java.util.ArrayList;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import static proyectov1.FXMLDocumentController.enlaces;
+import static proyectov1.FXMLDocumentController.formas;
 
 /**
  *
@@ -18,97 +21,69 @@ import javafx.scene.text.FontWeight;
  */
 public class Decision extends Figura {
 
-    boolean tipoFlujo;
-    int agrandar=0;
-    int idF;
-    int idT;
-    ArrayList<Flujo> flujosT = new ArrayList();
-    ArrayList<Flujo> flujosF = new ArrayList();
-    ArrayList<Figura> figurasT = new ArrayList();
-    ArrayList<Figura> figurasF = new ArrayList();
-    Flujo flujoT = new Flujo();
-    Flujo flujoF = new Flujo();
+    private int tipo=1;
 
-    public int getAgrandar() {
-        return agrandar;
+    public int getTipo() {
+        return tipo;
     }
 
-    public void setAgrandar(int agrandar) {
-        this.agrandar = agrandar+60;
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+    private Flujo finalDerecho= new Flujo();
+    private Flujo finalIzquierdo = new Flujo();
+    ArrayList<Figura> Verdaderas= new ArrayList();
+    ArrayList<Figura> falsas = new ArrayList();
+    Flujo ladoDerecho;
+    Flujo ladoIzquierdo;
+
+    boolean verdadero =false;
+
+    public boolean isVerdadero() {
+        return verdadero;
     }
 
-    public ArrayList<Flujo> getFlujosT() {
-        return flujosT;
+    public void setVerdadero(boolean verdadero) {
+        this.verdadero = verdadero;
+    }
+    
+    
+    public ArrayList<Figura> getFalsas() {
+        return falsas;
     }
 
-    public void setFlujosT(ArrayList<Flujo> flujosT) {
-        this.flujosT = flujosT;
+    public void setFalsas(Figura falsa) {
+       falsas.add(falsa);
     }
 
-    public ArrayList<Flujo> getFlujosF() {
-        return flujosF;
+    public Flujo getLadoIzquierdo() {
+        return ladoIzquierdo;
     }
 
-    public void setFlujosF(ArrayList<Flujo> flujosF) {
-        this.flujosF = flujosF;
+    public void setLadoIzquierdo(Flujo ladoIzquierdo) {
+        this.ladoIzquierdo = ladoIzquierdo;
+    }
+    
+
+    public ArrayList<Figura> getVerdaderas() {
+        return Verdaderas;
     }
 
-    public Flujo getFlujoT() {
-        return flujoT;
+    public void setVerdaderas(Figura Verdadera) {
+        Verdaderas.add(Verdadera);
+    }
+    
+    
+    
+    public Flujo getLadoDerecho() {
+        return ladoDerecho;
     }
 
-    public void setFlujoT(Flujo flujoT) {
-        this.flujoT = flujoT;
+    public void setLadoDerecho(Flujo ladoDerecho) {
+        this.ladoDerecho = ladoDerecho;
     }
-
-    public Flujo getFlujoF() {
-        return flujoF;
-    }
-
-    public void setFlujoF(Flujo flujoF) {
-        this.flujoF = flujoF;
-    }
-
-    public ArrayList<Figura> getFigurasT() {
-        return figurasT;
-    }
-
-    public void setFigurasT(ArrayList<Figura> figurasT) {
-        this.figurasT = figurasT;
-    }
-
-    public ArrayList<Figura> getFigurasF() {
-        return figurasF;
-    }
-
-    public void setFigurasF(ArrayList<Figura> figurasF) {
-        this.figurasF = figurasF;
-    }
-
-    public int getIdF() {
-        return idF;
-    }
-
-    public void setIdF(int idF) {
-        this.idF = idF;
-    }
-
-    public int getIdT() {
-        return idT;
-    }
-
-    public void setIdT(int idT) {
-        this.idT = idT;
-    }
-
-    public boolean getTipoFlujo() {
-        return tipoFlujo;
-    }
-
-    public void setTipoFlujo(boolean tipoFlujo) {
-        this.tipoFlujo = tipoFlujo;
-    }
-
+    
+    
     @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
         lienzo.setStroke(Color.valueOf("#b44cd9"));
@@ -148,23 +123,183 @@ public class Decision extends Figura {
         lienzo.strokeLine(x, y, x - 100, y + 30);//
         lienzo.strokeLine(x - 100, y + 30, x, y + 70);
         lienzo.strokeLine(x, y + 70, x + 100, y + 30);
+        
+        //Lado Derecho enlace-enlace
+        
+        lienzo.strokeLine(x+100, y + 30, x + 180, y + 30);
+                lienzo.strokeLine(x-100, y + 30, x - 180, y + 30);
+
+                
+                
+                
+                
+        Flujo punto = new Flujo();
+        //Dibujar linea inferior;
+        for (int i = 0; i < enlaces.size(); i++) {
+            if(enlaces.get(i).getId()== this.getFlujoInferior()){
+                punto= enlaces.get(i);
+            
+            }
+        }
+        
+        Flujo der = new Flujo();
+        Flujo izq = new Flujo();
+        for (int i = 0; i < Verdaderas.size(); i++) {
+            if(Verdaderas.get(i).getSiguiente()==-9){
+                for (int j = 0; j < enlaces.size(); j++) {
+                    if(Verdaderas.get(i).getFlujoInferior()== enlaces.get(j).getId()){
+                        der = enlaces.get(j);
+                    
+                    }
+                }
+            
+            }
+        }
+        
+           for (int i = 0; i < falsas.size(); i++) {
+            if(falsas.get(i).getSiguiente()==-9){
+                for (int j = 0; j < enlaces.size(); j++) {
+                    if(falsas.get(i).getFlujoInferior()== enlaces.get(j).getId()){
+                        izq = enlaces.get(j);
+                    
+                    }
+                }
+            
+            }
+        }
+
+        lienzo.strokeLine(punto.getX(), punto.getY(), this.getFinalDerecho().getX1(), this.getFinalDerecho().getY2());
+        lienzo.strokeLine(punto.getX(), punto.getY(), this.getFinalIzquierdo().getX1(),this.getFinalIzquierdo().getY2());    
+        
+        //
         lienzo.setStroke(Color.WHITE);
         lienzo.setFont(Font.font("Verdana", FontWeight.LIGHT, FontPosture.ITALIC, 15.0));
         lienzo.setFill(Color.BLACK);
         lienzo.fillText(this.getTextoFigura(), Math.round(ix + 25), Math.round(y + 35));//y
-        int sumar = getAgrandar();
-        this.flujoT.dibujar(x + 300, y + 30, x + 300, y+200+sumar, lienzo);
-        flujosT.add(flujoT);
-        lienzo.setStroke(Color.valueOf("#298A08"));
-        lienzo.strokeLine(x + 300, y + 200+sumar, x, y + 200+sumar);
-        lienzo.strokeLine(x + 100, y + 30, x + 300, y + 30);
+        
 
-        this.flujoF.dibujar(x - 300, y + 30, x - 300, y+200+sumar, lienzo);
-        flujosF.add(flujoF);
-        lienzo.setStroke(Color.valueOf("#DF0101"));
-        lienzo.strokeLine(x - 300, y + 200+sumar, x, y + 200+sumar);
-        lienzo.strokeLine(x - 100, y + 30, x - 300, y + 30);
 
+        
+        //Dibujar flujo derecho;
     }
+
+    public void nodo (){
+      
+        System.out.println(">> Entre a nodo");
+        System.out.println(">> Cantidad de Verdaderas: "+ Verdaderas.size());
+        System.out.println(">> Cantidad de Falsas: "+ falsas.size());
+        if(Verdaderas.isEmpty()){
+            this.setLadoDerecho(this.getFinalDerecho());
+            
+        }
+        else{
+               //Ordenar verdaderos
+        for (int i = 0; i < Verdaderas.size(); i++) {
+            if(Verdaderas.get(i).getAnterior()==-8){
+                for (int j = 0; j < enlaces.size(); j++) {
+                    if(Verdaderas.get(i).getFlujoSuperior()== enlaces.get(j).getId()){
+                        this.setLadoDerecho(enlaces.get(j));
+                    }
+                }
+            }
+        }
+        
+        }
+        
+        if(falsas.isEmpty()){
+            this.setLadoIzquierdo(this.getFinalIzquierdo());
+        
+        }
+        else{
+            for (int i = 0; i < falsas.size(); i++) {
+            if(falsas.get(i).getAnterior()==-8){
+                for (int j = 0; j < enlaces.size(); j++) {
+                    if(falsas.get(i).getFlujoSuperior()== enlaces.get(j).getId()){
+                        this.setLadoIzquierdo(enlaces.get(j));
+                    }
+                }
+            }
+        }
+        }
+        
+        // Asignar falso
+        
+       
+      
+        //imprimir//
+        System.out.println(">>Verdaderas");
+        for (int i = 0; i < Verdaderas.size(); i++) {
+            System.out.println(">> "+Verdaderas.get(i)+" Texto: "+Verdaderas.get(i).getTextoFigura());
+            System.out.println(">> Anterior: "+Verdaderas.get(i).getAnterior());
+            System.out.println(">> Siguiente: "+Verdaderas.get(i).getSiguiente());
+            System.out.println("<< Flujo arriba: "+Verdaderas.get(i).getFlujoSuperior());
+            System.out.println("<< Flujo abajo: "+Verdaderas.get(i).getFlujoInferior());
+        }
+    
+        System.out.println(">>Falsas");
+        for (int i = 0; i < falsas.size(); i++) {
+            System.out.println(">> "+falsas.get(i)+" Texto: "+falsas.get(i).getTextoFigura());
+            System.out.println(">> Anterior: "+falsas.get(i).getAnterior());
+            System.out.println(">> Siguiente: "+falsas.get(i).getSiguiente());
+            System.out.println("<< Flujo arriba: "+falsas.get(i).getFlujoSuperior());
+            System.out.println("<< Flujo abajo: "+falsas.get(i).getFlujoInferior());
+        }
+    }
+    
+    
+    public void actualizarFlujos(){
+        ArrayList<Figura> nuevoDer = new ArrayList();
+        ArrayList<Figura> nuevoIzq = new ArrayList();
+        
+        System.out.println(">> V <<<: "+Verdaderas.size());
+        System.out.println(">> F <<<: "+falsas.size());
+        
+        for (int i = 0; i < formas.size(); i++) {
+            for (int j = 0; j < Verdaderas.size(); j++) {
+                if(formas.get(i).getID()== Verdaderas.get(j).getID()){
+                    nuevoDer.add(formas.get(i));
+                }
+            }
+        }
+        
+        for (int i = 0; i < formas.size(); i++) {
+            for (int j = 0; j < falsas.size(); j++) {
+                if(formas.get(i).getID()== falsas.get(j).getID()){
+                    nuevoIzq.add(formas.get(i));
+                }
+            }
+        }
+        
+        Verdaderas.clear();
+        Verdaderas = nuevoDer;
+        falsas.clear();
+        falsas=(nuevoIzq);
+        this.nodo();
+         System.out.println(">> V <<<: "+Verdaderas.size());
+        System.out.println(">> F <<<: "+falsas.size());
+        
+        
+
+
+        
+    }
+
+    public Flujo getFinalDerecho() {
+        return finalDerecho;
+    }
+
+    public void setFinalDerecho(Flujo finalDerecho) {
+        this.finalDerecho = finalDerecho;
+    }
+
+    public Flujo getFinalIzquierdo() {
+        return finalIzquierdo;
+    }
+
+    public void setFinalIzquierdo(Flujo finalIzquierdo) {
+        this.finalIzquierdo = finalIzquierdo;
+    }
+            
+
 
 }
