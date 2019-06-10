@@ -45,6 +45,34 @@ and open the template in the editor.
     -fx-background-color: #e3dbc7;
 }
 
+
+
+.parar{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/parar.png');  
+}
+.parar:hover{
+    -fx-background-color: #e3dbc7;
+}
+
+.automatico{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/auto.png');  
+}
+.automatico:hover{
+    -fx-background-color: #e3dbc7;
+}
+
+.manual{
+    -fx-border-radius: 0px;
+    -fx-background-color: transparent;
+    -fx-graphic: url('/Clases_Figura/Estilos/manual.png');  
+}
+.manual:hover{
+    -fx-background-color: #e3dbc7;
+}
 .correr{
     -fx-border-radius: 0px;
     -fx-background-color: transparent;

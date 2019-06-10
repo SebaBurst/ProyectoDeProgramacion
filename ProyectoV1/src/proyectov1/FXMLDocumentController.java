@@ -83,317 +83,311 @@ public class FXMLDocumentController implements Initializable {
      */
     class hilo implements Runnable {
 
-        public void correrDecision(Figura aux, Figura corriendo) throws ScriptException, InterruptedException{
-                    GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo
+        public void correrDecision(Figura aux, Figura corriendo) throws ScriptException, InterruptedException {
+            GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo
 
-              //Inicio validacion condicional
-                                Decision c = (Decision) aux;
-                                if(c.getVerdaderas().size()>0 && c.getFalsas().size()>0){
-                                
-                                System.out.println("Is Verdadero: " + c.isVerdadero());
-                                String[] tokens = c.getTextoFigura().replaceAll("\\s+", "").split("(?<=[-+/()><=!])|(?=[-+/()><=!])");
-                                System.out.println("Tokens Ciclo");
-                                for (String token : tokens) {
-                                    System.out.println(token);
-                                }
-                                ArrayList<String> arrayTokens = new ArrayList<>();
-                                for (String token : tokens) {
-                                    arrayTokens.add(token);
-                                }
-                                Variable a = null;
-                                Variable b = null;
-                                String a1 = "";
-                                String b1 = "";
-                                String simbolo = "";
-                                if (arrayTokens.size() == 3) {
-                                    simbolo = arrayTokens.get(1);
-                                    a1 = arrayTokens.get(0);
-                                    b1 = arrayTokens.get(2);
+            //Inicio validacion condicional
+            Decision c = (Decision) aux;
+            if (c.getVerdaderas().size() > 0 && c.getFalsas().size() > 0) {
 
-                                } else if (arrayTokens.size() == 4) {
-                                    simbolo = arrayTokens.get(1) + arrayTokens.get(2);
-                                    a1 = arrayTokens.get(0);
-                                    b1 = arrayTokens.get(3);
-                                }
+                System.out.println("Is Verdadero: " + c.isVerdadero());
+                String[] tokens = c.getTextoFigura().replaceAll("\\s+", "").split("(?<=[-+/()><=!])|(?=[-+/()><=!])");
+                System.out.println("Tokens Ciclo");
+                for (String token : tokens) {
+                    System.out.println(token);
+                }
+                ArrayList<String> arrayTokens = new ArrayList<>();
+                for (String token : tokens) {
+                    arrayTokens.add(token);
+                }
+                Variable a = null;
+                Variable b = null;
+                String a1 = "";
+                String b1 = "";
+                String simbolo = "";
+                if (arrayTokens.size() == 3) {
+                    simbolo = arrayTokens.get(1);
+                    a1 = arrayTokens.get(0);
+                    b1 = arrayTokens.get(2);
 
-                                boolean existeA = false;
-                                boolean existeB = false;
-                                //BuscarVariables
-                                for (int k = 0; k < variables.size(); k++) {
-                                    if (variables.get(k).getNombre().equals(a1)) {
-                                        a1 = variables.get(k).getTexto();
-                                        existeA = true;
+                } else if (arrayTokens.size() == 4) {
+                    simbolo = arrayTokens.get(1) + arrayTokens.get(2);
+                    a1 = arrayTokens.get(0);
+                    b1 = arrayTokens.get(3);
+                }
 
-                                    } else if (variables.get(k).getNombre().equals(b1)) {
-                                        b1 = variables.get(k).getTexto();
-                                        existeB = true;
-                                    }
-                                }
+                boolean existeA = false;
+                boolean existeB = false;
+                //BuscarVariables
+                for (int k = 0; k < variables.size(); k++) {
+                    if (variables.get(k).getNombre().equals(a1)) {
+                        a1 = variables.get(k).getTexto();
+                        existeA = true;
 
-                                boolean resultado1;
-                                try {
-                                    Integer.parseInt(a1);
-                                    resultado1 = true;
-                                } catch (NumberFormatException excepcion) {
-                                    resultado1 = false;
-                                }
+                    } else if (variables.get(k).getNombre().equals(b1)) {
+                        b1 = variables.get(k).getTexto();
+                        existeB = true;
+                    }
+                }
 
-                                System.out.println("B2:" + b1);
-                                boolean resultado2;
-                                try {
-                                    Integer.parseInt(b1);
-                                    resultado2 = true;
-                                } catch (NumberFormatException excepcion) {
-                                    resultado2 = false;
-                                }
-                                System.out.println("Llegue a ver si existen");
-                                System.out.println("ABoleando: " + resultado1);
-                                System.out.println("BBoleando: " + resultado2);
+                boolean resultado1;
+                try {
+                    Integer.parseInt(a1);
+                    resultado1 = true;
+                } catch (NumberFormatException excepcion) {
+                    resultado1 = false;
+                }
 
-                                System.out.println("ExisteABoleando: " + existeA);
-                                System.out.println("ExisteBBoleando: " + existeB);
+                System.out.println("B2:" + b1);
+                boolean resultado2;
+                try {
+                    Integer.parseInt(b1);
+                    resultado2 = true;
+                } catch (NumberFormatException excepcion) {
+                    resultado2 = false;
+                }
+                System.out.println("Llegue a ver si existen");
+                System.out.println("ABoleando: " + resultado1);
+                System.out.println("BBoleando: " + resultado2);
+
+                System.out.println("ExisteABoleando: " + existeA);
+                System.out.println("ExisteBBoleando: " + existeB);
 //ver si existen
-                                if (existeA == false) {
-                                    a1 = "0";
+                if (existeA == false) {
+                    a1 = "0";
 
-                                } else if (resultado2 == true) {
+                } else if (resultado2 == true) {
 
-                                } else if (existeB == false && resultado2 != true) {
-                                    b1 = "0";
+                } else if (existeB == false && resultado2 != true) {
+                    b1 = "0";
+                }
+
+                boolean resultado;
+                try {
+                    Integer.parseInt(a1);
+                    resultado = true;
+                } catch (NumberFormatException excepcion) {
+                    resultado = false;
+                }
+
+                boolean resultadoB;
+                try {
+                    Integer.parseInt(b1);
+                    resultadoB = true;
+                } catch (NumberFormatException excepcion) {
+                    resultadoB = false;
+                }
+
+                String primerA = "";
+                String primerB = "";
+                if (infinity == 0) {
+                    primerA = a1;
+                    primerB = b1;
+                }
+                if (a1.equals(primerA)) {
+                    infinity++;
+                }
+
+                boolean FinEjecucion = false;
+
+                System.out.println(">>>a: " + a1);
+                System.out.println(">>>b: " + b1);
+                // ver si el simbolo es >
+                if (simbolo.equals(">")) {
+                    if (resultado == true && resultadoB == true) {
+                        if (Integer.parseInt(a1) > Integer.parseInt(b1)) {
+                            c.setVerdadero(true);
+                        }
+                        if (Integer.parseInt(a1) < Integer.parseInt(b1)) {
+                            c.setVerdadero(false);
+                        }
+                    }
+                } else if (simbolo.equals("<")) {
+
+                    if (resultado == true && resultadoB == true) {
+                        if (Integer.parseInt(a1) < Integer.parseInt(b1)) {
+                            c.setVerdadero(true);
+                            System.out.println(">> Se volvio verdadero");
+
+                        } else if (Integer.parseInt(a1) > Integer.parseInt(b1)) {
+                            c.setVerdadero(false);
+
+                        }
+                    }
+                } else if (simbolo.equals("=")) {
+                    if (a1.equals(b1)) {
+                        c.setVerdadero(true);
+                    }
+                    if (!a1.equals(b1)) {
+                        c.setVerdadero(false);
+                    }
+                } else if (simbolo.equals("!=")) {
+                    if (a1.equals(b1) == false) {
+                        c.setVerdadero(true);
+                    }
+
+                } else if (simbolo.equals("<=")) {
+
+                    if (resultado == true && resultadoB == true) {
+                        if (Integer.parseInt(a1) <= Integer.parseInt(b1)) {
+                            c.setVerdadero(true);
+
+                        } else if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
+                            c.setVerdadero(false);
+
+                        }
+                    }
+                } else if (simbolo.equals(">=")) {
+
+                    if (resultado == true && resultadoB == true) {
+                        if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
+                            c.setVerdadero(true);
+
+                        } else if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
+                            c.setVerdadero(false);
+
+                        }
+
+                    }
+                }
+
+                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
+                cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+
+                Thread.sleep(2000);
+                cuadro.clearRect(corriendo.getMedioX() - 230, corriendo.getMedioY(), 60, 60);
+
+                if (c.isVerdadero()) {
+                    Figura inicio2 = null;
+                    System.out.println(">> C size: " + c.getVerdaderas().size());
+                    for (int w = 0; w < c.getVerdaderas().size(); w++) {
+                        if (c.getVerdaderas().get(w).getAnterior() == -8) {
+                            inicio2 = c.getVerdaderas().get(w);
+
+                        }
+                    }
+                    if (inicio2 != null) {
+
+                        Figura corriendo2 = inicio2;
+                        if (inicio2 instanceof Etapa) {
+                            correrEtapa(corriendo2);
+                            System.out.println(">> Entre a la Etapa");
+                        }
+                        if (inicio2 instanceof Salida) {
+                            correrSalida((Salida) inicio2);
+                        }
+                        if (inicio2 instanceof Entrada) {
+                            correrEntrada(corriendo2);
+                        }
+                        if (inicio2 instanceof Decision) {
+                            correrDecision(inicio2, corriendo2);
+
+                        }
+                        Image image2 = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
+                        cuadro.drawImage(image2, inicio2.getMedioX() - 230, inicio2.getMedioY());
+                        Thread.sleep(2000);
+                        cuadro.clearRect(inicio2.getMedioX() - 230, inicio2.getMedioY(), 60, 60);
+                        for (int k = 0; inicio2.getSiguiente() != -9; k++) {
+                            for (int l = 0; l < c.getVerdaderas().size(); l++) {
+                                if (c.getVerdaderas().get(l).getID() == inicio2.getSiguiente()) {
+                                    inicio2 = c.getVerdaderas().get(l);
+                                    Figura corriendo3 = inicio2;
+                                    if (inicio2 instanceof Etapa) {
+                                        correrEtapa(corriendo3);
+                                        System.out.println(">> Entre a la Etapa");
+                                    }
+                                    if (inicio2 instanceof Salida) {
+                                        correrSalida((Salida) inicio2);
+                                    }
+                                    if (inicio2 instanceof Entrada) {
+                                        correrEntrada(corriendo3);
+                                    }
+
+                                    if (inicio2 instanceof Decision) {
+                                        correrDecision(inicio2, corriendo2);
+                                    }
+                                    image2 = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
+                                    cuadro.drawImage(image2, inicio2.getMedioX() - 230, inicio2.getMedioY());
+
+                                    Thread.sleep(2000);
+                                    cuadro.clearRect(inicio2.getMedioX() - 230, inicio2.getMedioY(), 60, 60);
                                 }
+                            }
+                        }
 
-                                boolean resultado;
-                                try {
-                                    Integer.parseInt(a1);
-                                    resultado = true;
-                                } catch (NumberFormatException excepcion) {
-                                    resultado = false;
+                    }
+
+                } else {
+
+                    Figura inicio2 = null;
+                    System.out.println(">> C size: " + c.getVerdaderas().size());
+                    for (int w = 0; w < c.getFalsas().size(); w++) {
+                        if (c.getFalsas().get(w).getAnterior() == -8) {
+                            inicio2 = c.getFalsas().get(w);
+
+                        }
+                    }
+                    if (inicio2 != null) {
+
+                        Figura corriendo2 = inicio2;
+                        if (inicio2 instanceof Etapa) {
+                            correrEtapa(corriendo2);
+                            System.out.println(">> Entre a la Etapa");
+                        }
+                        if (inicio2 instanceof Salida) {
+                            correrSalida((Salida) inicio2);
+                        }
+                        if (inicio2 instanceof Entrada) {
+                            correrEntrada(corriendo2);
+                        }
+                        if (inicio2 instanceof Decision) {
+                            correrDecision(inicio2, corriendo2);
+
+                        }
+                        Image image2 = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
+                        cuadro.drawImage(image2, inicio2.getMedioX() - 230, inicio2.getMedioY());
+                        Thread.sleep(2000);
+                        cuadro.clearRect(inicio2.getMedioX() - 230, inicio2.getMedioY(), 60, 60);
+                        for (int k = 0; inicio2.getSiguiente() != -9; k++) {
+                            for (int l = 0; l < c.getFalsas().size(); l++) {
+                                if (c.getFalsas().get(l).getID() == inicio2.getSiguiente()) {
+                                    inicio2 = c.getFalsas().get(l);
+                                    Figura corriendo3 = inicio2;
+                                    if (inicio2 instanceof Etapa) {
+                                        correrEtapa(corriendo3);
+                                        System.out.println(">> Entre a la Etapa");
+                                    }
+                                    if (inicio2 instanceof Salida) {
+                                        correrSalida((Salida) inicio2);
+                                    }
+                                    if (inicio2 instanceof Entrada) {
+                                        correrEntrada(corriendo3);
+                                    }
+
+                                    if (inicio2 instanceof Decision) {
+                                        correrDecision(inicio2, corriendo2);
+
+                                    }
+
+                                    image2 = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
+                                    cuadro.drawImage(image2, inicio2.getMedioX() - 230, inicio2.getMedioY());
+
+                                    Thread.sleep(2000);
+                                    cuadro.clearRect(inicio2.getMedioX() - 230, inicio2.getMedioY(), 60, 60);
                                 }
+                            }
+                        }
 
-                                boolean resultadoB;
-                                try {
-                                    Integer.parseInt(b1);
-                                    resultadoB = true;
-                                } catch (NumberFormatException excepcion) {
-                                    resultadoB = false;
-                                }
+                    }
+                }
 
-                                String primerA = "";
-                                String primerB = "";
-                                if (infinity == 0) {
-                                    primerA = a1;
-                                    primerB = b1;
-                                }
-                                if (a1.equals(primerA)) {
-                                    infinity++;
-                                }
+            } else {
+                corriendo = formas.get(1);
+                aux = formas.get(1);
+                System.out.println(">> La decision no es 1-1");
 
-                                boolean FinEjecucion = false;
+            }
 
-                                System.out.println(">>>a: " + a1);
-                                System.out.println(">>>b: " + b1);
-                                // ver si el simbolo es >
-                                if (simbolo.equals(">")) {
-                                    if (resultado == true && resultadoB == true) {
-                                        if (Integer.parseInt(a1) > Integer.parseInt(b1)) {
-                                            c.setVerdadero(true);
-                                        }
-                                        if (Integer.parseInt(a1) < Integer.parseInt(b1)) {
-                                            c.setVerdadero(false);
-                                        }
-                                    }
-                                } else if (simbolo.equals("<")) {
-
-                                    if (resultado == true && resultadoB == true) {
-                                        if (Integer.parseInt(a1) < Integer.parseInt(b1)) {
-                                            c.setVerdadero(true);
-                                            System.out.println(">> Se volvio verdadero");
-
-                                        } else if (Integer.parseInt(a1) > Integer.parseInt(b1)) {
-                                            c.setVerdadero(false);
-
-                                        }
-                                    }
-                                } else if (simbolo.equals("=")) {
-                                    if (a1.equals(b1)) {
-                                        c.setVerdadero(true);
-                                    }
-                                    if (!a1.equals(b1)) {
-                                        c.setVerdadero(false);
-                                    }
-                                } else if (simbolo.equals("!=")) {
-                                    if (a1.equals(b1) == false) {
-                                        c.setVerdadero(true);
-                                    }
-
-                                } else if (simbolo.equals("<=")) {
-
-                                    if (resultado == true && resultadoB == true) {
-                                        if (Integer.parseInt(a1) <= Integer.parseInt(b1)) {
-                                            c.setVerdadero(true);
-
-                                        } else if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
-                                            c.setVerdadero(false);
-
-                                        }
-                                    }
-                                } else if (simbolo.equals(">=")) {
-
-                                    if (resultado == true && resultadoB == true) {
-                                        if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
-                                            c.setVerdadero(true);
-
-                                        } else if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
-                                            c.setVerdadero(false);
-
-                                        }
-
-                                    }
-                                }
-
-                                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
-                                cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
-
-                                Thread.sleep(2000);
-                                cuadro.clearRect(corriendo.getMedioX() - 230, corriendo.getMedioY(), 60, 60);
-
-                                if (c.isVerdadero()) {
-                                    Figura inicio2 = null;
-                                    System.out.println(">> C size: " + c.getVerdaderas().size());
-                                    for (int w = 0; w < c.getVerdaderas().size(); w++) {
-                                        if (c.getVerdaderas().get(w).getAnterior() == -8) {
-                                            inicio2 = c.getVerdaderas().get(w);
-
-                                        }
-                                    }
-                                    if (inicio2 != null) {
-
-                                        Figura corriendo2 = inicio2;
-                                        if (inicio2 instanceof Etapa) {
-                                            correrEtapa(corriendo2);
-                                            System.out.println(">> Entre a la Etapa");
-                                        }
-                                        if (inicio2 instanceof Salida) {
-                                            correrSalida((Salida) inicio2);
-                                        }
-                                        if (inicio2 instanceof Entrada) {
-                                            correrEntrada(corriendo2);
-                                        }
-                                        if(inicio2 instanceof Decision){
-                                            correrDecision(inicio2,corriendo2);
-                                        
-                                        }
-                                        Image image2 = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
-                                        cuadro.drawImage(image2, inicio2.getMedioX() - 230, inicio2.getMedioY());
-                                        Thread.sleep(2000);
-                                        cuadro.clearRect(inicio2.getMedioX() - 230, inicio2.getMedioY(), 60, 60);
-                                        for (int k = 0; inicio2.getSiguiente() != -9; k++) {
-                                            for (int l = 0; l < c.getVerdaderas().size(); l++) {
-                                                if (c.getVerdaderas().get(l).getID() == inicio2.getSiguiente()) {
-                                                    inicio2 = c.getVerdaderas().get(l);
-                                                    Figura corriendo3 = inicio2;
-                                                    if (inicio2 instanceof Etapa) {
-                                                        correrEtapa(corriendo3);
-                                                        System.out.println(">> Entre a la Etapa");
-                                                    }
-                                                    if (inicio2 instanceof Salida) {
-                                                        correrSalida((Salida) inicio2);
-                                                    }
-                                                    if (inicio2 instanceof Entrada) {
-                                                        correrEntrada(corriendo3);
-                                                    }
-                                                
-                                                    
-                                                    if(inicio2 instanceof Decision){
-                                                        
-                                                    }
-                                                    image2 = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
-                                                    cuadro.drawImage(image2, inicio2.getMedioX() - 230, inicio2.getMedioY());
-
-                                                    Thread.sleep(2000);
-                                                    cuadro.clearRect(inicio2.getMedioX() - 230, inicio2.getMedioY(), 60, 60);
-                                                }
-                                            }
-                                        }
-
-                                    }
-
-                                } else {
-                                    
-                                    Figura inicio2 = null;
-                                    System.out.println(">> C size: " + c.getVerdaderas().size());
-                                    for (int w = 0; w < c.getFalsas().size(); w++) {
-                                        if (c.getFalsas().get(w).getAnterior() == -8) {
-                                            inicio2 = c.getFalsas().get(w);
-
-                                        }
-                                    }
-                                    if (inicio2 != null) {
-
-                                        Figura corriendo2 = inicio2;
-                                        if (inicio2 instanceof Etapa) {
-                                            correrEtapa(corriendo2);
-                                            System.out.println(">> Entre a la Etapa");
-                                        }
-                                        if (inicio2 instanceof Salida) {
-                                            correrSalida((Salida) inicio2);
-                                        }
-                                        if (inicio2 instanceof Entrada) {
-                                            correrEntrada(corriendo2);
-                                        }
-                                        if(inicio2 instanceof Decision){
-                                             correrDecision(inicio2,corriendo2);
-                                        
-                                        }
-                                        Image image2 = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
-                                        cuadro.drawImage(image2, inicio2.getMedioX() - 230, inicio2.getMedioY());
-                                        Thread.sleep(2000);
-                                        cuadro.clearRect(inicio2.getMedioX() - 230, inicio2.getMedioY(), 60, 60);
-                                        for (int k = 0; inicio2.getSiguiente() != -9; k++) {
-                                            for (int l = 0; l < c.getFalsas().size(); l++) {
-                                                if (c.getFalsas().get(l).getID() == inicio2.getSiguiente()) {
-                                                    inicio2 = c.getFalsas().get(l);
-                                                    Figura corriendo3 = inicio2;
-                                                    if (inicio2 instanceof Etapa) {
-                                                        correrEtapa(corriendo3);
-                                                        System.out.println(">> Entre a la Etapa");
-                                                    }
-                                                    if (inicio2 instanceof Salida) {
-                                                        correrSalida((Salida) inicio2);
-                                                    }
-                                                     if (inicio2 instanceof Entrada) {
-                                                        correrEntrada(corriendo3);
-                                                    }
-                                                
-                                                    
-                                                    if(inicio2 instanceof Decision){
-                                                        
-                                                        
-                                                        
-                                                        
-                                                    }
-
-                                                    image2 = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
-                                                    cuadro.drawImage(image2, inicio2.getMedioX() - 230, inicio2.getMedioY());
-
-                                                    Thread.sleep(2000);
-                                                    cuadro.clearRect(inicio2.getMedioX() - 230, inicio2.getMedioY(), 60, 60);
-                                                }
-                                            }
-                                        }
-
-                                    }
-                                }
-                                
-                                }
-                                else{
-                                    corriendo = formas.get(1);
-                                    aux = formas.get(1);
-                                    System.out.println(">> La decision no es 1-1");
-                                
-                                }
-
-        
         }
         int infinity = 0;
 
@@ -617,9 +611,9 @@ public class FXMLDocumentController implements Initializable {
                             if (aux instanceof Entrada) {
                                 correrEntrada(corriendo);
                             }
-                            if(aux instanceof Decision){
+                            if (aux instanceof Decision) {
                                 correrDecision(aux, corriendo);
-                            
+
                             }
                             if (aux instanceof Ciclo) {
                                 Ciclo c = (Ciclo) aux;
@@ -811,7 +805,7 @@ public class FXMLDocumentController implements Initializable {
                                     System.out.println("Corriendo text: " + corriendo.getTextoFigura());
                                     if (FinEjecucion == true) {
                                         aux = formas.get(1);
-                                        corriendo= formas.get(1);
+                                        corriendo = formas.get(1);
                                     }
                                     if (c.isVerdadero() == false && FinEjecucion != true) {
                                         aux = formas.get(c.getIdsFiguras().get(0));
@@ -828,7 +822,6 @@ public class FXMLDocumentController implements Initializable {
 
                             if (aux instanceof Decision) {
 
-                          
                             }
                             if (corriendo instanceof Decision == false) {
                                 Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
@@ -858,6 +851,9 @@ public class FXMLDocumentController implements Initializable {
             }
 
             reiniciarHilo = true;
+            CorrerManual.setDisable(false);
+            CorrerAutomatico.setDisable(false);
+
         }
 
     }
@@ -872,13 +868,81 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     Rectangle subMenu;
 
+    int automatico = 0;
+
+    int manual = 0;
+    int indiceactual = 0;
+
+    @FXML
+    private void correrManual(ActionEvent event) throws ScriptException, InterruptedException {
+        hilo corre = new hilo();
+
+        if (manual >= 0 && manual < formas.size()) {
+            GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el Lienzo del programa
+            int contador = 0;
+            Figura aux = null;
+            if (indiceactual == 0) {
+                aux = formas.get(0);
+                CorrerAutomatico.setDisable(true);
+            } else {
+                aux = formas.get(indiceactual);
+
+            }
+            repintar(cuadro);
+            Figura corriendo = aux;
+
+            if (aux.getSiguiente() != -1) {
+                for (int j = 0; j < formas.size(); j++) {
+                    if (formas.get(j).getID() == aux.getSiguiente()) {
+                        indiceactual = j;
+                        if (aux instanceof Etapa) {
+                            corre.correrEtapa(corriendo);
+                            System.out.println(">>Entre a etapa");
+                        }
+
+                        if (aux instanceof Salida) {
+                            corre.correrSalida((Salida) aux);
+
+                            System.out.println(">>> Entre a la salida");
+                        }
+
+                        if (aux instanceof Entrada) {
+                            corre.correrEntrada(corriendo);
+                            System.out.println(">>> entre a la entrada");
+                        }
+                        if (aux instanceof Decision) {
+                            correrDecision(aux, corriendo);
+
+                        }
+                        Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_naranja.png"));
+                        cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+                    }
+
+                }
+
+            } else {
+                indiceactual = 0;
+                CorrerAutomatico.setDisable(false);
+                DetenerCorrer.setDisable(false);
+
+            }
+
+        }
+    }
+
     @FXML
     private void correrAutomatico(ActionEvent event) {
+        Thread a = new Thread(new hilo());// Se crea un Thread con la clase Hilo como argumento
         reiniciarHilo = false;// se convierte el Boolean en false para que se pueda ejecutar
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo.
-        Thread a = new Thread(new hilo());// Se crea un Thread con la clase Hilo como argumento
-        a.start();// Se "Ejecuta el Hilo"
-        CorrerManual.setDisable(true);
+        if (automatico == 0) {
+            a.start();// Se "Ejecuta el Hilo"
+            automatico = 1;
+            CorrerManual.setDisable(true);
+            CorrerAutomatico.setDisable(true);
+            DetenerCorrer.setDisable(true);
+
+        }
 
     }
 
@@ -3266,6 +3330,8 @@ public class FXMLDocumentController implements Initializable {
     int ids = 0;
 
     public void ini() {
+
+        reiniciarHilo = true;
         subMenu.setVisible(false);
         CorrerAutomatico.setVisible(false);
         CorrerManual.setVisible(false);
@@ -3363,6 +3429,189 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ini();
+    }
+
+    public void correrDecision(Figura aux, Figura corriendo) throws ScriptException, InterruptedException {
+
+        hilo corre = new hilo();
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo
+
+        //Inicio validacion condicional
+        Decision c = (Decision) aux;
+        if (c.getVerdaderas().size() > 0 && c.getFalsas().size() > 0) {
+
+            System.out.println("Is Verdadero: " + c.isVerdadero());
+            String[] tokens = c.getTextoFigura().replaceAll("\\s+", "").split("(?<=[-+/()><=!])|(?=[-+/()><=!])");
+            System.out.println("Tokens Ciclo");
+            for (String token : tokens) {
+                System.out.println(token);
+            }
+            ArrayList<String> arrayTokens = new ArrayList<>();
+            for (String token : tokens) {
+                arrayTokens.add(token);
+            }
+            Variable a = null;
+            Variable b = null;
+            String a1 = "";
+            String b1 = "";
+            String simbolo = "";
+            if (arrayTokens.size() == 3) {
+                simbolo = arrayTokens.get(1);
+                a1 = arrayTokens.get(0);
+                b1 = arrayTokens.get(2);
+
+            } else if (arrayTokens.size() == 4) {
+                simbolo = arrayTokens.get(1) + arrayTokens.get(2);
+                a1 = arrayTokens.get(0);
+                b1 = arrayTokens.get(3);
+            }
+
+            boolean existeA = false;
+            boolean existeB = false;
+            //BuscarVariables
+            for (int k = 0; k < variables.size(); k++) {
+                if (variables.get(k).getNombre().equals(a1)) {
+                    a1 = variables.get(k).getTexto();
+                    existeA = true;
+
+                } else if (variables.get(k).getNombre().equals(b1)) {
+                    b1 = variables.get(k).getTexto();
+                    existeB = true;
+                }
+            }
+
+            boolean resultado1;
+            try {
+                Integer.parseInt(a1);
+                resultado1 = true;
+            } catch (NumberFormatException excepcion) {
+                resultado1 = false;
+            }
+
+            System.out.println("B2:" + b1);
+            boolean resultado2;
+            try {
+                Integer.parseInt(b1);
+                resultado2 = true;
+            } catch (NumberFormatException excepcion) {
+                resultado2 = false;
+            }
+            System.out.println("Llegue a ver si existen");
+            System.out.println("ABoleando: " + resultado1);
+            System.out.println("BBoleando: " + resultado2);
+
+            System.out.println("ExisteABoleando: " + existeA);
+            System.out.println("ExisteBBoleando: " + existeB);
+//ver si existen
+            if (existeA == false) {
+                a1 = "0";
+
+            } else if (resultado2 == true) {
+
+            } else if (existeB == false && resultado2 != true) {
+                b1 = "0";
+            }
+
+            boolean resultado;
+            try {
+                Integer.parseInt(a1);
+                resultado = true;
+            } catch (NumberFormatException excepcion) {
+                resultado = false;
+            }
+
+            boolean resultadoB;
+            try {
+                Integer.parseInt(b1);
+                resultadoB = true;
+            } catch (NumberFormatException excepcion) {
+                resultadoB = false;
+            }
+
+            String primerA = "";
+            String primerB = "";
+
+            boolean FinEjecucion = false;
+
+            System.out.println(">>>a: " + a1);
+            System.out.println(">>>b: " + b1);
+            // ver si el simbolo es >
+            if (simbolo.equals(">")) {
+                if (resultado == true && resultadoB == true) {
+                    if (Integer.parseInt(a1) > Integer.parseInt(b1)) {
+                        c.setVerdadero(true);
+                    }
+                    if (Integer.parseInt(a1) < Integer.parseInt(b1)) {
+                        c.setVerdadero(false);
+                    }
+                }
+            } else if (simbolo.equals("<")) {
+
+                if (resultado == true && resultadoB == true) {
+                    if (Integer.parseInt(a1) < Integer.parseInt(b1)) {
+                        c.setVerdadero(true);
+                        System.out.println(">> Se volvio verdadero");
+
+                    } else if (Integer.parseInt(a1) > Integer.parseInt(b1)) {
+                        c.setVerdadero(false);
+
+                    }
+                }
+            } else if (simbolo.equals("=")) {
+                if (a1.equals(b1)) {
+                    c.setVerdadero(true);
+                }
+                if (!a1.equals(b1)) {
+                    c.setVerdadero(false);
+                }
+            } else if (simbolo.equals("!=")) {
+                if (a1.equals(b1) == false) {
+                    c.setVerdadero(true);
+                }
+
+            } else if (simbolo.equals("<=")) {
+
+                if (resultado == true && resultadoB == true) {
+                    if (Integer.parseInt(a1) <= Integer.parseInt(b1)) {
+                        c.setVerdadero(true);
+
+                    } else if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
+                        c.setVerdadero(false);
+
+                    }
+                }
+            } else if (simbolo.equals(">=")) {
+
+                if (resultado == true && resultadoB == true) {
+                    if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
+                        c.setVerdadero(true);
+
+                    } else if (Integer.parseInt(a1) >= Integer.parseInt(b1)) {
+                        c.setVerdadero(false);
+
+                    }
+
+                }
+            }
+
+            repintar(cuadro);
+            if (c.isVerdadero()) {
+                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
+                cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
+                
+                
+                
+                
+
+            }
+
+        } else {
+            corriendo = formas.get(1);
+            aux = formas.get(1);
+            System.out.println(">> La decision no es 1-1");
+
+        }
+
     }
 
 }
