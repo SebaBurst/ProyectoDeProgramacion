@@ -30,7 +30,7 @@
         <Button fx:id="Etapa" layoutX="957.0" layoutY="219.0" onAction="#dibujarEtapa" prefHeight="107.0" prefWidth="100.0" styleClass="etapa" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="cut" layoutX="841.0" mnemonicParsing="false" onAction="#borrarFigura" prefHeight="75.0" prefWidth="88.0" styleClass="cortar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="borrarAll" layoutX="747.0" layoutY="-1.0" mnemonicParsing="false" onAction="#borrarAll" prefHeight="75.0" prefWidth="88.0" styleClass="limpiar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
-      <Button fx:id="Correr" layoutX="4.0" mnemonicParsing="false" onAction="#correr" prefHeight="75.0" prefWidth="88.0" styleClass="correr" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="Correr" layoutX="4.0" mnemonicParsing="false" onAction="#correrAutomatico" prefHeight="75.0" prefWidth="88.0" styleClass="correr" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="Decision" layoutX="1065.0" layoutY="219.0" onAction="#dibujarDecision" prefHeight="107.0" prefWidth="100.0" styleClass="decision" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="Ciclo" layoutX="958.0" layoutY="347.0" onAction="#dibujarCiclo" prefHeight="107.0" prefWidth="100.0" styleClass="ciclo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="Salida" layoutX="1067.0" layoutY="346.0" onAction="#dibujarSalida" prefHeight="107.0" prefWidth="100.0" styleClass="salida" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
@@ -42,7 +42,7 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ddc9b2" height="83.0" layoutX="99.0" layoutY="-8.0" stroke="#ddc9b2" strokeType="INSIDE" width="2.0" />
       <Rectangle fx:id="subMenu" arcWidth="5.0" fill="#efebe3" height="83.0" layoutX="-1.0" layoutY="76.0" stroke="#c2a889" strokeType="INSIDE" strokeWidth="0.5" width="234.0" />
       <Button fx:id="CorrerAutomatico" layoutX="4.0" layoutY="76.0" mnemonicParsing="false" onAction="#correrAutomatico" prefHeight="57.0" prefWidth="64.0" styleClass="automatico" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
-      <Button fx:id="CorrerManual" layoutX="71.0" layoutY="77.0" mnemonicParsing="false" onAction="#correrManual" prefHeight="57.0" prefWidth="64.0" styleClass="manual" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="CorrerManual" layoutX="71.0" layoutY="77.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="64.0" styleClass="manual" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="DetenerCorrer" layoutX="139.0" layoutY="78.0" mnemonicParsing="false" onAction="#correrAutomatico" prefHeight="57.0" prefWidth="64.0" styleClass="parar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
     </children>
 </AnchorPane>

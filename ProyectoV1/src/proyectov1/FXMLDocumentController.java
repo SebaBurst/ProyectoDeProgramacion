@@ -935,14 +935,11 @@ public class FXMLDocumentController implements Initializable {
         Thread a = new Thread(new hilo());// Se crea un Thread con la clase Hilo como argumento
         reiniciarHilo = false;// se convierte el Boolean en false para que se pueda ejecutar
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo.
-        if (automatico == 0) {
             a.start();// Se "Ejecuta el Hilo"
             automatico = 1;
             CorrerManual.setDisable(true);
             CorrerAutomatico.setDisable(true);
             DetenerCorrer.setDisable(true);
-
-        }
 
     }
 
@@ -1038,6 +1035,17 @@ public class FXMLDocumentController implements Initializable {
                         if (aux.getId() == a.getFlujoSuperior()) {
                             aux.dibujar(aux.getX(), aux.getY(), aux.getX1() + df, aux.getY2() + df2, cuadro);
 
+                        }
+                        if(a instanceof Decision){
+                            if(aux.getId() ==((Decision) a).getLadoDerecho().getId()){
+                               aux.dibujar(a.getMedioX()+180, a.getMedioY()+30, aux.getX1() + df, aux.getY2() + df2, cuadro);
+
+                            }
+                              if(aux.getId() ==((Decision) a).getLadoIzquierdo().getId()){
+                               aux.dibujar(a.getMedioX()-180, a.getMedioY()+30, aux.getX1() + df, aux.getY2() + df2, cuadro);
+
+                            }
+                        
                         }
                     }
                     a.dibujar(cuadro, a.getMedioX() + df, a.getMedioY() + df2);
