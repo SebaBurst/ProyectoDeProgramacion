@@ -20,6 +20,10 @@ import static proyectov1.FXMLDocumentController.formas;
 public class Ciclo extends Figura {
 
     int aumento =0;
+
+    public Ciclo() {
+        this.color="#E519B1";
+    }
     
     
     Flujo conexionH;
@@ -111,10 +115,29 @@ public class Ciclo extends Figura {
         int incremento = this.getAumento()*20;
         
         lienzo.setLineWidth(3.3);
-        lienzo.setStroke(Color.valueOf("#FF3342"));
+        lienzo.setStroke(Color.valueOf("#FF1493"));
 
         lienzo.strokeLine(x-(130+incremento),y+30,diferenciax-(130+incremento),diferenciaY);
+        
+        
+        int xd = diferenciax-(130+incremento);
+        System.out.println("this:");
+        double angle = Math.atan2((diferenciaY - diferenciaY), ( diferenciax- xd)) - Math.PI / 2.0;
+        double sin = Math.sin(angle);
+        double cos = Math.cos(angle);
+        double fx = (-1.0 / 2.0 * cos + Math.sqrt(3) / 2 * sin) * 10.0 + diferenciax;
+        double fy = (-1.0 / 2.0 * sin - Math.sqrt(3) / 2 * cos) * 10.0 + diferenciaY-2;
+        double fx2 = (1.0 / 2.0 * cos + Math.sqrt(3) / 2 * sin) * 10.0 + diferenciax;
+        double fy2 = (1.0 / 2.0 * sin - Math.sqrt(3) / 2 * cos) * 10.0 + diferenciaY-2;
+                lienzo.setLineWidth(1);
+
+        lienzo.strokeLine(fx, fy, fx2, fy2);
+        lienzo.strokeLine(fx, fy, diferenciax, diferenciaY-2);
+        lienzo.strokeLine(fx2, fy2, diferenciax, diferenciaY-2);
+        lienzo.setLineWidth(3.3);
+        
         lienzo.strokeLine(diferenciax-(130+incremento),diferenciaY,diferenciax,diferenciaY);
+        
         lienzo.strokeLine(x-100,y+30,x-(130+incremento),y+30);
  
     }

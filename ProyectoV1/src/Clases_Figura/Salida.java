@@ -17,6 +17,12 @@ import javafx.scene.text.FontWeight;
  */
 public class Salida extends Figura{
 
+    public Salida() {
+        this.color="#ED6D18";
+        
+    }
+
+    
    @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
         lienzo.setStroke(Color.valueOf("#fec973"));

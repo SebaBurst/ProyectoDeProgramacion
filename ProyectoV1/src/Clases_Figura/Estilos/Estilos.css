@@ -74,11 +74,19 @@ and open the template in the editor.
     -fx-background-color: #e3dbc7;
 }
 .correr{
+    -fx-background-size: 60px 60px;
+  -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
     -fx-border-radius: 0px;
     -fx-background-color: transparent;
     -fx-graphic: url('/Clases_Figura/Estilos/correr.png');  
 }
 .correr:hover{
+    -fx-background-size: 60px 60px;
+  -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
     -fx-background-color: #e3dbc7;
 }
 
@@ -101,11 +109,19 @@ and open the template in the editor.
 }
 
 .limpiar{
+    -fx-background-size: 60px 60px;
+  -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
     -fx-border-radius: 0px;
     -fx-background-color: transparent;
     -fx-graphic: url('/Clases_Figura/Estilos/Limpiar.png');  
 }
 .limpiar:hover{
+    -fx-background-size: 60px 60px;
+  -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
     -fx-background-color: #e3dbc7;
 }
 
@@ -140,24 +156,38 @@ and open the template in the editor.
 
 
 .cortar{
+    -fx-background-size: 60px 60px;
+  -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
     -fx-border-radius: 0px;
     -fx-background-color: transparent;
     -fx-graphic: url('/Clases_Figura/Estilos/Cortar.png');  
 }
 .cortar:hover{
     -fx-background-color: #e3dbc7;
-    
+    -fx-background-size: 60px 60px;
+  -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
     
 }
 
 
 .mover{
-    -fx-border-radius: 0px;
+         -fx-background-size: 60px 60px;
+  -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-background-radius: 10px;
     -fx-background-color: transparent;
     -fx-graphic: url('/Clases_Figura/Estilos/Move.png');  
 }
 .mover:hover{
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
     -fx-background-color: #e3dbc7;
-    
-    
+     -fx-border-radius: 660px;
+     -fx-background-size: 60px 60px;
 }

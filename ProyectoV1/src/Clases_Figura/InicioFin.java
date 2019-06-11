@@ -9,7 +9,13 @@ import javafx.scene.text.FontWeight;
 
 public class InicioFin extends Figura {
 
-     @Override
+    public InicioFin() {
+        this.color=("#929903");
+    }
+
+    
+    
+    @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
         
         this.setMedioX(x);

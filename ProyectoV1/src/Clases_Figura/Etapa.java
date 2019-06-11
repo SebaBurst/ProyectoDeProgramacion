@@ -8,6 +8,10 @@ import javafx.scene.text.FontWeight;
 
 public class Etapa extends Figura {
 
+    public Etapa() {
+        this.color="1b5583";
+    }
+
      @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
         lienzo.setStroke(Color.valueOf("#61bbef"));

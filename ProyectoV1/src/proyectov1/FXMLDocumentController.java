@@ -2926,10 +2926,15 @@ public class FXMLDocumentController implements Initializable {
                             }
 
                             Flujo nuevo = new Flujo();
+                                                        nuevo.setColor(n.getColor());
+
                             nuevo.setId(idFlujos);
                             if (n instanceof Decision) {
                                 Flujo derecho = new Flujo();
                                 Flujo izquierdo = new Flujo();
+                                  derecho.setColor("#01be9b");
+                                izquierdo.setDecision(ids);
+                                izquierdo.setColor("#ff0025");
                                 derecho.dibujar(o + 180, f + 30, o + 180, f + 140, cuadro);
                                 izquierdo.dibujar(o - 180, f + 30, o - 180, f + 140, cuadro);
                                 idFlujos++;
@@ -2938,7 +2943,7 @@ public class FXMLDocumentController implements Initializable {
                                 idFlujos++;
                                 izquierdo.setId(idFlujos);
                                 idFlujos++;
-                                izquierdo.setDecision(ids);
+                              
                                 derecho.setDerecho(true);
                                 derecho.setDecision(ids);
                                 izquierdo.setDerecho(false);
@@ -3088,10 +3093,13 @@ public class FXMLDocumentController implements Initializable {
                         } else {
 
                             Flujo nuevo = new Flujo();
+                            nuevo.setColor(n.getColor());
                             nuevo.setId(idFlujos);
                             if (n instanceof Decision) {
                                 Flujo derecho = new Flujo();
                                 Flujo izquierdo = new Flujo();
+                                 derecho.setColor("#01be9b");
+                                izquierdo.setColor("#ff0025");
                                 derecho.dibujar(o + 180, f + 30, o + 180, f + 300, cuadro);
                                 izquierdo.dibujar(o - 180, f + 30, o - 180, f + 300, cuadro);
                                 idFlujos++;
@@ -3340,19 +3348,17 @@ public class FXMLDocumentController implements Initializable {
     public void ini() {
 
         reiniciarHilo = true;
-        subMenu.setVisible(false);
-        CorrerAutomatico.setVisible(false);
-        CorrerManual.setVisible(false);
-        DetenerCorrer.setVisible(false);
         idFlujos = 0;
         ids = 0;
         consola.setText("");
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Flujo crear = new Flujo();
-        crear.setId(idFlujos);
+               crear.setId(idFlujos);
         boolean validacion = false;
         InicioFin inicio = new InicioFin();
         String respuesta = "";
+         crear.setColor(inicio.getColor());
+
         while (validacion == false) {
 
             TextInputDialog dialog = new TextInputDialog();

@@ -82,6 +82,11 @@ public class Decision extends Figura {
     public void setLadoDerecho(Flujo ladoDerecho) {
         this.ladoDerecho = ladoDerecho;
     }
+
+    public Decision() {
+        this.color="#572364";
+    
+    }
     
     
     @Override
@@ -103,7 +108,7 @@ public class Decision extends Figura {
         this.setX4(ix + 120);
         this.setY4(y + 70);
 
-        lienzo.setStroke(Color.valueOf("#8a08b8"));
+        lienzo.setStroke(Color.valueOf("#b44cd9"));
         lienzo.setLineWidth(3.0);
 
         for (int i = 0; i < 30; i++) {
@@ -118,16 +123,18 @@ public class Decision extends Figura {
         }
 
         System.out.println("ix: " + ix);
-        lienzo.setStroke(Color.valueOf("#311740"));
+        lienzo.setStroke(Color.valueOf("#8a08b8"));
         lienzo.strokeLine(x, y, x + 100, y + 30); //\
         lienzo.strokeLine(x, y, x - 100, y + 30);//
         lienzo.strokeLine(x - 100, y + 30, x, y + 70);
         lienzo.strokeLine(x, y + 70, x + 100, y + 30);
         
         //Lado Derecho enlace-enlace
-        
+        lienzo.setStroke(Color.valueOf("#01be9b"));
         lienzo.strokeLine(x+100, y + 30, x + 180, y + 30);
-                lienzo.strokeLine(x-100, y + 30, x - 180, y + 30);
+        
+         lienzo.setStroke(Color.valueOf("#ff0025"));
+        lienzo.strokeLine(x-100, y + 30, x - 180, y + 30);
 
                 
                 
@@ -168,7 +175,10 @@ public class Decision extends Figura {
             }
         }
 
+        lienzo.setStroke(Color.valueOf("#01be9b"));
         lienzo.strokeLine(punto.getX(), punto.getY(), this.getFinalDerecho().getX1(), this.getFinalDerecho().getY2());
+                 lienzo.setStroke(Color.valueOf("#ff0025"));
+
         lienzo.strokeLine(punto.getX(), punto.getY(), this.getFinalIzquierdo().getX1(),this.getFinalIzquierdo().getY2());    
         
         //

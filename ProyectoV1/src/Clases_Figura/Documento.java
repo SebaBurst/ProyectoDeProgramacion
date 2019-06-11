@@ -10,6 +10,10 @@ import javafx.scene.text.FontWeight;
 
 public class Documento extends Figura {
 
+    public Documento() {
+        this.color="#ff0025";
+    }
+
     @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
         
