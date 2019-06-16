@@ -7,7 +7,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 
-public class InicioFin extends Figura {
+public class InicioFin extends Figura implements java.io.Serializable{
 
     public InicioFin() {
         this.color=("#929903");

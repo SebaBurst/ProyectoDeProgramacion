@@ -2,7 +2,7 @@ package Clases_Figura;
 
 import javafx.scene.canvas.GraphicsContext;
 
-public abstract class Figura {
+public abstract class Figura implements java.io.Serializable{
     String color="#353333";
 
     public String getColor() {

@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
  *
  * @author Sebastian
  */
-public class Flujo {
+public class Flujo implements java.io.Serializable {
 
     String color="#353333" ;
 

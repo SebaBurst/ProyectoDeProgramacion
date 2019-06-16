@@ -7,7 +7,7 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 
 
-public class Entrada extends Figura {
+public class Entrada extends Figura implements java.io.Serializable{
 
     public Entrada() {
         this.color="#1D8348";

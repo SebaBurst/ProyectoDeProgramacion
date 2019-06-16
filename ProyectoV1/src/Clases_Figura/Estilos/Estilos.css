@@ -14,9 +14,9 @@ and open the template in the editor.
     -fx-graphic: url('/Clases_Figura/Estilos/Etapa.png');  
 }
 .canvas{
-     -fx-background-color: #ffffff;
-    
-    
+    -fx-background-color: #ffffff;
+
+
 }
 .fondo{
     -fx-background-color: #efebe3;
@@ -24,7 +24,7 @@ and open the template in the editor.
 
 .etapa:hover{
     -fx-background-color: #e3dbc7;
-    
+
 }
 
 .inicio{
@@ -73,22 +73,7 @@ and open the template in the editor.
 .manual:hover{
     -fx-background-color: #e3dbc7;
 }
-.correr{
-    -fx-background-size: 60px 60px;
-  -fx-min-height: 60px;
 
-    -fx-min-width: 60px;
-    -fx-border-radius: 0px;
-    -fx-background-color: transparent;
-    -fx-graphic: url('/Clases_Figura/Estilos/correr.png');  
-}
-.correr:hover{
-    -fx-background-size: 60px 60px;
-  -fx-min-height: 60px;
-
-    -fx-min-width: 60px;
-    -fx-background-color: #e3dbc7;
-}
 
 .ciclo{
     -fx-border-radius: 0px;
@@ -105,23 +90,6 @@ and open the template in the editor.
     -fx-graphic: url('/Clases_Figura/Estilos/Salida.png');  
 }
 .salida:hover{
-    -fx-background-color: #e3dbc7;
-}
-
-.limpiar{
-    -fx-background-size: 60px 60px;
-  -fx-min-height: 60px;
-
-    -fx-min-width: 60px;
-    -fx-border-radius: 0px;
-    -fx-background-color: transparent;
-    -fx-graphic: url('/Clases_Figura/Estilos/Limpiar.png');  
-}
-.limpiar:hover{
-    -fx-background-size: 60px 60px;
-  -fx-min-height: 60px;
-
-    -fx-min-width: 60px;
     -fx-background-color: #e3dbc7;
 }
 
@@ -150,44 +118,338 @@ and open the template in the editor.
 }
 .documento:hover{
     -fx-background-color: #e3dbc7;
-    
-    
+
+
 }
 
 
-.cortar{
-    -fx-background-size: 60px 60px;
-  -fx-min-height: 60px;
 
-    -fx-min-width: 60px;
-    -fx-border-radius: 0px;
-    -fx-background-color: transparent;
-    -fx-graphic: url('/Clases_Figura/Estilos/Cortar.png');  
-}
-.cortar:hover{
-    -fx-background-color: #e3dbc7;
-    -fx-background-size: 60px 60px;
-  -fx-min-height: 60px;
-
-    -fx-min-width: 60px;
-    
-}
 
 
 .mover{
-         -fx-background-size: 60px 60px;
-  -fx-min-height: 60px;
-
-    -fx-min-width: 60px;
-    -fx-background-radius: 10px;
-    -fx-background-color: transparent;
-    -fx-graphic: url('/Clases_Figura/Estilos/Move.png');  
-}
-.mover:hover{
+    
+     -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
 
     -fx-min-width: 60px;
-    -fx-background-color: #e3dbc7;
-     -fx-border-radius: 660px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #1A53C4 0%, #1A53C4 100%),
+        #1A53C4,
+        #1A53C4,
+        radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-graphic: url('/Clases_Figura/Estilos/Move.png');  
+}
+.mover:hover{
      -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+        -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #1A53C4 0%, #1A53C4 100%),
+        #1A53C4,
+        #1A53C4,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.mover:pressed{
+     -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+    
+    
+}
+
+.cortar{
+    
+     -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #E0E005 0%, #E0E005 100%),
+        #E0E005,
+        #E0E005,
+        radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-graphic: url('/Clases_Figura/Estilos/Cortar.png');  
+}
+.cortar:hover{
+     -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+        -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #E0E005 0%, #E0E005 100%),
+        #E0E005,
+        #E0E005,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.cortar:pressed{
+     -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+    
+    
+}
+
+
+
+.limpiar{
+    
+     -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #1A53C4 0%, #1A53C4 100%),
+        #1A53C4,
+        #1A53C4,
+        radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+     -fx-graphic: url('/Clases_Figura/Estilos/Limpiar.png');  
+}
+.limpiar:hover{
+     -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+        -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #1A53C4 0%, #1A53C4 100%),
+        #1A53C4,
+        #1A53C4,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.limpiar:pressed{
+     -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+    
+    
+}
+
+
+
+
+
+.correr{
+    
+     -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #EA1E0A 0%, #EA1E0A 100%),
+        #EA1E0A,
+        #EA1E0A,
+        radial-gradient(center 50% 50%, radius 100%, #EA1E0A, #EA1E0A);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+     -fx-graphic: url('/Clases_Figura/Estilos/correr.png');  
+}
+.correr:hover{
+     -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+        -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #EA1E0A 0%, #EA1E0A 100%),
+        #EA1E0A,
+        #EA1E0A,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.correr:pressed{
+     -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+    
+    
+}
+
+
+
+
+.plus{
+    
+     -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #EA1E0A 0%, #EA1E0A 100%),
+        #EA1E0A,
+        #EA1E0A,
+        radial-gradient(center 50% 50%, radius 100%, #EA1E0A, #EA1E0A);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+     -fx-graphic: url('/Clases_Figura/Estilos/plus.png');  
+}
+.plus:hover{
+     -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+        -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #EA1E0A 0%, #EA1E0A 100%),
+        #EA1E0A,
+        #EA1E0A,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.plus:pressed{
+     -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+    
+    
+}
+
+
+.in{
+    
+     -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #920AEA 0%, #920AEA 100%),
+        #920AEA,
+        #920AEA,
+        radial-gradient(center 50% 50%, radius 100%, #EA1E0A, #EA1E0A);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+     -fx-graphic: url('/Clases_Figura/Estilos/ui.png');  
+}
+.in:hover{
+     -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+        -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #920AEA 0%, #920AEA 100%),
+        #920AEA,
+        #920AEA,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.in:pressed{
+     -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+    
+    
+}
+
+
+
+
+
+.redo{
+    
+     -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #920AEA 0%, #920AEA 100%),
+        #920AEA,
+        #920AEA,
+        radial-gradient(center 50% 50%, radius 100%, #EA1E0A, #EA1E0A);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+     -fx-graphic: url('/Clases_Figura/Estilos/redo.png');  
+}
+.redo:hover{
+     -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+        -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #920AEA 0%, #920AEA 100%),
+        #920AEA,
+        #920AEA,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.redo:pressed{
+     -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+    
+    
+}
+
+
+
+.undo{
+    
+     -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #1A53C4 0%, #1A53C4 100%),
+        #1A53C4,
+        #1A53C4,
+        radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-graphic: url('/Clases_Figura/Estilos/undo.png');  
+}
+.undo:hover{
+     -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+        -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #1A53C4 0%, #1A53C4 100%),
+        #1A53C4,
+        #1A53C4,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.undo:pressed{
+     -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+    
+    
 }

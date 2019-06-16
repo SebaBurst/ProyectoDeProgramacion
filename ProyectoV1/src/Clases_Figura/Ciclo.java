@@ -17,7 +17,7 @@ import static proyectov1.FXMLDocumentController.formas;
  *
  * @author Sebastian
  */
-public class Ciclo extends Figura {
+public class Ciclo extends Figura implements java.io.Serializable{
 
     int aumento =0;
 

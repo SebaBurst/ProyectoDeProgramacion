@@ -19,8 +19,9 @@ import static proyectov1.FXMLDocumentController.formas;
  *
  * @author Sebastian
  */
-public class Decision extends Figura {
+public class Decision extends Figura implements Cloneable {
 
+    
     private int tipo=1;
 
     public int getTipo() {
@@ -131,9 +132,13 @@ public class Decision extends Figura {
         
         //Lado Derecho enlace-enlace
         lienzo.setStroke(Color.valueOf("#01be9b"));
+        lienzo.setFill(Color.valueOf("#01be9b"));
+         lienzo.fillText("TRUE", Math.round(x+120), Math.round(y + 22));
         lienzo.strokeLine(x+100, y + 30, x + 180, y + 30);
         
          lienzo.setStroke(Color.valueOf("#ff0025"));
+         lienzo.setFill(Color.valueOf("#ff0025"));
+          lienzo.fillText("FALSE", Math.round(x-160), Math.round(y + 22));
         lienzo.strokeLine(x-100, y + 30, x - 180, y + 30);
 
                 
@@ -177,8 +182,8 @@ public class Decision extends Figura {
 
         lienzo.setStroke(Color.valueOf("#01be9b"));
         lienzo.strokeLine(punto.getX(), punto.getY(), this.getFinalDerecho().getX1(), this.getFinalDerecho().getY2());
-                 lienzo.setStroke(Color.valueOf("#ff0025"));
-
+        lienzo.setStroke(Color.valueOf("#ff0025"));
+       
         lienzo.strokeLine(punto.getX(), punto.getY(), this.getFinalIzquierdo().getX1(),this.getFinalIzquierdo().getY2());    
         
         //

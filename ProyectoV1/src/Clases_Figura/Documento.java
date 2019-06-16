@@ -8,7 +8,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 
-public class Documento extends Figura {
+public class Documento extends Figura implements java.io.Serializable{
 
     public Documento() {
         this.color="#ff0025";
