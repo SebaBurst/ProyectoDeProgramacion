@@ -6,7 +6,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 
-public class Etapa extends Figura {
+public class Etapa extends Figura implements java.io.Serializable {
+
+    public Etapa() {
+        this.color="1b5583";
+    }
 
      @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {

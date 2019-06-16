@@ -15,8 +15,14 @@ import javafx.scene.text.FontWeight;
  *
  * @author Sebastian
  */
-public class Salida extends Figura{
+public class Salida extends Figura implements java.io.Serializable{
 
+    public Salida() {
+        this.color="#ED6D18";
+        
+    }
+
+    
    @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
         lienzo.setStroke(Color.valueOf("#fec973"));

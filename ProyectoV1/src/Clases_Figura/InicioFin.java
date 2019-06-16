@@ -7,9 +7,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 
-public class InicioFin extends Figura {
+public class InicioFin extends Figura implements java.io.Serializable{
 
-     @Override
+    public InicioFin() {
+        this.color=("#929903");
+    }
+
+    
+    
+    @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
         
         this.setMedioX(x);

@@ -12,8 +12,17 @@ import javafx.scene.paint.Color;
  *
  * @author Sebastian
  */
-public class Flujo {
+public class Flujo implements java.io.Serializable {
 
+    String color="#353333" ;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
     int decision =-19;
     int ciclo;
     int id;
@@ -96,7 +105,7 @@ public class Flujo {
         this.setX1(x2);
         this.setY(y);
         this.setY2(y2);
-        cuadro.setStroke(Color.valueOf("#353333"));
+        cuadro.setStroke(Color.valueOf(this.getColor()));
         cuadro.strokeLine(x, y, x2, y2);
 
         System.out.println("this:");

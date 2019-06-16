@@ -9,7 +9,7 @@ package proyectov1;
  *
  * @author Daniel-PC
  */
-public class Variable {
+public class Variable  implements java.io.Serializable{
     String nombre = "";
     String texto = "";
     String tipo = "";
