@@ -9,6 +9,11 @@ import Clases_Figura.Figura;
 import Clases_Figura.Flujo;
 import Clases_Figura.InicioFin;
 import Clases_Figura.Salida;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +39,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Scale;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -75,6 +81,9 @@ public class FXMLDocumentController implements Initializable {
     Button Ciclo;
     @FXML
     Button Documento;
+    
+     @FXML
+    Button undo;
 
     /**
      * Clase interna Hilo que implementa Runnable para crear la funcionalidad
@@ -603,20 +612,33 @@ public class FXMLDocumentController implements Initializable {
                             Figura corriendo = aux;
 
                             if (aux instanceof Etapa) {
+                                consola.setStyle(" -fx-background-color: #0032FF;  -fx-text-fill:white; -fx-control-inner-background:#0032FF;");
                                 correrEtapa(corriendo);
                             }
                             if (aux instanceof Salida) {
+                                consola.setStyle(" -fx-background-color: #FF8B00;  -fx-text-fill:white; -fx-control-inner-background:#FF8B00;");
+
                                 correrSalida((Salida) aux);
                             }
                             if (aux instanceof Entrada) {
+                                consola.setStyle(" -fx-background-color: #00FF27;  -fx-text-fill:#FF0000; -fx-control-inner-background:#00FF27;");
+
                                 correrEntrada(corriendo);
                             }
                             if (aux instanceof Decision) {
+                                consola.setStyle(" -fx-background-color: #8A01BA;  -fx-text-fill:white; -fx-control-inner-background:#8A01BA;");
+
                                 correrDecision(aux, corriendo);
 
                             }
+                            
+                            if(aux instanceof Documento){
+                                 consola.setStyle(" -fx-background-color: #E51616;  -fx-text-fill:white; -fx-control-inner-background:#E51616;");
+                            
+                            }
                             if (aux instanceof Ciclo) {
                                 Ciclo c = (Ciclo) aux;
+                                consola.setStyle(" -fx-background-color: #E516D6;  -fx-text-fill:white; -fx-control-inner-background:#E516D6;");
                                 System.out.println("Is Verdadero: " + c.isVerdadero());
                                 if (c.isVerdadero() == false) {
                                     String[] tokens = c.getTextoFigura().replaceAll("\\s+", "").split("(?<=[-+/()><=!])|(?=[-+/()><=!])");
@@ -851,13 +873,14 @@ public class FXMLDocumentController implements Initializable {
             }
 
             reiniciarHilo = true;
-            CorrerManual.setDisable(false);
-            CorrerAutomatico.setDisable(false);
 
         }
 
     }
 
+    
+   
+    
     @FXML
     Button CorrerManual;
     @FXML
@@ -922,8 +945,6 @@ public class FXMLDocumentController implements Initializable {
 
             } else {
                 indiceactual = 0;
-                CorrerAutomatico.setDisable(false);
-                DetenerCorrer.setDisable(false);
 
             }
 
@@ -932,15 +953,17 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void correrAutomatico(ActionEvent event) {
+        
+        consola.setStyle(" -fx-background-color: #FFFB00;  -fx-text-fill:#FFFB00; -fx-control-inner-background:#000000;");
+        
+        
+        
+        
         Thread a = new Thread(new hilo());// Se crea un Thread con la clase Hilo como argumento
         reiniciarHilo = false;// se convierte el Boolean en false para que se pueda ejecutar
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo.
             a.start();// Se "Ejecuta el Hilo"
             automatico = 1;
-            CorrerManual.setDisable(true);
-            CorrerAutomatico.setDisable(true);
-            DetenerCorrer.setDisable(true);
-
     }
 
     /**
@@ -1070,6 +1093,7 @@ public class FXMLDocumentController implements Initializable {
      * @param cuadro
      */
     public void repintar(GraphicsContext cuadro) {
+        
         cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());// Se limpia la pantalla
         for (int i = 0; i < enlaces.size(); i++) {//Se recorre la lista de enlaces
             Flujo enlace = enlaces.get(i);//Se obtiene el enlace de la posicion i
@@ -2855,6 +2879,11 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
+    
+    
+    
+    
+    
     @FXML
     Button cut;
     boolean borrar = false;
@@ -2867,6 +2896,7 @@ public class FXMLDocumentController implements Initializable {
      */
     @FXML
     private void borrarFigura(ActionEvent event) throws Exception {
+        
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
         borrar = false;//el boolean borrar se convierte en false para activar el boton
         if (borrar == false) {//La condicion solo funciona si el borrar es igual a false
@@ -2901,6 +2931,7 @@ public class FXMLDocumentController implements Initializable {
      * y separarla en dos.
      *
      * @param n - figura a dibujar.
+     * @param variable
      */
     public void separarFlujo(Figura n, int variable) {//Metodo para dentro de un flujo
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
@@ -2932,11 +2963,11 @@ public class FXMLDocumentController implements Initializable {
                             if (n instanceof Decision) {
                                 Flujo derecho = new Flujo();
                                 Flujo izquierdo = new Flujo();
-                                  derecho.setColor("#01be9b");
+                                derecho.setColor("#01be9b");
                                 izquierdo.setDecision(ids);
                                 izquierdo.setColor("#ff0025");
-                                derecho.dibujar(o + 180, f + 30, o + 180, f + 140, cuadro);
-                                izquierdo.dibujar(o - 180, f + 30, o - 180, f + 140, cuadro);
+                                derecho.dibujar(o + 180, f + 30, o + 180, f + 200, cuadro);
+                                izquierdo.dibujar(o - 180, f + 30, o - 180, f + 200, cuadro);
                                 idFlujos++;
                                 ((Decision) n).setTipo(2);
                                 derecho.setId(idFlujos);
@@ -2969,26 +3000,23 @@ public class FXMLDocumentController implements Initializable {
 
                             }
                             if (n instanceof Decision) {
+                                condicional.getFinalIzquierdo().dibujar(condicional.getFinalIzquierdo().getX(),condicional.getFinalIzquierdo().getY(), condicional.getFinalIzquierdo().getX1(), condicional.getFinalIzquierdo().getY2()+70, cuadro);
                                 nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
-                                aux.dibujar(o, f + 140, aux.getX1(), aux.getY2(), cuadro);
+                                aux.dibujar(o, f + 200, aux.getX1(), aux.getY2()+140, cuadro);
                                 n.dibujar(cuadro, o, f);
-                            } else {
-                                if (diferenciaY < 60) {
-                                    nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
-                                    aux.dibujar(o, f + 70, aux.getX1(), aux.getY2(), cuadro);
-                                    if (n instanceof Ciclo) {
-                                        ((Ciclo) n).setConexionH(nuevo);
+                                for (int j = 0; j < enlaces.size(); j++) {
+                                    if(enlaces.get(j).getId()==condicional.getFlujoInferior()){
+                                        enlaces.get(j).dibujar(enlaces.get(j).getX(), aux.getY2(), enlaces.get(j).getX1(), enlaces.get(j).getY2(), cuadro);
                                     }
-                                    n.dibujar(cuadro, o, f);
-                                    opcion = 2;
-                                } else {
-                                    nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
-                                    aux.dibujar(o, f + 70, aux.getX1(), aux.getY2(), cuadro);
-                                    if (n instanceof Ciclo) {
-                                        ((Ciclo) n).setConexionH(nuevo);
-                                    }
-                                    n.dibujar(cuadro, o, f);
                                 }
+                                
+                            } else {
+                                    nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
+                                    aux.dibujar(o, f + 70, aux.getX1(), aux.getY2()+70, cuadro);
+                                    if (n instanceof Ciclo) {
+                                        ((Ciclo) n).setConexionH(nuevo);
+                                    }
+                                    n.dibujar(cuadro, o, f);
                             }
                             n.setFlujoSuperior(nuevo.getId());
                             idFlujos++;
@@ -3088,7 +3116,7 @@ public class FXMLDocumentController implements Initializable {
                                 }
                             }
                             //condicional.Bajar(n, opcion, lienzo);
-                            //bajarFiguras(condicional, opcion);
+                            
 
                         } else {
 
@@ -3288,7 +3316,108 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-
+    
+    ArrayList<String> FlujosSerializables= new ArrayList();
+    ArrayList<String> FormasSerializables = new ArrayList();
+    ArrayList<String> VariablesSerializables = new ArrayList();
+    int indice=0;
+    
+    /**
+     * 
+     * @param event 
+     */
+    @FXML
+    public void undo(ActionEvent event){
+       
+    }
+    
+    double zoomP=1.1;
+    @FXML 
+    public void ZoomPlus(ActionEvent event){
+        if(zoomP<=2.1){
+         zoomP=zoomP+0.1;
+         lienzo.setScaleX(zoomP);
+         lienzo.setScaleY(zoomP);
+         
+        }
+    
+    }
+    @FXML
+    public void ZoomMinus(ActionEvent event){
+        if(zoomP>0.1){
+            zoomP=zoomP-0.1;
+            lienzo.setScaleX(zoomP);
+           lienzo.setScaleY(zoomP);
+        }
+        
+        
+    }
+    
+    
+    
+    
+    /**
+     * 
+     * 
+     */
+    
+    public void guardarEstadoActual (){
+        Decision d = new Decision();
+        serializar(formas,"figuras"+indice);
+        serializar(enlaces,"flujos"+indice);
+        serializar(variables,"variables"+indice);
+        FlujosSerializables.add("flujos"+indice);
+        FormasSerializables.add("figuras"+indice);
+        VariablesSerializables.add("variables"+indice);
+        indice++;
+    }
+    
+    
+    
+    /**
+     * Metodo que se encarga de rellenar objetos con la informacion serializada
+     * el metodo recibe un objeto en blanco y un string con la cadena que 
+     * contiene el nombre del archivo , retorna el archivo con la informacion
+     * cargada y en caso distinto retorna el objeto en null;
+     * @param o
+     * @param nombreArchivo
+     * @return 
+     */
+    public static Object getTxt(Object o ,String nombreArchivo){
+        try {
+            FileInputStream fileIn = new FileInputStream(nombreArchivo+".txt");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            o =(Object)in.readObject();
+            return o;
+         }catch (IOException r) {
+            r.printStackTrace();
+            return null;
+         }catch (ClassNotFoundException c) {
+            System.out.println("Error");
+            c.printStackTrace();
+            return null;
+      }
+    }
+    
+    
+    
+       /**
+    * Metodo que se encarga de serializar un objeto dentro de un archivo TXT
+    * recibe dentro de sus parametos un objeto de cualquier tipo y luego un 
+    * string con el nombre que se le quiere dar al archivo;
+    * @param e
+    * @param nombre 
+    */ 
+    public static void serializar(Object e,String nombre){
+        try {
+         FileOutputStream fileOut = new FileOutputStream(nombre+".txt");
+         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+         out.writeObject(e);
+         
+        }catch (IOException q) {
+          q.printStackTrace();
+        }
+    }
     public void bajarFiguras(Figura bajar, int opcion, int xPlus, int yPlus) {
         Figura inicio2 = formas.get(0);
         for (int i = 0; i < formas.size(); i++) {

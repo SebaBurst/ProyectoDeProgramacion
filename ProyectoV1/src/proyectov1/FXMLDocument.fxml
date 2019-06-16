@@ -10,13 +10,13 @@
 
 <AnchorPane id="AnchorPane" fx:id="root" prefHeight="664.0" prefWidth="1171.0" styleClass="fondo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectov1.FXMLDocumentController">
     <children>
-      <ScrollPane layoutY="66.0" prefHeight="599.0" prefWidth="934.0" styleClass="canvas" stylesheets="@../Clases_Figura/Estilos/Estilos.css">
+      <ScrollPane layoutY="72.0" prefHeight="593.0" prefWidth="934.0" styleClass="canvas" stylesheets="@../Clases_Figura/Estilos/Estilos.css">
          <content>
             <Canvas fx:id="lienzo" height="589.0" width="933.0" />
          </content>
       </ScrollPane>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#efebe3" height="664.0" layoutX="947.0" stroke="#ffffff00" strokeType="INSIDE" width="242.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#efebe3" height="70.0" layoutX="-6.0" layoutY="-4.0" stroke="#c2a889" strokeType="INSIDE" strokeWidth="0.5" width="939.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#efebe3" height="76.0" layoutX="-11.0" layoutY="-4.0" stroke="#c2a889" strokeType="INSIDE" strokeWidth="0.5" width="945.0" />
       <Rectangle fill="#f9f7f4" height="29.0" layoutX="943.0" layoutY="48.0" stroke="#c2a889" strokeType="INSIDE" strokeWidth="0.5" width="246.0" />
       <Rectangle fill="#f9f7f4" height="29.0" layoutX="944.0" layoutY="470.0" stroke="#c2a889" strokeType="INSIDE" strokeWidth="0.5" width="246.0" />
       <TextArea fx:id="consola" editable="false" layoutX="948.0" layoutY="499.0" prefHeight="166.0" prefWidth="242.0">
@@ -28,12 +28,16 @@
       <Button fx:id="Documento" layoutX="1065.0" layoutY="89.0" mnemonicParsing="false" onAction="#dibujarDocumento" prefHeight="107.0" prefWidth="100.0" styleClass="documento" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="Entrada" layoutX="957.0" layoutY="89.0" onAction="#dibujarEntrada" prefHeight="107.0" prefWidth="100.0" styleClass="entrada" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
         <Button fx:id="Etapa" layoutX="957.0" layoutY="219.0" onAction="#dibujarEtapa" prefHeight="107.0" prefWidth="100.0" styleClass="etapa" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
-      <Button fx:id="cut" layoutX="868.0" layoutY="2.0" mnemonicParsing="false" onAction="#borrarFigura" prefHeight="60.0" prefWidth="60.0" styleClass="cortar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
-      <Button fx:id="borrarAll" layoutX="804.0" layoutY="2.0" mnemonicParsing="false" onAction="#borrarAll" prefHeight="60.0" prefWidth="60.0" styleClass="limpiar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
-      <Button fx:id="Correr" layoutX="676.0" layoutY="2.0" mnemonicParsing="false" onAction="#correrAutomatico" prefHeight="60.0" prefWidth="60.0" styleClass="correr" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="cut" layoutX="859.0" layoutY="6.0" mnemonicParsing="false" onAction="#borrarFigura" prefHeight="60.0" prefWidth="60.0" styleClass="cortar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="borrarAll" layoutX="790.0" layoutY="6.0" mnemonicParsing="false" onAction="#borrarAll" prefHeight="60.0" prefWidth="60.0" styleClass="limpiar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="Correr" layoutX="650.0" layoutY="6.0" mnemonicParsing="false" onAction="#correrAutomatico" prefHeight="60.0" prefWidth="60.0" styleClass="correr" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="Decision" layoutX="1065.0" layoutY="219.0" onAction="#dibujarDecision" prefHeight="107.0" prefWidth="100.0" styleClass="decision" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="Ciclo" layoutX="958.0" layoutY="347.0" onAction="#dibujarCiclo" prefHeight="107.0" prefWidth="100.0" styleClass="ciclo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="Salida" layoutX="1067.0" layoutY="346.0" onAction="#dibujarSalida" prefHeight="107.0" prefWidth="100.0" styleClass="salida" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
-      <Button fx:id="moverTodo" centerShape="false" layoutX="741.0" layoutY="2.0" mnemonicParsing="false" onAction="#moverDiagrama" prefHeight="60.0" prefWidth="60.0" scaleShape="false" snapToPixel="false" styleClass="mover" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="moverTodo" centerShape="false" layoutX="720.0" layoutY="6.0" mnemonicParsing="false" onAction="#moverDiagrama" prefHeight="60.0" prefWidth="60.0" scaleShape="false" snapToPixel="false" styleClass="mover" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="undo" disable="true" layoutX="580.0" layoutY="6.0" mnemonicParsing="false" onAction="#undo" prefHeight="60.0" prefWidth="60.0" styleClass="undo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button disable="true" layoutX="510.0" layoutY="6.0" mnemonicParsing="false" onAction="#correrAutomatico" prefHeight="60.0" prefWidth="60.0" styleClass="redo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button layoutX="441.0" layoutY="6.0" mnemonicParsing="false" onAction="#ZoomMinus" prefHeight="60.0" prefWidth="60.0" styleClass="in" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button layoutX="372.0" layoutY="6.0" mnemonicParsing="false" onAction="#ZoomPlus" prefHeight="60.0" prefWidth="60.0" styleClass="plus" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
     </children>
 </AnchorPane>
