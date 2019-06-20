@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="root" prefHeight="664.0" prefWidth="1171.0" styleClass="fondo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectov1.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="664.0" prefWidth="1171.0" styleClass="fondo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectov1.FXMLDocumentController">
     <children>
       <ScrollPane layoutY="72.0" prefHeight="593.0" prefWidth="934.0" styleClass="canvas" stylesheets="@../Clases_Figura/Estilos/Estilos.css">
          <content>
@@ -39,5 +39,6 @@
       <Button disable="true" layoutX="510.0" layoutY="6.0" mnemonicParsing="false" onAction="#correrAutomatico" prefHeight="60.0" prefWidth="60.0" styleClass="redo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button layoutX="441.0" layoutY="6.0" mnemonicParsing="false" onAction="#ZoomMinus" prefHeight="60.0" prefWidth="60.0" styleClass="in" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button layoutX="372.0" layoutY="6.0" mnemonicParsing="false" onAction="#ZoomPlus" prefHeight="60.0" prefWidth="60.0" styleClass="plus" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="editar" layoutX="299.0" layoutY="6.0" mnemonicParsing="false" onAction="#editFigura" prefHeight="60.0" prefWidth="60.0" styleClass="cortar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
     </children>
 </AnchorPane>
