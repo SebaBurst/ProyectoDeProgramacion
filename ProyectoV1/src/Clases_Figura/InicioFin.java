@@ -11,6 +11,8 @@ public class InicioFin extends Figura implements java.io.Serializable{
 
     public InicioFin() {
         this.color=("#929903");
+        this.fondo="#f8f76a";
+        this.borde="#b4b314";
     }
 
     
@@ -20,7 +22,7 @@ public class InicioFin extends Figura implements java.io.Serializable{
         
         this.setMedioX(x);
         this.setMedioY(y);
-        lienzo.setStroke(Color.valueOf("#f8f76a"));
+        lienzo.setStroke(Color.valueOf(this.getFondo()));
         lienzo.setLineWidth(3.0);
         
         int x1= x-100;
@@ -41,10 +43,10 @@ public class InicioFin extends Figura implements java.io.Serializable{
         this.setX4(x1+200);
         this.setY4(y+70);        
         
-        lienzo.setStroke(Color.valueOf("#b4b314"));
+        lienzo.setStroke(Color.valueOf(this.getBorde()));
         lienzo.strokeLine(x1,y, x1+200, y);
         lienzo.strokeLine(x1, y+70, x1+200, y+70);
-        lienzo.setFill(Color.valueOf("#f8f76a"));
+        lienzo.setFill(Color.valueOf(this.getFondo()));
         lienzo.fillArc(x1-35, y, 70, 70, 90, 180, ArcType.OPEN);
         lienzo.fillArc(x1+165, y, 70, 70, 270, 180, ArcType.OPEN);
         lienzo.strokeArc(x1-35, y, 70, 70, 90, 180, ArcType.OPEN);
@@ -54,6 +56,17 @@ public class InicioFin extends Figura implements java.io.Serializable{
         lienzo.setFont(Font.font("Verdana", FontWeight.LIGHT, FontPosture.ITALIC, 15.0));
         lienzo.setFill(Color.BLACK);
         lienzo.fillText(this.getTextoFigura(), Math.round(x1+25),Math.round(y+35));//y        
+    }
+
+    @Override
+    public void isPressed(GraphicsContext lienzo) {
+        int xt= this.getMedioX()-100;
+        lienzo.setStroke(Color.valueOf("#E30000"));
+        lienzo.strokeLine(xt,this.getMedioY(), xt+200, this.getMedioY());
+        lienzo.strokeLine(xt, this.getMedioY()+70, xt+200, this.getMedioY()+70);
+        lienzo.strokeArc(xt-35, this.getMedioY(), 70, 70, 90, 180, ArcType.OPEN);
+        lienzo.strokeArc(xt+165, this.getMedioY(), 70, 70, 270, 180, ArcType.OPEN);
+        
     }
 
 

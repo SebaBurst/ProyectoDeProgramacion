@@ -26,20 +26,31 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.DialogPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Scale;
+import javafx.stage.Stage;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -81,8 +92,8 @@ public class FXMLDocumentController implements Initializable {
     Button Ciclo;
     @FXML
     Button Documento;
-    
-     @FXML
+
+    @FXML
     Button undo;
 
     /**
@@ -631,10 +642,10 @@ public class FXMLDocumentController implements Initializable {
                                 correrDecision(aux, corriendo);
 
                             }
-                            
-                            if(aux instanceof Documento){
-                                 consola.setStyle(" -fx-background-color: #E51616;  -fx-text-fill:white; -fx-control-inner-background:#E51616;");
-                            
+
+                            if (aux instanceof Documento) {
+                                consola.setStyle(" -fx-background-color: #E51616;  -fx-text-fill:white; -fx-control-inner-background:#E51616;");
+
                             }
                             if (aux instanceof Ciclo) {
                                 Ciclo c = (Ciclo) aux;
@@ -878,9 +889,6 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    
-   
-    
     @FXML
     Button CorrerManual;
     @FXML
@@ -893,6 +901,8 @@ public class FXMLDocumentController implements Initializable {
 
     int automatico = 0;
 
+    public ArrayList<String> coloresFondo = new ArrayList();
+    public ArrayList<String> coloresBordes = new ArrayList();
     int manual = 0;
     int indiceactual = 0;
 
@@ -953,17 +963,14 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void correrAutomatico(ActionEvent event) {
-        
+
         consola.setStyle(" -fx-background-color: #FFFB00;  -fx-text-fill:#FFFB00; -fx-control-inner-background:#000000;");
-        
-        
-        
-        
+
         Thread a = new Thread(new hilo());// Se crea un Thread con la clase Hilo como argumento
         reiniciarHilo = false;// se convierte el Boolean en false para que se pueda ejecutar
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo.
-            a.start();// Se "Ejecuta el Hilo"
-            automatico = 1;
+        a.start();// Se "Ejecuta el Hilo"
+        automatico = 1;
     }
 
     /**
@@ -1059,16 +1066,16 @@ public class FXMLDocumentController implements Initializable {
                             aux.dibujar(aux.getX(), aux.getY(), aux.getX1() + df, aux.getY2() + df2, cuadro);
 
                         }
-                        if(a instanceof Decision){
-                            if(aux.getId() ==((Decision) a).getLadoDerecho().getId()){
-                               aux.dibujar(a.getMedioX()+180, a.getMedioY()+30, aux.getX1() + df, aux.getY2() + df2, cuadro);
+                        if (a instanceof Decision) {
+                            if (aux.getId() == ((Decision) a).getLadoDerecho().getId()) {
+                                aux.dibujar(a.getMedioX() + 180, a.getMedioY() + 30, aux.getX1() + df, aux.getY2() + df2, cuadro);
 
                             }
-                              if(aux.getId() ==((Decision) a).getLadoIzquierdo().getId()){
-                               aux.dibujar(a.getMedioX()-180, a.getMedioY()+30, aux.getX1() + df, aux.getY2() + df2, cuadro);
+                            if (aux.getId() == ((Decision) a).getLadoIzquierdo().getId()) {
+                                aux.dibujar(a.getMedioX() - 180, a.getMedioY() + 30, aux.getX1() + df, aux.getY2() + df2, cuadro);
 
                             }
-                        
+
                         }
                     }
                     a.dibujar(cuadro, a.getMedioX() + df, a.getMedioY() + df2);
@@ -1093,7 +1100,7 @@ public class FXMLDocumentController implements Initializable {
      * @param cuadro
      */
     public void repintar(GraphicsContext cuadro) {
-        
+
         cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());// Se limpia la pantalla
         for (int i = 0; i < enlaces.size(); i++) {//Se recorre la lista de enlaces
             Flujo enlace = enlaces.get(i);//Se obtiene el enlace de la posicion i
@@ -1102,7 +1109,48 @@ public class FXMLDocumentController implements Initializable {
         }
         for (int i = 0; i < formas.size(); i++) {// Se recorre la lista de las figuras
             //Se dibuja la figura con las coordenadas correspondientes
-            formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+            if (formas.get(i) instanceof Documento) {
+                formas.get(i).setBorde(coloresBordes.get(1));
+                formas.get(i).setFondo(coloresFondo.get(1));
+                formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+
+            }
+            if (formas.get(i) instanceof InicioFin) {
+                formas.get(i).setBorde(coloresBordes.get(0));
+                formas.get(i).setFondo(coloresFondo.get(0));
+                formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+
+            }
+            if (formas.get(i) instanceof Salida) {
+                formas.get(i).setBorde(coloresBordes.get(2));
+                formas.get(i).setFondo(coloresFondo.get(2));
+                formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+
+            }
+            if (formas.get(i) instanceof Entrada) {
+                formas.get(i).setBorde(coloresBordes.get(3));
+                formas.get(i).setFondo(coloresFondo.get(3));
+                formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+
+            }
+            if (formas.get(i) instanceof Ciclo) {
+                formas.get(i).setBorde(coloresBordes.get(4));
+                formas.get(i).setFondo(coloresFondo.get(4));
+                formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+
+            }
+            if (formas.get(i) instanceof Decision) {
+                formas.get(i).setBorde(coloresBordes.get(5));
+                formas.get(i).setFondo(coloresFondo.get(5));
+                formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+
+            }
+            if (formas.get(i) instanceof Etapa) {
+                formas.get(i).setBorde(coloresBordes.get(6));
+                formas.get(i).setFondo(coloresFondo.get(6));
+                formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+
+            }
         }
     }
 
@@ -2879,11 +2927,6 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    
-    
-    
-    
-    
     @FXML
     Button cut;
     boolean borrar = false;
@@ -2896,16 +2939,18 @@ public class FXMLDocumentController implements Initializable {
      */
     @FXML
     private void borrarFigura(ActionEvent event) throws Exception {
-        
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
-        borrar = false;//el boolean borrar se convierte en false para activar el boton
-        if (borrar == false) {//La condicion solo funciona si el borrar es igual a false
-            lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
-                detectarBorrar((int) e.getX(), (int) e.getY());// se llama al metodo detectarBorrar y se le ingresa un x e y
-                borrar = true;// el borrar se hace true
-                lienzo.setOnMouseClicked(null);// se termina el evento setOnMouseClicked
-            });
-        }
+        cut.setOnMousePressed(t -> {
+            GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
+            borrar = false;//el boolean borrar se convierte en false para activar el boton
+            if (borrar == false) {//La condicion solo funciona si el borrar es igual a false
+                lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
+                    detectarBorrar((int) e.getX(), (int) e.getY());// se llama al metodo detectarBorrar y se le ingresa un x e y
+                    borrar = true;// el borrar se hace true
+                });
+            }
+
+        });
+
     }
 
     /**
@@ -2957,7 +3002,7 @@ public class FXMLDocumentController implements Initializable {
                             }
 
                             Flujo nuevo = new Flujo();
-                                                        nuevo.setColor(n.getColor());
+                            nuevo.setColor(n.getColor());
 
                             nuevo.setId(idFlujos);
                             if (n instanceof Decision) {
@@ -2974,7 +3019,7 @@ public class FXMLDocumentController implements Initializable {
                                 idFlujos++;
                                 izquierdo.setId(idFlujos);
                                 idFlujos++;
-                              
+
                                 derecho.setDerecho(true);
                                 derecho.setDecision(ids);
                                 izquierdo.setDerecho(false);
@@ -3000,23 +3045,23 @@ public class FXMLDocumentController implements Initializable {
 
                             }
                             if (n instanceof Decision) {
-                                condicional.getFinalIzquierdo().dibujar(condicional.getFinalIzquierdo().getX(),condicional.getFinalIzquierdo().getY(), condicional.getFinalIzquierdo().getX1(), condicional.getFinalIzquierdo().getY2()+70, cuadro);
+                                condicional.getFinalIzquierdo().dibujar(condicional.getFinalIzquierdo().getX(), condicional.getFinalIzquierdo().getY(), condicional.getFinalIzquierdo().getX1(), condicional.getFinalIzquierdo().getY2() + 70, cuadro);
                                 nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
-                                aux.dibujar(o, f + 200, aux.getX1(), aux.getY2()+140, cuadro);
+                                aux.dibujar(o, f + 200, aux.getX1(), aux.getY2() + 140, cuadro);
                                 n.dibujar(cuadro, o, f);
                                 for (int j = 0; j < enlaces.size(); j++) {
-                                    if(enlaces.get(j).getId()==condicional.getFlujoInferior()){
+                                    if (enlaces.get(j).getId() == condicional.getFlujoInferior()) {
                                         enlaces.get(j).dibujar(enlaces.get(j).getX(), aux.getY2(), enlaces.get(j).getX1(), enlaces.get(j).getY2(), cuadro);
                                     }
                                 }
-                                
+
                             } else {
-                                    nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
-                                    aux.dibujar(o, f + 70, aux.getX1(), aux.getY2()+70, cuadro);
-                                    if (n instanceof Ciclo) {
-                                        ((Ciclo) n).setConexionH(nuevo);
-                                    }
-                                    n.dibujar(cuadro, o, f);
+                                nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
+                                aux.dibujar(o, f + 70, aux.getX1(), aux.getY2() + 70, cuadro);
+                                if (n instanceof Ciclo) {
+                                    ((Ciclo) n).setConexionH(nuevo);
+                                }
+                                n.dibujar(cuadro, o, f);
                             }
                             n.setFlujoSuperior(nuevo.getId());
                             idFlujos++;
@@ -3116,7 +3161,6 @@ public class FXMLDocumentController implements Initializable {
                                 }
                             }
                             //condicional.Bajar(n, opcion, lienzo);
-                            
 
                         } else {
 
@@ -3126,7 +3170,7 @@ public class FXMLDocumentController implements Initializable {
                             if (n instanceof Decision) {
                                 Flujo derecho = new Flujo();
                                 Flujo izquierdo = new Flujo();
-                                 derecho.setColor("#01be9b");
+                                derecho.setColor("#01be9b");
                                 izquierdo.setColor("#ff0025");
                                 derecho.dibujar(o + 180, f + 30, o + 180, f + 300, cuadro);
                                 izquierdo.dibujar(o - 180, f + 30, o - 180, f + 300, cuadro);
@@ -3316,108 +3360,199 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-    
-    ArrayList<String> FlujosSerializables= new ArrayList();
+
+    ArrayList<String> FlujosSerializables = new ArrayList();
     ArrayList<String> FormasSerializables = new ArrayList();
     ArrayList<String> VariablesSerializables = new ArrayList();
-    int indice=0;
-    
+    int indice = 0;
+
     /**
-     * 
-     * @param event 
+     *
+     * @param event
      */
     @FXML
-    public void undo(ActionEvent event){
-       
+    public void undo(ActionEvent event) {
+
     }
-    
-    double zoomP=1.1;
-    @FXML 
-    public void ZoomPlus(ActionEvent event){
-        if(zoomP<=2.1){
-         zoomP=zoomP+0.1;
-         lienzo.setScaleX(zoomP);
-         lienzo.setScaleY(zoomP);
-         
-        }
-    
-    }
+
+    double zoomP = 1.1;
+    public static String nuevoFondo = "";
+    public static Figura recolor = null;
     @FXML
-    public void ZoomMinus(ActionEvent event){
-        if(zoomP>0.1){
-            zoomP=zoomP-0.1;
+    public ColorPicker fondo;
+    @FXML
+    public ColorPicker border;
+    @FXML
+    public Button aceptarBorde;
+    @FXML
+    public Button aceptarFondo;
+
+    @FXML
+    public void ZoomPlus(ActionEvent event) throws IOException {
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
+
+        lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
+            recolor = detectarFigura1((int) e.getX(), (int) e.getY());// se llama al metodo detectarBorrar y se le ingresa un x e y
+            if (recolor != null) {
+                nuevoFondo = recolor.getFondo();
+                recolor.isPressed(cuadro);
+                aceptarFondo.setDisable(false);
+                aceptarBorde.setDisable(false);
+            }
+            lienzo.setOnMouseClicked(null);// se termina el evento setOnMouseClicked
+        });
+
+    }
+
+    @FXML
+    public void AceptarColorFondo(ActionEvent event) {
+        if(recolor!=null){
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
+        Color c = fondo.getValue();
+        String fondito = c.toString();
+        fondito = fondito.replaceAll("0x", "#");
+        String n = "";
+        for (int i = 0; i < 7; i++) {
+            n = n + fondito.charAt(i);
+
+        }
+        recolor.setFondo(n);
+        
+         if(recolor instanceof InicioFin){
+            coloresFondo.set(0, n);
+        }
+        if(recolor instanceof Documento){
+            coloresFondo.set(1, n);
+        }
+        if(recolor instanceof Salida){
+            coloresFondo.set(2, n);
+        }
+        if(recolor instanceof Entrada){
+            coloresFondo.set(3, n);
+        }
+        if(recolor instanceof Ciclo){
+            coloresFondo.set(4, n);
+        }
+        if(recolor instanceof Decision){
+            coloresFondo.set(5, n);
+        }
+        if(recolor instanceof Etapa){
+            coloresFondo.set(6, n);
+        }
+        System.out.println(" >> ColorN: " + n);
+        repintar(cuadro);
+        }
+    }
+
+    @FXML
+    public void AceptarColorBorder(ActionEvent event) {
+        if(recolor!=null){
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
+        Color c = border.getValue();
+        String fondito = c.toString();
+        fondito = fondito.replaceAll("0x", "#");
+        String n = "";
+        for (int i = 0; i < 7; i++) {
+            n = n + fondito.charAt(i);
+
+        }
+        recolor.setBorde(n);
+        if(recolor instanceof InicioFin){
+            coloresBordes.set(0, n);
+        }
+        if(recolor instanceof Documento){
+            coloresBordes.set(1, n);
+        }
+        if(recolor instanceof Salida){
+            coloresBordes.set(2, n);
+        }
+        if(recolor instanceof Entrada){
+            coloresBordes.set(3, n);
+        }
+        if(recolor instanceof Ciclo){
+            coloresBordes.set(4, n);
+        }
+        if(recolor instanceof Decision){
+            coloresBordes.set(5, n);
+        }
+        if(recolor instanceof Etapa){
+            coloresBordes.set(6, n);
+        }
+        System.out.println(" >> ColorN: " + n);
+        repintar(cuadro);
+        }
+    }
+
+    @FXML
+    public void ZoomMinus(ActionEvent event) {
+        if (zoomP > 0.1) {
+            zoomP = zoomP - 0.1;
             lienzo.setScaleX(zoomP);
-           lienzo.setScaleY(zoomP);
+            lienzo.setScaleY(zoomP);
         }
-        
-        
+
     }
-    
-    
-    
-    
+
     /**
-     * 
-     * 
+     *
+     *
      */
-    
-    public void guardarEstadoActual (){
+    public void guardarEstadoActual() {
         Decision d = new Decision();
-        serializar(formas,"figuras"+indice);
-        serializar(enlaces,"flujos"+indice);
-        serializar(variables,"variables"+indice);
-        FlujosSerializables.add("flujos"+indice);
-        FormasSerializables.add("figuras"+indice);
-        VariablesSerializables.add("variables"+indice);
+        serializar(formas, "figuras" + indice);
+        serializar(enlaces, "flujos" + indice);
+        serializar(variables, "variables" + indice);
+        FlujosSerializables.add("flujos" + indice);
+        FormasSerializables.add("figuras" + indice);
+        VariablesSerializables.add("variables" + indice);
         indice++;
     }
-    
-    
-    
+
     /**
      * Metodo que se encarga de rellenar objetos con la informacion serializada
-     * el metodo recibe un objeto en blanco y un string con la cadena que 
+     * el metodo recibe un objeto en blanco y un string con la cadena que
      * contiene el nombre del archivo , retorna el archivo con la informacion
      * cargada y en caso distinto retorna el objeto en null;
+     *
      * @param o
      * @param nombreArchivo
-     * @return 
+     * @return
      */
-    public static Object getTxt(Object o ,String nombreArchivo){
+    public static Object getTxt(Object o, String nombreArchivo) {
         try {
-            FileInputStream fileIn = new FileInputStream(nombreArchivo+".txt");
+            FileInputStream fileIn = new FileInputStream(nombreArchivo + ".txt");
             ObjectInputStream in = new ObjectInputStream(fileIn);
-            o =(Object)in.readObject();
+            o = (Object) in.readObject();
             return o;
-         }catch (IOException r) {
+        } catch (IOException r) {
             r.printStackTrace();
             return null;
-         }catch (ClassNotFoundException c) {
+        } catch (ClassNotFoundException c) {
             System.out.println("Error");
             c.printStackTrace();
             return null;
-      }
-    }
-    
-    
-    
-       /**
-    * Metodo que se encarga de serializar un objeto dentro de un archivo TXT
-    * recibe dentro de sus parametos un objeto de cualquier tipo y luego un 
-    * string con el nombre que se le quiere dar al archivo;
-    * @param e
-    * @param nombre 
-    */ 
-    public static void serializar(Object e,String nombre){
-        try {
-         FileOutputStream fileOut = new FileOutputStream(nombre+".txt");
-         ObjectOutputStream out = new ObjectOutputStream(fileOut);
-         out.writeObject(e);
-         
-        }catch (IOException q) {
-          q.printStackTrace();
         }
     }
+
+    /**
+     * Metodo que se encarga de serializar un objeto dentro de un archivo TXT
+     * recibe dentro de sus parametos un objeto de cualquier tipo y luego un
+     * string con el nombre que se le quiere dar al archivo;
+     *
+     * @param e
+     * @param nombre
+     */
+    public static void serializar(Object e, String nombre) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream(nombre + ".txt");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(e);
+
+        } catch (IOException q) {
+            q.printStackTrace();
+        }
+    }
+
     public void bajarFiguras(Figura bajar, int opcion, int xPlus, int yPlus) {
         Figura inicio2 = formas.get(0);
         for (int i = 0; i < formas.size(); i++) {
@@ -3476,17 +3611,37 @@ public class FXMLDocumentController implements Initializable {
 
     public void ini() {
 
+        // asignar colores por defecto//
+        coloresFondo.add("#f8f76a");//InicioFin
+        coloresFondo.add("#c31c2c");//Documento
+        coloresFondo.add("#fec973");//Salida
+        coloresFondo.add("#adfaaa");//Entrada
+        coloresFondo.add("#ffa8b8");//Ciclo
+        coloresFondo.add("#b44cd9");//Decision
+        coloresFondo.add("#61bbef");//Proceso
+
+        //Asignar Colores de Bordes por defecto
+        coloresBordes.add("#b4b314");//InicioFin
+        coloresBordes.add("#c31c2c");//Documento
+        coloresBordes.add("#d5700d");//Salida
+        coloresBordes.add("#4dc66c");//Entrada
+        coloresBordes.add("#e9748a");//Ciclo
+        coloresBordes.add("#8a08b8");//Decision
+        coloresBordes.add("#3b83ad");//Proceso
+
         reiniciarHilo = true;
+        aceptarFondo.setDisable(true);
+        aceptarBorde.setDisable(true);
         idFlujos = 0;
         ids = 0;
         consola.setText("");
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();
         Flujo crear = new Flujo();
-               crear.setId(idFlujos);
+        crear.setId(idFlujos);
         boolean validacion = false;
         InicioFin inicio = new InicioFin();
         String respuesta = "";
-         crear.setColor(inicio.getColor());
+        crear.setColor(inicio.getColor());
 
         while (validacion == false) {
 
@@ -3741,10 +3896,6 @@ public class FXMLDocumentController implements Initializable {
             if (c.isVerdadero()) {
                 Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
                 cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
-                
-                
-                
-                
 
             }
 

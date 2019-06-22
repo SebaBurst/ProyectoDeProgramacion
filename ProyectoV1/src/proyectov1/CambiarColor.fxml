@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="141.0" prefWidth="244.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="proyectov1.CambiarColorController">
+    <stylesheets>
+        <URL value="@cambiarcolor.css" />
+    </stylesheets>
+   <children>
+      <ColorPicker fx:id="fondo" layoutX="21.0" layoutY="26.0" />
+      <Button fx:id="aceptarFondo" layoutX="168.0" layoutY="26.0" mnemonicParsing="false" onAction="#colorFondo" text="Aceptar" />
+      <ColorPicker fx:id="border" layoutX="21.0" layoutY="82.0" />
+      <Button fx:id="aceptarBorde" layoutX="168.0" layoutY="82.0" mnemonicParsing="false" text="Aceptar" />
+   </children>
+</AnchorPane>

@@ -9,12 +9,14 @@ import javafx.scene.text.FontWeight;
 public class Etapa extends Figura implements java.io.Serializable {
 
     public Etapa() {
-        this.color="1b5583";
+        this.color = "1b5583";
+        this.fondo="#61bbef";
+        this.borde="#3b83ad";
     }
 
-     @Override
+    @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
-        lienzo.setStroke(Color.valueOf("#61bbef"));
+        lienzo.setStroke(Color.valueOf(this.getFondo()));
         this.setMedioX(x);
         this.setMedioY(y);
         System.out.println("X: " + x);
@@ -25,23 +27,23 @@ public class Etapa extends Figura implements java.io.Serializable {
         int y1 = y;
         int aux = y;
         if (this.getTextoFigura().length() > 15) {
-                        int diferencia = this.getTextoFigura().length()-15;
+            int diferencia = this.getTextoFigura().length() - 15;
 
-                        ix= x-90-(diferencia*6);
+            ix = x - 90 - (diferencia * 6);
 
-        System.out.println("*******************************");
-        System.out.println("xi; " + ix);
-        x1 = ix;
-     
-int total = (180)+(diferencia*12);
+            System.out.println("*******************************");
+            System.out.println("xi; " + ix);
+            x1 = ix;
+
+            int total = (180) + (diferencia * 12);
             for (int i = 0; i < 71; i++) {
-                for (int j = 0; j < total+1; j++) {
+                for (int j = 0; j < total + 1; j++) {
                     lienzo.strokeLine(ix + j, aux, ix + j, aux);
                 }
                 aux++;
             }
 
-                   this.setX1(ix);
+            this.setX1(ix);
             this.setY1(y1);
             this.setX2(ix + total);
             this.setY2(y1);
@@ -49,7 +51,7 @@ int total = (180)+(diferencia*12);
             this.setY3(y1 + 70);
             this.setX4(ix + total);
             this.setY4(y1 + 70);
-            lienzo.setStroke(Color.valueOf("#3b83ad"));
+            lienzo.setStroke(Color.valueOf(this.getBorde()));
             lienzo.setLineWidth(3.0);
             System.out.println("X1; " + x1);
             lienzo.strokeLine(x1, y1 + 70, x1 + total, y1 + 70);
@@ -75,7 +77,7 @@ int total = (180)+(diferencia*12);
                 aux++;
             }
 
-            lienzo.setStroke(Color.valueOf("#3b83ad"));
+            lienzo.setStroke(Color.valueOf(this.getBorde()));
             lienzo.setLineWidth(3.0);
             System.out.println("X1; " + x1);
             lienzo.strokeLine(x1, y1 + 70, x1 + 180, y1 + 70);
@@ -91,5 +93,42 @@ int total = (180)+(diferencia*12);
         lienzo.fillText(this.getTextoFigura(), Math.round(ix + 25), Math.round(y + 35));//y
     }
 
-   
+    @Override
+    public void isPressed(GraphicsContext lienzo) {
+        int ix = this.getMedioX() - 90;
+        System.out.println("*******************************");
+        System.out.println("xi; " + ix);
+        int x1 = ix;
+        int y1 = this.getMedioY();
+        int aux = this.getMedioY();
+        if (this.getTextoFigura().length() > 15) {
+            int diferencia = this.getTextoFigura().length() - 15;
+
+            ix = this.getMedioX() - 90 - (diferencia * 6);
+
+            System.out.println("*******************************");
+            System.out.println("xi; " + ix);
+            x1 = ix;
+             int total = (180) + (diferencia * 12);
+              lienzo.setStroke(Color.valueOf("#E30000"));
+            lienzo.setLineWidth(3.0);
+              lienzo.strokeLine(x1, y1 + 70, x1 + total, y1 + 70);
+            lienzo.strokeLine(x1, y1, x1 + total, y1);
+            lienzo.strokeLine(x1 + total, y1, x1 + total, y1 + 70);
+            lienzo.strokeLine(x1, y1, x1, y1 + 70);
+
+        }
+        else{
+                lienzo.setStroke(Color.valueOf("#E30000"));
+            lienzo.setLineWidth(3.0);
+            System.out.println("X1; " + x1);
+            lienzo.strokeLine(x1, y1 + 70, x1 + 180, y1 + 70);
+            lienzo.strokeLine(x1, y1, x1 + 180, y1);
+            lienzo.strokeLine(x1 + 180, y1, x1 + 180, y1 + 70);
+            lienzo.strokeLine(x1, y1, x1, y1 + 70);
+        
+        }
+
+    }
+
 }
