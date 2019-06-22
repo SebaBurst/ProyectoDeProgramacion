@@ -23,6 +23,8 @@ public class Ciclo extends Figura implements java.io.Serializable{
 
     public Ciclo() {
         this.color="#E519B1";
+        this.fondo="#ffa8b8";
+        this.borde="#e9748a";
     }
     
     
@@ -67,7 +69,7 @@ public class Ciclo extends Figura implements java.io.Serializable{
     
     @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
-        lienzo.setStroke(Color.valueOf("#ffa8b8"));
+        lienzo.setStroke(Color.valueOf(this.getFondo()));
         this.setMedioX(x);
         this.setMedioY(y);
         int ix = x;
@@ -97,7 +99,7 @@ public class Ciclo extends Figura implements java.io.Serializable{
         }
 
         System.out.println("ix: " + ix);
-        lienzo.setStroke(Color.valueOf("#e9748a"));
+        lienzo.setStroke(Color.valueOf(this.getBorde()));
         lienzo.strokeLine(x, y, x + 100, y + 30); //\
         lienzo.strokeLine(x, y, x - 100, y + 30);//
         lienzo.strokeLine(x - 100, y + 30, x, y + 70);
@@ -157,6 +159,18 @@ public class Ciclo extends Figura implements java.io.Serializable{
         idsFiguras.clear();
         idsFiguras=nuevosIds;
     
+    }
+
+    @Override
+    public void isPressed(GraphicsContext lienzo) {
+        int x = this.getMedioX();
+        int y = this.getMedioY();
+        lienzo.setStroke(Color.valueOf("#E30000"));
+        lienzo.strokeLine(x, y, x + 100, y + 30); //\
+        lienzo.strokeLine(x, y, x - 100, y + 30);//
+        lienzo.strokeLine(x - 100, y + 30, x, y + 70);
+        lienzo.strokeLine(x, y + 70, x + 100, y + 30);
+
     }
 
 }

@@ -4,7 +4,26 @@ import javafx.scene.canvas.GraphicsContext;
 
 public abstract class Figura implements java.io.Serializable{
     String color="#353333";
+    String fondo="#ffffff";
+    String borde="#ffffff";
 
+    public String getFondo() {
+        return fondo;
+    }
+
+    public void setFondo(String fondo) {
+        this.fondo = fondo;
+    }
+
+    public String getBorde() {
+        return borde;
+    }
+
+    public void setBorde(String borde) {
+        this.borde = borde;
+    }
+    
+    
     public String getColor() {
         return color;
     }
@@ -101,6 +120,7 @@ public abstract class Figura implements java.io.Serializable{
     }
     
     public abstract void dibujar(GraphicsContext lienzo, int x, int y);
+    public abstract void isPressed(GraphicsContext lienzo);
     
     public int getX1() {
         return x1;

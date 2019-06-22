@@ -11,12 +11,14 @@ public class Entrada extends Figura implements java.io.Serializable{
 
     public Entrada() {
         this.color="#1D8348";
+        this.fondo="#adfaaa";
+        this.borde="#4dc66c";
     }
 
     
     @Override
     public void dibujar(GraphicsContext lienzo, int x, int y) {
-        lienzo.setStroke(Color.valueOf("#adfaaa"));
+        lienzo.setStroke(Color.valueOf(this.getFondo()));
         this.setMedioX(x);
         this.setMedioY(y);
         int ix= x-90;
@@ -55,7 +57,7 @@ public class Entrada extends Figura implements java.io.Serializable{
         this.setX4(ix+total2);
         this.setY4(y+70);
         
-        lienzo.setStroke(Color.valueOf("#4dc66c"));
+        lienzo.setStroke(Color.valueOf(this.getBorde()));
         lienzo.setLineWidth(3.0);
         System.out.println("ix: "+ix);
         lienzo.strokeLine(ix,y, ix+total, y);
@@ -90,7 +92,7 @@ public class Entrada extends Figura implements java.io.Serializable{
         this.setX4(ix+120);
         this.setY4(y+70);
         
-        lienzo.setStroke(Color.valueOf("#4dc66c"));
+        lienzo.setStroke(Color.valueOf(this.getBorde()));
         lienzo.setLineWidth(3.0);
         System.out.println("ix: "+ix);
         lienzo.strokeLine(ix,y, ix+190, y);
@@ -106,5 +108,60 @@ public class Entrada extends Figura implements java.io.Serializable{
         lienzo.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 15.0));
         lienzo.setFill(Color.BLACK);
         lienzo.fillText(this.getTextoFigura(), Math.round(ix),Math.round(y+35));//y
+    }
+
+    @Override
+    public void isPressed(GraphicsContext lienzo) {
+        int x = this.getMedioX();
+        int y = this.getMedioY();
+        
+        
+        int ix= x-90;
+        int x1=ix;
+        int y1=y;
+        int x2=ix;
+        if(this.getTextoFigura().length()>15){
+           
+            int diferencia = this.getTextoFigura().length()-15;
+            ix= x-90-(diferencia*6);
+          
+            x1=ix;
+            y1=y;
+            x2=ix;
+            int total = (190)+(diferencia*12);
+            int total2 = (total)-70;
+  
+      
+        
+        lienzo.setStroke(Color.valueOf("##E30000"));
+        lienzo.setLineWidth(3.0);
+        System.out.println("ix: "+ix);
+        lienzo.strokeLine(ix,y, ix+total, y);
+        
+        
+        lienzo.strokeLine(ix,y, ix-70,y+70);
+        lienzo.strokeLine(ix-70,y+70, ix+total2, y+70);
+        lienzo.strokeLine(ix+total2,y+70, ix+total, y);
+           
+        }
+        else{
+             ix= x-90;
+             x1=ix;
+             y1=y;
+             x2=ix;
+              
+  
+        lienzo.setStroke(Color.valueOf("#E30000"));
+        lienzo.setLineWidth(3.0);
+        System.out.println("ix: "+ix);
+        lienzo.strokeLine(ix,y, ix+190, y);
+        
+        
+        lienzo.strokeLine(ix,y, ix-70,y+70);
+        lienzo.strokeLine(ix-70,y+70, ix+120, y+70);
+        lienzo.strokeLine(ix+120,y+70, ix+190, y);
+        }
+        
+
     }
 }
