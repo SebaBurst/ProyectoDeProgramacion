@@ -2713,15 +2713,24 @@ public class FXMLDocumentController implements Initializable {
                     click = false;
                 }
             } else {
-                click = false;
-                Alert alert = new Alert(AlertType.INFORMATION);
-                Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-                ImageView imageVie = new ImageView(images);
-                alert.setGraphic(imageVie);
-                alert.setTitle("Formato.");
-                alert.setHeaderText("Ocurrio un error.");
-                alert.setContentText("El formato ingresado es incorrecto.");
-                alert.showAndWait();
+                p = Pattern.compile("\\\"[A-Za-z0-9]+\\\"");
+                matcher = p.matcher(salida.getTextoFigura());
+                cadenaValida = matcher.matches();
+                if(cadenaValida){
+                    Variable variableNueva = new Variable();
+                    variableNueva.setTipo("string");
+                    variableNueva.setTexto(salida.getTextoFigura());
+                }else{
+                    click = false;
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                    ImageView imageVie = new ImageView(images);
+                    alert.setGraphic(imageVie);
+                    alert.setTitle("Formato.");
+                    alert.setHeaderText("Ocurrio un error.");
+                    alert.setContentText("El formato ingresado es incorrecto.");
+                    alert.showAndWait();
+                }  
             }
         }
         if (click == true) {
