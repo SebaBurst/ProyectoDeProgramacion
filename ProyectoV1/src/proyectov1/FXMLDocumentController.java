@@ -2906,6 +2906,10 @@ public class FXMLDocumentController implements Initializable {
         formas.clear();
         enlaces.clear();
         variables.clear();
+        //se activan los botones 
+        Decision.setDisable(false);
+        Ciclo.setDisable(false);
+        edit = true;
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo
         ini();// se llama al metodo ini
         repintar(cuadro);// se vuelven a dibujar todos los objetos
@@ -2921,13 +2925,17 @@ public class FXMLDocumentController implements Initializable {
         edit = false;//el boolean edit se convierte en false para activar el boton
         if (edit == false) {//La condicion solo funciona si el borrar es igual a false
             lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
-                Figura figura = detectarFigura1((int) e.getX(), (int) e.getY());// se llama al metodo detectarBorrar y se le ingresa un x e y
+                Figura figura = detectarFigura1((int) e.getX(), (int) e.getY());// se llama al metodo detectarFiguray se le ingresa un x e y
                 if (figura != null) {
-                    xEdit = (int) e.getX();
-                    yEdit = (int) e.getY();
+                    xEdit = figura.getMedioX();
+                    yEdit = figura.getMedioY();
                     System.out.println("Se detecto la figura" + figura.getClass());
                     Decision.setDisable(true);
                     Ciclo.setDisable(true);
+                }
+                if (figura == null) {
+                    System.out.println("No se detecto figura");
+                    edit = true;
                 }
                 lienzo.setOnMouseClicked(null);// se termina el evento setOnMouseClicked
             });
@@ -2945,6 +2953,7 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda para poder detectar XY de un click            
             Figura mover = detectarFigura1((int) e.getX(), (int) e.getY());
+            Figura editando = detectarFigura1(xEdit, yEdit);
             int X = 0;
             int Y = 0;
             if (mover == null || edit == false) {
@@ -2962,7 +2971,7 @@ public class FXMLDocumentController implements Initializable {
                 for (int i = 0; i < enlaces.size(); i++) {// se recorre el arreglo de lineas de flujo
                     Flujo aux = enlaces.get(i);// Se guarda el enlace i en una variable auxiliar
                     System.out.println("recorro el flujo");
-                    if (X <= aux.getX() + 40 && X >= aux.getX() - 40 && Y >= aux.getY() && Y <= aux.getY2() || edit == false) {// se pregunta si el xy del Click esta dentro de un enlace
+                    if (X <= aux.getX() + 40 && X >= aux.getX() - 40 && Y >= aux.getY() && Y <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
                         System.out.println("Entre");
                         Decision condicional = new Decision();
                         cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());// se limpia el canvas
@@ -3032,7 +3041,6 @@ public class FXMLDocumentController implements Initializable {
                                         enlaces.get(j).dibujar(enlaces.get(j).getX(), aux.getY2(), enlaces.get(j).getX1(), enlaces.get(j).getY2(), cuadro);
                                     }
                                 }
-
                             } else {
                                 nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
                                 aux.dibujar(o, f + 70, aux.getX1(), aux.getY2() + 70, cuadro);
@@ -3140,8 +3148,8 @@ public class FXMLDocumentController implements Initializable {
                             }
                             //condicional.Bajar(n, opcion, lienzo);
 
-                        } else {
-
+                        }
+                        if (edit == true) {
                             Flujo nuevo = new Flujo();
                             nuevo.setColor(n.getColor());
                             nuevo.setId(idFlujos);
@@ -3273,9 +3281,44 @@ public class FXMLDocumentController implements Initializable {
                             }
                         }
                         if (edit == false) {
-                            Decision.setDisable(false);
-                            Ciclo.setDisable(false);
-                            edit = true;
+                            Flujo nuevo = new Flujo();
+                            nuevo.setColor(n.getColor());
+                            nuevo.setId(idFlujos);
+
+                            nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
+                            aux.dibujar(o, f + 70, aux.getX1(), aux.getY2(), cuadro);
+                            n.dibujar(cuadro, o, f);
+
+                            n.setFlujoSuperior(nuevo.getId());
+                            idFlujos++;
+                            n.setFlujoInferior(aux.getId());
+
+                            for (int d = 0; d < formas.size(); d++) {
+                                if (formas.get(d).getFlujoInferior() == aux.getId()) {
+                                    formas.get(d).setFlujoInferior(nuevo.getId());
+                                }
+                            }
+                            n.setID(ids);
+
+                            for (int j = 0; j < formas.size(); j++) {
+                                if (formas.get(j).getFlujoInferior() == nuevo.getId()) {
+                                    formas.get(j).setSiguiente(ids);
+                                    n.setAnterior(formas.get(j).getID());
+                                }
+                                if (formas.get(j).getFlujoSuperior() == aux.getId()) {
+                                    formas.get(j).setAnterior(ids);
+                                    n.setSiguiente(formas.get(j).getID());
+                                }
+
+                            }
+                            ids++;
+                            int diferenciay = (nuevo.getY() + nuevo.getY2()) / 2;
+                            formas.add(n);
+                            System.out.println("Ciclo Aux: " + aux.getCiclo());
+
+                            //Funcion que ordena la lista con las nuevas figuras
+                            enlaces.set(i, aux);
+                            enlaces.add(nuevo);
                         }
                         // Se vuelven a dibujar todas las figuras y los enlaces de flujos
                         repintar(cuadro);
@@ -3290,14 +3333,18 @@ public class FXMLDocumentController implements Initializable {
                                 consola.setText(consola.getText() + "\n" + variable2.getNombre() + " ← " + variable2.getTexto());
                             }
                         }
+
                         break;
                     } else {
                         lienzo.setOnMouseClicked(null);
                     }
-
                 }
             }
-        });
+            Decision.setDisable(false);
+            Ciclo.setDisable(false);
+            edit = true;
+        }
+        );
 
     }
 
