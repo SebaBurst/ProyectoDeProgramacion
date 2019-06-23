@@ -1355,350 +1355,110 @@ public class FXMLDocumentController implements Initializable {
 
         System.out.println("Aux: " + aux);
         if (click == true) {
-            boolean valida = true;
-            Pattern p = Pattern.compile("[A-Za-z]{1,7}\\=[A-Za-z0-9|0-9]{1,7}((\\,)?[A-Za-z]{1,7}\\=[A-Za-z|0-9]{1,7}){0,3}$");
+            Pattern p = Pattern.compile("([A-Za-z0-9]+\\=([0-9]+|[A-Za-z0-9]+)\\,?)+");
             Matcher matcher = p.matcher(entrada.getTextoFigura());
-            boolean cadenaValida = matcher.matches();
-            String comas = "";
-            int cantidadComas;
-            if (cadenaValida) {
-                comas = entrada.getTextoFigura().replaceAll("[\\sA-Za-z0-9\\=]", "");
-                cantidadComas = comas.length();
-                if (cantidadComas == 0) {
-                    if (!variables.isEmpty()) {
-                        int posicionValidar = entrada.getTextoFigura().indexOf("=");
-                        for (int i = 0; i < variables.size(); i++) {
-                            if (entrada.getTextoFigura().substring(0, posicionValidar).equals(variables.get(i).getNombre())) {
-                                System.out.println("izquierdo = " + entrada.getTextoFigura().substring(0, posicionValidar));
-                                System.out.println("la lista tiene: " + (i + 1) + ". " + variables.get(i).getNombre());
-                                click = false;
-                                valida = false;
-                            }
-                        }
-                        if (valida == false) {
-                            Alert alert = new Alert(AlertType.INFORMATION);
-                            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-                            ImageView imageVie = new ImageView(images);
-                            alert.setGraphic(imageVie);
-                            alert.setTitle("Nombre.");
-                            alert.setHeaderText("Ocurrio un error.");
-                            alert.setContentText("El nombre ingresado ya esta en uso.");
-                            alert.showAndWait();
-                        }
-                    }
-                    if (valida) {
-                        int posicion = entrada.getTextoFigura().indexOf("=");
-                        Variable variable = new Variable();
-                        variable.setNombre(entrada.getTextoFigura().substring(0, posicion));
-                        variable.setTexto(entrada.getTextoFigura().substring(entrada.getTextoFigura().indexOf("=") + 1));
-                        if (variable.getTexto().replaceAll("[0-9]", "").equals("")) {
-                            variable.setTipo("numero");
-                        } else {
-                            variable.setTipo("texto");
-                        }
-                        variables.add(variable);
-                        cantidad = 1;
-                    }
-                } else if (cantidadComas == 1) {
-                    int lastComa = entrada.getTextoFigura().lastIndexOf(",");
-                    int lastEqual = entrada.getTextoFigura().lastIndexOf("=");
-                    int firstEqual = entrada.getTextoFigura().indexOf("=");
-                    String nombre2 = entrada.getTextoFigura().substring(lastComa + 1, lastEqual);
-                    String der2 = entrada.getTextoFigura().substring(lastEqual + 1);
-                    String nombre1 = entrada.getTextoFigura().substring(0, firstEqual);
-                    String der1 = entrada.getTextoFigura().substring(firstEqual + 1, lastComa);
-                    System.out.println("la var1 nombre: " + nombre1);
-                    System.out.println("la var1 texto: " + der1);
-                    System.out.println("la var2 nombre: " + nombre2);
-                    System.out.println("la var2 texto: " + der2);
-                    if (nombre1.equals(nombre2)) {
-                        click = false;
-                        valida = false;
-                        Alert alert = new Alert(AlertType.INFORMATION);
-                        Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-                        ImageView imageVie = new ImageView(images);
-                        alert.setGraphic(imageVie);
-                        alert.setTitle("Nombre.");
-                        alert.setHeaderText("Ocurrio un error.");
-                        alert.setContentText("Los nombres ingresados no pueden ser iguales.");
-                        alert.showAndWait();
-                    }
-                    if (!variables.isEmpty()) {
-                        for (int i = 0; i < variables.size(); i++) {
-                            if (nombre1.equals(variables.get(i).getNombre())) {
-                                click = false;
-                                valida = false;
-                            }
-                        }
-                        for (int i = 0; i < variables.size(); i++) {
-                            if (nombre2.equals(variables.get(i).getNombre())) {
-                                click = false;
-                                valida = false;
-                            }
-                        }
-                    }
-                    if (valida == false) {
-                        Alert alert = new Alert(AlertType.INFORMATION);
-                        Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-                        ImageView imageVie = new ImageView(images);
-                        alert.setGraphic(imageVie);
-                        alert.setTitle("Nombre.");
-                        alert.setHeaderText("Ocurrio un error.");
-                        alert.setContentText("Alguno de los nombres ingresados ya esta en uso.");
-                        alert.showAndWait();
-                    }
-                    if (valida) {
-                        Variable variable1 = new Variable();
-                        Variable variable2 = new Variable();
-                        variable1.setNombre(nombre1);
-                        variable1.setTexto(der1);
-                        variable2.setNombre(nombre2);
-                        variable2.setTexto(der2);
-                        if (variable1.getTexto().replaceAll("[0-9]", "").equals("")) {
-                            variable1.setTipo("numero");
-                        } else {
-                            variable1.setTipo("texto");
-                        }
-                        if (variable2.getTexto().replaceAll("[0-9]", "").equals("")) {
-                            variable2.setTipo("numero");
-                        } else {
-                            variable2.setTipo("texto");
-                        }
-                        variables.add(variable1);
-                        variables.add(variable2);
-                        cantidad = 2;
-                    }
-                } else if (cantidadComas == 2) {
-                    int lastComa = entrada.getTextoFigura().lastIndexOf(",");
-                    int lastEqual = entrada.getTextoFigura().lastIndexOf("=");
-                    int firstEqual = entrada.getTextoFigura().indexOf("=");
-                    String nombre3 = entrada.getTextoFigura().substring(lastComa + 1, lastEqual);
-                    String der3 = entrada.getTextoFigura().substring(lastEqual + 1);
-                    entrada.setTextoFigura(entrada.getTextoFigura().substring(0, lastComa - 1));
-                    lastComa = entrada.getTextoFigura().lastIndexOf(",");
-                    lastEqual = entrada.getTextoFigura().lastIndexOf("=");
-                    firstEqual = entrada.getTextoFigura().indexOf("=");
-                    String nombre2 = entrada.getTextoFigura().substring(lastComa + 1, lastEqual);
-                    String der2 = entrada.getTextoFigura().substring(lastEqual + 1);
-                    String nombre1 = entrada.getTextoFigura().substring(0, firstEqual);
-                    String der1 = entrada.getTextoFigura().substring(firstEqual + 1, lastComa);
-                    System.out.println("la var1 nombre: " + nombre1);
-                    System.out.println("la var1 texto: " + der1);
-                    System.out.println("la var2 nombre: " + nombre2);
-                    System.out.println("la var2 texto: " + der2);
-                    System.out.println("la var3 nombre: " + nombre3);
-                    System.out.println("la var3 texto: " + der3);
-                    if (nombre1.equals(nombre2) || nombre1.equals(nombre3) || nombre2.equals(nombre3)) {
-                        click = false;
-                        valida = false;
-                        Alert alert = new Alert(AlertType.INFORMATION);
-                        Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-                        ImageView imageVie = new ImageView(images);
-                        alert.setGraphic(imageVie);
-                        alert.setTitle("Nombre.");
-                        alert.setHeaderText("Ocurrio un error.");
-                        alert.setContentText("Los nombres ingresados no pueden ser iguales.");
-                        alert.showAndWait();
-                    }
-                    if (!variables.isEmpty()) {
-                        for (int i = 0; i < variables.size(); i++) {
-                            if (nombre1.equals(variables.get(i).getNombre())) {
-                                click = false;
-                                valida = false;
-                            }
-                        }
-                        for (int i = 0; i < variables.size(); i++) {
-                            if (nombre2.equals(variables.get(i).getNombre())) {
-                                click = false;
-                                valida = false;
-                            }
-                        }
-                        for (int i = 0; i < variables.size(); i++) {
-                            if (nombre3.equals(variables.get(i).getNombre())) {
-                                click = false;
-                                valida = false;
-                            }
-                        }
-                    }
-                    if (valida == false) {
-                        Alert alert = new Alert(AlertType.INFORMATION);
-                        Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-                        ImageView imageVie = new ImageView(images);
-                        alert.setGraphic(imageVie);
-                        alert.setTitle("Nombre.");
-                        alert.setHeaderText("Ocurrio un error.");
-                        alert.setContentText("Alguno de los nombres ingresados ya esta en uso.");
-                        alert.showAndWait();
-                    }
-                    if (valida) {
-                        Variable variable1 = new Variable();
-                        Variable variable2 = new Variable();
-                        Variable variable3 = new Variable();
-                        variable1.setNombre(nombre1);
-                        variable1.setTexto(der1);
-                        variable2.setNombre(nombre2);
-                        variable2.setTexto(der2);
-                        variable3.setNombre(nombre3);
-                        variable3.setTexto(der3);
-                        if (variable1.getTexto().replaceAll("[0-9]", "").equals("")) {
-                            variable1.setTipo("numero");
-                        } else {
-                            variable1.setTipo("texto");
-                        }
-                        if (variable2.getTexto().replaceAll("[0-9]", "").equals("")) {
-                            variable2.setTipo("numero");
-                        } else {
-                            variable2.setTipo("texto");
-                        }
-                        if (variable3.getTexto().replaceAll("[0-9]", "").equals("")) {
-                            variable3.setTipo("numero");
-                        } else {
-                            variable3.setTipo("texto");
-                        }
-                        variables.add(variable1);
-                        variables.add(variable2);
-                        variables.add(variable3);
-                        cantidad = 3;
-                    }
-                } else if (cantidadComas == 3) {
-                    int lastComa = entrada.getTextoFigura().lastIndexOf(",");
-                    int lastEqual = entrada.getTextoFigura().lastIndexOf("=");
-                    int firstEqual = entrada.getTextoFigura().indexOf("=");
-                    String nombre4 = entrada.getTextoFigura().substring(lastComa + 1, lastEqual);
-                    String der4 = entrada.getTextoFigura().substring(lastEqual + 1);
-                    entrada.setTextoFigura(entrada.getTextoFigura().substring(0, lastComa));
-                    lastComa = entrada.getTextoFigura().lastIndexOf(",");
-                    lastEqual = entrada.getTextoFigura().lastIndexOf("=");
-                    firstEqual = entrada.getTextoFigura().indexOf("=");
-                    String nombre3 = entrada.getTextoFigura().substring(lastComa + 1, lastEqual);
-                    String der3 = entrada.getTextoFigura().substring(lastEqual + 1);
-                    entrada.setTextoFigura(entrada.getTextoFigura().substring(0, lastComa));
-                    lastComa = entrada.getTextoFigura().lastIndexOf(",");
-                    lastEqual = entrada.getTextoFigura().lastIndexOf("=");
-                    firstEqual = entrada.getTextoFigura().indexOf("=");
-                    String nombre2 = entrada.getTextoFigura().substring(lastComa + 1, lastEqual);
-                    String der2 = entrada.getTextoFigura().substring(lastEqual + 1);
-                    String nombre1 = entrada.getTextoFigura().substring(0, firstEqual);
-                    String der1 = entrada.getTextoFigura().substring(firstEqual + 1, lastComa);
-                    System.out.println("la var1 nombre: " + nombre1);
-                    System.out.println("la var1 texto: " + der1);
-                    System.out.println("la var2 nombre: " + nombre2);
-                    System.out.println("la var2 texto: " + der2);
-                    System.out.println("la var3 nombre: " + nombre3);
-                    System.out.println("la var3 texto: " + der3);
-                    System.out.println("la var4 nombre: " + nombre4);
-                    System.out.println("la var4 texto: " + der4);
-                    if (nombre1.equals(nombre2) || nombre1.equals(nombre3) || nombre1.equals(nombre4)) {
-                        click = false;
-                        valida = false;
-                        Alert alert = new Alert(AlertType.INFORMATION);
-                        Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-                        ImageView imageVie = new ImageView(images);
-                        alert.setGraphic(imageVie);
-                        alert.setTitle("Nombre.");
-                        alert.setHeaderText("Ocurrio un error.");
-                        alert.setContentText("Los nombres ingresados no pueden ser iguales.");
-                        alert.showAndWait();
-                    } else if (nombre2.equals(nombre3) || nombre2.equals(nombre4)) {
-                        click = false;
-                        valida = false;
-                        Alert alert = new Alert(AlertType.INFORMATION);
-                        Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-                        ImageView imageVie = new ImageView(images);
-                        alert.setGraphic(imageVie);
-                        alert.setTitle("Nombre.");
-                        alert.setHeaderText("Ocurrio un error.");
-                        alert.setContentText("Los nombres ingresados no pueden ser iguales.");
-                        alert.showAndWait();
-                    } else if (nombre3.equals(nombre4)) {
-                        click = false;
-                        valida = false;
-                        Alert alert = new Alert(AlertType.INFORMATION);
-                        Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-                        ImageView imageVie = new ImageView(images);
-                        alert.setGraphic(imageVie);
-                        alert.setTitle("Nombre.");
-                        alert.setHeaderText("Ocurrio un error.");
-                        alert.setContentText("Los nombres ingresados no pueden ser iguales.");
-                        alert.showAndWait();
-                    }
-                    if (!variables.isEmpty()) {
-                        for (int i = 0; i < variables.size(); i++) {
-                            if (nombre1.equals(variables.get(i).getNombre())) {
-                                click = false;
-                                valida = false;
-                            }
-                        }
-                        for (int i = 0; i < variables.size(); i++) {
-                            if (nombre2.equals(variables.get(i).getNombre())) {
-                                click = false;
-                                valida = false;
-                            }
-                        }
-                        for (int i = 0; i < variables.size(); i++) {
-                            if (nombre3.equals(variables.get(i).getNombre())) {
-                                click = false;
-                                valida = false;
-                            }
-                        }
-                        for (int i = 0; i < variables.size(); i++) {
-                            if (nombre4.equals(variables.get(i).getNombre())) {
-                                click = false;
-                                valida = false;
-                            }
-                        }
-                    }
-                    if (valida == false) {
-                        Alert alert = new Alert(AlertType.INFORMATION);
-                        Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-                        ImageView imageVie = new ImageView(images);
-                        alert.setGraphic(imageVie);
-                        alert.setTitle("Nombre.");
-                        alert.setHeaderText("Ocurrio un error.");
-                        alert.setContentText("Alguno de los nombres ingresados ya esta en uso.");
-                        alert.showAndWait();
-                    }
-                    if (valida) {
-                        Variable variable1 = new Variable();
-                        Variable variable2 = new Variable();
-                        Variable variable3 = new Variable();
-                        Variable variable4 = new Variable();
-                        variable1.setNombre(nombre1);
-                        variable1.setTexto(der1);
-                        variable2.setNombre(nombre2);
-                        variable2.setTexto(der2);
-                        variable3.setNombre(nombre3);
-                        variable3.setTexto(der3);
-                        variable4.setNombre(nombre4);
-                        variable4.setTexto(der4);
-                        if (variable1.getTexto().replaceAll("[0-9]", "").equals("")) {
-                            variable1.setTipo("numero");
-                        } else {
-                            variable1.setTipo("texto");
-                        }
-                        if (variable2.getTexto().replaceAll("[0-9]", "").equals("")) {
-                            variable2.setTipo("numero");
-                        } else {
-                            variable2.setTipo("texto");
-                        }
-                        if (variable3.getTexto().replaceAll("[0-9]", "").equals("")) {
-                            variable3.setTipo("numero");
-                        } else {
-                            variable3.setTipo("texto");
-                        }
-                        if (variable4.getTexto().replaceAll("[0-9]", "").equals("")) {
-                            variable4.setTipo("numero");
-                        } else {
-                            variable4.setTipo("texto");
-                        }
-                        variables.add(variable1);
-                        variables.add(variable2);
-                        variables.add(variable3);
-                        variables.add(variable4);
-                        cantidad = 4;
+            boolean cadenavalida = matcher.matches();
+            String expression = entrada.getTextoFigura();
+            String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
+            ArrayList<String> arrayTokens = new ArrayList<>();
+            for (String token : tokens) {
+                arrayTokens.add(token);
+            }
+            //imprimos todos los tokens
+            System.out.println("tamano: "+arrayTokens.size());
+            for (int i = 0; i < arrayTokens.size(); i++) {
+                System.out.println(arrayTokens.get(i));
+            }
+            ArrayList<String> nombresVariables = new ArrayList<>();
+            //intentemos tomar todos los nombres de variables
+            for (int i = 0; i < arrayTokens.size(); i++) {
+                if(arrayTokens.get(i).matches("=")){
+                    nombresVariables.add(arrayTokens.get(i-1));
+                }
+            }
+            //imprimimos todos los nombres de variables
+            for (int i = 0; i < nombresVariables.size(); i++) {
+                System.out.println("nombre "+(i+1)+" "+nombresVariables.get(i));
+            }
+            ArrayList<Integer> comasTokens = new ArrayList<>();
+            //intentamos tomar todas las comas
+            for (int i = 0; i < arrayTokens.size(); i++) {
+                if(arrayTokens.get(i).matches(",")){
+                    comasTokens.add(i);
+                }
+            }
+            for (int i = 0; i < comasTokens.size(); i++) {
+                System.out.println("hay una coma en los tokens en la posicion "+comasTokens.get(i));
+            }
+            //validamos que la cant de comas sea igual a los nombres de variables -1
+            if(comasTokens.size()==(nombresVariables.size()-1)){
+                cadenavalida = true;
+            }else{
+                cadenavalida = false;
+            }
+            //intentamos todos los valores a la derecha
+            ArrayList<String> valoresVariablesTokens = new ArrayList<>();
+            if(cadenavalida){
+                for (int i = 0; i < arrayTokens.size(); i++) {
+                    if(arrayTokens.get(i).matches("=")){
+                        valoresVariablesTokens.add(arrayTokens.get(i+1));
                     }
                 }
-            } else {
+            }
+            //validamos que no hayan nombres repetidos
+            int cantidadRepetida = 0;
+            if(cadenavalida){
+                for (int i = 0; i < nombresVariables.size(); i++) {
+                    cantidadRepetida=0;
+                    for (int j = 0; j < nombresVariables.size(); j++) {
+                        if(nombresVariables.get(i).equals(nombresVariables.get(j))){
+                            cantidadRepetida++;
+                        }
+                        if(cantidadRepetida>1){
+                            cadenavalida = false;
+                            System.out.println("hay nombres repetidos.");
+                        }
+                    }
+                }
+            }
+            //aca deberia estar todo bien y listo
+            if(cadenavalida){
+                boolean validarNombres;
+                for (int i = 0; i < nombresVariables.size(); i++) {
+                    validarNombres = false;
+                    Variable variableNueva = new Variable();
+                    variableNueva.setNombre(nombresVariables.get(i));
+                    variableNueva.setTexto(valoresVariablesTokens.get(i));
+                    if(variableNueva.getTexto().matches("[0-9]+")){
+                        variableNueva.setTipo("numero");
+                    }else{
+                        variableNueva.setTipo("texto");
+                    }
+                    for (int j = 0; j < variables.size(); j++) {
+                        if(variableNueva.getNombre().equals(variables.get(j).getNombre())){
+                            validarNombres = true;
+                            j=variables.size();
+                        }
+                    }
+                    //
+                    if(validarNombres){
+                        System.out.println("encontre variables iguales");
+                    }
+                    //
+                    if(validarNombres){
+                        for (int k = 0; k < variables.size(); k++) {
+                            if(variableNueva.getNombre().equals(variables.get(k).getNombre())){
+                                variables.get(k).setNombre(variableNueva.getNombre());
+                                variables.get(k).setTexto(variableNueva.getTexto());
+                                variables.get(k).setTipo(variableNueva.getTipo());
+                                k=variables.size();
+                            }
+                        }
+                    }else{
+                        variables.add(variableNueva);
+                    }
+                }
+            }else{
                 click = false;
                 Alert alert = new Alert(AlertType.INFORMATION);
                 Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
@@ -1709,7 +1469,6 @@ public class FXMLDocumentController implements Initializable {
                 alert.setContentText("El formato ingresado es incorrecto.");
                 alert.showAndWait();
             }
-
             if (click == true) {
                 Variable variable = new Variable();
                 System.out.println("Figura antes: " + entrada.getTextoFigura());
@@ -1717,8 +1476,11 @@ public class FXMLDocumentController implements Initializable {
                 separarFlujo(entrada, cantidad);
 
             }
+            System.out.println("IMPRIMOS TODAS LAS VARIABLES EXISTENTES");
+            for (int i = 0; i < variables.size(); i++) {
+                System.out.println("variable "+(i+1)+" "+variables.get(i).getNombre()+", "+variables.get(i).getTexto()+", "+variables.get(i).getTipo());
+            }
         }
-
     }
 
     @FXML
