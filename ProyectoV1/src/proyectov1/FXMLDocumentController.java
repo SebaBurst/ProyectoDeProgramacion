@@ -96,7 +96,10 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     Button undo;
 
-     /**
+    @FXML
+    Button editar;
+
+    /**
      * Clase interna Hilo que implementa Runnable para crear la funcionalidad
      * "Correr" se implementa la clase Abstracta "Run" para ejecutarlo ademas se
      * usa sleep para que tenga una "Descanso" Durante cada iteracion del ciclo.
@@ -212,7 +215,7 @@ public class FXMLDocumentController implements Initializable {
                                 variables.set(k, m);
                             }
                         }
-                                        consola.setText(consola.getText() + "\n" + m.getNombre() + " ← " + m.getTexto());
+                        consola.setText(consola.getText() + "\n" + m.getNombre() + " ← " + m.getTexto());
 
                     }
                 }
@@ -251,7 +254,7 @@ public class FXMLDocumentController implements Initializable {
 
         }
 
-         public void correrSalida(Salida aux) {
+        public void correrSalida(Salida aux) {
             String ex = aux.getTextoFigura();
             ex = ex.replaceAll(",", "_");
             String[] tokens = ex.replaceAll("\\s+", "").split("(?<=[-+*/()_])|(?=[-+*/()_])");
@@ -278,8 +281,7 @@ public class FXMLDocumentController implements Initializable {
             }
 
         }
-        
-        
+
         public Figura correrCiclo(Ciclo ciclo, Figura aux) throws ScriptException {
             if (ciclo.getIdsFiguras().size() > 0) {
                 if (ciclo.isVerdadero() == false) {
@@ -306,12 +308,12 @@ public class FXMLDocumentController implements Initializable {
             return aux;
         }
 
-        public void CorrerDecision(Decision decision) throws ScriptException{
-            if(decision.getFalsas().size()>0 && decision.getVerdaderas().size()>0){
+        public void CorrerDecision(Decision decision) throws ScriptException {
+            if (decision.getFalsas().size() > 0 && decision.getVerdaderas().size() > 0) {
                 boolean condicion = resolverCondicional(decision.getTextoFigura());
                 decision.setVerdadero(condicion);
-                int idciclo =0;
-                if(decision.isVerdadero()){
+                int idciclo = 0;
+                if (decision.isVerdadero()) {
                     Figura inicio = null;
                     for (int w = 0; w < decision.getVerdaderas().size(); w++) {
                         if (decision.getVerdaderas().get(w).getAnterior() == -8) {
@@ -319,8 +321,8 @@ public class FXMLDocumentController implements Initializable {
 
                         }
                     }
-                    if(inicio!=null){
-                         for (int k = 0; inicio.getSiguiente() != -9; k++) {
+                    if (inicio != null) {
+                        for (int k = 0; inicio.getSiguiente() != -9; k++) {
                             for (int l = 0; l < decision.getVerdaderas().size(); l++) {
                                 if (decision.getVerdaderas().get(l).getID() == inicio.getSiguiente()) {
                                     inicio = decision.getVerdaderas().get(l);
@@ -332,25 +334,25 @@ public class FXMLDocumentController implements Initializable {
                                     if (inicio instanceof Entrada) {
                                         correrEntrada((Entrada) corriendo3);
                                     }
-                                    if(inicio instanceof Ciclo){
-                                        System.out.println(">>Entre al ciclo: "+idciclo);
+                                    if (inicio instanceof Ciclo) {
+                                        System.out.println(">>Entre al ciclo: " + idciclo);
                                         idciclo++;
-                                        inicio = correrCiclo((Ciclo)inicio,corriendo3);
-                                    
+                                        inicio = correrCiclo((Ciclo) inicio, corriendo3);
+
                                     }
                                     if (inicio instanceof Decision) {
-                                        CorrerDecision((Decision)corriendo3);
+                                        CorrerDecision((Decision) corriendo3);
                                     }
                                 }
                             }
                         }
                     }
                 }
-            
+
             }
-        
-        
+
         }
+
         @Override
         public void run() {// Se implementa el Metodo Run
 
@@ -382,22 +384,22 @@ public class FXMLDocumentController implements Initializable {
                                 aux = correrCiclo((Ciclo) corriendo, aux);
 
                             }
-                            if(aux instanceof Etapa){
-                                
+                            if (aux instanceof Etapa) {
+
                                 correrEtapa(aux.getTextoFigura());
-                            
+
                             }
-                            if(aux instanceof Salida){
-                                correrSalida((Salida)aux);
-                            
+                            if (aux instanceof Salida) {
+                                correrSalida((Salida) aux);
+
                             }
                             if (aux instanceof Entrada) {
                                 correrEntrada((Entrada) aux);
 
                             }
-                            if(aux instanceof Decision){
-                                CorrerDecision((Decision)aux);
-                            
+                            if (aux instanceof Decision) {
+                                CorrerDecision((Decision) aux);
+
                             }
                             if (corriendo instanceof Decision == false) {
                                 Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
@@ -451,7 +453,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void correrManual(ActionEvent event) throws ScriptException, InterruptedException {
-        
+
     }
 
     @FXML
@@ -1365,56 +1367,56 @@ public class FXMLDocumentController implements Initializable {
                 arrayTokens.add(token);
             }
             //imprimos todos los tokens
-            System.out.println("tamano: "+arrayTokens.size());
+            System.out.println("tamano: " + arrayTokens.size());
             for (int i = 0; i < arrayTokens.size(); i++) {
                 System.out.println(arrayTokens.get(i));
             }
             ArrayList<String> nombresVariables = new ArrayList<>();
             //intentemos tomar todos los nombres de variables
             for (int i = 0; i < arrayTokens.size(); i++) {
-                if(arrayTokens.get(i).matches("=")){
-                    nombresVariables.add(arrayTokens.get(i-1));
+                if (arrayTokens.get(i).matches("=")) {
+                    nombresVariables.add(arrayTokens.get(i - 1));
                 }
             }
             //imprimimos todos los nombres de variables
             for (int i = 0; i < nombresVariables.size(); i++) {
-                System.out.println("nombre "+(i+1)+" "+nombresVariables.get(i));
+                System.out.println("nombre " + (i + 1) + " " + nombresVariables.get(i));
             }
             ArrayList<Integer> comasTokens = new ArrayList<>();
             //intentamos tomar todas las comas
             for (int i = 0; i < arrayTokens.size(); i++) {
-                if(arrayTokens.get(i).matches(",")){
+                if (arrayTokens.get(i).matches(",")) {
                     comasTokens.add(i);
                 }
             }
             for (int i = 0; i < comasTokens.size(); i++) {
-                System.out.println("hay una coma en los tokens en la posicion "+comasTokens.get(i));
+                System.out.println("hay una coma en los tokens en la posicion " + comasTokens.get(i));
             }
             //validamos que la cant de comas sea igual a los nombres de variables -1
-            if(comasTokens.size()==(nombresVariables.size()-1)){
+            if (comasTokens.size() == (nombresVariables.size() - 1)) {
                 cadenavalida = true;
-            }else{
+            } else {
                 cadenavalida = false;
             }
             //intentamos todos los valores a la derecha
             ArrayList<String> valoresVariablesTokens = new ArrayList<>();
-            if(cadenavalida){
+            if (cadenavalida) {
                 for (int i = 0; i < arrayTokens.size(); i++) {
-                    if(arrayTokens.get(i).matches("=")){
-                        valoresVariablesTokens.add(arrayTokens.get(i+1));
+                    if (arrayTokens.get(i).matches("=")) {
+                        valoresVariablesTokens.add(arrayTokens.get(i + 1));
                     }
                 }
             }
             //validamos que no hayan nombres repetidos
             int cantidadRepetida = 0;
-            if(cadenavalida){
+            if (cadenavalida) {
                 for (int i = 0; i < nombresVariables.size(); i++) {
-                    cantidadRepetida=0;
+                    cantidadRepetida = 0;
                     for (int j = 0; j < nombresVariables.size(); j++) {
-                        if(nombresVariables.get(i).equals(nombresVariables.get(j))){
+                        if (nombresVariables.get(i).equals(nombresVariables.get(j))) {
                             cantidadRepetida++;
                         }
-                        if(cantidadRepetida>1){
+                        if (cantidadRepetida > 1) {
                             cadenavalida = false;
                             System.out.println("hay nombres repetidos.");
                         }
@@ -1422,43 +1424,43 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
             //aca deberia estar todo bien y listo
-            if(cadenavalida){
+            if (cadenavalida) {
                 boolean validarNombres;
                 for (int i = 0; i < nombresVariables.size(); i++) {
                     validarNombres = false;
                     Variable variableNueva = new Variable();
                     variableNueva.setNombre(nombresVariables.get(i));
                     variableNueva.setTexto(valoresVariablesTokens.get(i));
-                    if(variableNueva.getTexto().matches("[0-9]+")){
+                    if (variableNueva.getTexto().matches("[0-9]+")) {
                         variableNueva.setTipo("numero");
-                    }else{
+                    } else {
                         variableNueva.setTipo("texto");
                     }
                     for (int j = 0; j < variables.size(); j++) {
-                        if(variableNueva.getNombre().equals(variables.get(j).getNombre())){
+                        if (variableNueva.getNombre().equals(variables.get(j).getNombre())) {
                             validarNombres = true;
-                            j=variables.size();
+                            j = variables.size();
                         }
                     }
                     //
-                    if(validarNombres){
+                    if (validarNombres) {
                         System.out.println("encontre variables iguales");
                     }
                     //
-                    if(validarNombres){
+                    if (validarNombres) {
                         for (int k = 0; k < variables.size(); k++) {
-                            if(variableNueva.getNombre().equals(variables.get(k).getNombre())){
+                            if (variableNueva.getNombre().equals(variables.get(k).getNombre())) {
                                 variables.get(k).setNombre(variableNueva.getNombre());
                                 variables.get(k).setTexto(variableNueva.getTexto());
                                 variables.get(k).setTipo(variableNueva.getTipo());
-                                k=variables.size();
+                                k = variables.size();
                             }
                         }
-                    }else{
+                    } else {
                         variables.add(variableNueva);
                     }
                 }
-            }else{
+            } else {
                 click = false;
                 Alert alert = new Alert(AlertType.INFORMATION);
                 Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
@@ -1478,7 +1480,7 @@ public class FXMLDocumentController implements Initializable {
             }
             System.out.println("IMPRIMOS TODAS LAS VARIABLES EXISTENTES");
             for (int i = 0; i < variables.size(); i++) {
-                System.out.println("variable "+(i+1)+" "+variables.get(i).getNombre()+", "+variables.get(i).getTexto()+", "+variables.get(i).getTipo());
+                System.out.println("variable " + (i + 1) + " " + variables.get(i).getNombre() + ", " + variables.get(i).getTexto() + ", " + variables.get(i).getTipo());
             }
         }
     }
@@ -2019,11 +2021,11 @@ public class FXMLDocumentController implements Initializable {
                 p = Pattern.compile("\\\"[A-Za-z0-9]+\\\"");
                 matcher = p.matcher(salida.getTextoFigura());
                 cadenaValida = matcher.matches();
-                if(cadenaValida){
+                if (cadenaValida) {
                     Variable variableNueva = new Variable();
                     variableNueva.setTipo("string");
                     variableNueva.setTexto(salida.getTextoFigura());
-                }else{
+                } else {
                     click = false;
                     Alert alert = new Alert(AlertType.INFORMATION);
                     Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
@@ -2033,7 +2035,7 @@ public class FXMLDocumentController implements Initializable {
                     alert.setHeaderText("Ocurrio un error.");
                     alert.setContentText("El formato ingresado es incorrecto.");
                     alert.showAndWait();
-                }  
+                }
             }
         }
         if (click == true) {
@@ -2230,9 +2232,39 @@ public class FXMLDocumentController implements Initializable {
         formas.clear();
         enlaces.clear();
         variables.clear();
+        //se activan los botones 
+        Decision.setDisable(false);
+        Ciclo.setDisable(false);
+        edit = true;
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo
         ini();// se llama al metodo ini
         repintar(cuadro);// se vuelven a dibujar todos los objetos
+    }
+    boolean edit = true;
+    int xEdit;
+    int yEdit;
+
+    @FXML
+    public void editFigura(ActionEvent event) throws Exception {
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
+        edit = false;//el boolean edit se convierte en false para activar el boton
+        if (edit == false) {//La condicion solo funciona si el borrar es igual a false
+            lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
+                Figura figura = detectarFigura1((int) e.getX(), (int) e.getY());// se llama al metodo detectarFiguray se le ingresa un x e y
+                if (figura != null) {
+                    xEdit = figura.getMedioX();
+                    yEdit = figura.getMedioY();
+                    System.out.println("Se detecto la figura" + figura.getClass());
+                    Decision.setDisable(true);
+                    Ciclo.setDisable(true);
+                }
+                if (figura == null) {
+                    System.out.println("No se detecto figura");
+                    edit = true;
+                }
+                lienzo.setOnMouseClicked(null);// se termina el evento setOnMouseClicked
+            });
+        }
     }
 
     /**
@@ -2246,15 +2278,30 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda para poder detectar XY de un click
             Figura mover = detectarFigura1((int) e.getX(), (int) e.getY());
-            if (mover == null) {
+            Figura editando = detectarFigura1(xEdit, yEdit);
+            int X = 0;
+            int Y = 0;
+            if (mover == null || edit == false) {
+                if (edit == true) {
+                    System.out.println("continua dibujando");
+                    X = (int) e.getX();
+                    Y = (int) e.getY();
+                }
+                if (edit == false) {
+                    System.out.println("Estamos editando");
+                    X = xEdit;
+                    Y = yEdit;
+                    detectarBorrar(xEdit, yEdit);
+                }
                 for (int i = 0; i < enlaces.size(); i++) {// se recorre el arreglo de lineas de flujo
                     Flujo aux = enlaces.get(i);// Se guarda el enlace i en una variable auxiliar
-                    if ((int) e.getX() <= aux.getX() + 40 && (int) e.getX() >= aux.getX() - 40 && (int) e.getY() >= aux.getY() && (int) e.getY() <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
+                    if (X <= aux.getX() + 40 && X >= aux.getX() - 40 && Y >= aux.getY() && Y <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
+                        System.out.println("Entre");
                         Decision condicional = new Decision();
                         cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());// se limpia el canvas
                         // se guardan el X e Y en una variable individual
-                        int f = (int) e.getY();
-                        int o = (int) e.getX();
+                        int f = Y;
+                        int o = X;
                         //Preguntar si el flujo es parte de una decision
                         if (aux.getDecision() >= 0) {
                             //Buscar la figura decision enlazada al flujo;
@@ -2426,8 +2473,8 @@ public class FXMLDocumentController implements Initializable {
                             }
                             //condicional.Bajar(n, opcion, lienzo);
 
-                        } else {
-
+                        }
+                        if (edit == true) {
                             Flujo nuevo = new Flujo();
                             nuevo.setColor(n.getColor());
                             nuevo.setId(idFlujos);
@@ -2558,6 +2605,46 @@ public class FXMLDocumentController implements Initializable {
                                 }
                             }
                         }
+                        if (edit == false) {
+                            Flujo nuevo = new Flujo();
+                            nuevo.setColor(n.getColor());
+                            nuevo.setId(idFlujos);
+
+                            nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
+                            aux.dibujar(o, f + 70, aux.getX1(), aux.getY2(), cuadro);
+                            n.dibujar(cuadro, o, f);
+
+                            n.setFlujoSuperior(nuevo.getId());
+                            idFlujos++;
+                            n.setFlujoInferior(aux.getId());
+
+                            for (int d = 0; d < formas.size(); d++) {
+                                if (formas.get(d).getFlujoInferior() == aux.getId()) {
+                                    formas.get(d).setFlujoInferior(nuevo.getId());
+                                }
+                            }
+                            n.setID(ids);
+
+                            for (int j = 0; j < formas.size(); j++) {
+                                if (formas.get(j).getFlujoInferior() == nuevo.getId()) {
+                                    formas.get(j).setSiguiente(ids);
+                                    n.setAnterior(formas.get(j).getID());
+                                }
+                                if (formas.get(j).getFlujoSuperior() == aux.getId()) {
+                                    formas.get(j).setAnterior(ids);
+                                    n.setSiguiente(formas.get(j).getID());
+                                }
+
+                            }
+                            ids++;
+                            int diferenciay = (nuevo.getY() + nuevo.getY2()) / 2;
+                            formas.add(n);
+                            System.out.println("Ciclo Aux: " + aux.getCiclo());
+
+                            //Funcion que ordena la lista con las nuevas figuras
+                            enlaces.set(i, aux);
+                            enlaces.add(nuevo);
+                        }
                         // Se vuelven a dibujar todas las figuras y los enlaces de flujos
                         repintar(cuadro);
                         // se anula la posibilidad de seguir presionando el canvas
@@ -2577,6 +2664,9 @@ public class FXMLDocumentController implements Initializable {
                     }
 
                 }
+                Decision.setDisable(false);
+                Ciclo.setDisable(false);
+                edit = true;
             }
         });
 
@@ -2670,80 +2760,80 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     public void AceptarColorFondo(ActionEvent event) {
-        if(recolor!=null){
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
-        Color c = fondo.getValue();
-        String fondito = c.toString();
-        fondito = fondito.replaceAll("0x", "#");
-        String n = "";
-        for (int i = 0; i < 7; i++) {
-            n = n + fondito.charAt(i);
+        if (recolor != null) {
+            GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
+            Color c = fondo.getValue();
+            String fondito = c.toString();
+            fondito = fondito.replaceAll("0x", "#");
+            String n = "";
+            for (int i = 0; i < 7; i++) {
+                n = n + fondito.charAt(i);
 
-        }
-        recolor.setFondo(n);
-        
-         if(recolor instanceof InicioFin){
-            coloresFondo.set(0, n);
-        }
-        if(recolor instanceof Documento){
-            coloresFondo.set(1, n);
-        }
-        if(recolor instanceof Salida){
-            coloresFondo.set(2, n);
-        }
-        if(recolor instanceof Entrada){
-            coloresFondo.set(3, n);
-        }
-        if(recolor instanceof Ciclo){
-            coloresFondo.set(4, n);
-        }
-        if(recolor instanceof Decision){
-            coloresFondo.set(5, n);
-        }
-        if(recolor instanceof Etapa){
-            coloresFondo.set(6, n);
-        }
-        System.out.println(" >> ColorN: " + n);
-        repintar(cuadro);
+            }
+            recolor.setFondo(n);
+
+            if (recolor instanceof InicioFin) {
+                coloresFondo.set(0, n);
+            }
+            if (recolor instanceof Documento) {
+                coloresFondo.set(1, n);
+            }
+            if (recolor instanceof Salida) {
+                coloresFondo.set(2, n);
+            }
+            if (recolor instanceof Entrada) {
+                coloresFondo.set(3, n);
+            }
+            if (recolor instanceof Ciclo) {
+                coloresFondo.set(4, n);
+            }
+            if (recolor instanceof Decision) {
+                coloresFondo.set(5, n);
+            }
+            if (recolor instanceof Etapa) {
+                coloresFondo.set(6, n);
+            }
+            System.out.println(" >> ColorN: " + n);
+            repintar(cuadro);
         }
     }
 
     @FXML
     public void AceptarColorBorder(ActionEvent event) {
-        if(recolor!=null){
-        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
-        Color c = border.getValue();
-        String fondito = c.toString();
-        fondito = fondito.replaceAll("0x", "#");
-        String n = "";
-        for (int i = 0; i < 7; i++) {
-            n = n + fondito.charAt(i);
+        if (recolor != null) {
+            GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
+            Color c = border.getValue();
+            String fondito = c.toString();
+            fondito = fondito.replaceAll("0x", "#");
+            String n = "";
+            for (int i = 0; i < 7; i++) {
+                n = n + fondito.charAt(i);
 
-        }
-        recolor.setBorde(n);
-        if(recolor instanceof InicioFin){
-            coloresBordes.set(0, n);
-        }
-        if(recolor instanceof Documento){
-            coloresBordes.set(1, n);
-        }
-        if(recolor instanceof Salida){
-            coloresBordes.set(2, n);
-        }
-        if(recolor instanceof Entrada){
-            coloresBordes.set(3, n);
-        }
-        if(recolor instanceof Ciclo){
-            coloresBordes.set(4, n);
-        }
-        if(recolor instanceof Decision){
-            coloresBordes.set(5, n);
-        }
-        if(recolor instanceof Etapa){
-            coloresBordes.set(6, n);
-        }
-        System.out.println(" >> ColorN: " + n);
-        repintar(cuadro);
+            }
+            recolor.setBorde(n);
+            if (recolor instanceof InicioFin) {
+                coloresBordes.set(0, n);
+            }
+            if (recolor instanceof Documento) {
+                coloresBordes.set(1, n);
+            }
+            if (recolor instanceof Salida) {
+                coloresBordes.set(2, n);
+            }
+            if (recolor instanceof Entrada) {
+                coloresBordes.set(3, n);
+            }
+            if (recolor instanceof Ciclo) {
+                coloresBordes.set(4, n);
+            }
+            if (recolor instanceof Decision) {
+                coloresBordes.set(5, n);
+            }
+            if (recolor instanceof Etapa) {
+                coloresBordes.set(6, n);
+            }
+            System.out.println(" >> ColorN: " + n);
+            repintar(cuadro);
         }
     }
 
