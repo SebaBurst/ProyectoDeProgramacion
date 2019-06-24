@@ -27,6 +27,8 @@ public class ProyectoV1 extends Application {
         stage.getIcons().add(new Image("/Clases_Figura/Estilos/ICON.png"));
         stage.setTitle("Diagramas de Flujo (By Enfermos)");
         stage.setScene(scene);
+        stage.setMaxWidth(1205.0);
+        stage.setMaxHeight(702.0);
         stage.show();
     }
 

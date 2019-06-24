@@ -1600,9 +1600,29 @@ public class FXMLDocumentController implements Initializable {
         Documento documento = new Documento();
         click = ingresarTexto(documento, "documento");
         int cantidad = 0;
-        if (click == true) {
+        if (click == true && edit==true) {
             separarFlujo(documento, cantidad);
 
+        }
+        else if(edit == false){
+            System.out.println(">> Entre al editar documento");
+            for (int i = 0; i < formas.size(); i++) {
+                if(formas.get(i).getID()==idEdit){
+                    formas.remove(i);
+                
+                }
+            }
+            repintar(cuadro);
+            documento.setAnterior(anterior);
+            documento.setSiguiente(siguiente);
+            documento.setID(idEdit);
+            documento.setFlujoInferior(fsiguiente);
+            documento.setFlujoSuperior(fanterios);
+            documento.dibujar(cuadro, xEdit, yEdit);
+            edit = false;
+            Decision.setDisable(false);
+            Ciclo.setDisable(false);
+            formas.add(documento);
         }
     }
 
@@ -2243,7 +2263,11 @@ public class FXMLDocumentController implements Initializable {
     boolean edit = true;
     int xEdit;
     int yEdit;
-
+    int idEdit;
+    int anterior;
+    int siguiente;
+    int fanterios;
+    int fsiguiente;
     @FXML
     public void editFigura(ActionEvent event) throws Exception {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
@@ -2251,12 +2275,20 @@ public class FXMLDocumentController implements Initializable {
         if (edit == false) {//La condicion solo funciona si el borrar es igual a false
             lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
                 Figura figura = detectarFigura1((int) e.getX(), (int) e.getY());// se llama al metodo detectarFiguray se le ingresa un x e y
-                if (figura != null) {
+                if (figura != null&& figura instanceof InicioFin == false && figura instanceof Decision==false && figura instanceof Ciclo==false) {
+                    figura.isPressed(cuadro);
                     xEdit = figura.getMedioX();
                     yEdit = figura.getMedioY();
                     System.out.println("Se detecto la figura" + figura.getClass());
                     Decision.setDisable(true);
                     Ciclo.setDisable(true);
+                    idEdit=figura.getID();
+                    anterior=figura.getAnterior();
+                    siguiente =figura.getSiguiente();
+                    fanterios = figura.getFlujoSuperior();
+                    fsiguiente = figura.getFlujoInferior();
+                  
+                    edit=false;
                 }
                 if (figura == null) {
                     System.out.println("No se detecto figura");
