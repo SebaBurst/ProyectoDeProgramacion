@@ -22,6 +22,33 @@ public class Salida extends Figura implements java.io.Serializable{
         this.fondo="#fec973";
         this.borde="#d5700d";
     }
+    
+     @Override
+    public Salida clonar (){
+        
+        Salida aux = new Salida();
+        aux.setFlujoInferior(FlujoInferior);
+        aux.setFlujoSuperior(FlujoSuperior);
+        aux.setID(ID);
+        aux.setMedioX(medioX);
+        aux.setMedioY(medioY);
+        aux.setTextoFigura(textoFigura);
+        aux.setSiguiente(siguiente);
+        aux.setAnterior(anterior);
+        aux.setX1(x1);
+        aux.setX2(x2);
+        aux.setX3(x3);
+        aux.setX4(x4);
+        aux.setY1(y1);
+        aux.setY2(y2);
+        aux.setY3(y3);
+        aux.setY4(y4);
+        aux.setNombre(nombre);
+        aux.setBorde(borde);
+        aux.setColor(color);
+        aux.setFondo(fondo);
+        return aux;
+    }
 
     
    @Override

@@ -39,9 +39,13 @@ public abstract class Figura implements java.io.Serializable{
     public int FlujoInferior;
     public int anterior=-8;
     public int siguiente=-9;
-    private int ID;
+    public int ID;
     
-
+    public Figura clonar(){
+        return null;
+    }
+    
+    
     public int getID() {
         return ID;
     }

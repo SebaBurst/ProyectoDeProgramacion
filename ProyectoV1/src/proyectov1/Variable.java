@@ -14,6 +14,20 @@ public class Variable  implements java.io.Serializable{
     String texto = "";
     String tipo = "";
 
+    public Variable() {
+   
+    
+    }
+
+    
+    public Variable clonar(){
+        Variable aux = new Variable();
+        aux.setNombre(nombre);
+        aux.setTexto(texto);
+        aux.setTipo(tipo);
+        return aux;
+    
+    }
     public String getNombre() {
         return nombre;
     }

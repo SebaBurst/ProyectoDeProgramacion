@@ -125,8 +125,8 @@ and open the template in the editor.
 
 
 .editar{
-    
-     -fx-background-size: 60px 60px;
+
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
 
     -fx-min-width: 60px;
@@ -145,11 +145,11 @@ and open the template in the editor.
     -fx-graphic: url('/Clases_Figura/Estilos/pencil.png');  
 }
 .editar:hover{
-     -fx-background-size: 60px 60px;
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
-
+-fx-graphic: url('/Clases_Figura/Estilos/pencil2.png'); 
     -fx-min-width: 60px;
-        -fx-background-color: 
+    -fx-background-color: 
         linear-gradient(from 0% 93% to 0% 100%, #1A53C4 0%, #1A53C4 100%),
         #1A53C4,
         #1A53C4,
@@ -157,16 +157,16 @@ and open the template in the editor.
 }
 
 .editar:pressed{
-     -fx-padding: 10 15 13 15;
+    -fx-padding: 10 15 13 15;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-    
-    
+
+
 }
 
 
 .mover{
-    
-     -fx-background-size: 60px 60px;
+
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
 
     -fx-min-width: 60px;
@@ -185,11 +185,11 @@ and open the template in the editor.
     -fx-graphic: url('/Clases_Figura/Estilos/Move.png');  
 }
 .mover:hover{
-     -fx-background-size: 60px 60px;
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
-
+-fx-graphic: url('/Clases_Figura/Estilos/Move2.png');  
     -fx-min-width: 60px;
-        -fx-background-color: 
+    -fx-background-color: 
         linear-gradient(from 0% 93% to 0% 100%, #1A53C4 0%, #1A53C4 100%),
         #1A53C4,
         #1A53C4,
@@ -197,15 +197,15 @@ and open the template in the editor.
 }
 
 .mover:pressed{
-     -fx-padding: 10 15 13 15;
+    -fx-padding: 10 15 13 15;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-    
-    
+
+
 }
 
 .cortar{
-    
-     -fx-background-size: 60px 60px;
+
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
 
     -fx-min-width: 60px;
@@ -224,11 +224,11 @@ and open the template in the editor.
     -fx-graphic: url('/Clases_Figura/Estilos/Cortar.png');  
 }
 .cortar:hover{
-     -fx-background-size: 60px 60px;
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
-
+-fx-graphic: url('/Clases_Figura/Estilos/Cortar2.png');  
     -fx-min-width: 60px;
-        -fx-background-color: 
+    -fx-background-color: 
         linear-gradient(from 0% 93% to 0% 100%, #E0E005 0%, #E0E005 100%),
         #E0E005,
         #E0E005,
@@ -236,17 +236,21 @@ and open the template in the editor.
 }
 
 .cortar:pressed{
-     -fx-padding: 10 15 13 15;
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-padding: 10 15 13 15;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-    
-    
+    -fx-graphic: url('/Clases_Figura/Estilos/Cortar2.png');  
+
 }
 
 
 
 .limpiar{
-    
-     -fx-background-size: 60px 60px;
+
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
 
     -fx-min-width: 60px;
@@ -262,14 +266,15 @@ and open the template in the editor.
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
     -fx-font-weight: bold;
     -fx-font-size: 1.1em;
-     -fx-graphic: url('/Clases_Figura/Estilos/Limpiar.png');  
+    -fx-graphic: url('/Clases_Figura/Estilos/Limpiar.png');  
 }
 .limpiar:hover{
-     -fx-background-size: 60px 60px;
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
+    -fx-graphic: url('/Clases_Figura/Estilos/Limpiar2.png');  
 
     -fx-min-width: 60px;
-        -fx-background-color: 
+    -fx-background-color: 
         linear-gradient(from 0% 93% to 0% 100%, #1A53C4 0%, #1A53C4 100%),
         #1A53C4,
         #1A53C4,
@@ -277,10 +282,10 @@ and open the template in the editor.
 }
 
 .limpiar:pressed{
-     -fx-padding: 10 15 13 15;
+    -fx-padding: 10 15 13 15;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-    
-    
+
+
 }
 
 
@@ -288,8 +293,8 @@ and open the template in the editor.
 
 
 .correr{
-    
-     -fx-background-size: 60px 60px;
+
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
 
     -fx-min-width: 60px;
@@ -305,14 +310,15 @@ and open the template in the editor.
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
     -fx-font-weight: bold;
     -fx-font-size: 1.1em;
-     -fx-graphic: url('/Clases_Figura/Estilos/correr.png');  
+    -fx-graphic: url('/Clases_Figura/Estilos/correr.png');  
 }
 .correr:hover{
-     -fx-background-size: 60px 60px;
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
+    -fx-graphic: url('/Clases_Figura/Estilos/correr2.png');  
 
     -fx-min-width: 60px;
-        -fx-background-color: 
+    -fx-background-color: 
         linear-gradient(from 0% 93% to 0% 100%, #EA1E0A 0%, #EA1E0A 100%),
         #EA1E0A,
         #EA1E0A,
@@ -320,18 +326,18 @@ and open the template in the editor.
 }
 
 .correr:pressed{
-     -fx-padding: 10 15 13 15;
+    -fx-padding: 10 15 13 15;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-    
-    
+
+
 }
 
 
 
 
 .plus{
-    
-     -fx-background-size: 60px 60px;
+
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
 
     -fx-min-width: 60px;
@@ -347,14 +353,15 @@ and open the template in the editor.
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
     -fx-font-weight: bold;
     -fx-font-size: 1.1em;
-     -fx-graphic: url('/Clases_Figura/Estilos/paint.png');  
+    -fx-graphic: url('/Clases_Figura/Estilos/paint.png');  
 }
 .plus:hover{
-     -fx-background-size: 60px 60px;
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
+    -fx-graphic: url('/Clases_Figura/Estilos/paint2.png');  
 
     -fx-min-width: 60px;
-        -fx-background-color: 
+    -fx-background-color: 
         linear-gradient(from 0% 93% to 0% 100%, #1A53C4 0%, #1A53C4 100%),
         #1A53C4,
         #1A53C4,
@@ -362,16 +369,16 @@ and open the template in the editor.
 }
 
 .plus:pressed{
-     -fx-padding: 10 15 13 15;
+    -fx-padding: 10 15 13 15;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-    
-    
+
+
 }
 
 
 .in{
-    
-     -fx-background-size: 60px 60px;
+
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
 
     -fx-min-width: 60px;
@@ -387,14 +394,14 @@ and open the template in the editor.
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
     -fx-font-weight: bold;
     -fx-font-size: 1.1em;
-     -fx-graphic: url('/Clases_Figura/Estilos/ui.png');  
+    -fx-graphic: url('/Clases_Figura/Estilos/ui.png');  
 }
 .in:hover{
-     -fx-background-size: 60px 60px;
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
 
     -fx-min-width: 60px;
-        -fx-background-color: 
+    -fx-background-color: 
         linear-gradient(from 0% 93% to 0% 100%, #920AEA 0%, #920AEA 100%),
         #920AEA,
         #920AEA,
@@ -402,10 +409,10 @@ and open the template in the editor.
 }
 
 .in:pressed{
-     -fx-padding: 10 15 13 15;
+    -fx-padding: 10 15 13 15;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-    
-    
+
+
 }
 
 
@@ -413,8 +420,8 @@ and open the template in the editor.
 
 
 .redo{
-    
-     -fx-background-size: 60px 60px;
+
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
 
     -fx-min-width: 60px;
@@ -430,14 +437,15 @@ and open the template in the editor.
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
     -fx-font-weight: bold;
     -fx-font-size: 1.1em;
-     -fx-graphic: url('/Clases_Figura/Estilos/redo.png');  
+    -fx-graphic: url('/Clases_Figura/Estilos/redo.png');  
 }
 .redo:hover{
-     -fx-background-size: 60px 60px;
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
+        -fx-graphic: url('/Clases_Figura/Estilos/redo2.png');  
 
     -fx-min-width: 60px;
-        -fx-background-color: 
+    -fx-background-color: 
         linear-gradient(from 0% 93% to 0% 100%, #920AEA 0%, #920AEA 100%),
         #920AEA,
         #920AEA,
@@ -445,17 +453,17 @@ and open the template in the editor.
 }
 
 .redo:pressed{
-     -fx-padding: 10 15 13 15;
+    -fx-padding: 10 15 13 15;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-    
-    
+
+
 }
 
 
 
 .undo{
-    
-     -fx-background-size: 60px 60px;
+
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
 
     -fx-min-width: 60px;
@@ -474,11 +482,12 @@ and open the template in the editor.
     -fx-graphic: url('/Clases_Figura/Estilos/undo.png');  
 }
 .undo:hover{
-     -fx-background-size: 60px 60px;
+    -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
+    -fx-graphic: url('/Clases_Figura/Estilos/undo2.png');  
 
     -fx-min-width: 60px;
-        -fx-background-color: 
+    -fx-background-color: 
         linear-gradient(from 0% 93% to 0% 100%, #1A53C4 0%, #1A53C4 100%),
         #1A53C4,
         #1A53C4,
@@ -486,8 +495,8 @@ and open the template in the editor.
 }
 
 .undo:pressed{
-     -fx-padding: 10 15 13 15;
+    -fx-padding: 10 15 13 15;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-    
-    
+
+
 }

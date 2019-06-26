@@ -19,6 +19,20 @@ public class Flujo implements java.io.Serializable {
     public String getColor() {
         return color;
     }
+    
+    public Flujo clonar (){
+        Flujo aux = new Flujo();
+        aux.setCiclo(ciclo);
+        aux.setColor(color);
+        aux.setDecision(decision);
+        aux.setDerecho(derecho);
+        aux.setId(id);
+        aux.setX(x);
+        aux.setX1(x1);
+        aux.setY(y);
+        aux.setY2(y2);
+        return aux;
+    }
 
     public void setColor(String color) {
         this.color = color;

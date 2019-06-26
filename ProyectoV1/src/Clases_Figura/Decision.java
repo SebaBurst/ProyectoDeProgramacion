@@ -36,6 +36,45 @@ public class Decision extends Figura implements Cloneable {
     Flujo ladoDerecho;
     Flujo ladoIzquierdo;
 
+    
+    
+     @Override
+    public Decision clonar (){
+        
+        Decision aux = new Decision();
+        aux.setFlujoInferior(FlujoInferior);
+        aux.setFlujoSuperior(FlujoSuperior);
+        aux.setID(ID);
+        aux.setMedioX(medioX);
+        aux.setMedioY(medioY);
+        aux.setTextoFigura(textoFigura);
+        aux.setSiguiente(siguiente);
+        aux.setAnterior(anterior);
+        aux.setX1(x1);
+        aux.setX2(x2);
+        aux.setX3(x3);
+        aux.setX4(x4);
+        aux.setY1(y1);
+        aux.setY2(y2);
+        aux.setY3(y3);
+        aux.setY4(y4);
+        aux.setNombre(nombre);
+        aux.setBorde(borde);
+        aux.setColor(color);
+        aux.setFondo(fondo);
+        for (Figura falsa : falsas) {
+            aux.falsas.add(falsa.clonar());
+        }
+        for (Figura Verdadera : Verdaderas) {
+            aux.Verdaderas.add(Verdadera.clonar());
+        }
+        aux.setFinalDerecho(finalDerecho.clonar());
+        aux.setFinalIzquierdo(finalIzquierdo.clonar());
+        aux.setTipo(tipo);
+        aux.setVerdadero(verdadero);
+       
+        return aux;
+    }
     boolean verdadero = false;
 
     public boolean isVerdadero() {
