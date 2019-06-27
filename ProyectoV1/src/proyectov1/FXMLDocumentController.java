@@ -9,6 +9,8 @@ import Clases_Figura.Figura;
 import Clases_Figura.Flujo;
 import Clases_Figura.InicioFin;
 import Clases_Figura.Salida;
+import java.awt.image.RenderedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,12 +26,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import static javafx.application.Application.launch;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -43,14 +49,20 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Scale;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javax.imageio.ImageIO;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
@@ -3294,4 +3306,28 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
+     
+    Button png;
+    Stage primaryStage;
+
+    @FXML
+    public void guardarPNG(ActionEvent event) {
+                FileChooser fileChooser = new FileChooser();
+                 
+                FileChooser.ExtensionFilter extFilter = 
+                        new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
+                fileChooser.getExtensionFilters().add(extFilter);
+               
+                File file = fileChooser.showSaveDialog(primaryStage);
+                 
+                if(file != null){
+                    try {
+                        WritableImage writableImage = new WritableImage((int)lienzo.getWidth(), (int)lienzo.getHeight());
+                        lienzo.snapshot(null, writableImage);
+                        RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+                        ImageIO.write(renderedImage, "png", file);
+                    } catch (IOException ex) {
+                    }
+                }
+            }  
 }
