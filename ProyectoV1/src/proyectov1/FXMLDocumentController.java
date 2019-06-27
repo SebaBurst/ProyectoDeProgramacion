@@ -81,6 +81,19 @@ public class FXMLDocumentController implements Initializable {
     private boolean reiniciarHilo = true;// Booleano que verifica para 
     private int idFlujos = 0;
     @FXML
+    Button toPFD;
+    @FXML
+    Button toPNG;
+    @FXML
+    Button toJPG;
+    @FXML
+    Button editarTexto;
+    @FXML
+    Button correrManual;
+    @FXML
+    Button toPseudo;
+
+    @FXML
     Button borrarAll;
     @FXML
     AnchorPane root;
@@ -1612,16 +1625,15 @@ public class FXMLDocumentController implements Initializable {
         Documento documento = new Documento();
         click = ingresarTexto(documento, "documento");
         int cantidad = 0;
-        if (click == true && edit==true) {
+        if (click == true && edit == true) {
             separarFlujo(documento, cantidad);
 
-        }
-        else if(edit == false){
+        } else if (edit == false) {
             System.out.println(">> Entre al editar documento");
             for (int i = 0; i < formas.size(); i++) {
-                if(formas.get(i).getID()==idEdit){
+                if (formas.get(i).getID() == idEdit) {
                     formas.remove(i);
-                
+
                 }
             }
             repintar(cuadro);
@@ -2280,6 +2292,7 @@ public class FXMLDocumentController implements Initializable {
     int siguiente;
     int fanterios;
     int fsiguiente;
+
     @FXML
     public void editFigura(ActionEvent event) throws Exception {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
@@ -2287,20 +2300,20 @@ public class FXMLDocumentController implements Initializable {
         if (edit == false) {//La condicion solo funciona si el borrar es igual a false
             lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
                 Figura figura = detectarFigura1((int) e.getX(), (int) e.getY());// se llama al metodo detectarFiguray se le ingresa un x e y
-                if (figura != null&& figura instanceof InicioFin == false && figura instanceof Decision==false && figura instanceof Ciclo==false) {
+                if (figura != null && figura instanceof InicioFin == false && figura instanceof Decision == false && figura instanceof Ciclo == false) {
                     figura.isPressed(cuadro);
                     xEdit = figura.getMedioX();
                     yEdit = figura.getMedioY();
                     System.out.println("Se detecto la figura" + figura.getClass());
                     Decision.setDisable(true);
                     Ciclo.setDisable(true);
-                    idEdit=figura.getID();
-                    anterior=figura.getAnterior();
-                    siguiente =figura.getSiguiente();
+                    idEdit = figura.getID();
+                    anterior = figura.getAnterior();
+                    siguiente = figura.getSiguiente();
                     fanterios = figura.getFlujoSuperior();
                     fsiguiente = figura.getFlujoInferior();
-                  
-                    edit=false;
+
+                    edit = false;
                 }
                 if (figura == null) {
                     System.out.println("No se detecto figura");
@@ -3306,28 +3319,46 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-     
     Button png;
     Stage primaryStage;
 
     @FXML
     public void guardarPNG(ActionEvent event) {
-                FileChooser fileChooser = new FileChooser();
-                 
-                FileChooser.ExtensionFilter extFilter = 
-                        new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
-                fileChooser.getExtensionFilters().add(extFilter);
-               
-                File file = fileChooser.showSaveDialog(primaryStage);
-                 
-                if(file != null){
-                    try {
-                        WritableImage writableImage = new WritableImage((int)lienzo.getWidth(), (int)lienzo.getHeight());
-                        lienzo.snapshot(null, writableImage);
-                        RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
-                        ImageIO.write(renderedImage, "png", file);
-                    } catch (IOException ex) {
-                    }
-                }
-            }  
+        FileChooser fileChooser = new FileChooser();
+
+        FileChooser.ExtensionFilter extFilter
+                = new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        File file = fileChooser.showSaveDialog(primaryStage);
+
+        if (file != null) {
+            try {
+                WritableImage writableImage = new WritableImage((int) lienzo.getWidth(), (int) lienzo.getHeight());
+                lienzo.snapshot(null, writableImage);
+                RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+                ImageIO.write(renderedImage, "png", file);
+            } catch (IOException ex) {
+            }
+        }
+    }
+
+    @FXML
+    public void editarTexto(ActionEvent event) {
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
+        lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
+            Figura figura = detectarFigura1((int) e.getX(), (int) e.getY());
+            if (figura != null) {
+                //Encontro figura....
+
+            } else {
+
+                //No encontro figura.....:(
+            }
+            lienzo.setOnMouseClicked(null);// se termina el evento setOnMouseClicked
+
+        });
+
+    }
+
 }
