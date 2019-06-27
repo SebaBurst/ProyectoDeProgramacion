@@ -203,6 +203,49 @@ and open the template in the editor.
 
 }
 
+.png{
+
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #E0E005 0%, #E0E005 100%),
+        #E0E005,
+        #E0E005,
+        radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-graphic: url('/Clases_Figura/Estilos/Exportpng.png');  
+}
+.png:hover{
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+-fx-graphic: url('/Clases_Figura/Estilos/Exportpng2.png');  
+    -fx-min-width: 60px;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #E0E005 0%, #E0E005 100%),
+        #E0E005,
+        #E0E005,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.png:pressed{
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+
+}
+
+
 .cortar{
 
     -fx-background-size: 60px 60px;
@@ -333,6 +376,86 @@ and open the template in the editor.
 }
 
 
+.texto{
+
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #EA1E0A 0%, #EA1E0A 100%),
+        #EA1E0A,
+        #EA1E0A,
+        radial-gradient(center 50% 50%, radius 100%, #EA1E0A, #EA1E0A);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-graphic: url('/Clases_Figura/Estilos/font.png');  
+}
+.texto:hover{
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+    -fx-graphic: url('/Clases_Figura/Estilos/font2.png');  
+
+    -fx-min-width: 60px;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #EA1E0A 0%, #EA1E0A 100%),
+        #EA1E0A,
+        #EA1E0A,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.texto:pressed{
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+
+
+}
+
+
+.jp{
+
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #EA1E0A 0%, #EA1E0A 100%),
+        #EA1E0A,
+        #EA1E0A,
+        radial-gradient(center 50% 50%, radius 100%, #EA1E0A, #EA1E0A);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-graphic: url('/Clases_Figura/Estilos/jp.png');  
+}
+.jp:hover{
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+    -fx-graphic: url('/Clases_Figura/Estilos/jp.png');  
+
+    -fx-min-width: 60px;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #EA1E0A 0%, #EA1E0A 100%),
+        #EA1E0A,
+        #EA1E0A,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.jp:pressed{
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+
+
+}
 
 
 .plus{
@@ -418,7 +541,45 @@ and open the template in the editor.
 
 
 
+.pdf{
 
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #920AEA 0%, #920AEA 100%),
+        #920AEA,
+        #920AEA,
+        radial-gradient(center 50% 50%, radius 100%, #EA1E0A, #EA1E0A);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-graphic: url('/Clases_Figura/Estilos/PDF.png');  
+}
+.pdf:hover{
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+        -fx-graphic: url('/Clases_Figura/Estilos/PDF2.png');  
+
+    -fx-min-width: 60px;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #920AEA 0%, #920AEA 100%),
+        #920AEA,
+        #920AEA,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.pdf:pressed{
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+
+
+}
 .redo{
 
     -fx-background-size: 60px 60px;
