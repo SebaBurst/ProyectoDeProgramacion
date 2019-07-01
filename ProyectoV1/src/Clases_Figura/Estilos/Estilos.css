@@ -517,11 +517,12 @@ and open the template in the editor.
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
     -fx-font-weight: bold;
     -fx-font-size: 1.1em;
-    -fx-graphic: url('/Clases_Figura/Estilos/ui.png');  
+    -fx-graphic: url('/Clases_Figura/Estilos/pies.png');  
 }
 .in:hover{
     -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
+    -fx-graphic: url('/Clases_Figura/Estilos/pies2.png');  
 
     -fx-min-width: 60px;
     -fx-background-color: 
