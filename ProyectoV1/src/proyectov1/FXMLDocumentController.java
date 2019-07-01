@@ -9,6 +9,9 @@ import Clases_Figura.Figura;
 import Clases_Figura.Flujo;
 import Clases_Figura.InicioFin;
 import Clases_Figura.Salida;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,6 +19,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,6 +42,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
@@ -3361,4 +3366,40 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
+    Button pdf;    
+    @FXML
+    private void guardarPDF(ActionEvent event ) throws IOException{
+     FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("pdf files (.pdf)", ".pdf");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showSaveDialog(primaryStage);
+        OutputStream archivo = null;
+        try {
+            archivo = new FileOutputStream(file);
+        } catch (Exception e) {
+        }
+
+        WritableImage writableImage = lienzo.snapshot(new SnapshotParameters(), null);
+        lienzo.snapshot(null, writableImage);
+        File file2 = new File("chart.png");
+        RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
+        try {
+            ImageIO.write(renderedImage, "png", file2);
+        } catch (IllegalArgumentException r) {
+        }
+        try {
+            com.itextpdf.text.Rectangle rectangle = new com.itextpdf.text.Rectangle((float) lienzo.getWidth() + 200, (float) lienzo.getHeight() + 200);
+            Document doc = new Document(rectangle);
+            PdfWriter.getInstance(doc, archivo);
+            com.itextpdf.text.Image img = com.itextpdf.text.Image.getInstance("chart.png");
+            img.setBorderColor(BaseColor.BLACK);
+            doc.setMargins(0, (float) lienzo.getWidth() + 200, 0, (float) lienzo.getHeight() + 200);
+            doc.open();
+            doc.add(img);
+            doc.close();
+            file2.delete();
+        } catch (Exception e) {
+
+        }
+}   
 }
