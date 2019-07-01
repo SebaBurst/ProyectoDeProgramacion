@@ -3339,16 +3339,19 @@ public class FXMLDocumentController implements Initializable {
         if (file != null) {
             try {
                 WritableImage writableImage = new WritableImage((int) lienzo.getWidth(), (int) lienzo.getHeight());
-                lienzo.snapshot(null, writableImage);
+                SnapshotParameters parameters = new SnapshotParameters();
+                parameters.setFill(Color.TRANSPARENT);
+                lienzo.snapshot(parameters, writableImage);
                 RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
                 ImageIO.write(renderedImage, "png", file);
             } catch (IOException ex) {
             }
         }
     }
-        @FXML
+
+    @FXML
     public void guardarJPG(ActionEvent event) {
-  FileChooser fileChooser = new FileChooser();
+        FileChooser fileChooser = new FileChooser();
 
         FileChooser.ExtensionFilter extFilter
                 = new FileChooser.ExtensionFilter("jpg files (*.jpg)", "*.jpg");
@@ -3388,8 +3391,8 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    private void guardarPDF(ActionEvent event ) throws IOException{
-     FileChooser fileChooser = new FileChooser();
+    private void guardarPDF(ActionEvent event) throws IOException {
+        FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("pdf files (.pdf)", ".pdf");
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showSaveDialog(primaryStage);
@@ -3422,5 +3425,5 @@ public class FXMLDocumentController implements Initializable {
 
         }
     }
-    
+
 }
