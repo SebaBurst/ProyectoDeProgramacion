@@ -12,6 +12,7 @@ import Clases_Figura.Salida;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -3323,8 +3324,6 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-
-    Button png;
     Stage primaryStage;
 
     @FXML
@@ -3343,6 +3342,28 @@ public class FXMLDocumentController implements Initializable {
                 lienzo.snapshot(null, writableImage);
                 RenderedImage renderedImage = SwingFXUtils.fromFXImage(writableImage, null);
                 ImageIO.write(renderedImage, "png", file);
+            } catch (IOException ex) {
+            }
+        }
+    }
+        @FXML
+    public void guardarJPG(ActionEvent event) {
+  FileChooser fileChooser = new FileChooser();
+
+        FileChooser.ExtensionFilter extFilter
+                = new FileChooser.ExtensionFilter("jpg files (*.jpg)", "*.jpg");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        File file = fileChooser.showSaveDialog(primaryStage);
+        if (file != null) {
+            try {
+                WritableImage writableImage = new WritableImage((int) lienzo.getWidth(), (int) lienzo.getHeight());
+                lienzo.snapshot(null, writableImage);
+                BufferedImage bImage = SwingFXUtils.fromFXImage(writableImage, null);
+                BufferedImage bImage2 = new BufferedImage(bImage.getWidth(), bImage.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
+                bImage2.getGraphics().drawImage(bImage, 0, 0, null);
+                ImageIO.write(bImage2, "jpg", file);
+
             } catch (IOException ex) {
             }
         }
@@ -3366,7 +3387,6 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    Button pdf;    
     @FXML
     private void guardarPDF(ActionEvent event ) throws IOException{
      FileChooser fileChooser = new FileChooser();
@@ -3401,5 +3421,6 @@ public class FXMLDocumentController implements Initializable {
         } catch (Exception e) {
 
         }
-}   
+    }
+    
 }
