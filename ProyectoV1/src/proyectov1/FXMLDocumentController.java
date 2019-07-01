@@ -3379,13 +3379,194 @@ public class FXMLDocumentController implements Initializable {
             Figura figura = detectarFigura1((int) e.getX(), (int) e.getY());
             if (figura != null) {
                 //Encontro figura....
-
-            } else {
-
-                //No encontro figura.....:(
+                if(figura instanceof Entrada){
+                    Entrada entrada = new Entrada();
+                    click = ingresarTexto(entrada, "Entrada");
+                    if(click){
+                        Pattern p = Pattern.compile("([A-Za-z0-9]+\\=([0-9]+|[A-Za-z0-9]+)\\,?)+");
+                        Matcher matcher = p.matcher(entrada.getTextoFigura());
+                        boolean cadenavalida = matcher.matches();
+                        if(cadenavalida){
+                            //ahora que valide el texto que se ingreso, borrare las entradas
+                            //que estaban en la entrada original.
+                            String expression = figura.getTextoFigura();
+                            String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
+                            ArrayList<String> arrayTokens = new ArrayList<>();
+                            for (String token : tokens) {
+                                arrayTokens.add(token);
+                            }
+                            ArrayList<String> nombresVariables = new ArrayList<>();
+                            //intentemos tomar todos los nombres de variables
+                            for (int i = 0; i < arrayTokens.size(); i++) {
+                                if (arrayTokens.get(i).matches("=")) {
+                                    nombresVariables.add(arrayTokens.get(i - 1));
+                                }
+                            }
+                            //ciclo para borrar todas las variables que se crearon en la entrada
+                            for (int i = 0; i < nombresVariables.size(); i++) {
+                                for (int j = 0; j < variables.size(); j++) {
+                                    if(nombresVariables.get(i).equals(variables.get(j).getNombre())){
+                                        variables.remove(j);
+                                        j=variables.size();
+                                    }
+                                }
+                            }
+                            //ya borramos las variables que se crearon
+                            //debo crear nuevas variables en base a las variables que se introdujieron
+                            //ya tengo la entrada con el texto dentro, tomar con entrada.getTextoFigura()
+                            String[] tokens2 = entrada.getTextoFigura().replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
+                            arrayTokens.clear();
+                            for (String token : tokens2) {
+                                arrayTokens.add(token);
+                            }
+                            nombresVariables.clear();
+                            for (int i = 0; i < arrayTokens.size(); i++) {
+                                if (arrayTokens.get(i).matches("=")) {
+                                    nombresVariables.add(arrayTokens.get(i - 1));
+                                }
+                            }
+                            ArrayList<Integer> comasTokens = new ArrayList<>();
+                            //intentamos tomar todas las comas
+                            for (int i = 0; i < arrayTokens.size(); i++) {
+                                if (arrayTokens.get(i).matches(",")) {
+                                    comasTokens.add(i);
+                                }
+                            }
+                            for (int i = 0; i < comasTokens.size(); i++) {
+                                System.out.println("hay una coma en los tokens en la posicion " + comasTokens.get(i));
+                            }
+                            //validamos que la cant de comas sea igual a los nombres de variables -1
+                            if (comasTokens.size() == (nombresVariables.size() - 1)) {
+                                cadenavalida = true;
+                            } else {
+                                cadenavalida = false;
+                            }
+                            //intentamos todos los valores a la derecha
+                            ArrayList<String> valoresVariablesTokens = new ArrayList<>();
+                            if (cadenavalida) {
+                                for (int i = 0; i < arrayTokens.size(); i++) {
+                                    if (arrayTokens.get(i).matches("=")) {
+                                        valoresVariablesTokens.add(arrayTokens.get(i + 1));
+                                    }
+                                }
+                            }
+                            //validamos que no hayan nombres repetidos
+                            int cantidadRepetida = 0;
+                            if (cadenavalida) {
+                                for (int i = 0; i < nombresVariables.size(); i++) {
+                                    cantidadRepetida = 0;
+                                    for (int j = 0; j < nombresVariables.size(); j++) {
+                                        if (nombresVariables.get(i).equals(nombresVariables.get(j))) {
+                                            cantidadRepetida++;
+                                        }
+                                        if (cantidadRepetida > 1) {
+                                            cadenavalida = false;
+                                            System.out.println("hay nombres repetidos.");
+                                        }
+                                    }
+                                }
+                            }
+                            //aca deberia estar todo bien y listo
+                            if (cadenavalida) {
+                                boolean validarNombres;
+                                for (int i = 0; i < nombresVariables.size(); i++) {
+                                    validarNombres = false;
+                                    Variable variableNueva = new Variable();
+                                    variableNueva.setNombre(nombresVariables.get(i));
+                                    variableNueva.setTexto(valoresVariablesTokens.get(i));
+                                    if (variableNueva.getTexto().matches("[0-9]+")) {
+                                        variableNueva.setTipo("numero");
+                                    } else {
+                                        variableNueva.setTipo("texto");
+                                    }
+                                    for (int j = 0; j < variables.size(); j++) {
+                                        if (variableNueva.getNombre().equals(variables.get(j).getNombre())) {
+                                            validarNombres = true;
+                                            j = variables.size();
+                                        }
+                                    }
+                                    //
+                                    if (validarNombres) {
+                                        System.out.println("encontre variables iguales");
+                                    }
+                                    //
+                                    if (validarNombres) {
+                                        for (int k = 0; k < variables.size(); k++) {
+                                            if (variableNueva.getNombre().equals(variables.get(k).getNombre())) {
+                                                variables.get(k).setNombre(variableNueva.getNombre());
+                                                variables.get(k).setTexto(variableNueva.getTexto());
+                                                variables.get(k).setTipo(variableNueva.getTipo());
+                                                k = variables.size();
+                                            }
+                                        }
+                                    } else {
+                                        variables.add(variableNueva);
+                                    }
+                                }
+                                //tengo que reemplazar el texto original
+                                figura.setTextoFigura(entrada.getTextoFigura());
+                                repintar(cuadro);
+                            } else {
+                                click = false;
+                                Alert alert = new Alert(AlertType.INFORMATION);
+                                Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                                ImageView imageVie = new ImageView(images);
+                                alert.setGraphic(imageVie);
+                                alert.setTitle("Formato.");
+                                alert.setHeaderText("Ocurrio un error.");
+                                alert.setContentText("El formato ingresado es incorrecto.");
+                                alert.showAndWait();
+                            }
+                        }else {
+                            click = false;
+                            Alert alert = new Alert(AlertType.INFORMATION);
+                            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                            ImageView imageVie = new ImageView(images);
+                            alert.setGraphic(imageVie);
+                            alert.setTitle("Formato.");
+                            alert.setHeaderText("Ocurrio un error.");
+                            alert.setContentText("El formato ingresado es incorrecto.");
+                            alert.showAndWait();
+                        }  
+                    }
+                }
+                
+                if(figura instanceof Etapa){
+                    Etapa etapa = new Etapa();
+                    click = ingresarTexto(etapa, "Etapa");
+                    if(click){
+                        Pattern p = Pattern.compile("([A-Za-z0-9]{1,7}\\=)((\\(|\\))|(\\+|\\-|\\/|\\*)|([A-Za-z0-9])){3,40}");
+                        Matcher matcher = p.matcher(etapa.getTextoFigura());
+                        boolean cadenaValida = matcher.matches();
+                        if(cadenaValida){
+                            
+                        }else{
+                            click = false;
+                            Alert alert = new Alert(AlertType.INFORMATION);
+                            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                            ImageView imageVie = new ImageView(images);
+                            alert.setGraphic(imageVie);
+                            alert.setTitle("Formato.");
+                            alert.setHeaderText("Ocurrio un error.");
+                            alert.setContentText("El formato ingresado es incorrecto.");
+                            alert.showAndWait();
+                        }
+                    }
+                }
+                
+                if(figura instanceof Decision){
+                    
+                }
+                
+                if(figura instanceof Ciclo){
+                    
+                }
+                System.out.println("IMPRIMOS TODAS LAS VARIABLES EXISTENTES");
+                for (int i = 0; i < variables.size(); i++) {
+                    System.out.println("variable " + (i + 1) + " " + variables.get(i).getNombre() + ", " + variables.get(i).getTexto() + ", " + variables.get(i).getTipo());
+                }
             }
             lienzo.setOnMouseClicked(null);// se termina el evento setOnMouseClicked
-
         });
 
     }
