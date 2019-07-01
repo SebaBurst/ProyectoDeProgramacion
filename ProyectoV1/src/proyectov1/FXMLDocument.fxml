@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="root" prefHeight="664.0" prefWidth="1171.0" styleClass="fondo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectov1.FXMLDocumentController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="664.0" prefWidth="1171.0" styleClass="fondo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="proyectov1.FXMLDocumentController">
     <children>
       <ScrollPane layoutY="72.0" prefHeight="593.0" prefWidth="934.0" styleClass="canvas" stylesheets="@../Clases_Figura/Estilos/Estilos.css">
          <content>
@@ -45,7 +45,7 @@
       <Button fx:id="aceptarFondo" layoutX="60.0" layoutY="6.0" mnemonicParsing="false" onAction="#AceptarColorFondo" text="Fondo" />
       <Button fx:id="aceptarBorde" layoutX="60.0" layoutY="39.0" mnemonicParsing="false" onAction="#AceptarColorBorder" text="Borde" />
       <Button fx:id="toPNG" layoutX="987.0" layoutY="6.0" mnemonicParsing="false" onAction="#guardarPNG" prefHeight="60.0" prefWidth="60.0" styleClass="png" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
-      <Button fx:id="toPFD" layoutX="1056.0" layoutY="6.0" mnemonicParsing="false" onAction="#borrarFigura" prefHeight="60.0" prefWidth="60.0" styleClass="pdf" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button fx:id="pdf" layoutX="1056.0" layoutY="6.0" mnemonicParsing="false" onAction="#guardarPDF" prefHeight="60.0" prefWidth="60.0" styleClass="pdf" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="toJPG" layoutX="1124.0" layoutY="6.0" mnemonicParsing="false" onAction="#borrarFigura" prefHeight="60.0" prefWidth="60.0" styleClass="jp" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="editarTexto" layoutX="432.0" layoutY="6.0" mnemonicParsing="false" onAction="#editFigura" prefHeight="60.0" prefWidth="60.0" styleClass="texto" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
     </children>
