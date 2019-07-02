@@ -904,7 +904,7 @@ public class FXMLDocumentController implements Initializable {
      * @return
      */
     private boolean ingresarTexto(Figura crear, String texto) {
-        TextInputDialog dialog = new TextInputDialog();
+        TextInputDialog dialog = new TextInputDialog(crear.getTextoFigura());
         DialogPane dialogPane = dialog.getDialogPane();
         dialogPane.getStylesheets().add(
                 getClass().getResource("/Clases_Figura/Estilos/Alertas.css").toExternalForm());
@@ -3432,6 +3432,7 @@ public class FXMLDocumentController implements Initializable {
                 //Encontro figura....
                 if(figura instanceof Entrada){
                     Entrada entrada = new Entrada();
+                    entrada.setTextoFigura(figura.getTextoFigura());
                     click = ingresarTexto(entrada, "Entrada");
                     if(click){
                         Pattern p = Pattern.compile("([A-Za-z0-9]+\\=([0-9]+|[A-Za-z0-9]+)\\,?)+");
