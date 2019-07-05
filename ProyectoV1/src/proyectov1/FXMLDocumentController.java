@@ -3781,23 +3781,651 @@ public class FXMLDocumentController implements Initializable {
                 
                 if(figura instanceof Etapa){
                     Etapa etapa = new Etapa();
+                    etapa.setTextoFigura(figura.getTextoFigura());
                     click = ingresarTexto(etapa, "Etapa");
                     if(click){
-                        Pattern p = Pattern.compile("([A-Za-z0-9]{1,7}\\=)((\\(|\\))|(\\+|\\-|\\/|\\*)|([A-Za-z0-9])){3,40}");
+                        Pattern p = Pattern.compile("([A-Za-z0-9]+\\=((\\(+|\\)+|\\+|\\-|\\*|\\/|[A-ZA-z0-9]+|[0-9]+))+\\,?)+");
                         Matcher matcher = p.matcher(etapa.getTextoFigura());
                         boolean cadenaValida = matcher.matches();
                         if(cadenaValida){
-                            
-                        }else{
-                            click = false;
-                            Alert alert = new Alert(AlertType.INFORMATION);
-                            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-                            ImageView imageVie = new ImageView(images);
-                            alert.setGraphic(imageVie);
-                            alert.setTitle("Formato.");
-                            alert.setHeaderText("Ocurrio un error.");
-                            alert.setContentText("El formato ingresado es incorrecto.");
-                            alert.showAndWait();
+                            //aca se trabaja
+                            //ejemplo: se ingreso a=(a+b)/2,d=(5+9)*(98/2)
+                            int cantidadParentesisAbiertos = 0;
+                            int cantidadParentesisCerrados = 0;
+                            cadenaValida = matcher.matches();
+                            boolean cantidadParentesis = true;
+                            boolean cantidadOperaciones = true;
+                            boolean noRepetidos = true;
+                            //tokenizar a=(a+b)/2,d=(5+9)*(98/2)
+                            String[] tokens2 = etapa.getTextoFigura().replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
+                            //se imprimen todos los tokens
+                            //en este caso
+                            //[a][=][(a+b)/2][,][d][=][(5+9)*(98/2)]
+                            System.out.println("Se imprimen todos los tokens de la lista.");
+                            for (String token : tokens2) {
+                                System.out.println(token);
+                            }
+                            //se introducen en un arreglo para manejo mas facil
+                            ArrayList<String> tokensOriginal = new ArrayList<>();
+                            for(String token : tokens2){
+                                tokensOriginal.add(token);
+                            }
+                            //se imprime tokensOriginal que tiene "a","=","(a+b)/2",",","d","=","(5+9)*(98/2)" 
+                            System.out.println("imprimos el array de tokens antes de evaluar el lado derecho");
+                            for (int i = 0; i < tokensOriginal.size(); i++) {
+                                System.out.print("'"+tokensOriginal.get(i)+"', ");
+                            }
+                            System.out.println("");
+                            //ahora tomaremos todos los nombres de variables
+                            //y las guardamos en nombreVariables
+                            //nombreVariables = "a","d"
+                            ArrayList<String> nombreVariables = new ArrayList<>();
+                            for (int i = 0; i < tokensOriginal.size(); i++) {
+                                if(tokensOriginal.get(i).equals("=")){
+                                    nombreVariables.add(tokensOriginal.get(i-1));
+                                }
+                            }
+                            //imprimos todos los nombres
+                            System.out.println("imprimos todos los nombres de variables");
+                            for (int i = 0; i < nombreVariables.size(); i++) {
+                                System.out.println("'"+nombreVariables.get(i)+"', ");
+                            }
+                            System.out.println("");
+                            //vemos que los nombres ingresados no sean iguales entre si
+                            //cantidadVecesRepetido ve cuantas veces se repite un nombre de variable
+                            //si se repite mas de una vez entonces esta mal
+                            int cantidadVecesRepetido = 0;
+                            for (int i = 0; i < nombreVariables.size(); i++) {
+                                cantidadVecesRepetido = 0;
+                                for (int j = 0; j < nombreVariables.size(); j++) {
+                                    if(nombreVariables.get(i).equals(nombreVariables.get(j))){
+                                        cantidadVecesRepetido++;
+                                    }
+                                }
+                                if(cantidadVecesRepetido>1){
+                                    System.out.println("HAY NOMBRES REPETIDOS");
+                                    noRepetidos=false;
+                                    click = false;
+                                    i=nombreVariables.size();
+                                }
+                            }
+                            //ya se valido que no hayan nombres repetidos
+                            //validemos la cantidad de operaciones
+                            //osea la relacion entre la cantidad de , y la cantidad de etapas.
+                            int comasPresentes = 0;
+                            for (int i = 0; i < tokensOriginal.size(); i++) {
+                                if(tokensOriginal.get(i).equals(",")){
+                                    comasPresentes++;
+                                }
+                            }
+                            if(comasPresentes>nombreVariables.size()-1){
+                                System.out.println("LA CANTIDAD DE COMAS Y OPERACIONES NO CALZA");
+                                cantidadOperaciones=false;
+                                click = false;
+                            }
+                            //ya validamos que la cantidad de operaciones y comas este bien
+                            //ahora validamos la cantidad de parentesis abiertos y cerrados
+                            //debe ser la misma cantidad.
+                            //debemos tomar los lados derechos
+                            ArrayList<String> ladosDerechosCompletos = new ArrayList<>();
+                            for (int i = 0; i < tokensOriginal.size(); i++) {
+                                if(tokensOriginal.get(i).equals("=")){
+                                    ladosDerechosCompletos.add(tokensOriginal.get(i+1));
+                                }
+                            }
+                            //Ahora en ladosDerechosCompletos estan los lados derechos
+                            //nombreVaribles = "a","d"
+                            //ladosDerechosCompletos = "(a+b)/2","(5+9)*(98/2)"
+                            //debemos tokenizar los lados derechos
+                            ArrayList<ArrayList> arrayDeDerechos = new ArrayList<>();
+                            for (int i = 0; i < nombreVariables.size(); i++) {
+                                String[] tokensDerechos = ladosDerechosCompletos.get(i).replaceAll("\\s+", "").split("(?<=[-+/*()])|(?=[-+/*()])");
+                                ArrayList<String> ladoDerechoTokenizado = new ArrayList<>();
+                                for(String token : tokensDerechos){
+                                    ladoDerechoTokenizado.add(token);
+                                }
+                                arrayDeDerechos.add(ladoDerechoTokenizado);
+                            }
+                            //ahora tenemos un array llamado arrayDeDerechos, que dentro tiene arrays que cada uno tiene los lados derechos tokenizados
+                            //imprimamoslo
+                            System.out.println("IMPRIMIMOS TODOS LOS LADOS DERECHOS TOKENIZADOS");
+                            for (int i = 0; i < arrayDeDerechos.size(); i++) {
+                                for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
+                                    System.out.print("'"+arrayDeDerechos.get(i).get(j)+"', ");
+                                }
+                                System.out.println("");
+                            }
+                            //ahora podemos evaluar que la cantidad de parentesis abiertos sea igual a los cerrados
+                            for (int i = 0; i < arrayDeDerechos.size(); i++) {
+                                for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
+                                    if(arrayDeDerechos.get(i).get(j).equals("(")){
+                                        cantidadParentesisAbiertos++;
+                                    }
+                                }
+                            }
+                            for (int i = 0; i < arrayDeDerechos.size(); i++) {
+                                for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
+                                    if(arrayDeDerechos.get(i).get(j).equals(")")){
+                                        cantidadParentesisCerrados++;
+                                    }
+                                }
+                            }
+                            //nos aseguramos imprimiendo si la cantidad esta bien
+                            System.out.println("Cantidad de parentesis abiertos: "+cantidadParentesisAbiertos);
+                            System.out.println("Cantidad de parentesis cerrados: "+cantidadParentesisCerrados);
+                            if(cantidadParentesisAbiertos!=cantidadParentesisCerrados){
+                                cantidadParentesis=false;
+                                click = false;
+                            }
+                            if(click==false){
+                                Alert alert = new Alert(AlertType.INFORMATION);
+                                Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                                ImageView imageVie = new ImageView(images);
+                                alert.setGraphic(imageVie);
+                                alert.setTitle("Error.");
+                                alert.setHeaderText("Ocurrio un error.");
+                                alert.setContentText("Alguna de las etapas ingresadas tenia un formato incorrecto.");
+                                alert.showAndWait();
+                                click = false;
+                            }
+                            //se valido la cantidad de parentesis
+                            if(cadenaValida && noRepetidos && cantidadOperaciones && cantidadParentesis){
+                                System.out.print("etapa.getTextofigura: ");
+                                System.out.println(etapa.getTextoFigura());
+                                //Aca deberia estar todo el texto ingresado validado
+                                //ahora se deben validar todos los lados derechos
+                                boolean validaLadoDerecho = true;
+                                //porte del arreglo con arreglos adentro
+                                //osea la cantidad de etapas ingresadas
+                                for (int i = 0; i < arrayDeDerechos.size(); i++) {
+                                    System.out.println("arrayDeDerechos.get(i)");
+                                    System.out.println(arrayDeDerechos.get(i));
+                                    //porte del arreglo dentro del arreglo
+                                    //osea el texto de cada una de las etapas ingresadas
+                                    if(validaLadoDerecho){
+                                        String texto = "";
+                                        texto = String.join("", arrayDeDerechos.get(i));
+                                        System.out.println("texto unido: "+texto);                        
+                                        //ver que no empieze el lado derecho deturno con un )
+                                        //variable=)
+                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        if (validaLadoDerecho) {
+                                            System.out.println("Llegue a validacion 1");
+                                            if (arrayDeDerechos.get(i).get(0).equals(")")) {
+                                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                validaLadoDerecho = false;
+                                            }
+                                        }
+                                        //vemos que el lado derecho no sean puras letras o numeros
+                                        //a=2452
+                                        //a=popeye
+                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        if (validaLadoDerecho) {
+                                            System.out.println("Llegue a validacion 2");
+                                            if (texto.replaceAll("[A-Za-z0-9]", "").equals("")) {
+                                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                validaLadoDerecho = false;
+                                            }
+                                        }
+                                        //ver que no haya una letra o numero antes de un (
+                                        //variable=a+b(
+                                        //variale=a+8(
+                                        //que hayan simbolos antes es valido
+                                        //variable=a+b+(2*9)
+                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        if (validaLadoDerecho) {
+                                            System.out.println("Llegue a validacion 3");
+                                            if (arrayDeDerechos.get(i).get(0).equals("(")) {
+                                                for (int j = 1; j < arrayDeDerechos.get(i).size(); j++) {
+                                                    if (arrayDeDerechos.get(i).get(j).equals("(")) {
+                                                        if (arrayDeDerechos.get(i).get((j) - 1).toString().matches("[A-Za-z0-9]")) {
+                                                            System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                            validaLadoDerecho = false;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //ver que no haya un simbolo justo antes de )
+                                        //variable=a+b+)
+                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        if (validaLadoDerecho) {
+                                            System.out.println("Llegue a validacion 4");
+                                            for (int j = 1; j < arrayDeDerechos.get(i).size(); j++) {
+                                                if (arrayDeDerechos.get(i).get(j).equals(")")) {
+                                                    if (arrayDeDerechos.get(i).get((j) - 1).toString().matches("[\\+\\-\\*\\/]")) {
+                                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                        validaLadoDerecho = false;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //valida que no haya ()
+                                        //variable=()
+                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        if (validaLadoDerecho) {
+                                            System.out.println("Llegue a validacion 5");
+                                            for (int j = 1; j < arrayDeDerechos.get(i).size(); j++) {
+                                                if (arrayDeDerechos.get(i).get(j).equals(")")) {
+                                                    if (arrayDeDerechos.get(i).get(j - 1).toString().matches("[\\(]")) {
+                                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                        validaLadoDerecho = false;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //valida que no empieze con un simbolo
+                                        //variable=+
+                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        if (validaLadoDerecho) {
+                                            System.out.println("Llegue a validacion 6");
+                                            if (arrayDeDerechos.get(i).get(0).toString().matches("[\\+\\-\\*\\/]")) {
+                                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                validaLadoDerecho = false;
+                                            }
+                                        }
+                                        //valida que no haya simbolo justo despues de (
+                                        //variable=(+
+                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        if (validaLadoDerecho) {
+                                            System.out.println("Llegue a validacion 7");
+                                            for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
+                                                if (arrayDeDerechos.get(i).get(j).equals("(")) {
+                                                    if ((j + 1) < arrayDeDerechos.get(i).size() && arrayDeDerechos.get(i).get(j + 1).toString().matches("[\\+\\-\\*\\/]")) {
+                                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                        validaLadoDerecho = false;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //valida que no haya )(
+                                        //variable=)(
+                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        if (validaLadoDerecho) {
+                                            System.out.println("Llegue a validacion 8");
+                                            for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
+                                                if (arrayDeDerechos.get(i).get(j).equals(")")) {
+                                                    if ((j + 1) < arrayDeDerechos.get(i).size() && arrayDeDerechos.get(i).get(j + 1).toString().matches("[\\(]")) {
+                                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                        validaLadoDerecho = false;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //si el lado derecho empieza con un ( avanzo a la siguiente posicion
+                                        //si no, veo si la posicion actual es ( luego
+                                        //pregunto si la anterior era una letra, numero(0-9) o simbolo, si lo era es un error.
+                                        //si no, transformor el token anterior a numero y pregunto si es mayor a 9
+                                        //si lo es tiro error.
+                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        if (validaLadoDerecho) {
+                                            System.out.println("Llegue a validacion 9");
+                                            for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
+                                                if (arrayDeDerechos.get(i).get(0).equals("(")) {
+                                                    j++;
+                                                } else if (arrayDeDerechos.get(i).get(j).equals("(")) {
+                                                    if (arrayDeDerechos.get(i).get(j - 1).toString().matches("[A-Za-z0-9\\+\\-\\*\\/]")) {
+                                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                        validaLadoDerecho = false;
+                                                    } else if (Integer.parseInt(arrayDeDerechos.get(i).get(j - 1).toString()) > 9) {
+                                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                        validaLadoDerecho = false;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //valida que no hayan 2 simbolos seguidos
+                                        //variable=a+-b
+                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        if (validaLadoDerecho) {
+                                            System.out.println("Llegue a validacion 10");
+                                            for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
+                                                if (arrayDeDerechos.get(i).get(j).toString().matches("[\\+\\-\\*\\/]")) {
+                                                    if ((j + 1) < arrayDeDerechos.get(i).size() && arrayDeDerechos.get(i).get(j + 1).toString().matches("[\\+\\-\\*\\/]")) {
+                                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                        validaLadoDerecho = false;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //valida que la posicion final no sea (
+                                        //variable=a+b(
+                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        if (validaLadoDerecho) {
+                                            System.out.println("Llegue a validacion 11");
+                                            if (arrayDeDerechos.get(i).get(arrayDeDerechos.get(i).size() - 1).equals("(")) {
+                                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                validaLadoDerecho = false;
+                                            }
+                                        }
+                                        //valida que la posicion final no sea un simbolo
+                                        //variable=a+b+
+                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        if (validaLadoDerecho) {
+                                            System.out.println("Llegue a validacion 12");
+                                            if (arrayDeDerechos.get(i).get(arrayDeDerechos.get(i).size() - 1).toString().matches("[\\+\\-\\*\\/]")) {
+                                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                validaLadoDerecho = false;
+                                            }
+                                        }
+                                        //aca termine de validar el lado derecho en esta iteracion
+                                    }
+                                }
+                                ArrayList<Integer> posicionesVariablesEnArrayTokens = new ArrayList<>();
+                                if(validaLadoDerecho){
+                                    System.out.println("TODAS LAS VALIDACIONES FUERON CORRECTAS");
+                                    //aca creo una copia de las variables
+                                    //para modificar ese
+                                    //en caso de salir todo bien, limpio las variables y le pego el copiado
+                                    //en caso de salir algo mal, limpio la copia y no hago nada.
+                                    ArrayList<Variable> variablesCopia = new ArrayList<>();
+                                    for (int i = 0; i < variables.size(); i++) {
+                                        variablesCopia.add(variables.get(i));
+                                    }
+                                    //aca ya esta listo, debemos comenzar a crear las variables
+                                    //pero tenemos que ver el tipo, si son solo numeros, strings o ambos(error).
+                                    //operaciones fallidas nos dice si debemos modificar el array de variables o no
+                                    int operacionesFallidas = 0;
+                                    //creamos arreglos para ayudarnos
+                                    //en variablesTokensValidar guardamos todas las letras o "variables"
+                                    ArrayList<String> variablesTokensValidar = new ArrayList<>();
+                                    //en posicionesVariablesEnArrayTokensValidar guardamos las posiciones
+                                    // que toman aquellas letras o "variables" en el original
+                                    ArrayList<Integer> posicionesVariablesEnArrayTokensValidar = new ArrayList<>();
+                                    ArrayList<String> variablesEnTokens = new ArrayList<>();
+                                    ArrayList<String> valoresVariables = new ArrayList<>();
+                                    ArrayList<String> tokensVariables = new ArrayList<>();
+                                    ArrayList<String> palabrasTokensVariables = new ArrayList<>();
+                                    for(int i = 0; i<arrayDeDerechos.size(); i++){
+                                        //Limpiamos los arreglos al principio de la iteracion
+                                        //donde se cambia de etapa, para no tomar valores erroneos
+                                        variablesEnTokens.clear();
+                                        posicionesVariablesEnArrayTokens.clear();
+                                        variablesTokensValidar.clear();
+                                        posicionesVariablesEnArrayTokensValidar.clear();
+                                        valoresVariables.clear();
+                                        tokensVariables.clear();
+                                        palabrasTokensVariables.clear();
+                                        //IMPRIMOS LOS TOKENS DEL LADO IZQUIERDO PARA ASEGURARSE
+                                        System.out.println("VEZ "+(i+1));
+                                        System.out.println("Tokens derechos: ");
+                                        for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
+                                            System.out.println(arrayDeDerechos.get(i).get(j));
+                                        }
+                                        //imprimos los tokens unidos
+                                        String unido = String.join("", arrayDeDerechos.get(i));
+                                        System.out.println("El texto unido: "+unido);
+                                        int tipo = 0;
+                                        //ACA PASA ALGO
+                                        //tipo 1 solo numeros
+                                        //tipo 2 solo strings
+                                        //cualquier otra cosa es error.
+                                        //Vemos cuales de todos los tokens son letras o "variables"
+                                        for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
+                                            if (!(arrayDeDerechos.get(i).get(j).toString().replaceAll("[0-9\\+\\-\\*\\/\\(\\)]", "").equals(""))) {
+                                                variablesTokensValidar.add(arrayDeDerechos.get(i).get(j).toString());
+                                                posicionesVariablesEnArrayTokensValidar.add(j);
+                                            }
+                                        }
+                                        //cantidadDeVariablesAValidar me dice cuantas variables encontre en los tokens
+                                        //en la etapa que esta de turno
+                                        int cantidadDeVariablesAValidar = variablesTokensValidar.size();
+                                        //variable que se usa para ver cuantas variables de tipo string se encontraron
+                                        int cantidadDeVariablesStringEncontradas = 0;
+                                        //este ciclo se ejecuta si se encontraron letras o "variables" en la etapa
+                                        if (!variablesTokensValidar.isEmpty()) {
+                                            for (int j = 0; j < variablesTokensValidar.size(); j++) {
+                                                for (int k = 0; k < variablesCopia.size(); k++) {
+                                                    if (variablesTokensValidar.get(j).equals(variablesCopia.get(k).getNombre())) {
+                                                        System.out.println(variablesCopia.get(k).getTipo());
+                                                        if (variablesCopia.get(k).getTipo().equals("texto")) {
+                                                            cantidadDeVariablesStringEncontradas++;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        //
+                                        variablesTokensValidar.clear();
+                                        posicionesVariablesEnArrayTokensValidar.clear();
+                                        System.out.println("cantidad de variables tipo string encontradas");
+                                        System.out.println(cantidadDeVariablesStringEncontradas);
+                                        System.out.println("cantidad de variables a validar");
+                                        System.out.println(cantidadDeVariablesAValidar);
+                                        if (cantidadDeVariablesStringEncontradas > 0 && cantidadDeVariablesStringEncontradas == cantidadDeVariablesAValidar) {
+                                            tipo = 1;
+                                        }else if(cantidadDeVariablesStringEncontradas ==0){
+                                            tipo = 0;
+                                        }else{
+                                            tipo = 3;
+                                        }
+                                        //ACA TERMINA ESE ALGO
+                                        System.out.println("TIPO = "+tipo);
+                                        if(tipo == 0){
+                                            //solo numeros
+                                            System.out.println("hora de imprimir todos los tokens en el arreglo para asi reemplazar");
+                                            for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
+                                                System.out.println("token original: " + arrayDeDerechos.get(i).get(j).toString());
+                                                System.out.println("token sin num o simbolos: " + arrayDeDerechos.get(i).get(j).toString().replaceAll("[0-9\\+\\-\\*\\/\\(\\)]", ""));
+                                                if (!(arrayDeDerechos.get(i).get(j).toString().replaceAll("[0-9\\+\\-\\*\\/\\(\\)]", "").equals(""))) {
+                                                    variablesEnTokens.add(arrayDeDerechos.get(i).get(j).toString());
+                                                    posicionesVariablesEnArrayTokens.add(j);
+                                                }
+                                            }
+                                            boolean existe = false;
+                                            if (!variablesEnTokens.isEmpty()) {
+                                                System.out.println("variablesEnTokens no esta vacio");
+                                                for (int j = 0; j < variablesEnTokens.size(); j++) {
+                                                    for (int k = 0; k < variablesCopia.size(); k++) {
+                                                        //System.out.println(variablesEnTokens.get(i));
+                                                        //System.out.println("coma");
+                                                        //System.out.println(variables.get(j).getNombre());
+                                                        if (variablesEnTokens.get(j).equals(variablesCopia.get(k).getNombre())) {
+                                                            valoresVariables.add(variablesCopia.get(k).getTexto());
+                                                            existe = true;
+                                                        }
+                                                    }
+                                                    if (existe == false) {
+                                                        valoresVariables.add("0");
+                                                    } else {
+                                                        existe = false;
+                                                    }
+                                                }
+                                                for (int j = 0; j < posicionesVariablesEnArrayTokens.size(); j++) {
+                                                    arrayDeDerechos.get(i).set(posicionesVariablesEnArrayTokens.get(j), valoresVariables.get(j));
+                                                }
+                                            }
+                                            variablesEnTokens.clear();
+                                            posicionesVariablesEnArrayTokens.clear();
+                                            valoresVariables.clear();
+                                            int posVariableIgual = 0;
+                                            System.out.println("el lado derecho esta validado");
+                                            boolean iguales = false;
+                                            for (int j = 0; j < variablesCopia.size(); j++) {
+                                                if (variablesCopia.get(j).getNombre().equals(nombreVariables.get(i))) {
+                                                    iguales = true;
+                                                    posVariableIgual = j;
+                                                }
+                                            }
+                                            if (iguales) {
+                                                try {
+                                                    System.out.println("ya hay variable con ese nombre");
+                                                    //cuando la variable ya esta en el arreglo
+                                                    ScriptEngineManager mgr = new ScriptEngineManager();
+                                                    ScriptEngine engine = mgr.getEngineByName("JavaScript");
+                                                    //vamos a unir el string
+                                                    unido = String.join("", arrayDeDerechos.get(i));
+                                                    String ecuacion = unido;
+                                                    
+                                                    if (Double.isNaN(Double.parseDouble(engine.eval(ecuacion).toString()))) {
+                                                        variablesCopia.get(posVariableIgual).setTexto("No es un numero.");
+                                                        variablesCopia.get(posVariableIgual).setTipo("texto");
+                                                    } else if (Double.isInfinite(Double.parseDouble(engine.eval(ecuacion).toString()))) {
+                                                        variablesCopia.get(posVariableIgual).setTexto("Infinito.");
+                                                        variablesCopia.get(posVariableIgual).setTipo("texto");
+                                                    } else {
+                                                        variablesCopia.get(posVariableIgual).setTexto(engine.eval(ecuacion).toString());
+                                                        variablesCopia.get(posVariableIgual).setTipo("numero");
+                                                    }
+                                                    System.out.println(engine.eval(ecuacion));
+                                                    variablesCopia.get(posVariableIgual).setTexto(engine.eval(ecuacion).toString());
+                                                } catch (ScriptException ex) {
+                                                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                                                }
+                                            }else {
+                                                try {
+                                                    //cuando la variable no esta en el arreglo
+                                                    System.out.println("no hay variable con ese nombre");
+                                                    Variable variableNueva = new Variable();
+                                                    variableNueva.setNombre(nombreVariables.get(i));
+                                                    ScriptEngineManager mgr = new ScriptEngineManager();
+                                                    ScriptEngine engine = mgr.getEngineByName("JavaScript");
+                                                    //vamos a unir el string
+                                                    unido = String.join("", arrayDeDerechos.get(i));
+                                                    String ecuacion = unido;
+                                                    
+                                                    System.out.println("voy a validar si la ecuacion no da numero como resultado");
+                                                    if (Double.isNaN(Double.parseDouble(engine.eval(ecuacion).toString()))) {
+                                                        variableNueva.setTexto("No es un numero.");
+                                                        variableNueva.setTipo("texto");
+                                                        variablesCopia.add(variableNueva);
+                                                    } else {
+                                                        System.out.println("voy a validar que esto no sea infinito");
+                                                    }
+                                                    if (Double.isInfinite(Double.parseDouble(engine.eval(ecuacion).toString()))) {
+                                                        variableNueva.setTexto("Infinito.");
+                                                        variableNueva.setTipo("texto");
+                                                        variablesCopia.add(variableNueva);
+                                                    } else {
+                                                        System.out.println("voy a validar que esto este normal");
+                                                    }
+                                                    {
+                                                        variableNueva.setTexto(engine.eval(ecuacion).toString());
+                                                        variableNueva.setTipo("numero");
+                                                        variablesCopia.add(variableNueva);
+                                                    }
+                                                    System.out.println(engine.eval(ecuacion));
+                                                } catch (ScriptException ex) {
+                                                    Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                                                }
+                                            }
+                                        }else
+                                        if(tipo == 1){
+                                            //solo strings
+                                            int cantidadDeSumas = 0;
+                                            int candidadPalabras = 0;
+                                            for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
+                                                if (arrayDeDerechos.get(i).get(j).equals("+")) {
+                                                    cantidadDeSumas++;
+                                                }
+                                            }
+                                            for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
+                                                if (!arrayDeDerechos.get(i).get(j).toString().replaceAll("[\\+]", "").equals("")) {
+                                                    candidadPalabras++;
+                                                }
+                                            }
+                                            if (!unido.replaceAll("[A-Za-z0-9\\+]", "").equals("")) {
+                                                Alert alert = new Alert(AlertType.INFORMATION);
+                                                Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                                                ImageView imageVie = new ImageView(images);
+                                                alert.setGraphic(imageVie);
+                                                alert.setTitle("Error.");
+                                                alert.setHeaderText("Ocurrio un error.");
+                                                alert.setContentText("No se puede concatenar strings si hay algun otro simbolo ademas de +.");
+                                                alert.showAndWait();
+                                                click = false;
+                                            } else if (candidadPalabras != (cantidadDeSumas + 1)) {
+                                                Alert alert = new Alert(AlertType.INFORMATION);
+                                                Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                                                ImageView imageVie = new ImageView(images);
+                                                alert.setGraphic(imageVie);
+                                                alert.setTitle("Error.");
+                                                alert.setHeaderText("Ocurrio un error.");
+                                                alert.setContentText("Error en el formato.");
+                                                alert.showAndWait();
+                                                click = false;
+                                            } else {
+                                                //hora de reemplazar y concatenar
+                                                for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
+                                                    if (arrayDeDerechos.get(i).get(j).toString().matches("[A-Za-z0-9]+")) {
+                                                        tokensVariables.add(arrayDeDerechos.get(i).get(j).toString());
+                                                    }
+                                                }
+                                                for (int j = 0; j < tokensVariables.size(); j++) {
+                                                    for (int k = 0; k < variablesCopia.size(); k++) {
+                                                        if (tokensVariables.get(j).equals(variablesCopia.get(k).getNombre())) {
+                                                            palabrasTokensVariables.add(variablesCopia.get(k).getTexto());
+                                                        }
+                                                    }
+                                                }
+                                                Variable variableNueva = new Variable();
+                                                variableNueva.setNombre(nombreVariables.get(i));
+                                                variableNueva.setTexto(String.join("", palabrasTokensVariables));
+                                                variableNueva.setTipo("texto");
+                                                variablesCopia.add(variableNueva);
+                                                System.out.println(String.join("", palabrasTokensVariables));
+                                            }
+                                        }else{
+                                            //alguna otra cosa(error)
+                                            operacionesFallidas++;
+                                            i=arrayDeDerechos.size();
+                                        }
+                                    }
+                                    if(operacionesFallidas>0){
+                                        Alert alert = new Alert(AlertType.INFORMATION);
+                                        Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                                        ImageView imageVie = new ImageView(images);
+                                        alert.setGraphic(imageVie);
+                                        alert.setTitle("Error.");
+                                        alert.setHeaderText("Ocurrio un error.");
+                                        alert.setContentText("Alguna de las etapas ingresadas estaba incorrecta ya que no se estaba trabajando solo con numeros o solo con strings.");
+                                        alert.showAndWait();
+                                        click = false;
+                                        variablesCopia.clear();
+                                    }else{
+                                        variables.clear();
+                                        for (int i = 0; i < variablesCopia.size(); i++) {
+                                            variables.add(variablesCopia.get(i));
+                                        }
+                                        variablesCopia.clear();
+                                    }
+                                    String expression = figura.getTextoFigura();
+                                    String[] tokensX = expression.replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
+                                    ArrayList<String> arrayTokens = new ArrayList<>();
+                                    for (String token : tokensX) {
+                                        arrayTokens.add(token);
+                                    }
+                                    ArrayList<String> nombresVariables = new ArrayList<>();
+                                    //intentemos tomar todos los nombres de variables
+                                    for (int i = 0; i < arrayTokens.size(); i++) {
+                                        if (arrayTokens.get(i).matches("=")) {
+                                            nombresVariables.add(arrayTokens.get(i - 1));
+                                        }
+                                    }
+                                    //ciclo para borrar todas las variables que se crearon en la etapa
+                                    for (int i = 0; i < nombresVariables.size(); i++) {
+                                        for (int j = 0; j < variables.size(); j++) {
+                                            if(nombresVariables.get(i).equals(variables.get(j).getNombre())){
+                                                variables.remove(j);
+                                                j=variables.size();
+                                            }
+                                        }
+                                    }
+                                    figura.setTextoFigura(etapa.getTextoFigura());
+                                    repintar(cuadro);
+                                    //aca deberia terminar la ejecucion de una etapa.
+                                }else{
+                                    Alert alert = new Alert(AlertType.INFORMATION);
+                                    Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                                    ImageView imageVie = new ImageView(images);
+                                    alert.setGraphic(imageVie);
+                                    alert.setTitle("Error.");
+                                    alert.setHeaderText("Ocurrio un error.");
+                                    alert.setContentText("Alguna de las etapas ingresadas tenia un formato incorrecto.");
+                                    alert.showAndWait();
+                                    click = false;
+                                }
+                            }
                         }
                     }
                 }
