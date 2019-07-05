@@ -1720,7 +1720,7 @@ public class FXMLDocumentController implements Initializable {
         click = ingresarTexto(decision, "Decision");
         if (click) {
             boolean valida = true;
-            Pattern p = Pattern.compile("[A-Za-z0-9]{1,10}([|>\\|<\\=]|[\\>|\\<|\\=|\\!]{2})[A-Za-z0-9]{1,10}");
+            Pattern p = Pattern.compile("([A-Za-z0-9]{1,30}([\\<|\\>]|[\\>|\\<|\\=|\\!]{2})([A-Za-z0-9]|([\\\"true\\\"]+|[\\\"true\\\"])){1,30}([\\<|\\>|\\!|\\=|\\&|\\|]{2})?)+");
             Matcher matcher = p.matcher(decision.getTextoFigura());
             boolean cadenaValida = matcher.matches();
             if (cadenaValida) {
@@ -1866,7 +1866,7 @@ public class FXMLDocumentController implements Initializable {
         click = ingresarTexto(ciclo, "ciclo");
         if (click) {
             boolean valida = true;
-            Pattern p = Pattern.compile("[A-Za-z0-9]{1,10}([|>\\|<\\=]|[\\>|\\<|\\=|\\!]{2})[A-Za-z0-9]{1,10}");
+            Pattern p = Pattern.compile("([A-Za-z0-9]{1,30}([\\<|\\>]|[\\>|\\<|\\=|\\!]{2})([A-Za-z0-9]|([\\\"true\\\"]+|[\\\"true\\\"])){1,30}([\\<|\\>|\\!|\\=|\\&|\\|]{2})?)+");
             Matcher matcher = p.matcher(ciclo.getTextoFigura());
             boolean cadenaValida = matcher.matches();
             if (cadenaValida) {
