@@ -2413,7 +2413,54 @@ public class FXMLDocumentController implements Initializable {
                     }
 
                 }
-
+                if(eliminar instanceof Entrada){
+                    String expression = eliminar.getTextoFigura();
+                    String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
+                    ArrayList<String> arrayTokens = new ArrayList<>();
+                    for (String token : tokens) {
+                        arrayTokens.add(token);
+                    }
+                    ArrayList<String> nombresVariables = new ArrayList<>();
+                    //intentemos tomar todos los nombres de variables
+                    for (int i = 0; i < arrayTokens.size(); i++) {
+                        if (arrayTokens.get(i).matches("=")) {
+                            nombresVariables.add(arrayTokens.get(i - 1));
+                        }
+                    }
+                    //ciclo para borrar todas las variables que se crearon en la entrada
+                    for (int i = 0; i < nombresVariables.size(); i++) {
+                        for (int j = 0; j < variables.size(); j++) {
+                            if(nombresVariables.get(i).equals(variables.get(j).getNombre())){
+                                variables.remove(j);
+                                j=variables.size();
+                            }
+                        }
+                    }
+                }
+                if(eliminar instanceof Etapa){
+                    String expression = eliminar.getTextoFigura();
+                    String[] tokensX = expression.replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
+                    ArrayList<String> arrayTokens = new ArrayList<>();
+                    for (String token : tokensX) {
+                        arrayTokens.add(token);
+                    }
+                    ArrayList<String> nombresVariables = new ArrayList<>();
+                    //intentemos tomar todos los nombres de variables
+                    for (int i = 0; i < arrayTokens.size(); i++) {
+                        if (arrayTokens.get(i).matches("=")) {
+                            nombresVariables.add(arrayTokens.get(i - 1));
+                        }
+                    }
+                    //ciclo para borrar todas las variables que se crearon en la etapa
+                    for (int i = 0; i < nombresVariables.size(); i++) {
+                        for (int j = 0; j < variables.size(); j++) {
+                            if(nombresVariables.get(i).equals(variables.get(j).getNombre())){
+                                variables.remove(j);
+                                j=variables.size();
+                            }
+                        }
+                    }
+                }
                 reConectarFlujo(eliminar);// Se llama al metodo reconectarFlujo
                 formas.remove(eliminar);// se elimina la figura detectada
                 for (int i = 0; i < formas.size(); i++) {
