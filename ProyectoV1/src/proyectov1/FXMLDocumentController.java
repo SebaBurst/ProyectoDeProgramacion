@@ -4478,11 +4478,42 @@ public class FXMLDocumentController implements Initializable {
                 }
                 
                 if(figura instanceof Decision){
-                    
+                    Decision decision = new Decision();
+                    decision.setTextoFigura(figura.getTextoFigura());
+                    click = ingresarTexto(decision, "Decision");
+                    if(click){
+                        Pattern p = Pattern.compile("([A-Za-z0-9]{1,30}([\\<|\\>]|[\\>|\\<|\\=|\\!]{2})([A-Za-z0-9]|([\\\"true\\\"]+|[\\\"true\\\"])){1,30}([\\<|\\>|\\!|\\=|\\&|\\|]{2})?)+");
+                        Matcher matcher = p.matcher(decision.getTextoFigura());
+                        boolean cadenavalida = matcher.matches();
+                        if(cadenavalida){
+                            figura.setTextoFigura(decision.getTextoFigura());
+                            repintar(cuadro);
+                        }
+                    }
                 }
                 
                 if(figura instanceof Ciclo){
-                    
+                    Ciclo ciclo = new Ciclo();
+                    ciclo.setTextoFigura(figura.getTextoFigura());
+                    click = ingresarTexto(ciclo, "Ciclo");
+                    if(click){
+                        Pattern p = Pattern.compile("([A-Za-z0-9]{1,30}([\\<|\\>]|[\\>|\\<|\\=|\\!]{2})([A-Za-z0-9]|([\\\"true\\\"]+|[\\\"true\\\"])){1,30}([\\<|\\>|\\!|\\=|\\&|\\|]{2})?)+");
+                        Matcher matcher = p.matcher(ciclo.getTextoFigura());
+                        boolean cadenavalida = matcher.matches();
+                        if(cadenavalida){
+                            figura.setTextoFigura(ciclo.getTextoFigura());
+                            repintar(cuadro);
+                        }
+                    }
+                }
+                if(figura instanceof Documento){
+                    Documento documento = new Documento();
+                    documento.setTextoFigura(figura.getTextoFigura());
+                    click = ingresarTexto(documento, "Documento");
+                    if(click){
+                        figura.setTextoFigura(documento.getTextoFigura());
+                        repintar(cuadro);
+                    }
                 }
                 System.out.println("IMPRIMOS TODAS LAS VARIABLES EXISTENTES");
                 for (int i = 0; i < variables.size(); i++) {
