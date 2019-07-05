@@ -1009,6 +1009,7 @@ public class FXMLDocumentController implements Initializable {
                 if(cantidadVecesRepetido>1){
                     System.out.println("HAY NOMBRES REPETIDOS");
                     noRepetidos=false;
+                    click = false;
                     i=nombreVariables.size();
                 }
             }
@@ -1024,6 +1025,7 @@ public class FXMLDocumentController implements Initializable {
             if(comasPresentes>nombreVariables.size()-1){
                 System.out.println("LA CANTIDAD DE COMAS Y OPERACIONES NO CALZA");
                 cantidadOperaciones=false;
+                click = false;
             }
             //ya validamos que la cantidad de operaciones y comas este bien
             //ahora validamos la cantidad de parentesis abiertos y cerrados
@@ -1077,6 +1079,18 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("Cantidad de parentesis cerrados: "+cantidadParentesisCerrados);
             if(cantidadParentesisAbiertos!=cantidadParentesisCerrados){
                 cantidadParentesis=false;
+                click = false;
+            }
+            if(click==false){
+                Alert alert = new Alert(AlertType.INFORMATION);
+                Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                ImageView imageVie = new ImageView(images);
+                alert.setGraphic(imageVie);
+                alert.setTitle("Error.");
+                alert.setHeaderText("Ocurrio un error.");
+                alert.setContentText("Alguna de las etapas ingresadas tenia un formato incorrecto.");
+                alert.showAndWait();
+                click = false;
             }
             //se valido la cantidad de parentesis
             if(cadenaValida && noRepetidos && cantidadOperaciones && cantidadParentesis){
