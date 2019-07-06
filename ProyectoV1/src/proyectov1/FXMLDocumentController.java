@@ -3676,6 +3676,7 @@ public class FXMLDocumentController implements Initializable {
             if (figura != null) {
                 //Encontro figura....
                 if(figura instanceof Entrada){
+                    String textoQueYaTenia = figura.getTextoFigura();
                     Entrada entrada = new Entrada();
                     entrada.setTextoFigura(figura.getTextoFigura());
                     click = ingresarTexto(entrada, "Entrada");
@@ -3686,37 +3687,16 @@ public class FXMLDocumentController implements Initializable {
                         if(cadenavalida){
                             //ahora que valide el texto que se ingreso, borrare las entradas
                             //que estaban en la entrada original.
-                            String expression = figura.getTextoFigura();
-                            String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
-                            ArrayList<String> arrayTokens = new ArrayList<>();
-                            for (String token : tokens) {
-                                arrayTokens.add(token);
-                            }
-                            ArrayList<String> nombresVariables = new ArrayList<>();
-                            //intentemos tomar todos los nombres de variables
-                            for (int i = 0; i < arrayTokens.size(); i++) {
-                                if (arrayTokens.get(i).matches("=")) {
-                                    nombresVariables.add(arrayTokens.get(i - 1));
-                                }
-                            }
-                            //ciclo para borrar todas las variables que se crearon en la entrada
-                            for (int i = 0; i < nombresVariables.size(); i++) {
-                                for (int j = 0; j < variables.size(); j++) {
-                                    if(nombresVariables.get(i).equals(variables.get(j).getNombre())){
-                                        variables.remove(j);
-                                        j=variables.size();
-                                    }
-                                }
-                            }
+                            
                             //ya borramos las variables que se crearon
                             //debo crear nuevas variables en base a las variables que se introdujieron
                             //ya tengo la entrada con el texto dentro, tomar con entrada.getTextoFigura()
                             String[] tokens2 = entrada.getTextoFigura().replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
-                            arrayTokens.clear();
+                            ArrayList<String> arrayTokens = new ArrayList<>();
                             for (String token : tokens2) {
                                 arrayTokens.add(token);
                             }
-                            nombresVariables.clear();
+                            ArrayList<String> nombresVariables=new ArrayList<>();
                             for (int i = 0; i < arrayTokens.size(); i++) {
                                 if (arrayTokens.get(i).matches("=")) {
                                     nombresVariables.add(arrayTokens.get(i - 1));
@@ -3765,6 +3745,28 @@ public class FXMLDocumentController implements Initializable {
                             }
                             //aca deberia estar todo bien y listo
                             if (cadenavalida) {
+                                String expressionX = textoQueYaTenia;
+                                String[] tokensX = expressionX.replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
+                                ArrayList<String> arrayTokensX = new ArrayList<>();
+                                for (String token : tokensX) {
+                                    arrayTokensX.add(token);
+                                }
+                                ArrayList<String> nombresVariablesX = new ArrayList<>();
+                                //intentemos tomar todos los nombres de variables
+                                for (int i = 0; i < arrayTokensX.size(); i++) {
+                                    if (arrayTokensX.get(i).matches("=")) {
+                                        nombresVariablesX.add(arrayTokensX.get(i - 1));
+                                    }
+                                }
+                                //ciclo para borrar todas las variables que se crearon en la entrada
+                                for (int i = 0; i < nombresVariablesX.size(); i++) {
+                                    for (int j = 0; j < variables.size(); j++) {
+                                        if(nombresVariablesX.get(i).equals(variables.get(j).getNombre())){
+                                            variables.remove(j);
+                                            j=variables.size();
+                                        }
+                                    }
+                                }
                                 boolean validarNombres;
                                 for (int i = 0; i < nombresVariables.size(); i++) {
                                     validarNombres = false;
@@ -3814,22 +3816,13 @@ public class FXMLDocumentController implements Initializable {
                                 alert.setContentText("El formato ingresado es incorrecto.");
                                 alert.showAndWait();
                             }
-                        }else {
-                            click = false;
-                            Alert alert = new Alert(AlertType.INFORMATION);
-                            Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-                            ImageView imageVie = new ImageView(images);
-                            alert.setGraphic(imageVie);
-                            alert.setTitle("Formato.");
-                            alert.setHeaderText("Ocurrio un error.");
-                            alert.setContentText("El formato ingresado es incorrecto.");
-                            alert.showAndWait();
-                        }  
+                        } 
                     }
                 }
                 
                 if(figura instanceof Etapa){
                     Etapa etapa = new Etapa();
+                    String textoQueYaTenia = figura.getTextoFigura();
                     etapa.setTextoFigura(figura.getTextoFigura());
                     click = ingresarTexto(etapa, "Etapa");
                     if(click){
@@ -4171,6 +4164,28 @@ public class FXMLDocumentController implements Initializable {
                                     for (int i = 0; i < variables.size(); i++) {
                                         variablesCopia.add(variables.get(i));
                                     }
+                                    String expression = textoQueYaTenia;
+                                    String[] tokensX = expression.replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
+                                    ArrayList<String> arrayTokens = new ArrayList<>();
+                                    for (String token : tokensX) {
+                                        arrayTokens.add(token);
+                                    }
+                                    ArrayList<String> nombresVariables = new ArrayList<>();
+                                    //intentemos tomar todos los nombres de variables
+                                    for (int i = 0; i < arrayTokens.size(); i++) {
+                                        if (arrayTokens.get(i).matches("=")) {
+                                            nombresVariables.add(arrayTokens.get(i - 1));
+                                        }
+                                    }
+                                    //ciclo para borrar todas las variables que se crearon en la etapa
+                                    for (int i = 0; i < nombresVariables.size(); i++) {
+                                        for (int j = 0; j < variablesCopia.size(); j++) {
+                                            if(nombresVariables.get(i).equals(variablesCopia.get(j).getNombre())){
+                                                variablesCopia.remove(j);
+                                                j=variablesCopia.size();
+                                            }
+                                        }
+                                    }
                                     //aca ya esta listo, debemos comenzar a crear las variables
                                     //pero tenemos que ver el tipo, si son solo numeros, strings o ambos(error).
                                     //operaciones fallidas nos dice si debemos modificar el array de variables o no
@@ -4437,28 +4452,6 @@ public class FXMLDocumentController implements Initializable {
                                             variables.add(variablesCopia.get(i));
                                         }
                                         variablesCopia.clear();
-                                    }
-                                    String expression = figura.getTextoFigura();
-                                    String[] tokensX = expression.replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
-                                    ArrayList<String> arrayTokens = new ArrayList<>();
-                                    for (String token : tokensX) {
-                                        arrayTokens.add(token);
-                                    }
-                                    ArrayList<String> nombresVariables = new ArrayList<>();
-                                    //intentemos tomar todos los nombres de variables
-                                    for (int i = 0; i < arrayTokens.size(); i++) {
-                                        if (arrayTokens.get(i).matches("=")) {
-                                            nombresVariables.add(arrayTokens.get(i - 1));
-                                        }
-                                    }
-                                    //ciclo para borrar todas las variables que se crearon en la etapa
-                                    for (int i = 0; i < nombresVariables.size(); i++) {
-                                        for (int j = 0; j < variables.size(); j++) {
-                                            if(nombresVariables.get(i).equals(variables.get(j).getNombre())){
-                                                variables.remove(j);
-                                                j=variables.size();
-                                            }
-                                        }
                                     }
                                     figura.setTextoFigura(etapa.getTextoFigura());
                                     repintar(cuadro);
