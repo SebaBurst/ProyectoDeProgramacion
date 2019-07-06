@@ -4942,4 +4942,43 @@ public class FXMLDocumentController implements Initializable {
             }
         }
     }
+    
+    public ArrayList<String> pseudocodigo = new ArrayList();
+    public void crearPseudocodigo() {
+
+        Figura aux = formas.get(0);
+        System.out.println(">>PseudoCodigo");
+        System.out.println(">> Algoritmo");
+        pseudocodigo.add("Algoritmo " + aux.getTextoFigura());
+        for (int i = 0; aux.getSiguiente() != -1; i++) {
+            for (int j = 0; j < formas.size(); j++) {
+                if (formas.get(j).getID() == aux.getSiguiente()) {
+                    aux = formas.get(j);
+                        if (aux instanceof Etapa) {
+                            pseudocodigo.add("    " + aux.getTextoFigura());
+
+                        }
+                        if (aux instanceof Entrada) {
+                           
+                            pseudocodigo.add("    Entrada " + aux.getTextoFigura());
+
+                        }
+                        if (aux instanceof Salida) {
+                            pseudocodigo.add("    Escribir " + aux.getTextoFigura());
+
+                        }
+                        if (aux instanceof Decision) {
+                            
+
+                        }
+                        if (aux instanceof Ciclo) {
+                           
+                        }
+                    
+                }
+            }
+        }
+
+        pseudocodigo.add("Fin Algoritmo");
+    }
 }
