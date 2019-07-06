@@ -973,13 +973,13 @@ public class FXMLDocumentController implements Initializable {
             }
             //se introducen en un arreglo para manejo mas facil
             ArrayList<String> tokensOriginal = new ArrayList<>();
-            for(String token : tokensX){
+            for (String token : tokensX) {
                 tokensOriginal.add(token);
             }
             //se imprime tokensOriginal que tiene "a","=","(a+b)/2",",","d","=","(5+9)*(98/2)" 
             System.out.println("imprimos el array de tokens antes de evaluar el lado derecho");
             for (int i = 0; i < tokensOriginal.size(); i++) {
-                System.out.print("'"+tokensOriginal.get(i)+"', ");
+                System.out.print("'" + tokensOriginal.get(i) + "', ");
             }
             System.out.println("");
             //ahora tomaremos todos los nombres de variables
@@ -987,14 +987,14 @@ public class FXMLDocumentController implements Initializable {
             //nombreVariables = "a","d"
             ArrayList<String> nombreVariables = new ArrayList<>();
             for (int i = 0; i < tokensOriginal.size(); i++) {
-                if(tokensOriginal.get(i).equals("=")){
-                    nombreVariables.add(tokensOriginal.get(i-1));
+                if (tokensOriginal.get(i).equals("=")) {
+                    nombreVariables.add(tokensOriginal.get(i - 1));
                 }
             }
             //imprimos todos los nombres
             System.out.println("imprimos todos los nombres de variables");
             for (int i = 0; i < nombreVariables.size(); i++) {
-                System.out.println("'"+nombreVariables.get(i)+"', ");
+                System.out.println("'" + nombreVariables.get(i) + "', ");
             }
             System.out.println("");
             //vemos que los nombres ingresados no sean iguales entre si
@@ -1004,15 +1004,15 @@ public class FXMLDocumentController implements Initializable {
             for (int i = 0; i < nombreVariables.size(); i++) {
                 cantidadVecesRepetido = 0;
                 for (int j = 0; j < nombreVariables.size(); j++) {
-                    if(nombreVariables.get(i).equals(nombreVariables.get(j))){
+                    if (nombreVariables.get(i).equals(nombreVariables.get(j))) {
                         cantidadVecesRepetido++;
                     }
                 }
-                if(cantidadVecesRepetido>1){
+                if (cantidadVecesRepetido > 1) {
                     System.out.println("HAY NOMBRES REPETIDOS");
-                    noRepetidos=false;
+                    noRepetidos = false;
                     click = false;
-                    i=nombreVariables.size();
+                    i = nombreVariables.size();
                 }
             }
             //ya se valido que no hayan nombres repetidos
@@ -1020,13 +1020,13 @@ public class FXMLDocumentController implements Initializable {
             //osea la relacion entre la cantidad de , y la cantidad de etapas.
             int comasPresentes = 0;
             for (int i = 0; i < tokensOriginal.size(); i++) {
-                if(tokensOriginal.get(i).equals(",")){
+                if (tokensOriginal.get(i).equals(",")) {
                     comasPresentes++;
                 }
             }
-            if(comasPresentes>nombreVariables.size()-1){
+            if (comasPresentes > nombreVariables.size() - 1) {
                 System.out.println("LA CANTIDAD DE COMAS Y OPERACIONES NO CALZA");
-                cantidadOperaciones=false;
+                cantidadOperaciones = false;
                 click = false;
             }
             //ya validamos que la cantidad de operaciones y comas este bien
@@ -1035,8 +1035,8 @@ public class FXMLDocumentController implements Initializable {
             //debemos tomar los lados derechos
             ArrayList<String> ladosDerechosCompletos = new ArrayList<>();
             for (int i = 0; i < tokensOriginal.size(); i++) {
-                if(tokensOriginal.get(i).equals("=")){
-                    ladosDerechosCompletos.add(tokensOriginal.get(i+1));
+                if (tokensOriginal.get(i).equals("=")) {
+                    ladosDerechosCompletos.add(tokensOriginal.get(i + 1));
                 }
             }
             //Ahora en ladosDerechosCompletos estan los lados derechos
@@ -1047,7 +1047,7 @@ public class FXMLDocumentController implements Initializable {
             for (int i = 0; i < nombreVariables.size(); i++) {
                 String[] tokensDerechos = ladosDerechosCompletos.get(i).replaceAll("\\s+", "").split("(?<=[-+/*()])|(?=[-+/*()])");
                 ArrayList<String> ladoDerechoTokenizado = new ArrayList<>();
-                for(String token : tokensDerechos){
+                for (String token : tokensDerechos) {
                     ladoDerechoTokenizado.add(token);
                 }
                 arrayDeDerechos.add(ladoDerechoTokenizado);
@@ -1057,33 +1057,33 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("IMPRIMIMOS TODOS LOS LADOS DERECHOS TOKENIZADOS");
             for (int i = 0; i < arrayDeDerechos.size(); i++) {
                 for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
-                    System.out.print("'"+arrayDeDerechos.get(i).get(j)+"', ");
+                    System.out.print("'" + arrayDeDerechos.get(i).get(j) + "', ");
                 }
                 System.out.println("");
             }
             //ahora podemos evaluar que la cantidad de parentesis abiertos sea igual a los cerrados
             for (int i = 0; i < arrayDeDerechos.size(); i++) {
                 for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
-                    if(arrayDeDerechos.get(i).get(j).equals("(")){
+                    if (arrayDeDerechos.get(i).get(j).equals("(")) {
                         cantidadParentesisAbiertos++;
                     }
                 }
             }
             for (int i = 0; i < arrayDeDerechos.size(); i++) {
                 for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
-                    if(arrayDeDerechos.get(i).get(j).equals(")")){
+                    if (arrayDeDerechos.get(i).get(j).equals(")")) {
                         cantidadParentesisCerrados++;
                     }
                 }
             }
             //nos aseguramos imprimiendo si la cantidad esta bien
-            System.out.println("Cantidad de parentesis abiertos: "+cantidadParentesisAbiertos);
-            System.out.println("Cantidad de parentesis cerrados: "+cantidadParentesisCerrados);
-            if(cantidadParentesisAbiertos!=cantidadParentesisCerrados){
-                cantidadParentesis=false;
+            System.out.println("Cantidad de parentesis abiertos: " + cantidadParentesisAbiertos);
+            System.out.println("Cantidad de parentesis cerrados: " + cantidadParentesisCerrados);
+            if (cantidadParentesisAbiertos != cantidadParentesisCerrados) {
+                cantidadParentesis = false;
                 click = false;
             }
-            if(click==false){
+            if (click == false) {
                 Alert alert = new Alert(AlertType.INFORMATION);
                 Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
                 ImageView imageVie = new ImageView(images);
@@ -1095,7 +1095,7 @@ public class FXMLDocumentController implements Initializable {
                 click = false;
             }
             //se valido la cantidad de parentesis
-            if(cadenaValida && noRepetidos && cantidadOperaciones && cantidadParentesis){
+            if (cadenaValida && noRepetidos && cantidadOperaciones && cantidadParentesis) {
                 System.out.print("etapa.getTextofigura: ");
                 System.out.println(etapa.getTextoFigura());
                 //Aca deberia estar todo el texto ingresado validado
@@ -1108,28 +1108,28 @@ public class FXMLDocumentController implements Initializable {
                     System.out.println(arrayDeDerechos.get(i));
                     //porte del arreglo dentro del arreglo
                     //osea el texto de cada una de las etapas ingresadas
-                    if(validaLadoDerecho){
+                    if (validaLadoDerecho) {
                         String texto = "";
                         texto = String.join("", arrayDeDerechos.get(i));
-                        System.out.println("texto unido: "+texto);                        
+                        System.out.println("texto unido: " + texto);
                         //ver que no empieze el lado derecho deturno con un )
                         //variable=)
-                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                         if (validaLadoDerecho) {
                             System.out.println("Llegue a validacion 1");
                             if (arrayDeDerechos.get(i).get(0).equals(")")) {
-                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                 validaLadoDerecho = false;
                             }
                         }
                         //vemos que el lado derecho no sean puras letras o numeros
                         //a=2452
                         //a=popeye
-                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                         if (validaLadoDerecho) {
                             System.out.println("Llegue a validacion 2");
                             if (texto.replaceAll("[A-Za-z0-9]", "").equals("")) {
-                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                 validaLadoDerecho = false;
                             }
                         }
@@ -1138,14 +1138,14 @@ public class FXMLDocumentController implements Initializable {
                         //variale=a+8(
                         //que hayan simbolos antes es valido
                         //variable=a+b+(2*9)
-                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                         if (validaLadoDerecho) {
                             System.out.println("Llegue a validacion 3");
                             if (arrayDeDerechos.get(i).get(0).equals("(")) {
                                 for (int j = 1; j < arrayDeDerechos.get(i).size(); j++) {
                                     if (arrayDeDerechos.get(i).get(j).equals("(")) {
                                         if (arrayDeDerechos.get(i).get((j) - 1).toString().matches("[A-Za-z0-9]")) {
-                                            System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                            System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                             validaLadoDerecho = false;
                                         }
                                     }
@@ -1154,13 +1154,13 @@ public class FXMLDocumentController implements Initializable {
                         }
                         //ver que no haya un simbolo justo antes de )
                         //variable=a+b+)
-                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                         if (validaLadoDerecho) {
                             System.out.println("Llegue a validacion 4");
                             for (int j = 1; j < arrayDeDerechos.get(i).size(); j++) {
                                 if (arrayDeDerechos.get(i).get(j).equals(")")) {
                                     if (arrayDeDerechos.get(i).get((j) - 1).toString().matches("[\\+\\-\\*\\/]")) {
-                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                        System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                         validaLadoDerecho = false;
                                     }
                                 }
@@ -1168,13 +1168,13 @@ public class FXMLDocumentController implements Initializable {
                         }
                         //valida que no haya ()
                         //variable=()
-                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                         if (validaLadoDerecho) {
                             System.out.println("Llegue a validacion 5");
                             for (int j = 1; j < arrayDeDerechos.get(i).size(); j++) {
                                 if (arrayDeDerechos.get(i).get(j).equals(")")) {
                                     if (arrayDeDerechos.get(i).get(j - 1).toString().matches("[\\(]")) {
-                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                        System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                         validaLadoDerecho = false;
                                     }
                                 }
@@ -1182,23 +1182,23 @@ public class FXMLDocumentController implements Initializable {
                         }
                         //valida que no empieze con un simbolo
                         //variable=+
-                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                         if (validaLadoDerecho) {
                             System.out.println("Llegue a validacion 6");
                             if (arrayDeDerechos.get(i).get(0).toString().matches("[\\+\\-\\*\\/]")) {
-                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                 validaLadoDerecho = false;
                             }
                         }
                         //valida que no haya simbolo justo despues de (
                         //variable=(+
-                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                         if (validaLadoDerecho) {
                             System.out.println("Llegue a validacion 7");
                             for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
                                 if (arrayDeDerechos.get(i).get(j).equals("(")) {
                                     if ((j + 1) < arrayDeDerechos.get(i).size() && arrayDeDerechos.get(i).get(j + 1).toString().matches("[\\+\\-\\*\\/]")) {
-                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                        System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                         validaLadoDerecho = false;
                                     }
                                 }
@@ -1206,13 +1206,13 @@ public class FXMLDocumentController implements Initializable {
                         }
                         //valida que no haya )(
                         //variable=)(
-                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                         if (validaLadoDerecho) {
                             System.out.println("Llegue a validacion 8");
                             for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
                                 if (arrayDeDerechos.get(i).get(j).equals(")")) {
                                     if ((j + 1) < arrayDeDerechos.get(i).size() && arrayDeDerechos.get(i).get(j + 1).toString().matches("[\\(]")) {
-                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                        System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                         validaLadoDerecho = false;
                                     }
                                 }
@@ -1223,7 +1223,7 @@ public class FXMLDocumentController implements Initializable {
                         //pregunto si la anterior era una letra, numero(0-9) o simbolo, si lo era es un error.
                         //si no, transformor el token anterior a numero y pregunto si es mayor a 9
                         //si lo es tiro error.
-                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                         if (validaLadoDerecho) {
                             System.out.println("Llegue a validacion 9");
                             for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
@@ -1231,10 +1231,10 @@ public class FXMLDocumentController implements Initializable {
                                     j++;
                                 } else if (arrayDeDerechos.get(i).get(j).equals("(")) {
                                     if (arrayDeDerechos.get(i).get(j - 1).toString().matches("[A-Za-z0-9\\+\\-\\*\\/]")) {
-                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                        System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                         validaLadoDerecho = false;
                                     } else if (Integer.parseInt(arrayDeDerechos.get(i).get(j - 1).toString()) > 9) {
-                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                        System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                         validaLadoDerecho = false;
                                     }
                                 }
@@ -1242,13 +1242,13 @@ public class FXMLDocumentController implements Initializable {
                         }
                         //valida que no hayan 2 simbolos seguidos
                         //variable=a+-b
-                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                         if (validaLadoDerecho) {
                             System.out.println("Llegue a validacion 10");
                             for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
                                 if (arrayDeDerechos.get(i).get(j).toString().matches("[\\+\\-\\*\\/]")) {
                                     if ((j + 1) < arrayDeDerechos.get(i).size() && arrayDeDerechos.get(i).get(j + 1).toString().matches("[\\+\\-\\*\\/]")) {
-                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                        System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                         validaLadoDerecho = false;
                                     }
                                 }
@@ -1256,21 +1256,21 @@ public class FXMLDocumentController implements Initializable {
                         }
                         //valida que la posicion final no sea (
                         //variable=a+b(
-                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                         if (validaLadoDerecho) {
                             System.out.println("Llegue a validacion 11");
                             if (arrayDeDerechos.get(i).get(arrayDeDerechos.get(i).size() - 1).equals("(")) {
-                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                 validaLadoDerecho = false;
                             }
                         }
                         //valida que la posicion final no sea un simbolo
                         //variable=a+b+
-                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                         if (validaLadoDerecho) {
                             System.out.println("Llegue a validacion 12");
                             if (arrayDeDerechos.get(i).get(arrayDeDerechos.get(i).size() - 1).toString().matches("[\\+\\-\\*\\/]")) {
-                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                 validaLadoDerecho = false;
                             }
                         }
@@ -1278,7 +1278,7 @@ public class FXMLDocumentController implements Initializable {
                     }
                 }
                 ArrayList<Integer> posicionesVariablesEnArrayTokens = new ArrayList<>();
-                if(validaLadoDerecho){
+                if (validaLadoDerecho) {
                     System.out.println("TODAS LAS VALIDACIONES FUERON CORRECTAS");
                     //aca creo una copia de las variables
                     //para modificar ese
@@ -1302,7 +1302,7 @@ public class FXMLDocumentController implements Initializable {
                     ArrayList<String> valoresVariables = new ArrayList<>();
                     ArrayList<String> tokensVariables = new ArrayList<>();
                     ArrayList<String> palabrasTokensVariables = new ArrayList<>();
-                    for(int i = 0; i<arrayDeDerechos.size(); i++){
+                    for (int i = 0; i < arrayDeDerechos.size(); i++) {
                         //Limpiamos los arreglos al principio de la iteracion
                         //donde se cambia de etapa, para no tomar valores erroneos
                         variablesEnTokens.clear();
@@ -1313,14 +1313,14 @@ public class FXMLDocumentController implements Initializable {
                         tokensVariables.clear();
                         palabrasTokensVariables.clear();
                         //IMPRIMOS LOS TOKENS DEL LADO IZQUIERDO PARA ASEGURARSE
-                        System.out.println("VEZ "+(i+1));
+                        System.out.println("VEZ " + (i + 1));
                         System.out.println("Tokens derechos: ");
                         for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
                             System.out.println(arrayDeDerechos.get(i).get(j));
                         }
                         //imprimos los tokens unidos
                         String unido = String.join("", arrayDeDerechos.get(i));
-                        System.out.println("El texto unido: "+unido);
+                        System.out.println("El texto unido: " + unido);
                         int tipo = 0;
                         //ACA PASA ALGO
                         //tipo 1 solo numeros
@@ -1360,14 +1360,14 @@ public class FXMLDocumentController implements Initializable {
                         System.out.println(cantidadDeVariablesAValidar);
                         if (cantidadDeVariablesStringEncontradas > 0 && cantidadDeVariablesStringEncontradas == cantidadDeVariablesAValidar) {
                             tipo = 1;
-                        }else if(cantidadDeVariablesStringEncontradas ==0){
+                        } else if (cantidadDeVariablesStringEncontradas == 0) {
                             tipo = 0;
-                        }else{
+                        } else {
                             tipo = 3;
                         }
                         //ACA TERMINA ESE ALGO
-                        System.out.println("TIPO = "+tipo);
-                        if(tipo == 0){
+                        System.out.println("TIPO = " + tipo);
+                        if (tipo == 0) {
                             //solo numeros
                             System.out.println("hora de imprimir todos los tokens en el arreglo para asi reemplazar");
                             for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
@@ -1434,7 +1434,7 @@ public class FXMLDocumentController implements Initializable {
                                 }
                                 System.out.println(engine.eval(ecuacion));
                                 variablesCopia.get(posVariableIgual).setTexto(engine.eval(ecuacion).toString());
-                            }else {
+                            } else {
                                 //cuando la variable no esta en el arreglo
                                 System.out.println("no hay variable con ese nombre");
                                 Variable variableNueva = new Variable();
@@ -1467,8 +1467,7 @@ public class FXMLDocumentController implements Initializable {
                                 }
                                 System.out.println(engine.eval(ecuacion));
                             }
-                        }else
-                        if(tipo == 1){
+                        } else if (tipo == 1) {
                             //solo strings
                             int cantidadDeSumas = 0;
                             int candidadPalabras = 0;
@@ -1523,13 +1522,13 @@ public class FXMLDocumentController implements Initializable {
                                 variablesCopia.add(variableNueva);
                                 System.out.println(String.join("", palabrasTokensVariables));
                             }
-                        }else{
+                        } else {
                             //alguna otra cosa(error)
                             operacionesFallidas++;
-                            i=arrayDeDerechos.size();
+                            i = arrayDeDerechos.size();
                         }
                     }
-                    if(operacionesFallidas>0){
+                    if (operacionesFallidas > 0) {
                         Alert alert = new Alert(AlertType.INFORMATION);
                         Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
                         ImageView imageVie = new ImageView(images);
@@ -1540,7 +1539,7 @@ public class FXMLDocumentController implements Initializable {
                         alert.showAndWait();
                         click = false;
                         variablesCopia.clear();
-                    }else{
+                    } else {
                         variables.clear();
                         for (int i = 0; i < variablesCopia.size(); i++) {
                             variables.add(variablesCopia.get(i));
@@ -1548,7 +1547,7 @@ public class FXMLDocumentController implements Initializable {
                         variablesCopia.clear();
                     }
                     //aca deberia terminar la ejecucion de una etapa.
-                }else{
+                } else {
                     Alert alert = new Alert(AlertType.INFORMATION);
                     Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
                     ImageView imageVie = new ImageView(images);
@@ -2415,7 +2414,7 @@ public class FXMLDocumentController implements Initializable {
                     }
 
                 }
-                if(eliminar instanceof Entrada){
+                if (eliminar instanceof Entrada) {
                     String expression = eliminar.getTextoFigura();
                     String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
                     ArrayList<String> arrayTokens = new ArrayList<>();
@@ -2432,14 +2431,14 @@ public class FXMLDocumentController implements Initializable {
                     //ciclo para borrar todas las variables que se crearon en la entrada
                     for (int i = 0; i < nombresVariables.size(); i++) {
                         for (int j = 0; j < variables.size(); j++) {
-                            if(nombresVariables.get(i).equals(variables.get(j).getNombre())){
+                            if (nombresVariables.get(i).equals(variables.get(j).getNombre())) {
                                 variables.remove(j);
-                                j=variables.size();
+                                j = variables.size();
                             }
                         }
                     }
                 }
-                if(eliminar instanceof Etapa){
+                if (eliminar instanceof Etapa) {
                     String expression = eliminar.getTextoFigura();
                     String[] tokensX = expression.replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
                     ArrayList<String> arrayTokens = new ArrayList<>();
@@ -2456,9 +2455,9 @@ public class FXMLDocumentController implements Initializable {
                     //ciclo para borrar todas las variables que se crearon en la etapa
                     for (int i = 0; i < nombresVariables.size(); i++) {
                         for (int j = 0; j < variables.size(); j++) {
-                            if(nombresVariables.get(i).equals(variables.get(j).getNombre())){
+                            if (nombresVariables.get(i).equals(variables.get(j).getNombre())) {
                                 variables.remove(j);
-                                j=variables.size();
+                                j = variables.size();
                             }
                         }
                     }
@@ -2775,7 +2774,6 @@ public class FXMLDocumentController implements Initializable {
                                 }
                             }
 
-
                             for (int j = 0; j < formas.size(); j++) {
                                 if (formas.get(j) instanceof Ciclo) {
                                     Ciclo iteracion = (Ciclo) formas.get(j);
@@ -2954,6 +2952,8 @@ public class FXMLDocumentController implements Initializable {
 
     public void bloqueCiclo(Ciclo iteracion) {
         iteracion.getIdsFiguras().clear();
+        iteracion.getIdFormas().clear();
+
         System.out.println("*****Formas dentro del ciclo " + iteracion.getTextoFigura() + "*******");
         Flujo flujoCiclo = iteracion.getConexionH();
         Figura i2 = null;
@@ -2962,6 +2962,8 @@ public class FXMLDocumentController implements Initializable {
                 i2 = formas.get(i);
                 iteracion.setIdsFiguras(i);
                 iteracion.setIdsFiguras(i);
+                iteracion.setIdFormas(formas.get(i).getID());
+
             }
 
         }
@@ -2978,6 +2980,8 @@ public class FXMLDocumentController implements Initializable {
                         i2 = formas.get(j);
                         System.out.println(">> " + i2.getTextoFigura());
                         iteracion.setIdsFiguras(j);
+                        iteracion.setIdFormas(i2.getID());
+
                         if (i2.getID() == iteracion.getID()) {
                             Ciclico = true;
                             System.out.println(">> Aqui deberia terminar la busqueda");
@@ -3589,24 +3593,25 @@ public class FXMLDocumentController implements Initializable {
         }
     }
 
-    @FXML Button paso;
-        Figura correrActual = null;
-    boolean inicio2 = false;
-    int index=0;
     @FXML
-    public void PasoAPaso(ActionEvent event) throws ScriptException{
-         hilo metodos = new hilo();
+    Button paso;
+    Figura correrActual = null;
+    boolean inicio2 = false;
+    int index = 0;
+
+    @FXML
+    public void PasoAPaso(ActionEvent event) throws ScriptException {
+        hilo metodos = new hilo();
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el Lienzo del programa
         repintar(cuadro);
-        if (inicio2 == false&& index==0) {
+        if (inicio2 == false && index == 0) {
             correrActual = formas.get(0);
             inicio2 = true;
             index++;
             Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_naranja.png"));
             cuadro.drawImage(image, correrActual.getMedioX() - 230, correrActual.getMedioY());
-                    
-        }
-        else if (correrActual != null && correrActual.getSiguiente() != -1&& index>0) {
+
+        } else if (correrActual != null && correrActual.getSiguiente() != -1 && index > 0) {
             for (int i = 0; i < formas.size(); i++) {
                 index++;
                 if (formas.get(i).getID() == correrActual.getSiguiente()) {
@@ -3662,12 +3667,12 @@ public class FXMLDocumentController implements Initializable {
             Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_naranja.png"));
             cuadro.drawImage(image, correrActual.getMedioX() - 230, correrActual.getMedioY());
             inicio2 = false;
-            index=0;
+            index = 0;
 
         }
 
-    
     }
+
     @FXML
     public void editarTexto(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
@@ -3675,19 +3680,19 @@ public class FXMLDocumentController implements Initializable {
             Figura figura = detectarFigura1((int) e.getX(), (int) e.getY());
             if (figura != null) {
                 //Encontro figura....
-                if(figura instanceof Entrada){
+                if (figura instanceof Entrada) {
                     String textoQueYaTenia = figura.getTextoFigura();
                     Entrada entrada = new Entrada();
                     entrada.setTextoFigura(figura.getTextoFigura());
                     click = ingresarTexto(entrada, "Entrada");
-                    if(click){
+                    if (click) {
                         Pattern p = Pattern.compile("([A-Za-z0-9]+\\=([0-9]+|[A-Za-z0-9]+)\\,?)+");
                         Matcher matcher = p.matcher(entrada.getTextoFigura());
                         boolean cadenavalida = matcher.matches();
-                        if(cadenavalida){
+                        if (cadenavalida) {
                             //ahora que valide el texto que se ingreso, borrare las entradas
                             //que estaban en la entrada original.
-                            
+
                             //ya borramos las variables que se crearon
                             //debo crear nuevas variables en base a las variables que se introdujieron
                             //ya tengo la entrada con el texto dentro, tomar con entrada.getTextoFigura()
@@ -3696,7 +3701,7 @@ public class FXMLDocumentController implements Initializable {
                             for (String token : tokens2) {
                                 arrayTokens.add(token);
                             }
-                            ArrayList<String> nombresVariables=new ArrayList<>();
+                            ArrayList<String> nombresVariables = new ArrayList<>();
                             for (int i = 0; i < arrayTokens.size(); i++) {
                                 if (arrayTokens.get(i).matches("=")) {
                                     nombresVariables.add(arrayTokens.get(i - 1));
@@ -3761,9 +3766,9 @@ public class FXMLDocumentController implements Initializable {
                                 //ciclo para borrar todas las variables que se crearon en la entrada
                                 for (int i = 0; i < nombresVariablesX.size(); i++) {
                                     for (int j = 0; j < variables.size(); j++) {
-                                        if(nombresVariablesX.get(i).equals(variables.get(j).getNombre())){
+                                        if (nombresVariablesX.get(i).equals(variables.get(j).getNombre())) {
                                             variables.remove(j);
-                                            j=variables.size();
+                                            j = variables.size();
                                         }
                                     }
                                 }
@@ -3816,20 +3821,20 @@ public class FXMLDocumentController implements Initializable {
                                 alert.setContentText("El formato ingresado es incorrecto.");
                                 alert.showAndWait();
                             }
-                        } 
+                        }
                     }
                 }
-                
-                if(figura instanceof Etapa){
+
+                if (figura instanceof Etapa) {
                     Etapa etapa = new Etapa();
                     String textoQueYaTenia = figura.getTextoFigura();
                     etapa.setTextoFigura(figura.getTextoFigura());
                     click = ingresarTexto(etapa, "Etapa");
-                    if(click){
+                    if (click) {
                         Pattern p = Pattern.compile("([A-Za-z0-9]+\\=((\\(+|\\)+|\\+|\\-|\\*|\\/|[A-ZA-z0-9]+|[0-9]+))+\\,?)+");
                         Matcher matcher = p.matcher(etapa.getTextoFigura());
                         boolean cadenaValida = matcher.matches();
-                        if(cadenaValida){
+                        if (cadenaValida) {
                             //aca se trabaja
                             //ejemplo: se ingreso a=(a+b)/2,d=(5+9)*(98/2)
                             int cantidadParentesisAbiertos = 0;
@@ -3849,13 +3854,13 @@ public class FXMLDocumentController implements Initializable {
                             }
                             //se introducen en un arreglo para manejo mas facil
                             ArrayList<String> tokensOriginal = new ArrayList<>();
-                            for(String token : tokens2){
+                            for (String token : tokens2) {
                                 tokensOriginal.add(token);
                             }
                             //se imprime tokensOriginal que tiene "a","=","(a+b)/2",",","d","=","(5+9)*(98/2)" 
                             System.out.println("imprimos el array de tokens antes de evaluar el lado derecho");
                             for (int i = 0; i < tokensOriginal.size(); i++) {
-                                System.out.print("'"+tokensOriginal.get(i)+"', ");
+                                System.out.print("'" + tokensOriginal.get(i) + "', ");
                             }
                             System.out.println("");
                             //ahora tomaremos todos los nombres de variables
@@ -3863,14 +3868,14 @@ public class FXMLDocumentController implements Initializable {
                             //nombreVariables = "a","d"
                             ArrayList<String> nombreVariables = new ArrayList<>();
                             for (int i = 0; i < tokensOriginal.size(); i++) {
-                                if(tokensOriginal.get(i).equals("=")){
-                                    nombreVariables.add(tokensOriginal.get(i-1));
+                                if (tokensOriginal.get(i).equals("=")) {
+                                    nombreVariables.add(tokensOriginal.get(i - 1));
                                 }
                             }
                             //imprimos todos los nombres
                             System.out.println("imprimos todos los nombres de variables");
                             for (int i = 0; i < nombreVariables.size(); i++) {
-                                System.out.println("'"+nombreVariables.get(i)+"', ");
+                                System.out.println("'" + nombreVariables.get(i) + "', ");
                             }
                             System.out.println("");
                             //vemos que los nombres ingresados no sean iguales entre si
@@ -3880,15 +3885,15 @@ public class FXMLDocumentController implements Initializable {
                             for (int i = 0; i < nombreVariables.size(); i++) {
                                 cantidadVecesRepetido = 0;
                                 for (int j = 0; j < nombreVariables.size(); j++) {
-                                    if(nombreVariables.get(i).equals(nombreVariables.get(j))){
+                                    if (nombreVariables.get(i).equals(nombreVariables.get(j))) {
                                         cantidadVecesRepetido++;
                                     }
                                 }
-                                if(cantidadVecesRepetido>1){
+                                if (cantidadVecesRepetido > 1) {
                                     System.out.println("HAY NOMBRES REPETIDOS");
-                                    noRepetidos=false;
+                                    noRepetidos = false;
                                     click = false;
-                                    i=nombreVariables.size();
+                                    i = nombreVariables.size();
                                 }
                             }
                             //ya se valido que no hayan nombres repetidos
@@ -3896,13 +3901,13 @@ public class FXMLDocumentController implements Initializable {
                             //osea la relacion entre la cantidad de , y la cantidad de etapas.
                             int comasPresentes = 0;
                             for (int i = 0; i < tokensOriginal.size(); i++) {
-                                if(tokensOriginal.get(i).equals(",")){
+                                if (tokensOriginal.get(i).equals(",")) {
                                     comasPresentes++;
                                 }
                             }
-                            if(comasPresentes>nombreVariables.size()-1){
+                            if (comasPresentes > nombreVariables.size() - 1) {
                                 System.out.println("LA CANTIDAD DE COMAS Y OPERACIONES NO CALZA");
-                                cantidadOperaciones=false;
+                                cantidadOperaciones = false;
                                 click = false;
                             }
                             //ya validamos que la cantidad de operaciones y comas este bien
@@ -3911,8 +3916,8 @@ public class FXMLDocumentController implements Initializable {
                             //debemos tomar los lados derechos
                             ArrayList<String> ladosDerechosCompletos = new ArrayList<>();
                             for (int i = 0; i < tokensOriginal.size(); i++) {
-                                if(tokensOriginal.get(i).equals("=")){
-                                    ladosDerechosCompletos.add(tokensOriginal.get(i+1));
+                                if (tokensOriginal.get(i).equals("=")) {
+                                    ladosDerechosCompletos.add(tokensOriginal.get(i + 1));
                                 }
                             }
                             //Ahora en ladosDerechosCompletos estan los lados derechos
@@ -3923,7 +3928,7 @@ public class FXMLDocumentController implements Initializable {
                             for (int i = 0; i < nombreVariables.size(); i++) {
                                 String[] tokensDerechos = ladosDerechosCompletos.get(i).replaceAll("\\s+", "").split("(?<=[-+/*()])|(?=[-+/*()])");
                                 ArrayList<String> ladoDerechoTokenizado = new ArrayList<>();
-                                for(String token : tokensDerechos){
+                                for (String token : tokensDerechos) {
                                     ladoDerechoTokenizado.add(token);
                                 }
                                 arrayDeDerechos.add(ladoDerechoTokenizado);
@@ -3933,33 +3938,33 @@ public class FXMLDocumentController implements Initializable {
                             System.out.println("IMPRIMIMOS TODOS LOS LADOS DERECHOS TOKENIZADOS");
                             for (int i = 0; i < arrayDeDerechos.size(); i++) {
                                 for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
-                                    System.out.print("'"+arrayDeDerechos.get(i).get(j)+"', ");
+                                    System.out.print("'" + arrayDeDerechos.get(i).get(j) + "', ");
                                 }
                                 System.out.println("");
                             }
                             //ahora podemos evaluar que la cantidad de parentesis abiertos sea igual a los cerrados
                             for (int i = 0; i < arrayDeDerechos.size(); i++) {
                                 for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
-                                    if(arrayDeDerechos.get(i).get(j).equals("(")){
+                                    if (arrayDeDerechos.get(i).get(j).equals("(")) {
                                         cantidadParentesisAbiertos++;
                                     }
                                 }
                             }
                             for (int i = 0; i < arrayDeDerechos.size(); i++) {
                                 for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
-                                    if(arrayDeDerechos.get(i).get(j).equals(")")){
+                                    if (arrayDeDerechos.get(i).get(j).equals(")")) {
                                         cantidadParentesisCerrados++;
                                     }
                                 }
                             }
                             //nos aseguramos imprimiendo si la cantidad esta bien
-                            System.out.println("Cantidad de parentesis abiertos: "+cantidadParentesisAbiertos);
-                            System.out.println("Cantidad de parentesis cerrados: "+cantidadParentesisCerrados);
-                            if(cantidadParentesisAbiertos!=cantidadParentesisCerrados){
-                                cantidadParentesis=false;
+                            System.out.println("Cantidad de parentesis abiertos: " + cantidadParentesisAbiertos);
+                            System.out.println("Cantidad de parentesis cerrados: " + cantidadParentesisCerrados);
+                            if (cantidadParentesisAbiertos != cantidadParentesisCerrados) {
+                                cantidadParentesis = false;
                                 click = false;
                             }
-                            if(click==false){
+                            if (click == false) {
                                 Alert alert = new Alert(AlertType.INFORMATION);
                                 Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
                                 ImageView imageVie = new ImageView(images);
@@ -3971,7 +3976,7 @@ public class FXMLDocumentController implements Initializable {
                                 click = false;
                             }
                             //se valido la cantidad de parentesis
-                            if(cadenaValida && noRepetidos && cantidadOperaciones && cantidadParentesis){
+                            if (cadenaValida && noRepetidos && cantidadOperaciones && cantidadParentesis) {
                                 System.out.print("etapa.getTextofigura: ");
                                 System.out.println(etapa.getTextoFigura());
                                 //Aca deberia estar todo el texto ingresado validado
@@ -3984,28 +3989,28 @@ public class FXMLDocumentController implements Initializable {
                                     System.out.println(arrayDeDerechos.get(i));
                                     //porte del arreglo dentro del arreglo
                                     //osea el texto de cada una de las etapas ingresadas
-                                    if(validaLadoDerecho){
+                                    if (validaLadoDerecho) {
                                         String texto = "";
                                         texto = String.join("", arrayDeDerechos.get(i));
-                                        System.out.println("texto unido: "+texto);                        
+                                        System.out.println("texto unido: " + texto);
                                         //ver que no empieze el lado derecho deturno con un )
                                         //variable=)
-                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                                         if (validaLadoDerecho) {
                                             System.out.println("Llegue a validacion 1");
                                             if (arrayDeDerechos.get(i).get(0).equals(")")) {
-                                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                                 validaLadoDerecho = false;
                                             }
                                         }
                                         //vemos que el lado derecho no sean puras letras o numeros
                                         //a=2452
                                         //a=popeye
-                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                                         if (validaLadoDerecho) {
                                             System.out.println("Llegue a validacion 2");
                                             if (texto.replaceAll("[A-Za-z0-9]", "").equals("")) {
-                                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                                 validaLadoDerecho = false;
                                             }
                                         }
@@ -4014,14 +4019,14 @@ public class FXMLDocumentController implements Initializable {
                                         //variale=a+8(
                                         //que hayan simbolos antes es valido
                                         //variable=a+b+(2*9)
-                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                                         if (validaLadoDerecho) {
                                             System.out.println("Llegue a validacion 3");
                                             if (arrayDeDerechos.get(i).get(0).equals("(")) {
                                                 for (int j = 1; j < arrayDeDerechos.get(i).size(); j++) {
                                                     if (arrayDeDerechos.get(i).get(j).equals("(")) {
                                                         if (arrayDeDerechos.get(i).get((j) - 1).toString().matches("[A-Za-z0-9]")) {
-                                                            System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                            System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                                             validaLadoDerecho = false;
                                                         }
                                                     }
@@ -4030,13 +4035,13 @@ public class FXMLDocumentController implements Initializable {
                                         }
                                         //ver que no haya un simbolo justo antes de )
                                         //variable=a+b+)
-                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                                         if (validaLadoDerecho) {
                                             System.out.println("Llegue a validacion 4");
                                             for (int j = 1; j < arrayDeDerechos.get(i).size(); j++) {
                                                 if (arrayDeDerechos.get(i).get(j).equals(")")) {
                                                     if (arrayDeDerechos.get(i).get((j) - 1).toString().matches("[\\+\\-\\*\\/]")) {
-                                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                        System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                                         validaLadoDerecho = false;
                                                     }
                                                 }
@@ -4044,13 +4049,13 @@ public class FXMLDocumentController implements Initializable {
                                         }
                                         //valida que no haya ()
                                         //variable=()
-                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                                         if (validaLadoDerecho) {
                                             System.out.println("Llegue a validacion 5");
                                             for (int j = 1; j < arrayDeDerechos.get(i).size(); j++) {
                                                 if (arrayDeDerechos.get(i).get(j).equals(")")) {
                                                     if (arrayDeDerechos.get(i).get(j - 1).toString().matches("[\\(]")) {
-                                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                        System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                                         validaLadoDerecho = false;
                                                     }
                                                 }
@@ -4058,23 +4063,23 @@ public class FXMLDocumentController implements Initializable {
                                         }
                                         //valida que no empieze con un simbolo
                                         //variable=+
-                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                                         if (validaLadoDerecho) {
                                             System.out.println("Llegue a validacion 6");
                                             if (arrayDeDerechos.get(i).get(0).toString().matches("[\\+\\-\\*\\/]")) {
-                                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                                 validaLadoDerecho = false;
                                             }
                                         }
                                         //valida que no haya simbolo justo despues de (
                                         //variable=(+
-                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                                         if (validaLadoDerecho) {
                                             System.out.println("Llegue a validacion 7");
                                             for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
                                                 if (arrayDeDerechos.get(i).get(j).equals("(")) {
                                                     if ((j + 1) < arrayDeDerechos.get(i).size() && arrayDeDerechos.get(i).get(j + 1).toString().matches("[\\+\\-\\*\\/]")) {
-                                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                        System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                                         validaLadoDerecho = false;
                                                     }
                                                 }
@@ -4082,13 +4087,13 @@ public class FXMLDocumentController implements Initializable {
                                         }
                                         //valida que no haya )(
                                         //variable=)(
-                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                                         if (validaLadoDerecho) {
                                             System.out.println("Llegue a validacion 8");
                                             for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
                                                 if (arrayDeDerechos.get(i).get(j).equals(")")) {
                                                     if ((j + 1) < arrayDeDerechos.get(i).size() && arrayDeDerechos.get(i).get(j + 1).toString().matches("[\\(]")) {
-                                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                        System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                                         validaLadoDerecho = false;
                                                     }
                                                 }
@@ -4099,7 +4104,7 @@ public class FXMLDocumentController implements Initializable {
                                         //pregunto si la anterior era una letra, numero(0-9) o simbolo, si lo era es un error.
                                         //si no, transformor el token anterior a numero y pregunto si es mayor a 9
                                         //si lo es tiro error.
-                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                                         if (validaLadoDerecho) {
                                             System.out.println("Llegue a validacion 9");
                                             for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
@@ -4107,10 +4112,10 @@ public class FXMLDocumentController implements Initializable {
                                                     j++;
                                                 } else if (arrayDeDerechos.get(i).get(j).equals("(")) {
                                                     if (arrayDeDerechos.get(i).get(j - 1).toString().matches("[A-Za-z0-9\\+\\-\\*\\/]")) {
-                                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                        System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                                         validaLadoDerecho = false;
                                                     } else if (Integer.parseInt(arrayDeDerechos.get(i).get(j - 1).toString()) > 9) {
-                                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                        System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                                         validaLadoDerecho = false;
                                                     }
                                                 }
@@ -4118,13 +4123,13 @@ public class FXMLDocumentController implements Initializable {
                                         }
                                         //valida que no hayan 2 simbolos seguidos
                                         //variable=a+-b
-                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                                         if (validaLadoDerecho) {
                                             System.out.println("Llegue a validacion 10");
                                             for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
                                                 if (arrayDeDerechos.get(i).get(j).toString().matches("[\\+\\-\\*\\/]")) {
                                                     if ((j + 1) < arrayDeDerechos.get(i).size() && arrayDeDerechos.get(i).get(j + 1).toString().matches("[\\+\\-\\*\\/]")) {
-                                                        System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                        System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                                         validaLadoDerecho = false;
                                                     }
                                                 }
@@ -4132,21 +4137,21 @@ public class FXMLDocumentController implements Initializable {
                                         }
                                         //valida que la posicion final no sea (
                                         //variable=a+b(
-                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                                         if (validaLadoDerecho) {
                                             System.out.println("Llegue a validacion 11");
                                             if (arrayDeDerechos.get(i).get(arrayDeDerechos.get(i).size() - 1).equals("(")) {
-                                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                                 validaLadoDerecho = false;
                                             }
                                         }
                                         //valida que la posicion final no sea un simbolo
                                         //variable=a+b+
-                                        System.out.println("validaLadoDerecho: "+validaLadoDerecho);
+                                        System.out.println("validaLadoDerecho: " + validaLadoDerecho);
                                         if (validaLadoDerecho) {
                                             System.out.println("Llegue a validacion 12");
                                             if (arrayDeDerechos.get(i).get(arrayDeDerechos.get(i).size() - 1).toString().matches("[\\+\\-\\*\\/]")) {
-                                                System.out.println("murio al evaluar la etapa "+(i+1)+" de las ingresadas.");
+                                                System.out.println("murio al evaluar la etapa " + (i + 1) + " de las ingresadas.");
                                                 validaLadoDerecho = false;
                                             }
                                         }
@@ -4154,7 +4159,7 @@ public class FXMLDocumentController implements Initializable {
                                     }
                                 }
                                 ArrayList<Integer> posicionesVariablesEnArrayTokens = new ArrayList<>();
-                                if(validaLadoDerecho){
+                                if (validaLadoDerecho) {
                                     System.out.println("TODAS LAS VALIDACIONES FUERON CORRECTAS");
                                     //aca creo una copia de las variables
                                     //para modificar ese
@@ -4180,9 +4185,9 @@ public class FXMLDocumentController implements Initializable {
                                     //ciclo para borrar todas las variables que se crearon en la etapa
                                     for (int i = 0; i < nombresVariables.size(); i++) {
                                         for (int j = 0; j < variablesCopia.size(); j++) {
-                                            if(nombresVariables.get(i).equals(variablesCopia.get(j).getNombre())){
+                                            if (nombresVariables.get(i).equals(variablesCopia.get(j).getNombre())) {
                                                 variablesCopia.remove(j);
-                                                j=variablesCopia.size();
+                                                j = variablesCopia.size();
                                             }
                                         }
                                     }
@@ -4200,7 +4205,7 @@ public class FXMLDocumentController implements Initializable {
                                     ArrayList<String> valoresVariables = new ArrayList<>();
                                     ArrayList<String> tokensVariables = new ArrayList<>();
                                     ArrayList<String> palabrasTokensVariables = new ArrayList<>();
-                                    for(int i = 0; i<arrayDeDerechos.size(); i++){
+                                    for (int i = 0; i < arrayDeDerechos.size(); i++) {
                                         //Limpiamos los arreglos al principio de la iteracion
                                         //donde se cambia de etapa, para no tomar valores erroneos
                                         variablesEnTokens.clear();
@@ -4211,14 +4216,14 @@ public class FXMLDocumentController implements Initializable {
                                         tokensVariables.clear();
                                         palabrasTokensVariables.clear();
                                         //IMPRIMOS LOS TOKENS DEL LADO IZQUIERDO PARA ASEGURARSE
-                                        System.out.println("VEZ "+(i+1));
+                                        System.out.println("VEZ " + (i + 1));
                                         System.out.println("Tokens derechos: ");
                                         for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
                                             System.out.println(arrayDeDerechos.get(i).get(j));
                                         }
                                         //imprimos los tokens unidos
                                         String unido = String.join("", arrayDeDerechos.get(i));
-                                        System.out.println("El texto unido: "+unido);
+                                        System.out.println("El texto unido: " + unido);
                                         int tipo = 0;
                                         //ACA PASA ALGO
                                         //tipo 1 solo numeros
@@ -4258,14 +4263,14 @@ public class FXMLDocumentController implements Initializable {
                                         System.out.println(cantidadDeVariablesAValidar);
                                         if (cantidadDeVariablesStringEncontradas > 0 && cantidadDeVariablesStringEncontradas == cantidadDeVariablesAValidar) {
                                             tipo = 1;
-                                        }else if(cantidadDeVariablesStringEncontradas ==0){
+                                        } else if (cantidadDeVariablesStringEncontradas == 0) {
                                             tipo = 0;
-                                        }else{
+                                        } else {
                                             tipo = 3;
                                         }
                                         //ACA TERMINA ESE ALGO
-                                        System.out.println("TIPO = "+tipo);
-                                        if(tipo == 0){
+                                        System.out.println("TIPO = " + tipo);
+                                        if (tipo == 0) {
                                             //solo numeros
                                             System.out.println("hora de imprimir todos los tokens en el arreglo para asi reemplazar");
                                             for (int j = 0; j < arrayDeDerechos.get(i).size(); j++) {
@@ -4320,7 +4325,7 @@ public class FXMLDocumentController implements Initializable {
                                                     //vamos a unir el string
                                                     unido = String.join("", arrayDeDerechos.get(i));
                                                     String ecuacion = unido;
-                                                    
+
                                                     if (Double.isNaN(Double.parseDouble(engine.eval(ecuacion).toString()))) {
                                                         variablesCopia.get(posVariableIgual).setTexto("No es un numero.");
                                                         variablesCopia.get(posVariableIgual).setTipo("texto");
@@ -4336,7 +4341,7 @@ public class FXMLDocumentController implements Initializable {
                                                 } catch (ScriptException ex) {
                                                     Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                                                 }
-                                            }else {
+                                            } else {
                                                 try {
                                                     //cuando la variable no esta en el arreglo
                                                     System.out.println("no hay variable con ese nombre");
@@ -4347,7 +4352,7 @@ public class FXMLDocumentController implements Initializable {
                                                     //vamos a unir el string
                                                     unido = String.join("", arrayDeDerechos.get(i));
                                                     String ecuacion = unido;
-                                                    
+
                                                     System.out.println("voy a validar si la ecuacion no da numero como resultado");
                                                     if (Double.isNaN(Double.parseDouble(engine.eval(ecuacion).toString()))) {
                                                         variableNueva.setTexto("No es un numero.");
@@ -4373,8 +4378,7 @@ public class FXMLDocumentController implements Initializable {
                                                     Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                                                 }
                                             }
-                                        }else
-                                        if(tipo == 1){
+                                        } else if (tipo == 1) {
                                             //solo strings
                                             int cantidadDeSumas = 0;
                                             int candidadPalabras = 0;
@@ -4429,13 +4433,13 @@ public class FXMLDocumentController implements Initializable {
                                                 variablesCopia.add(variableNueva);
                                                 System.out.println(String.join("", palabrasTokensVariables));
                                             }
-                                        }else{
+                                        } else {
                                             //alguna otra cosa(error)
                                             operacionesFallidas++;
-                                            i=arrayDeDerechos.size();
+                                            i = arrayDeDerechos.size();
                                         }
                                     }
-                                    if(operacionesFallidas>0){
+                                    if (operacionesFallidas > 0) {
                                         Alert alert = new Alert(AlertType.INFORMATION);
                                         Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
                                         ImageView imageVie = new ImageView(images);
@@ -4446,7 +4450,7 @@ public class FXMLDocumentController implements Initializable {
                                         alert.showAndWait();
                                         click = false;
                                         variablesCopia.clear();
-                                    }else{
+                                    } else {
                                         variables.clear();
                                         for (int i = 0; i < variablesCopia.size(); i++) {
                                             variables.add(variablesCopia.get(i));
@@ -4456,7 +4460,7 @@ public class FXMLDocumentController implements Initializable {
                                     figura.setTextoFigura(etapa.getTextoFigura());
                                     repintar(cuadro);
                                     //aca deberia terminar la ejecucion de una etapa.
-                                }else{
+                                } else {
                                     Alert alert = new Alert(AlertType.INFORMATION);
                                     Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
                                     ImageView imageVie = new ImageView(images);
@@ -4471,335 +4475,335 @@ public class FXMLDocumentController implements Initializable {
                         }
                     }
                 }
-                
-                if(figura instanceof Decision){
+
+                if (figura instanceof Decision) {
                     Decision decision = new Decision();
                     decision.setTextoFigura(figura.getTextoFigura());
                     click = ingresarTexto(decision, "Decision");
-                    if(click){
+                    if (click) {
                         Pattern p = Pattern.compile("([A-Za-z0-9]{1,30}([\\<|\\>]|[\\>|\\<|\\=|\\!]{2})([A-Za-z0-9]|([\\\"true\\\"]+|[\\\"true\\\"])){1,30}([\\<|\\>|\\!|\\=|\\&|\\|]{2})?)+");
                         Matcher matcher = p.matcher(decision.getTextoFigura());
                         boolean cadenavalida = matcher.matches();
-                        if(cadenavalida){
+                        if (cadenavalida) {
                             figura.setTextoFigura(decision.getTextoFigura());
                             repintar(cuadro);
                         }
                     }
                 }
-                if(figura instanceof InicioFin){
+                if (figura instanceof InicioFin) {
                     InicioFin inicioFin = new InicioFin();
                     inicioFin.setTextoFigura(figura.getTextoFigura());
                     click = ingresarTexto(inicioFin, "Documento");
-                    if(click){
+                    if (click) {
                         figura.setTextoFigura(inicioFin.getTextoFigura());
                         repintar(cuadro);
                     }
                 }
-                if(figura instanceof Ciclo){
+                if (figura instanceof Ciclo) {
                     Ciclo ciclo = new Ciclo();
                     ciclo.setTextoFigura(figura.getTextoFigura());
                     click = ingresarTexto(ciclo, "Ciclo");
-                    if(click){
+                    if (click) {
                         Pattern p = Pattern.compile("([A-Za-z0-9]{1,30}([\\<|\\>]|[\\>|\\<|\\=|\\!]{2})([A-Za-z0-9]|([\\\"true\\\"]+|[\\\"true\\\"])){1,30}([\\<|\\>|\\!|\\=|\\&|\\|]{2})?)+");
                         Matcher matcher = p.matcher(ciclo.getTextoFigura());
                         boolean cadenavalida = matcher.matches();
-                        if(cadenavalida){
+                        if (cadenavalida) {
                             figura.setTextoFigura(ciclo.getTextoFigura());
                             repintar(cuadro);
                         }
                     }
                 }
-                if(figura instanceof Documento){
+                if (figura instanceof Documento) {
                     Documento documento = new Documento();
                     documento.setTextoFigura(figura.getTextoFigura());
                     click = ingresarTexto(documento, "Documento");
-                    if(click){
+                    if (click) {
                         figura.setTextoFigura(documento.getTextoFigura());
                         repintar(cuadro);
                     }
                 }
-                if(figura instanceof Salida){
+                if (figura instanceof Salida) {
                     Salida salida = new Salida();
                     salida.setTextoFigura(figura.getTextoFigura());
                     click = ingresarTexto(salida, "Salida");
-                    if(click){
+                    if (click) {
                         String parentesisAbierto = "";
                         int parentesisAbiertos = 0;
                         String parentesisCerrado = "";
                         int parentesisCerrados = 0;
                         String ladoIzquierdo = "";
                         String ladoDerecho = "";
-                        Pattern p = Pattern.compile("(\\\"[A-Za-z0-9\\ \\+\\-\\*\\/]{1,25}\\\"\\,\\ )((((\\(|\\))|(\\+|\\-|\\/|\\*)|([A-Za-z0-9])){3,40})|([A-Za-z0-9]{1,40}))");                        
+                        Pattern p = Pattern.compile("(\\\"[A-Za-z0-9\\ \\+\\-\\*\\/]{1,25}\\\"\\,\\ )((((\\(|\\))|(\\+|\\-|\\/|\\*)|([A-Za-z0-9])){3,40})|([A-Za-z0-9]{1,40}))");
                         Matcher matcher = p.matcher(salida.getTextoFigura());
                         boolean cadenaValida = matcher.matches();
-                        if(cadenaValida){
+                        if (cadenaValida) {
                             parentesisAbierto = salida.getTextoFigura().replaceAll("[\\\"\\,A-Za-z0-9\\ \\+\\-\\*\\/]", "");
                             parentesisCerrado = salida.getTextoFigura().replaceAll("[\\\"\\,A-Za-z0-9\\ \\+\\-\\*\\/]", "");
                             parentesisAbiertos = parentesisAbierto.length();
                             parentesisCerrados = parentesisCerrado.length();
                             if (parentesisAbiertos == parentesisCerrados) {
-                            int posComa;
-                            int posEspacio;
-                            posComa = salida.getTextoFigura().indexOf(",");
-                            posEspacio = salida.getTextoFigura().lastIndexOf(" ");
-                            ladoIzquierdo = salida.getTextoFigura().substring(0, posComa);
-                            ladoDerecho = salida.getTextoFigura().substring(posEspacio + 1, salida.getTextoFigura().length());
-                            boolean validaLadoDerecho = true;
-                            String expression = ladoDerecho;
-                            String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[-+/()])|(?=[-+/()])");
-                            for (String token : tokens) {
-                                System.out.println(token);
-                            }
-                            ArrayList<String> arrayTokens = new ArrayList<>();
-                            for (String token : tokens) {
-                                arrayTokens.add(token);
-                            }
-                            if (arrayTokens.size() == 1) {
-                                //trabajo en solo una variable
-                                //"el valor de a es",a
+                                int posComa;
+                                int posEspacio;
+                                posComa = salida.getTextoFigura().indexOf(",");
+                                posEspacio = salida.getTextoFigura().lastIndexOf(" ");
+                                ladoIzquierdo = salida.getTextoFigura().substring(0, posComa);
+                                ladoDerecho = salida.getTextoFigura().substring(posEspacio + 1, salida.getTextoFigura().length());
+                                boolean validaLadoDerecho = true;
+                                String expression = ladoDerecho;
+                                String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[-+/()])|(?=[-+/()])");
+                                for (String token : tokens) {
+                                    System.out.println(token);
+                                }
+                                ArrayList<String> arrayTokens = new ArrayList<>();
+                                for (String token : tokens) {
+                                    arrayTokens.add(token);
+                                }
+                                if (arrayTokens.size() == 1) {
+                                    //trabajo en solo una variable
+                                    //"el valor de a es",a
 
-                                //vemos si la variable existe o no en el arreglo
-                                boolean existeEnLasVariables = false;
-                                int posicionVariableIgual = 0;
-                                for (int i = 0; i < variables.size(); i++) {
-                                    if (arrayTokens.get(0).equals(variables.get(i).getNombre())) {
-                                        posicionVariableIgual = i;
-                                        i = variables.size();
-                                        existeEnLasVariables = true;
+                                    //vemos si la variable existe o no en el arreglo
+                                    boolean existeEnLasVariables = false;
+                                    int posicionVariableIgual = 0;
+                                    for (int i = 0; i < variables.size(); i++) {
+                                        if (arrayTokens.get(0).equals(variables.get(i).getNombre())) {
+                                            posicionVariableIgual = i;
+                                            i = variables.size();
+                                            existeEnLasVariables = true;
+                                        }
                                     }
-                                }
-                                if (existeEnLasVariables) {
-                                    //reemplazar el texto por el valor de la variable
-                                    ladoDerecho = variables.get(posicionVariableIgual).getTexto();
-                                    System.out.println("existe en las variables");
-                                    System.out.println(ladoIzquierdo + " " + ladoDerecho);
+                                    if (existeEnLasVariables) {
+                                        //reemplazar el texto por el valor de la variable
+                                        ladoDerecho = variables.get(posicionVariableIgual).getTexto();
+                                        System.out.println("existe en las variables");
+                                        System.out.println(ladoIzquierdo + " " + ladoDerecho);
+                                    } else {
+                                        //reemplazar por 0 el valor de la variable
+                                        ladoDerecho = Integer.toString(0);
+                                        System.out.println("no existe en las variables");
+                                        System.out.println(ladoIzquierdo + " " + ladoDerecho);
+                                    }
                                 } else {
-                                    //reemplazar por 0 el valor de la variable
-                                    ladoDerecho = Integer.toString(0);
-                                    System.out.println("no existe en las variables");
-                                    System.out.println(ladoIzquierdo + " " + ladoDerecho);
-                                }
-                            } else {
-                                //validaciones del lado derecho
-                                //ver que no empieze el lado derecho con un )
-                                //variable=)
-                                if (validaLadoDerecho) {
-                                    System.out.println("Llegue a validacion 1");
-                                    if (arrayTokens.get(0).equals(")")) {
-                                        validaLadoDerecho = false;
+                                    //validaciones del lado derecho
+                                    //ver que no empieze el lado derecho con un )
+                                    //variable=)
+                                    if (validaLadoDerecho) {
+                                        System.out.println("Llegue a validacion 1");
+                                        if (arrayTokens.get(0).equals(")")) {
+                                            validaLadoDerecho = false;
+                                        }
                                     }
-                                }
-                                //ver que no haya una letra o simbolo antes de un (
-                                //variable=a+b(
-                                if (validaLadoDerecho) {
-                                    System.out.println("Llegue a validacion 2");
-                                    if (arrayTokens.get(0).equals("(")) {
+                                    //ver que no haya una letra o simbolo antes de un (
+                                    //variable=a+b(
+                                    if (validaLadoDerecho) {
+                                        System.out.println("Llegue a validacion 2");
+                                        if (arrayTokens.get(0).equals("(")) {
+                                            for (int i = 1; i < arrayTokens.size(); i++) {
+                                                if (arrayTokens.get(i).equals("(")) {
+                                                    if (arrayTokens.get((i) - 1).matches("[A-Za-z0-9]")) {
+                                                        validaLadoDerecho = false;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    //ver que no haya un simbolo justo antes de )
+                                    //variable=a+b+)
+                                    if (validaLadoDerecho) {
+                                        System.out.println("Llegue a validacion 3");
                                         for (int i = 1; i < arrayTokens.size(); i++) {
-                                            if (arrayTokens.get(i).equals("(")) {
-                                                if (arrayTokens.get((i) - 1).matches("[A-Za-z0-9]")) {
+                                            if (arrayTokens.get(i).equals(")")) {
+                                                if (arrayTokens.get((i) - 1).matches("[\\+\\-\\*\\/]")) {
                                                     validaLadoDerecho = false;
                                                 }
                                             }
                                         }
                                     }
-                                }
-                                //ver que no haya un simbolo justo antes de )
-                                //variable=a+b+)
-                                if (validaLadoDerecho) {
-                                    System.out.println("Llegue a validacion 3");
-                                    for (int i = 1; i < arrayTokens.size(); i++) {
-                                        if (arrayTokens.get(i).equals(")")) {
-                                            if (arrayTokens.get((i) - 1).matches("[\\+\\-\\*\\/]")) {
-                                                validaLadoDerecho = false;
-                                            }
-                                        }
-                                    }
-                                }
-                                //valida que no haya ()
-                                //variable=()
-                                if (validaLadoDerecho) {
-                                    System.out.println("Llegue a validacion 4");
-                                    for (int i = 0; i < arrayTokens.size(); i++) {
-                                        if (arrayTokens.get(i).equals(")")) {
-                                            if ((i + 1) < arrayTokens.size() && arrayTokens.get(i + 1).matches("[\\(]")) {
-                                                validaLadoDerecho = false;
-                                            }
-                                        }
-                                    }
-                                }
-                                //valida que no empieze con un simbolo
-                                //variable=+
-                                if (validaLadoDerecho) {
-                                    System.out.println("Llegue a validacion 5");
-                                    if (arrayTokens.get(0).matches("[\\+\\-\\*\\/]")) {
-                                        validaLadoDerecho = false;
-                                    }
-                                }
-                                //valida que no haya simbolo justo despues de (
-                                //variable=(+
-                                if (validaLadoDerecho) {
-                                    System.out.println("Llegue a validacion 6");
-                                    for (int i = 0; i < arrayTokens.size(); i++) {
-                                        if (arrayTokens.get(i).equals("(")) {
-                                            if ((i + 1) < arrayTokens.size() && arrayTokens.get(i + 1).matches("[\\+\\-\\*\\/]")) {
-                                                validaLadoDerecho = false;
-                                            }
-                                        }
-                                    }
-                                }
-                                //valida que no haya )(
-                                //variable=)(
-                                if (validaLadoDerecho) {
-                                    System.out.println("Llegue a validacion 7");
-                                    for (int i = 0; i < arrayTokens.size(); i++) {
-                                        if (arrayTokens.get(i).equals(")")) {
-                                            if ((i + 1) < arrayTokens.size() && arrayTokens.get(i + 1).matches("[\\(]")) {
-                                                validaLadoDerecho = false;
-                                            }
-                                        }
-                                    }
-                                }
-                                //si el lado derecho empieza con un ( avanzo a la siguiente posicion
-                                //si no, veo si la posicion actual es ( luego
-                                //pregunto si la anterior era una letra, numero(0-9) o simbolo, si lo era es un error.
-                                //si no, transformor el token anterior a numero y pregunto si es mayor a 9
-                                //si lo es tiro error.
-                                if (validaLadoDerecho) {
-                                    System.out.println("Llegue a validacion 8");
-                                    for (int i = 0; i < arrayTokens.size(); i++) {
-                                        if (arrayTokens.get(0).equals("(")) {
-                                            i++;
-                                        } else if (arrayTokens.get(i).equals("(")) {
-                                            if (arrayTokens.get(i - 1).matches("[A-Za-z0-9\\+\\-\\*\\/]")) {
-                                                validaLadoDerecho = false;
-                                            } else if (Integer.parseInt(arrayTokens.get(i - 1)) > 9) {
-                                                validaLadoDerecho = false;
-                                            }
-                                        }
-                                    }
-                                }
-                                //valida que no hayan 2 simbolos seguidos
-                                //variable=a+-b
-                                if (validaLadoDerecho) {
-                                    System.out.println("Llegue a validacion 9");
-                                    for (int i = 0; i < arrayTokens.size(); i++) {
-                                        if (arrayTokens.get(i).matches("[\\+\\-\\*\\/]")) {
-                                            if ((i + 1) < arrayTokens.size() && arrayTokens.get(i + 1).matches("[\\+\\-\\*\\/]")) {
-                                                validaLadoDerecho = false;
-                                            }
-                                        }
-                                    }
-                                }
-                                //valida que la posicion final no sea (
-                                //variable=a+b(
-                                if (validaLadoDerecho) {
-                                    System.out.println("Llegue a validacion 10");
-                                    if (arrayTokens.get(arrayTokens.size() - 1).equals("(")) {
-                                        validaLadoDerecho = false;
-                                    }
-                                }
-                                //valida que la posicion final no sea un simbolo
-                                //variable=a+b+
-                                if (validaLadoDerecho) {
-                                    System.out.println("Llegue a validacion 11");
-                                    if (arrayTokens.get(arrayTokens.size() - 1).matches("[\\+\\-\\*\\/]")) {
-                                        validaLadoDerecho = false;
-                                    }
-                                }
-                                if (validaLadoDerecho) {
-                                    ArrayList<String> variablesEnTokens = new ArrayList<>();
-                                    ArrayList<Integer> posicionesVariablesEnArrayTokens = new ArrayList<>();
-                                    ArrayList<String> valoresVariables = new ArrayList<>();
-                                    for (int i = 0; i < arrayTokens.size(); i++) {
-                                        System.out.println(arrayTokens.get(i).replaceAll("[0-9\\+\\-\\*\\/\\(\\)]", ""));
-                                        if (!(arrayTokens.get(i).replaceAll("[0-9\\+\\-\\*\\/\\(\\)]", "").equals(""))) {
-                                            variablesEnTokens.add(arrayTokens.get(i));
-                                            posicionesVariablesEnArrayTokens.add(i);
-                                        }
-                                    }
-                                    //print
-                                    System.out.println("variables en tokens");
-                                    for (int i = 0; i < variablesEnTokens.size(); i++) {
-                                        System.out.println(variablesEnTokens.get(i));
-                                    }
-                                    System.out.println("posiciones variables en array tokens original");
-                                    for (int i = 0; i < posicionesVariablesEnArrayTokens.size(); i++) {
-                                        System.out.println(posicionesVariablesEnArrayTokens.get(i));
-                                    }
-                                    //
-                                    boolean existe = false;
-                                    if (!variablesEnTokens.isEmpty()) {
-                                        System.out.println("variablesEnTokens no esta vacio");
-                                        for (int i = 0; i < variablesEnTokens.size(); i++) {
-                                            for (int j = 0; j < variables.size(); j++) {
-                                                System.out.println(variablesEnTokens.get(i));
-                                                System.out.println("coma");
-                                                System.out.println(variables.get(j).getNombre());
-                                                if (variablesEnTokens.get(i).equals(variables.get(j).getNombre())) {
-                                                    valoresVariables.add(variables.get(j).getTexto());
-                                                    existe = true;
+                                    //valida que no haya ()
+                                    //variable=()
+                                    if (validaLadoDerecho) {
+                                        System.out.println("Llegue a validacion 4");
+                                        for (int i = 0; i < arrayTokens.size(); i++) {
+                                            if (arrayTokens.get(i).equals(")")) {
+                                                if ((i + 1) < arrayTokens.size() && arrayTokens.get(i + 1).matches("[\\(]")) {
+                                                    validaLadoDerecho = false;
                                                 }
                                             }
-                                            if (existe == false) {
-                                                valoresVariables.add("0");
-                                            } else {
-                                                existe = false;
+                                        }
+                                    }
+                                    //valida que no empieze con un simbolo
+                                    //variable=+
+                                    if (validaLadoDerecho) {
+                                        System.out.println("Llegue a validacion 5");
+                                        if (arrayTokens.get(0).matches("[\\+\\-\\*\\/]")) {
+                                            validaLadoDerecho = false;
+                                        }
+                                    }
+                                    //valida que no haya simbolo justo despues de (
+                                    //variable=(+
+                                    if (validaLadoDerecho) {
+                                        System.out.println("Llegue a validacion 6");
+                                        for (int i = 0; i < arrayTokens.size(); i++) {
+                                            if (arrayTokens.get(i).equals("(")) {
+                                                if ((i + 1) < arrayTokens.size() && arrayTokens.get(i + 1).matches("[\\+\\-\\*\\/]")) {
+                                                    validaLadoDerecho = false;
+                                                }
                                             }
                                         }
-
-                                        System.out.println("valores de variables en arraytokens");
-                                        for (int i = 0; i < valoresVariables.size(); i++) {
-                                            System.out.println(valoresVariables.get(i));
-                                        }
-                                        System.out.println("imprimir los tokens originales");
+                                    }
+                                    //valida que no haya )(
+                                    //variable=)(
+                                    if (validaLadoDerecho) {
+                                        System.out.println("Llegue a validacion 7");
                                         for (int i = 0; i < arrayTokens.size(); i++) {
-                                            System.out.println(arrayTokens.get(i));
+                                            if (arrayTokens.get(i).equals(")")) {
+                                                if ((i + 1) < arrayTokens.size() && arrayTokens.get(i + 1).matches("[\\(]")) {
+                                                    validaLadoDerecho = false;
+                                                }
+                                            }
                                         }
-                                        System.out.println("llege al segundo if");
+                                    }
+                                    //si el lado derecho empieza con un ( avanzo a la siguiente posicion
+                                    //si no, veo si la posicion actual es ( luego
+                                    //pregunto si la anterior era una letra, numero(0-9) o simbolo, si lo era es un error.
+                                    //si no, transformor el token anterior a numero y pregunto si es mayor a 9
+                                    //si lo es tiro error.
+                                    if (validaLadoDerecho) {
+                                        System.out.println("Llegue a validacion 8");
+                                        for (int i = 0; i < arrayTokens.size(); i++) {
+                                            if (arrayTokens.get(0).equals("(")) {
+                                                i++;
+                                            } else if (arrayTokens.get(i).equals("(")) {
+                                                if (arrayTokens.get(i - 1).matches("[A-Za-z0-9\\+\\-\\*\\/]")) {
+                                                    validaLadoDerecho = false;
+                                                } else if (Integer.parseInt(arrayTokens.get(i - 1)) > 9) {
+                                                    validaLadoDerecho = false;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    //valida que no hayan 2 simbolos seguidos
+                                    //variable=a+-b
+                                    if (validaLadoDerecho) {
+                                        System.out.println("Llegue a validacion 9");
+                                        for (int i = 0; i < arrayTokens.size(); i++) {
+                                            if (arrayTokens.get(i).matches("[\\+\\-\\*\\/]")) {
+                                                if ((i + 1) < arrayTokens.size() && arrayTokens.get(i + 1).matches("[\\+\\-\\*\\/]")) {
+                                                    validaLadoDerecho = false;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    //valida que la posicion final no sea (
+                                    //variable=a+b(
+                                    if (validaLadoDerecho) {
+                                        System.out.println("Llegue a validacion 10");
+                                        if (arrayTokens.get(arrayTokens.size() - 1).equals("(")) {
+                                            validaLadoDerecho = false;
+                                        }
+                                    }
+                                    //valida que la posicion final no sea un simbolo
+                                    //variable=a+b+
+                                    if (validaLadoDerecho) {
+                                        System.out.println("Llegue a validacion 11");
+                                        if (arrayTokens.get(arrayTokens.size() - 1).matches("[\\+\\-\\*\\/]")) {
+                                            validaLadoDerecho = false;
+                                        }
+                                    }
+                                    if (validaLadoDerecho) {
+                                        ArrayList<String> variablesEnTokens = new ArrayList<>();
+                                        ArrayList<Integer> posicionesVariablesEnArrayTokens = new ArrayList<>();
+                                        ArrayList<String> valoresVariables = new ArrayList<>();
+                                        for (int i = 0; i < arrayTokens.size(); i++) {
+                                            System.out.println(arrayTokens.get(i).replaceAll("[0-9\\+\\-\\*\\/\\(\\)]", ""));
+                                            if (!(arrayTokens.get(i).replaceAll("[0-9\\+\\-\\*\\/\\(\\)]", "").equals(""))) {
+                                                variablesEnTokens.add(arrayTokens.get(i));
+                                                posicionesVariablesEnArrayTokens.add(i);
+                                            }
+                                        }
+                                        //print
+                                        System.out.println("variables en tokens");
+                                        for (int i = 0; i < variablesEnTokens.size(); i++) {
+                                            System.out.println(variablesEnTokens.get(i));
+                                        }
+                                        System.out.println("posiciones variables en array tokens original");
                                         for (int i = 0; i < posicionesVariablesEnArrayTokens.size(); i++) {
-                                            arrayTokens.set(posicionesVariablesEnArrayTokens.get(i), valoresVariables.get(i));
+                                            System.out.println(posicionesVariablesEnArrayTokens.get(i));
                                         }
-                                        System.out.println("imprimir los tokens despues: ");
-                                        for (int i = 0; i < arrayTokens.size(); i++) {
-                                            System.out.println(arrayTokens.get(i));
+                                        //
+                                        boolean existe = false;
+                                        if (!variablesEnTokens.isEmpty()) {
+                                            System.out.println("variablesEnTokens no esta vacio");
+                                            for (int i = 0; i < variablesEnTokens.size(); i++) {
+                                                for (int j = 0; j < variables.size(); j++) {
+                                                    System.out.println(variablesEnTokens.get(i));
+                                                    System.out.println("coma");
+                                                    System.out.println(variables.get(j).getNombre());
+                                                    if (variablesEnTokens.get(i).equals(variables.get(j).getNombre())) {
+                                                        valoresVariables.add(variables.get(j).getTexto());
+                                                        existe = true;
+                                                    }
+                                                }
+                                                if (existe == false) {
+                                                    valoresVariables.add("0");
+                                                } else {
+                                                    existe = false;
+                                                }
+                                            }
+
+                                            System.out.println("valores de variables en arraytokens");
+                                            for (int i = 0; i < valoresVariables.size(); i++) {
+                                                System.out.println(valoresVariables.get(i));
+                                            }
+                                            System.out.println("imprimir los tokens originales");
+                                            for (int i = 0; i < arrayTokens.size(); i++) {
+                                                System.out.println(arrayTokens.get(i));
+                                            }
+                                            System.out.println("llege al segundo if");
+                                            for (int i = 0; i < posicionesVariablesEnArrayTokens.size(); i++) {
+                                                arrayTokens.set(posicionesVariablesEnArrayTokens.get(i), valoresVariables.get(i));
+                                            }
+                                            System.out.println("imprimir los tokens despues: ");
+                                            for (int i = 0; i < arrayTokens.size(); i++) {
+                                                System.out.println(arrayTokens.get(i));
+                                            }
                                         }
+                                        variablesEnTokens.clear();
+                                        posicionesVariablesEnArrayTokens.clear();
+                                        valoresVariables.clear();
                                     }
-                                    variablesEnTokens.clear();
-                                    posicionesVariablesEnArrayTokens.clear();
-                                    valoresVariables.clear();
-                                }
-                                if (validaLadoDerecho) {
-                                    try {
-                                        Variable variableNueva = new Variable();
-                                        variableNueva.setNombre(ladoIzquierdo);
-                                        ScriptEngineManager mgr = new ScriptEngineManager();
-                                        ScriptEngine engine = mgr.getEngineByName("JavaScript");
-                                        //vamos a unir el string
-                                        ladoDerecho = String.join("", arrayTokens);
-                                        String ecuacion = ladoDerecho;
-                                        if (Double.isNaN(Double.parseDouble(engine.eval(ecuacion).toString()))) {
-                                            variableNueva.setTexto("No es un numero.");
-                                        } else if (Double.isInfinite(Double.parseDouble(engine.eval(ecuacion).toString()))) {
-                                            variableNueva.setTexto("Infinito.");
-                                        } else {
-                                            variableNueva.setTexto(engine.eval(ecuacion).toString());
+                                    if (validaLadoDerecho) {
+                                        try {
+                                            Variable variableNueva = new Variable();
+                                            variableNueva.setNombre(ladoIzquierdo);
+                                            ScriptEngineManager mgr = new ScriptEngineManager();
+                                            ScriptEngine engine = mgr.getEngineByName("JavaScript");
+                                            //vamos a unir el string
+                                            ladoDerecho = String.join("", arrayTokens);
+                                            String ecuacion = ladoDerecho;
+                                            if (Double.isNaN(Double.parseDouble(engine.eval(ecuacion).toString()))) {
+                                                variableNueva.setTexto("No es un numero.");
+                                            } else if (Double.isInfinite(Double.parseDouble(engine.eval(ecuacion).toString()))) {
+                                                variableNueva.setTexto("Infinito.");
+                                            } else {
+                                                variableNueva.setTexto(engine.eval(ecuacion).toString());
+                                            }
+                                            System.out.println(variableNueva.getNombre() + variableNueva.getTexto());
+                                        } catch (ScriptException ex) {
+                                            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                                         }
-                                        System.out.println(variableNueva.getNombre() + variableNueva.getTexto());
-                                    } catch (ScriptException ex) {
-                                        Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                                    } else {
+                                        Alert alert = new Alert(AlertType.INFORMATION);
+                                        Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
+                                        ImageView imageVie = new ImageView(images);
+                                        alert.setGraphic(imageVie);
+                                        alert.setTitle("Error.");
+                                        alert.setHeaderText("Ocurrio un error.");
+                                        alert.setContentText("El formato ingresado es incorrecto o se usaron variables no declaradas en la operacion.");
+                                        alert.showAndWait();
+                                        click = false;
                                     }
-                                } else {
-                                    Alert alert = new Alert(AlertType.INFORMATION);
-                                    Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
-                                    ImageView imageVie = new ImageView(images);
-                                    alert.setGraphic(imageVie);
-                                    alert.setTitle("Error.");
-                                    alert.setHeaderText("Ocurrio un error.");
-                                    alert.setContentText("El formato ingresado es incorrecto o se usaron variables no declaradas en la operacion.");
-                                    alert.showAndWait();
-                                    click = false;
                                 }
-                            }
                             } else {
                                 Alert alert = new Alert(AlertType.INFORMATION);
                                 Image images = new Image(getClass().getResource("/Clases_Figura/Estilos/Error.png").toExternalForm());
@@ -4861,7 +4865,8 @@ public class FXMLDocumentController implements Initializable {
 
         }
     }
- public void DetectarDecisionDer(Decision Condicional) {
+
+    public void DetectarDecisionDer(Decision Condicional) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
         for (int i = formas.size() - 1; i > 0; i--) {
             Figura d = formas.get(i);
@@ -4937,8 +4942,9 @@ public class FXMLDocumentController implements Initializable {
             }
         }
     }
-    
+
     public ArrayList<String> pseudocodigo = new ArrayList();
+
     public void crearPseudocodigo() {
 
         Figura aux = formas.get(0);
@@ -4949,12 +4955,14 @@ public class FXMLDocumentController implements Initializable {
             for (int j = 0; j < formas.size(); j++) {
                 if (formas.get(j).getID() == aux.getSiguiente()) {
                     aux = formas.get(j);
+                    if (identarCiclo(aux)) {
+                    } else {
                         if (aux instanceof Etapa) {
                             pseudocodigo.add("    " + aux.getTextoFigura());
 
                         }
                         if (aux instanceof Entrada) {
-                           
+
                             pseudocodigo.add("    Entrada " + aux.getTextoFigura());
 
                         }
@@ -4963,13 +4971,16 @@ public class FXMLDocumentController implements Initializable {
 
                         }
                         if (aux instanceof Decision) {
-                            
+                            imprimirDecision((Decision) aux, "    ");
 
                         }
                         if (aux instanceof Ciclo) {
-                           
+                            //System.out.println(">>    Repetir");
+                            //System.out.println(">>    Hasta que "+aux.getTextoFigura());
+                            imprimirCiclos((Ciclo) aux, "    ");
                         }
-                    
+
+                    }
                 }
             }
         }
@@ -4977,26 +4988,151 @@ public class FXMLDocumentController implements Initializable {
         pseudocodigo.add("Fin Algoritmo");
         pasarATXT();
     }
-    
-    public void pasarATXT(){
-           try{
-            
-            File archivo=new File("pseudocodigo.txt");// Se crea el Archivo
-            FileWriter escribir= new FileWriter(archivo,true);
+
+    public void codigoDecision(Figura aux, String identacion) {
+        if (identarCiclo(aux)) {
+        } else {
+            if (aux instanceof Etapa) {
+                pseudocodigo.add(identacion + aux.getTextoFigura());
+                System.out.println(">>" + identacion + aux.getTextoFigura());
+            }
+            if (aux instanceof Entrada) {
+                System.out.println(">>" + identacion + "Entrada " + aux.getTextoFigura());
+                pseudocodigo.add(identacion + "Entrada " + aux.getTextoFigura());
+
+            }
+            if (aux instanceof Salida) {
+                System.out.println(">>" + identacion + "Escribir " + aux.getTextoFigura());
+                pseudocodigo.add(identacion + "Escribir " + aux.getTextoFigura());
+
+            }
+            if (aux instanceof Decision) {
+                imprimirDecision((Decision) aux, identacion + "  ");
+
+            }
+            if (aux instanceof Ciclo) {
+                imprimirCiclos((Ciclo) aux, identacion);
+
+            }
+        }
+
+    }
+
+    public void imprimirDecision(Decision decision, String identacion) {
+        pseudocodigo.add(identacion + "Si " + decision.getTextoFigura() + " Entonces");
+        Figura inicio = null;
+        for (int w = 0; w < decision.getVerdaderas().size(); w++) {
+            if (decision.getVerdaderas().get(w).getAnterior() == -8) {
+                inicio = decision.getVerdaderas().get(w);
+                codigoDecision(inicio, identacion + "  ");
+            }
+        }
+
+        if (inicio != null) {
+            for (int k = 0; inicio.getSiguiente() != -9; k++) {
+
+                for (int l = 0; l < decision.getVerdaderas().size(); l++) {
+                    if (decision.getVerdaderas().get(l).getID() == inicio.getSiguiente()) {
+                        inicio = decision.getVerdaderas().get(l);
+                        codigoDecision(inicio, identacion + "  ");
+                    }
+                }
+            }
+        }
+
+        pseudocodigo.add(identacion + "SiNO ");
+
+        Figura inicioF = null;
+        for (int w = 0; w < decision.getFalsas().size(); w++) {
+            if (decision.getFalsas().get(w).getAnterior() == -8) {
+                inicioF = decision.getFalsas().get(w);
+                codigoDecision(inicioF, identacion + "  ");
+            }
+        }
+
+        if (inicioF != null) {
+            for (int k = 0; inicioF.getSiguiente() != -9; k++) {
+                for (int l = 0; l < decision.getFalsas().size(); l++) {
+                    if (decision.getFalsas().get(l).getID() == inicioF.getSiguiente()) {
+                        inicioF = decision.getFalsas().get(l);
+                        codigoDecision(inicioF, identacion + "  ");
+                    }
+                }
+            }
+        }
+        pseudocodigo.add(identacion + "FinSi ");
+
+    }
+
+    public boolean identarCiclo(Figura aux) {
+        boolean algunCiclo = false;
+        for (int i = 0; i < formas.size(); i++) {
+            Figura ciclo = formas.get(i);
+            if (ciclo instanceof Ciclo) {
+                for (int j = 0; j < ((Ciclo) ciclo).getIdFormas().size() - 1; j++) {
+                    if (aux.getID() == ((Ciclo) ciclo).getIdFormas().get(j)) {
+                        algunCiclo = true;
+
+                    }
+                }
+
+            }
+        }
+        return algunCiclo;
+
+    }
+
+    public void imprimirCiclos(Ciclo ciclo, String identacion) {
+        pseudocodigo.add(identacion + "Repetir ");
+        for (int i = 0; i < ciclo.getIdFormas().size() - 1; i++) {
+            int id = ciclo.getIdFormas().get(i);
+            for (int j = 0; j < formas.size(); j++) {
+
+                Figura aux = formas.get(j);
+                if (aux.getID() == id) {
+                    if (aux instanceof Etapa) {
+                        pseudocodigo.add(identacion + "  " + aux.getTextoFigura());
+                        System.out.println(">>" + identacion + "  " + aux.getTextoFigura());
+                    }
+                    if (aux instanceof Entrada) {
+                        System.out.println(">>" + identacion + "  " + "Entrada " + aux.getTextoFigura());
+                        pseudocodigo.add(identacion + "  " + "Entrada " + aux.getTextoFigura());
+
+                    }
+                    if (aux instanceof Salida) {
+                        System.out.println(">>" + identacion + "  " + "Escribir " + aux.getTextoFigura());
+                        pseudocodigo.add(identacion + "  " + "Escribir " + aux.getTextoFigura());
+
+                    }
+                    if (aux instanceof Ciclo) {
+                        imprimirCiclos((Ciclo) aux, identacion + "  ");
+
+                    }
+
+                }
+            }
+
+        }
+        pseudocodigo.add(identacion + "Hasta que  " + ciclo.getTextoFigura());
+
+    }
+
+    public void pasarATXT() {
+        try {
+
+            File archivo = new File("pseudocodigo.txt");// Se crea el Archivo
+            FileWriter escribir = new FileWriter(archivo, true);
             BufferedWriter bw = new BufferedWriter(escribir);
-            bw.newLine(); 
-               for (int i = 0; i < pseudocodigo.size(); i++) {
-                   escribir.write(pseudocodigo.get(i)+"\r\n");
-               }
-   
+            bw.newLine();
+            for (int i = 0; i < pseudocodigo.size(); i++) {
+                escribir.write(pseudocodigo.get(i) + "\r\n");
+            }
+
             pseudocodigo.clear();
             escribir.close();
-        }
-        
-        
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Error al escribir");
         }
-    
+
     }
 }

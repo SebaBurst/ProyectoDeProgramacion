@@ -19,6 +19,15 @@ import static proyectov1.FXMLDocumentController.formas;
  */
 public class Ciclo extends Figura implements java.io.Serializable {
 
+    ArrayList<Integer> idFormas = new ArrayList();
+
+    public ArrayList<Integer> getIdFormas() {
+        return idFormas;
+    }
+
+    public void setIdFormas(int id) {
+        idFormas.add(id);
+    }
     int aumento = 0;
 
     public Ciclo() {
