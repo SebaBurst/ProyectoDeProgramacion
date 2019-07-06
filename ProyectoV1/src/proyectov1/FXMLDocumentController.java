@@ -4491,7 +4491,15 @@ public class FXMLDocumentController implements Initializable {
                         }
                     }
                 }
-                
+                if(figura instanceof InicioFin){
+                    InicioFin inicioFin = new InicioFin();
+                    inicioFin.setTextoFigura(figura.getTextoFigura());
+                    click = ingresarTexto(inicioFin, "Documento");
+                    if(click){
+                        figura.setTextoFigura(inicioFin.getTextoFigura());
+                        repintar(cuadro);
+                    }
+                }
                 if(figura instanceof Ciclo){
                     Ciclo ciclo = new Ciclo();
                     ciclo.setTextoFigura(figura.getTextoFigura());
