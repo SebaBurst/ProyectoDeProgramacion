@@ -14,9 +14,11 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -4980,5 +4982,28 @@ public class FXMLDocumentController implements Initializable {
         }
 
         pseudocodigo.add("Fin Algoritmo");
+        pasarATXT();
+    }
+    
+    public void pasarATXT(){
+           try{
+            
+            File archivo=new File("pseudocodigo.txt");// Se crea el Archivo
+            FileWriter escribir= new FileWriter(archivo,true);
+            BufferedWriter bw = new BufferedWriter(escribir);
+            bw.newLine(); 
+               for (int i = 0; i < pseudocodigo.size(); i++) {
+                   escribir.write(pseudocodigo.get(i)+"\r\n");
+               }
+   
+            pseudocodigo.clear();
+            escribir.close();
+        }
+        
+        
+        catch(Exception e){
+            System.out.println("Error al escribir");
+        }
+    
     }
 }
