@@ -1560,12 +1560,32 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         }
-        if (click == true) {
+        if (click == true&& edit==true) {
             System.out.println("imprime todas las variables");
             for (int i = 0; i < variables.size(); i++) {
                 System.out.println("variable " + (i + 1) + ". nombre: " + variables.get(i).getNombre() + ". lado derecho: " + variables.get(i).getTexto() + ". tipo: " + variables.get(i).getTipo());
             }
             separarFlujo(etapa, cantidad);
+
+        } else if (edit == false && click==true) {
+            System.out.println(">> Entre al editar documento");
+            for (int i = 0; i < formas.size(); i++) {
+                if (formas.get(i).getID() == idEdit) {
+                    formas.remove(i);
+
+                }
+            }
+            repintar(cuadro);
+            etapa.setAnterior(anterior);
+            etapa.setSiguiente(siguiente);
+            etapa.setID(idEdit);
+            etapa.setFlujoInferior(fsiguiente);
+            etapa.setFlujoSuperior(fanterios);
+            etapa.dibujar(cuadro, xEdit, yEdit);
+            edit = true;
+            Decision.setDisable(false);
+            Ciclo.setDisable(false);
+            formas.add(etapa);
         }
     }
 
@@ -1699,12 +1719,31 @@ public class FXMLDocumentController implements Initializable {
                 alert.setContentText("El formato ingresado es incorrecto.");
                 alert.showAndWait();
             }
-            if (click == true) {
+            if (click == true && edit == true) {
                 Variable variable = new Variable();
                 System.out.println("Figura antes: " + entrada.getTextoFigura());
                 entrada.setTextoFigura(aux);
                 separarFlujo(entrada, cantidad);
 
+            } else if (edit == false && click==true) {
+                System.out.println(">> Entre al editar documento");
+                for (int i = 0; i < formas.size(); i++) {
+                    if (formas.get(i).getID() == idEdit) {
+                        formas.remove(i);
+
+                    }
+                }
+                repintar(cuadro);
+                entrada.setAnterior(anterior);
+                entrada.setSiguiente(siguiente);
+                entrada.setID(idEdit);
+                entrada.setFlujoInferior(fsiguiente);
+                entrada.setFlujoSuperior(fanterios);
+                entrada.dibujar(cuadro, xEdit, yEdit);
+                edit = true;
+                Decision.setDisable(false);
+                Ciclo.setDisable(false);
+                formas.add(entrada);
             }
             System.out.println("IMPRIMOS TODAS LAS VARIABLES EXISTENTES");
             for (int i = 0; i < variables.size(); i++) {
@@ -1846,7 +1885,7 @@ public class FXMLDocumentController implements Initializable {
             documento.setFlujoInferior(fsiguiente);
             documento.setFlujoSuperior(fanterios);
             documento.dibujar(cuadro, xEdit, yEdit);
-            edit = false;
+            edit = true;
             Decision.setDisable(false);
             Ciclo.setDisable(false);
             formas.add(documento);
@@ -1984,7 +2023,7 @@ public class FXMLDocumentController implements Initializable {
         int parentesisCerrados = 0;
         String ladoIzquierdo = "";
         String ladoDerecho = "";
-        if (click) {
+        if (click == true) {
             boolean valida = true;
             Pattern p = Pattern.compile("(\\\"[A-Za-z0-9\\ \\+\\-\\*\\/]{1,25}\\\"\\,\\ )((((\\(|\\))|(\\+|\\-|\\/|\\*)|([A-Za-z0-9])){3,40})|([A-Za-z0-9]{1,40}))");
             Matcher matcher = p.matcher(salida.getTextoFigura());
@@ -2285,9 +2324,28 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         }
-        if (click == true) {
-
+        if (click == true && edit == true) {
             separarFlujo(salida, cantidad);
+
+        } else if (edit == false && click==true) {
+            System.out.println(">> Entre al editar documento");
+            for (int i = 0; i < formas.size(); i++) {
+                if (formas.get(i).getID() == idEdit) {
+                    formas.remove(i);
+
+                }
+            }
+            repintar(cuadro);
+            salida.setAnterior(anterior);
+            salida.setSiguiente(siguiente);
+            salida.setID(idEdit);
+            salida.setFlujoInferior(fsiguiente);
+            salida.setFlujoSuperior(fanterios);
+            salida.dibujar(cuadro, xEdit, yEdit);
+            edit = true;
+            Decision.setDisable(false);
+            Ciclo.setDisable(false);
+            formas.add(salida);
         }
     }
 
