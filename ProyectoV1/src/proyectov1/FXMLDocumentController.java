@@ -5236,4 +5236,39 @@ public class FXMLDocumentController implements Initializable {
         crearPseudocodigo();
 
     }
+    
+    public void inicializarVariables() {
+        for (int i = 0; i < variables.size(); i++) {
+            variables.get(i).setTexto("0");
+        }
+
+    }
+
+    public void asignarValor(String texto) {
+        String expression = texto;
+        if (expression.contains(",")) {
+            expression = expression.replaceAll(",", "(");
+        }
+        String[] tokens = expression.replaceAll("\\s+", "").split("(?<=[-=+*/()])|(?=[-=+*/()])");
+        ArrayList<String> nombresVar = new ArrayList();
+        ArrayList<String> textoVar = new ArrayList();
+        System.out.println("<<<Tokenns");
+        for (int k = 0; k < tokens.length; k++) {
+            System.out.println(">> " + tokens[k]);
+            if (tokens[k].equals("=")) {
+                nombresVar.add(tokens[k - 1]);
+                textoVar.add(tokens[k + 1]);
+            }
+        }
+
+        for (int i = 0; i < nombresVar.size(); i++) {
+            for (int j = 0; j < variables.size(); j++) {
+                if (variables.get(j).getNombre().equals(nombresVar.get(i))) {
+                    variables.get(j).setTexto(textoVar.get(i));
+                }
+            }
+        }
+
+    }
+
 }
