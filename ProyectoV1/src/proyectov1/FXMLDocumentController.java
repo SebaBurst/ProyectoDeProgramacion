@@ -5210,8 +5210,12 @@ public class FXMLDocumentController implements Initializable {
 
     public void pasarATXT() {
         try {
+            FileChooser fileChooser = new FileChooser();
 
-            File archivo = new File("pseudocodigo.txt");// Se crea el Archivo
+            FileChooser.ExtensionFilter extFilter
+                    = new FileChooser.ExtensionFilter("txt files (*.txt)", "*.txt");
+            fileChooser.getExtensionFilters().add(extFilter);
+            File archivo = fileChooser.showSaveDialog(primaryStage);
             FileWriter escribir = new FileWriter(archivo, true);
             BufferedWriter bw = new BufferedWriter(escribir);
             bw.newLine();
