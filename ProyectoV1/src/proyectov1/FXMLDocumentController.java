@@ -2060,7 +2060,7 @@ public class FXMLDocumentController implements Initializable {
                         }
                     }
                     //valido que no este 2 simbolos iguales seguidos
-                    if (arrayTokens.get(1).equals(arrayTokens.get(2))) {
+                    if (arrayTokens.get(1).equals(arrayTokens.get(2)) && !(arrayTokens.get(1).equals("=") && arrayTokens.get(2).equals("="))) {
                         valida = false;
                     }
                     //valido que no este >!
