@@ -585,6 +585,8 @@ public class FXMLDocumentController implements Initializable {
                         lienzo.setWidth(lienzo.getWidth() + 130);
 
                     }
+                    a.dibujar(cuadro, a.getMedioX() + df, a.getMedioY() + df2);
+
                     for (int j = 0; j < enlaces.size(); j++) {
                         Flujo aux = enlaces.get(j);
                         if (aux.getId() == a.getFlujoInferior()) {
@@ -594,19 +596,54 @@ public class FXMLDocumentController implements Initializable {
                             aux.dibujar(aux.getX(), aux.getY(), aux.getX1() + df, aux.getY2() + df2, cuadro);
 
                         }
-                        if (a instanceof Decision) {
-                            if (aux.getId() == ((Decision) a).getLadoDerecho().getId()) {
-                                aux.dibujar(a.getMedioX() + 180, a.getMedioY() + 30, aux.getX1() + df, aux.getY2() + df2, cuadro);
 
-                            }
-                            if (aux.getId() == ((Decision) a).getLadoIzquierdo().getId()) {
-                                aux.dibujar(a.getMedioX() - 180, a.getMedioY() + 30, aux.getX1() + df, aux.getY2() + df2, cuadro);
+                    }
 
-                            }
+                    if (a instanceof Decision) {
+
+                        Flujo der = ((Decision) a).getLadoDerecho();
+                        Flujo iz = ((Decision) a).getLadoIzquierdo();
+                        Flujo der2 = ((Decision) a).getFinalDerecho();
+                        Flujo iz2 = ((Decision) a).getFinalIzquierdo();
+                        if (((Decision) a).getVerdaderas().isEmpty()) {
+                            der.dibujar(a.getMedioX() + 180, a.getMedioY() + 30, a.getMedioX() + 180, der.getY2() + df2, cuadro);
+
+                        } else {
+                            der.dibujar(a.getMedioX() + 180, a.getMedioY() + 30, der.getX1(), der.getY2(), cuadro);
+                            der2.dibujar(der2.getX(), der2.getY(), a.getMedioX() + 180, der2.getY2() + df2, cuadro);
 
                         }
+                        if (((Decision) a).getFalsas().isEmpty()) {
+                            iz.dibujar(a.getMedioX() - 180, a.getMedioY() + 30, a.getMedioX() - 180, iz.getY2() + df2, cuadro);
+
+                        } else {
+                            iz.dibujar(a.getMedioX() - 180, a.getMedioY() + 30, iz.getX1(), iz.getY2(), cuadro);
+                            iz2.dibujar(iz2.getX(), iz2.getY(), a.getMedioX() - 180, iz2.getY2() + df2, cuadro);
+
+                        }
+
+                        for (int j = 0; j < enlaces.size(); j++) {
+                            if (enlaces.get(j).getId() == a.getFlujoInferior()) {
+                                Flujo l = enlaces.get(j);
+                                if (((Decision) a).getVerdaderas().isEmpty()) {
+                                    l.dibujar(l.getX(), der.getY2(), l.getX1(), l.getY2() + df2, cuadro);
+
+                                } else {
+                                    l.dibujar(l.getX(), der2.getY2(), l.getX1(), l.getY2() + df2, cuadro);
+
+                                }
+                                if (((Decision) a).getFalsas().isEmpty()) {
+                                    l.dibujar(l.getX(), iz.getY2(), l.getX1(), l.getY2() + df2, cuadro);
+
+                                } else {
+                                    l.dibujar(l.getX(), iz2.getY2(), l.getX1(), l.getY2() + df2, cuadro);
+
+                                }
+                            }
+                        }
+                        //der.dibujar(a.getMedioX() + 180, a.getMedioY() + 30, der.getX1(), der.getY2(), cuadro);
+                        //iz.dibujar(a.getMedioX() - 180, a.getMedioY() + 30, iz.getX1(), iz.getY2(), cuadro);
                     }
-                    a.dibujar(cuadro, a.getMedioX() + df, a.getMedioY() + df2);
                     repintar(cuadro);
                     inicio = true;
                 }
@@ -1560,14 +1597,14 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         }
-        if (click == true&& edit==true) {
+        if (click == true && edit == true) {
             System.out.println("imprime todas las variables");
             for (int i = 0; i < variables.size(); i++) {
                 System.out.println("variable " + (i + 1) + ". nombre: " + variables.get(i).getNombre() + ". lado derecho: " + variables.get(i).getTexto() + ". tipo: " + variables.get(i).getTipo());
             }
             separarFlujo(etapa, cantidad);
 
-        } else if (edit == false && click==true) {
+        } else if (edit == false && click == true) {
             System.out.println(">> Entre al editar documento");
             for (int i = 0; i < formas.size(); i++) {
                 if (formas.get(i).getID() == idEdit) {
@@ -1725,7 +1762,7 @@ public class FXMLDocumentController implements Initializable {
                 entrada.setTextoFigura(aux);
                 separarFlujo(entrada, cantidad);
 
-            } else if (edit == false && click==true) {
+            } else if (edit == false && click == true) {
                 System.out.println(">> Entre al editar documento");
                 for (int i = 0; i < formas.size(); i++) {
                     if (formas.get(i).getID() == idEdit) {
@@ -2327,7 +2364,7 @@ public class FXMLDocumentController implements Initializable {
         if (click == true && edit == true) {
             separarFlujo(salida, cantidad);
 
-        } else if (edit == false && click==true) {
+        } else if (edit == false && click == true) {
             System.out.println(">> Entre al editar documento");
             for (int i = 0; i < formas.size(); i++) {
                 if (formas.get(i).getID() == idEdit) {
@@ -3092,8 +3129,6 @@ public class FXMLDocumentController implements Initializable {
             if (recolor != null) {
                 nuevoFondo = recolor.getFondo();
                 recolor.isPressed(cuadro);
-                aceptarFondo.setDisable(false);
-                aceptarBorde.setDisable(false);
             }
             lienzo.setOnMouseClicked(null);// se termina el evento setOnMouseClicked
         });
@@ -3326,8 +3361,6 @@ public class FXMLDocumentController implements Initializable {
         coloresBordes.add("#3b83ad");//Proceso
 
         reiniciarHilo = true;
-        aceptarFondo.setDisable(true);
-        aceptarBorde.setDisable(true);
         idFlujos = 0;
         ids = 0;
         consola.setText("");
@@ -5191,6 +5224,12 @@ public class FXMLDocumentController implements Initializable {
         } catch (Exception e) {
             System.out.println("Error al escribir");
         }
+
+    }
+
+    @FXML
+    public void ExportCode(ActionEvent event) {
+        crearPseudocodigo();
 
     }
 }

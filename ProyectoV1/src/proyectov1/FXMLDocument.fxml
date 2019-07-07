@@ -17,7 +17,7 @@
          </content>
       </ScrollPane>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#efebe3" height="664.0" layoutX="947.0" stroke="#ffffff00" strokeType="INSIDE" width="242.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#efebe3" height="76.0" layoutX="-11.0" layoutY="-4.0" stroke="#c2a889" strokeType="INSIDE" strokeWidth="0.5" width="1201.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#efebe3" height="76.0" layoutX="-11.0" layoutY="-3.0" stroke="#c2a889" strokeType="INSIDE" strokeWidth="0.5" width="1201.0" />
       <Rectangle fill="#f9f7f4" height="29.0" layoutX="943.0" layoutY="71.0" stroke="#c2a889" strokeType="INSIDE" strokeWidth="0.5" width="246.0" />
       <Rectangle fill="#f9f7f4" height="29.0" layoutX="944.0" layoutY="470.0" stroke="#c2a889" strokeType="INSIDE" strokeWidth="0.5" width="246.0" />
       <TextArea fx:id="consola" editable="false" layoutX="948.0" layoutY="499.0" prefHeight="166.0" prefWidth="242.0">
@@ -39,15 +39,16 @@
       <Button fx:id="undo" layoutX="639.0" layoutY="6.0" mnemonicParsing="false" onAction="#undo" prefHeight="60.0" prefWidth="60.0" styleClass="undo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button layoutX="569.0" layoutY="6.0" mnemonicParsing="false" onAction="#correrAutomatico" prefHeight="60.0" prefWidth="60.0" styleClass="redo" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button layoutX="500.0" layoutY="6.0" mnemonicParsing="false" onAction="#editFigura" prefHeight="60.0" prefWidth="60.0" styleClass="editar" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
-      <Button layoutX="123.0" layoutY="6.0" mnemonicParsing="false" onAction="#ZoomPlus" prefHeight="60.0" prefWidth="60.0" styleClass="plus" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
-      <ColorPicker fx:id="fondo" layoutX="14.0" layoutY="6.0" prefHeight="25.0" prefWidth="40.0" />
-      <ColorPicker fx:id="border" layoutX="14.0" layoutY="39.0" prefHeight="25.0" prefWidth="40.0" />
-      <Button fx:id="aceptarFondo" layoutX="60.0" layoutY="6.0" mnemonicParsing="false" onAction="#AceptarColorFondo" text="Fondo" />
-      <Button fx:id="aceptarBorde" layoutX="60.0" layoutY="39.0" mnemonicParsing="false" onAction="#AceptarColorBorder" text="Borde" />
+      <Button layoutX="81.0" layoutY="7.0" mnemonicParsing="false" onAction="#ZoomPlus" prefHeight="60.0" prefWidth="60.0" styleClass="plus" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <ColorPicker fx:id="fondo" layoutX="14.0" layoutY="6.0" prefHeight="25.0" prefWidth="52.0" />
+      <ColorPicker fx:id="border" layoutX="14.0" layoutY="39.0" prefHeight="25.0" prefWidth="52.0" />
       <Button fx:id="toPNG" layoutX="987.0" layoutY="6.0" mnemonicParsing="false" onAction="#guardarPNG" prefHeight="60.0" prefWidth="60.0" styleClass="png" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="toPDF" layoutX="1056.0" layoutY="6.0" mnemonicParsing="false" onAction="#guardarPDF" prefHeight="60.0" prefWidth="60.0" styleClass="pdf" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="toJPG" layoutX="1124.0" layoutY="6.0" mnemonicParsing="false" onAction="#guardarJPG" prefHeight="60.0" prefWidth="60.0" styleClass="jp" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="editarTexto" layoutX="432.0" layoutY="6.0" mnemonicParsing="false" onAction="#editarTexto" prefHeight="60.0" prefWidth="60.0" styleClass="texto" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
       <Button fx:id="paso" layoutX="363.0" layoutY="5.0" mnemonicParsing="false" onAction="#PasoAPaso" prefHeight="60.0" prefWidth="60.0" styleClass="in" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button layoutX="293.0" layoutY="5.0" mnemonicParsing="false" onAction="#ExportCode" prefHeight="60.0" prefWidth="60.0" styleClass="code" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button layoutX="223.0" layoutY="5.0" mnemonicParsing="false" onAction="#PasoAPaso" prefHeight="60.0" prefWidth="60.0" styleClass="menos" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
+      <Button layoutX="153.0" layoutY="6.0" mnemonicParsing="false" onAction="#PasoAPaso" prefHeight="60.0" prefWidth="60.0" styleClass="mas" stylesheets="@../Clases_Figura/Estilos/Estilos.css" />
     </children>
 </AnchorPane>
