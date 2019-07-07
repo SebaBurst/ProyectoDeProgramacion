@@ -5430,5 +5430,57 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
+    
+    public static Diagrama diagrama;
+    public ArrayList<Diagrama> diagramas = new ArrayList();
+    public static int id = 0;
+    public static int indiceD = -1;
+
+    private void GuardarDiagrama() {
+        if (indiceD < diagramas.size() - 1) {
+            while (indiceD != diagramas.size() - 1) {
+                diagramas.remove(diagramas.size() - 1);
+            }
+
+        }
+        if (diagramas.size() > 20) {
+            diagramas.remove(0);
+        } else {
+            indiceD += 1;
+        }
+        diagramas.add(diagrama.clonar(id));
+        id += 1;
+
+    }
+
+    @FXML
+    public void deshacer(ActionEvent event) {
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
+
+        if (indiceD > 0) {
+            indiceD -= 1;
+            diagrama = diagramas.get(indiceD).clonar(id);
+            repintar(cuadro);
+        } else {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Informacion");
+            alert.setContentText("¡Ya no se pueden deshacer mas pasos!");
+            alert.showAndWait();
+
+        }
+
+    }
+
+  @FXML
+    public void rehacer(ActionEvent event) {
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
+
+        if (indiceD < diagramas.size() - 1) {
+            indiceD += 1;
+            diagrama = diagramas.get(indiceD).clonar(id);
+            repintar(cuadro);
+        }
+
+    }
 
 }
