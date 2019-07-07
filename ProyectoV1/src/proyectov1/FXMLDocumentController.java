@@ -9,9 +9,6 @@ import Clases_Figura.Figura;
 import Clases_Figura.Flujo;
 import Clases_Figura.InicioFin;
 import Clases_Figura.Salida;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.BufferedWriter;
@@ -189,9 +186,9 @@ public class FXMLDocumentController implements Initializable {
         }
 
         public void correrEtapa(String texto) throws ScriptException {
-            String[] tokens = texto.replaceAll("\\s+", "").split("(?<=[;])|(?=[;])");
+            String[] tokens = texto.replaceAll("\\s+", "").split("(?<=[,])|(?=[,])");
             for (int i = 0; i < tokens.length; i++) {
-                if (!";".equals(tokens[i])) {
+                if (!",".equals(tokens[i])) {
                     System.out.println(">>" + tokens[i]);
                     String expresion = tokens[i];
                     expresion = expresion.replaceAll("=", "_");
@@ -249,7 +246,6 @@ public class FXMLDocumentController implements Initializable {
                             }
                         }
                         consola.setText(consola.getText() + "\n" + m.getNombre() + " ← " + m.getTexto());
-
                     }
                 }
 
@@ -341,11 +337,78 @@ public class FXMLDocumentController implements Initializable {
             return aux;
         }
 
-        public void CorrerDecision(Decision decision) throws ScriptException {
+        public Figura correrCicloDecision(Ciclo ciclo, Figura aux) throws ScriptException {
+            if (ciclo.getIdsFiguras().size() > 0) {
+                if (ciclo.isVerdadero() == false) {
+                    boolean isverdad = resolverCondicional(ciclo.getTextoFigura());
+                    if (isverdad == true) {
+                        isverdad = false;
+                        ciclo.setVerdadero(isverdad);
+                    } else {
+                        isverdad = true;
+                        ciclo.setVerdadero(isverdad);
+                    }
+                    if (ciclo.isVerdadero() == false) {
+                        aux = formas.get(ciclo.getIdsFiguras().get(0));
+                        for (int k = 0; k < formas.size(); k++) {
+                            if (formas.get(k).getID() == aux.getAnterior()) {
+                                aux = formas.get(k);
+                            }
+                        }
+
+                    }
+
+                }
+            }
+            return aux;
+        }
+
+        public Figura CorrerDentroDecision(Figura inicio) throws ScriptException, InterruptedException {
+            GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo
+
+            Figura corriendo3 = inicio;
+            if (inicio instanceof Etapa) {
+                correrEtapa(corriendo3.getTextoFigura());
+                System.out.println(">> Entre a la Etapa");
+            }
+            if (inicio instanceof Entrada) {
+                asignarValor(corriendo3.getTextoFigura());
+                correrEntrada((Entrada) corriendo3);
+            }
+            if (inicio instanceof Ciclo) {
+                inicio = correrCiclo((Ciclo) corriendo3, inicio);
+                System.out.println("Devolvi a : " + inicio.getTextoFigura());
+                corriendo3 = inicio;
+            }
+            if (inicio instanceof Decision) {
+                CorrerDecision((Decision) corriendo3);
+            }
+
+            if (inicio instanceof Decision) {
+
+            } else {
+                Image image2 = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
+                cuadro.drawImage(image2, inicio.getMedioX() - 230, inicio.getMedioY());
+                Thread.sleep(2000);
+                cuadro.clearRect(inicio.getMedioX() - 230, inicio.getMedioY(), 60, 60);
+            }
+            return corriendo3;
+
+        }
+
+        public void CorrerDecision(Decision decision) throws ScriptException, InterruptedException {
+            GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo
+
             if (decision.getFalsas().size() > 0 && decision.getVerdaderas().size() > 0) {
                 boolean condicion = resolverCondicional(decision.getTextoFigura());
                 decision.setVerdadero(condicion);
                 int idciclo = 0;
+                Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
+                cuadro.drawImage(image, decision.getMedioX() - 230, decision.getMedioY());
+
+                Thread.sleep(2000);
+                cuadro.clearRect(decision.getMedioX() - 230, decision.getMedioY(), 60, 60);
+
                 if (decision.isVerdadero()) {
                     Figura inicio = null;
                     for (int w = 0; w < decision.getVerdaderas().size(); w++) {
@@ -354,32 +417,48 @@ public class FXMLDocumentController implements Initializable {
 
                         }
                     }
+
                     if (inicio != null) {
                         for (int k = 0; inicio.getSiguiente() != -9; k++) {
+                            inicio = CorrerDentroDecision(inicio);
                             for (int l = 0; l < decision.getVerdaderas().size(); l++) {
                                 if (decision.getVerdaderas().get(l).getID() == inicio.getSiguiente()) {
                                     inicio = decision.getVerdaderas().get(l);
-                                    Figura corriendo3 = inicio;
-                                    if (inicio instanceof Etapa) {
-                                        correrEtapa(corriendo3.getTextoFigura());
-                                        System.out.println(">> Entre a la Etapa");
-                                    }
-                                    if (inicio instanceof Entrada) {
-                                        correrEntrada((Entrada) corriendo3);
-                                    }
                                     if (inicio instanceof Ciclo) {
-                                        System.out.println(">>Entre al ciclo: " + idciclo);
-                                        idciclo++;
-                                        inicio = correrCiclo((Ciclo) inicio, corriendo3);
+                                        System.out.println(">> Voy a correr: " + inicio.getTextoFigura());
+                                        image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_azul.png"));
+                                        cuadro.drawImage(image, inicio.getMedioX() - 230, inicio.getMedioY());
 
+                                        Thread.sleep(2000);
+                                        cuadro.clearRect(inicio.getMedioX() - 230, inicio.getMedioY(), 60, 60);
                                     }
-                                    if (inicio instanceof Decision) {
-                                        CorrerDecision((Decision) corriendo3);
-                                    }
+                                    inicio = CorrerDentroDecision(inicio);
+
                                 }
                             }
                         }
                     }
+                } else {
+                    Figura inicio = null;
+
+                    for (int w = 0; w < decision.getFalsas().size(); w++) {
+                        if (decision.getFalsas().get(w).getAnterior() == -8) {
+                            inicio = decision.getFalsas().get(w);
+
+                        }
+                    }
+                    inicio = CorrerDentroDecision(inicio);
+                    if (inicio != null) {
+                        for (int k = 0; inicio.getSiguiente() != -9; k++) {
+                            for (int l = 0; l < decision.getFalsas().size(); l++) {
+                                if (decision.getFalsas().get(l).getID() == inicio.getSiguiente()) {
+                                    inicio = decision.getFalsas().get(l);
+                                    inicio = CorrerDentroDecision(inicio);
+                                }
+                            }
+                        }
+                    }
+
                 }
 
             }
@@ -391,6 +470,7 @@ public class FXMLDocumentController implements Initializable {
 
             GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el Lienzo del programa
             int contador = 0;
+            inicializarVariables();
             Figura aux = formas.get(0);
 
             try {
@@ -427,6 +507,7 @@ public class FXMLDocumentController implements Initializable {
 
                             }
                             if (aux instanceof Entrada) {
+                                asignarValor(aux.getTextoFigura());
                                 correrEntrada((Entrada) aux);
 
                             }
@@ -439,6 +520,7 @@ public class FXMLDocumentController implements Initializable {
                                 cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
 
                                 Thread.sleep(2000);
+                                repintar(cuadro);
                                 cuadro.clearRect(corriendo.getMedioX() - 230, corriendo.getMedioY(), 60, 60);
                             }
 
@@ -3121,7 +3203,7 @@ public class FXMLDocumentController implements Initializable {
     public Button aceptarFondo;
 
     @FXML
-    public void ZoomPlus(ActionEvent event) throws IOException {
+    public void BotePintura(ActionEvent event) throws IOException {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
 
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
@@ -3129,6 +3211,75 @@ public class FXMLDocumentController implements Initializable {
             if (recolor != null) {
                 nuevoFondo = recolor.getFondo();
                 recolor.isPressed(cuadro);
+                if (recolor != null) {
+                    Color c = fondo.getValue();
+                    String fondito = c.toString();
+                    fondito = fondito.replaceAll("0x", "#");
+                    String n = "";
+                    for (int i = 0; i < 7; i++) {
+                        n = n + fondito.charAt(i);
+
+                    }
+                    recolor.setFondo(n);
+
+                    if (recolor instanceof InicioFin) {
+                        coloresFondo.set(0, n);
+                    }
+                    if (recolor instanceof Documento) {
+                        coloresFondo.set(1, n);
+                    }
+                    if (recolor instanceof Salida) {
+                        coloresFondo.set(2, n);
+                    }
+                    if (recolor instanceof Entrada) {
+                        coloresFondo.set(3, n);
+                    }
+                    if (recolor instanceof Ciclo) {
+                        coloresFondo.set(4, n);
+                    }
+                    if (recolor instanceof Decision) {
+                        coloresFondo.set(5, n);
+                    }
+                    if (recolor instanceof Etapa) {
+                        coloresFondo.set(6, n);
+                    }
+                    System.out.println(" >> ColorN: " + n);
+                    repintar(cuadro);
+                }
+                if (recolor != null) {
+                    Color c = border.getValue();
+                    String fondito = c.toString();
+                    fondito = fondito.replaceAll("0x", "#");
+                    String n = "";
+                    for (int i = 0; i < 7; i++) {
+                        n = n + fondito.charAt(i);
+
+                    }
+                    recolor.setBorde(n);
+                    if (recolor instanceof InicioFin) {
+                        coloresBordes.set(0, n);
+                    }
+                    if (recolor instanceof Documento) {
+                        coloresBordes.set(1, n);
+                    }
+                    if (recolor instanceof Salida) {
+                        coloresBordes.set(2, n);
+                    }
+                    if (recolor instanceof Entrada) {
+                        coloresBordes.set(3, n);
+                    }
+                    if (recolor instanceof Ciclo) {
+                        coloresBordes.set(4, n);
+                    }
+                    if (recolor instanceof Decision) {
+                        coloresBordes.set(5, n);
+                    }
+                    if (recolor instanceof Etapa) {
+                        coloresBordes.set(6, n);
+                    }
+                    System.out.println(" >> ColorN: " + n);
+                    repintar(cuadro);
+                }
             }
             lienzo.setOnMouseClicked(null);// se termina el evento setOnMouseClicked
         });
@@ -3215,9 +3366,18 @@ public class FXMLDocumentController implements Initializable {
     }
 
     @FXML
-    public void ZoomMinus(ActionEvent event) {
+    public void ZoomMenos(ActionEvent event) {
         if (zoomP > 0.1) {
             zoomP = zoomP - 0.1;
+            lienzo.setScaleX(zoomP);
+            lienzo.setScaleY(zoomP);
+        }
+
+    }
+    
+      public void ZoomMas(ActionEvent event) {
+        if (zoomP < 3.0) {
+            zoomP = zoomP + 0.1;
             lienzo.setScaleX(zoomP);
             lienzo.setScaleY(zoomP);
         }
@@ -3691,7 +3851,7 @@ public class FXMLDocumentController implements Initializable {
     int index = 0;
 
     @FXML
-    public void PasoAPaso(ActionEvent event) throws ScriptException {
+    public void PasoAPaso(ActionEvent event) throws ScriptException, InterruptedException {
         hilo metodos = new hilo();
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el Lienzo del programa
         repintar(cuadro);
@@ -4923,7 +5083,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void guardarPDF(ActionEvent event) throws IOException {
-        FileChooser fileChooser = new FileChooser();
+        /*FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("pdf files (.pdf)", ".pdf");
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showSaveDialog(primaryStage);
@@ -4954,7 +5114,7 @@ public class FXMLDocumentController implements Initializable {
             file2.delete();
         } catch (Exception e) {
 
-        }
+        }*/
     }
 
     public void DetectarDecisionDer(Decision Condicional) {
@@ -5236,7 +5396,7 @@ public class FXMLDocumentController implements Initializable {
         crearPseudocodigo();
 
     }
-    
+
     public void inicializarVariables() {
         for (int i = 0; i < variables.size(); i++) {
             variables.get(i).setTexto("0");
