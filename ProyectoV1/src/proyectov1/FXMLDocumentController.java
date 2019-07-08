@@ -9,6 +9,9 @@ import Clases_Figura.Figura;
 import Clases_Figura.Flujo;
 import Clases_Figura.InicioFin;
 import Clases_Figura.Salida;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.BufferedWriter;
@@ -1017,6 +1020,7 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
+    
     /**
      * Metodo que se encarga de recibir y validar el texto ingresa por el
      * usuario mediante ventanas emergentes
@@ -5198,7 +5202,7 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void guardarPDF(ActionEvent event) throws IOException {
-        /*FileChooser fileChooser = new FileChooser();
+        FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("pdf files (.pdf)", ".pdf");
         fileChooser.getExtensionFilters().add(extFilter);
         File file = fileChooser.showSaveDialog(primaryStage);
@@ -5229,7 +5233,7 @@ public class FXMLDocumentController implements Initializable {
             file2.delete();
         } catch (Exception e) {
 
-        }*/
+        }
     }
 
     public void DetectarDecisionDer(Decision Condicional) {
