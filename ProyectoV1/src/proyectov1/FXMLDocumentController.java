@@ -520,7 +520,6 @@ public class FXMLDocumentController implements Initializable {
                                 cuadro.drawImage(image, corriendo.getMedioX() - 230, corriendo.getMedioY());
 
                                 Thread.sleep(2000);
-                                repintar(cuadro);
                                 cuadro.clearRect(corriendo.getMedioX() - 230, corriendo.getMedioY(), 60, 60);
                             }
 
@@ -5346,6 +5345,10 @@ public class FXMLDocumentController implements Initializable {
                             //System.out.println(">>    Hasta que "+aux.getTextoFigura());
                             imprimirCiclos((Ciclo) aux, "    ");
                         }
+                        if(aux instanceof Documento){
+                            pseudocodigo.add("    Documento " + aux.getTextoFigura());
+                    
+                    }
 
                     }
                 }
@@ -5381,6 +5384,10 @@ public class FXMLDocumentController implements Initializable {
                 imprimirCiclos((Ciclo) aux, identacion);
 
             }
+            if(aux instanceof Documento){
+                        pseudocodigo.add(identacion + "Documento " + aux.getTextoFigura());
+                    
+                    }
         }
 
     }
@@ -5474,6 +5481,10 @@ public class FXMLDocumentController implements Initializable {
                     if (aux instanceof Ciclo) {
                         imprimirCiclos((Ciclo) aux, identacion + "  ");
 
+                    }
+                    if(aux instanceof Documento){
+                        pseudocodigo.add(identacion + "  " + "Documento " + aux.getTextoFigura());
+                    
                     }
 
                 }
