@@ -536,12 +536,15 @@ public class FXMLDocumentController implements Initializable {
                 }
 
             }
-            for (int i = 0;
-                    i < diagrama.getFormas().size();
-                    i++) {
+            for (int i = 0; i < diagrama.getFormas().size(); i++) {
                 if (diagrama.getFormas().get(i) instanceof Ciclo) {
                     Ciclo ciclo = (Ciclo) diagrama.getFormas().get(i);
                     ciclo.setVerdadero(false);
+                }
+                if (diagrama.getFormas().get(i) instanceof Decision) {
+                    Decision deci = (Decision) diagrama.getFormas().get(i);
+                    deci.setVerdadero(false);
+
                 }
             }
 
@@ -1020,7 +1023,6 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    
     /**
      * Metodo que se encarga de recibir y validar el texto ingresa por el
      * usuario mediante ventanas emergentes
@@ -1684,14 +1686,14 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         }
-        if (click == true && edit == true) {
+        if (click == true && (edit == true || figura == null)) {
             System.out.println("imprime todas las variables");
             for (int i = 0; i < diagrama.getVariables().size(); i++) {
                 System.out.println("variable " + (i + 1) + ". nombre: " + diagrama.getVariables().get(i).getNombre() + ". lado derecho: " + diagrama.getVariables().get(i).getTexto() + ". tipo: " + diagrama.getVariables().get(i).getTipo());
             }
             separarFlujo(etapa, cantidad);
 
-        } else if (edit == false && click == true) {
+        } else if (edit == false && (edit == true || figura != null)) {
             System.out.println(">> Entre al editar documento");
             for (int i = 0; i < diagrama.getFormas().size(); i++) {
                 if (diagrama.getFormas().get(i).getID() == idEdit) {
@@ -1699,6 +1701,7 @@ public class FXMLDocumentController implements Initializable {
 
                 }
             }
+            figura = null;
             repintar(cuadro);
             etapa.setAnterior(anterior);
             etapa.setSiguiente(siguiente);
@@ -1843,13 +1846,13 @@ public class FXMLDocumentController implements Initializable {
                 alert.setContentText("El formato ingresado es incorrecto.");
                 alert.showAndWait();
             }
-            if (click == true && edit == true) {
+            if (click == true && (edit == true || figura == null)) {
                 Variable variable = new Variable();
                 System.out.println("Figura antes: " + entrada.getTextoFigura());
                 entrada.setTextoFigura(aux);
                 separarFlujo(entrada, cantidad);
 
-            } else if (edit == false && click == true) {
+            } else if (edit == false && (edit == true || figura != null)) {
                 System.out.println(">> Entre al editar documento");
                 for (int i = 0; i < diagrama.getFormas().size(); i++) {
                     if (diagrama.getFormas().get(i).getID() == idEdit) {
@@ -1857,6 +1860,7 @@ public class FXMLDocumentController implements Initializable {
 
                     }
                 }
+                figura = null;
                 repintar(cuadro);
                 entrada.setAnterior(anterior);
                 entrada.setSiguiente(siguiente);
@@ -1991,10 +1995,10 @@ public class FXMLDocumentController implements Initializable {
         Documento documento = new Documento();
         click = ingresarTexto(documento, "documento");
         int cantidad = 0;
-        if (click == true && edit == true) {
+        if (click == true && (edit == true || figura == null)) {
             separarFlujo(documento, cantidad);
 
-        } else if (edit == false) {
+        } else if (edit == false && figura != null) {
             System.out.println(">> Entre al editar documento");
             for (int i = 0; i < diagrama.getFormas().size(); i++) {
                 if (diagrama.getFormas().get(i).getID() == idEdit) {
@@ -2010,6 +2014,7 @@ public class FXMLDocumentController implements Initializable {
             documento.setFlujoSuperior(fanterios);
             documento.dibujar(cuadro, xEdit, yEdit);
             edit = true;
+            figura = null;
             Decision.setDisable(false);
             Ciclo.setDisable(false);
             diagrama.addForma(documento);
@@ -2448,10 +2453,10 @@ public class FXMLDocumentController implements Initializable {
                 }
             }
         }
-        if (click == true && edit == true) {
+        if (click == true && (edit == true || figura == null)) {
             separarFlujo(salida, cantidad);
 
-        } else if (edit == false && click == true) {
+        } else if (edit == false && (edit == true || figura != null)) {
             System.out.println(">> Entre al editar documento");
             for (int i = 0; i < diagrama.getFormas().size(); i++) {
                 if (diagrama.getFormas().get(i).getID() == idEdit) {
@@ -2459,6 +2464,7 @@ public class FXMLDocumentController implements Initializable {
 
                 }
             }
+            figura = null;
             repintar(cuadro);
             salida.setAnterior(anterior);
             salida.setSiguiente(siguiente);
@@ -2573,6 +2579,7 @@ public class FXMLDocumentController implements Initializable {
      * @param y
      */
     public void detectarBorrar(int x, int y) {
+
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
         Figura eliminar = detectarFigura1(x, y);// se usa el metodo dectectarFigura 1 para encontrar la figura
         if (eliminar != null) {// se entra en la condicion solo si se logra detectar una figura
@@ -2581,9 +2588,9 @@ public class FXMLDocumentController implements Initializable {
                     borrarDecision((Decision) eliminar);
                 }
                 if (eliminar instanceof Ciclo) {
-                    for (int i = 0; i < ((Ciclo) eliminar).getIdsFiguras().size(); i++) {
+                    for (int i = 0; i < ((Ciclo) eliminar).getIdFormas().size() - 1; i++) {
                         for (int j = 0; j < diagrama.getFormas().size(); j++) {
-                            if (diagrama.getFormas().get(j).getID() == ((Ciclo) eliminar).getIdsFiguras().get(i)) {
+                            if (diagrama.getFormas().get(j).getID() == ((Ciclo) eliminar).getIdFormas().get(i)) {
                                 if (eliminar instanceof Decision) {
                                     borrarDecision((Decision) eliminar);
                                 } else {
@@ -2661,8 +2668,14 @@ public class FXMLDocumentController implements Initializable {
                         diagrama.getFormas().set(i, aux);
                     }
                 }
-                 GuardarDiagrama();
+                GuardarDiagrama();
                 repintar(cuadro);// se vuelve a pintar todos los elementos en la pantalla
+            } else {
+                Alert alert2 = new Alert(AlertType.INFORMATION);
+                alert2.setTitle("Informacion");
+                alert2.setContentText("¡No se pueden borrar el Inicio o el Fin!");
+                alert2.showAndWait();
+
             }
         } else {
             System.out.println("no hay nada para eliminar");
@@ -2683,17 +2696,19 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void borrarFigura(ActionEvent event) throws Exception {
 
-        cut.setOnMousePressed(t -> {
-            GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
-            borrar = false;//el boolean borrar se convierte en false para activar el boton
-            if (borrar == false) {//La condicion solo funciona si el borrar es igual a false
-                lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
-                    detectarBorrar((int) e.getX(), (int) e.getY());// se llama al metodo detectarBorrar y se le ingresa un x e y
-                    borrar = true;// el borrar se hace true
-                });
-            }
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Informacion");
+        alert.setContentText("Seleccione la(s) Figura(s) a borrar");
+        alert.showAndWait();
 
-        });
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
+        borrar = false;//el boolean borrar se convierte en false para activar el boton
+        if (borrar == false) {//La condicion solo funciona si el borrar es igual a false
+            lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
+                detectarBorrar((int) e.getX(), (int) e.getY());// se llama al metodo detectarBorrar y se le ingresa un x e y
+                borrar = true;// el borrar se hace true
+            });
+        }
 
     }
 
@@ -2726,14 +2741,19 @@ public class FXMLDocumentController implements Initializable {
     int siguiente;
     int fanterios;
     int fsiguiente;
+    Figura figura = null;
 
     @FXML
     public void editFigura(ActionEvent event) throws Exception {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Informacion");
+        alert.setContentText("Selecciona la Figura a convertir");
+        alert.showAndWait();
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
         edit = false;//el boolean edit se convierte en false para activar el boton
         if (edit == false) {//La condicion solo funciona si el borrar es igual a false
             lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
-                Figura figura = detectarFigura1((int) e.getX(), (int) e.getY());// se llama al metodo detectarFiguray se le ingresa un x e y
+                figura = detectarFigura1((int) e.getX(), (int) e.getY());// se llama al metodo detectarFiguray se le ingresa un x e y
                 if (figura != null && figura instanceof InicioFin == false && figura instanceof Decision == false && figura instanceof Ciclo == false) {
                     figura.isPressed(cuadro);
                     xEdit = figura.getMedioX();
@@ -2748,6 +2768,11 @@ public class FXMLDocumentController implements Initializable {
                     fsiguiente = figura.getFlujoInferior();
 
                     edit = false;
+                } else {
+                    alert.setTitle("Informacion");
+                    alert.setContentText("Esa Figura no se puede convertir");
+                    alert.showAndWait();
+                    edit = true;
                 }
                 if (figura == null) {
                     System.out.println("No se detecto figura");
@@ -3114,7 +3139,7 @@ public class FXMLDocumentController implements Initializable {
                         repintar(cuadro);
                         // se anula la posibilidad de seguir presionando el canvas
                         lienzo.setOnMouseClicked(null);
-                         GuardarDiagrama();
+                        GuardarDiagrama();
                         // se detiene el metodo para que no entre a un ciclo infinito.
                         if (n instanceof Entrada && variable != 0) {
                             int size = diagrama.getVariables().size();
@@ -3212,6 +3237,12 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     public void BotePintura(ActionEvent event) throws IOException {
+
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Informacion");
+        alert.setContentText("Selecciona la Figura a pintar");
+        alert.showAndWait();
+
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
 
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
@@ -3392,66 +3423,7 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-    /**
-     *
-     *
-     */
-    public void guardarEstadoActual() {
-        Decision d = new Decision();
-        serializar(formas, "figuras" + indice);
-        serializar(enlaces, "flujos" + indice);
-        serializar(variables, "variables" + indice);
-        FlujosSerializables.add("flujos" + indice);
-        FormasSerializables.add("figuras" + indice);
-        VariablesSerializables.add("variables" + indice);
-        indice++;
-    }
-
-    /**
-     * Metodo que se encarga de rellenar objetos con la informacion serializada
-     * el metodo recibe un objeto en blanco y un string con la cadena que
-     * contiene el nombre del archivo , retorna el archivo con la informacion
-     * cargada y en caso distinto retorna el objeto en null;
-     *
-     * @param o
-     * @param nombreArchivo
-     * @return
-     */
-    public static Object getTxt(Object o, String nombreArchivo) {
-        try {
-            FileInputStream fileIn = new FileInputStream(nombreArchivo + ".txt");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            o = (Object) in.readObject();
-            return o;
-        } catch (IOException r) {
-            r.printStackTrace();
-            return null;
-        } catch (ClassNotFoundException c) {
-            System.out.println("Error");
-            c.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Metodo que se encarga de serializar un objeto dentro de un archivo TXT
-     * recibe dentro de sus parametos un objeto de cualquier tipo y luego un
-     * string con el nombre que se le quiere dar al archivo;
-     *
-     * @param e
-     * @param nombre
-     */
-    public static void serializar(Object e, String nombre) {
-        try {
-            FileOutputStream fileOut = new FileOutputStream(nombre + ".txt");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(e);
-
-        } catch (IOException q) {
-            q.printStackTrace();
-        }
-    }
-
+   
     public void bajarFiguras(Figura bajar, int opcion, int xPlus, int yPlus) {
         Figura inicio2 = diagrama.getFormas().get(0);
         for (int i = 0; i < diagrama.getFormas().size(); i++) {
@@ -3509,7 +3481,7 @@ public class FXMLDocumentController implements Initializable {
     int ids = 0;
 
     public void ini() {
-   diagrama = new Diagrama(id);
+        diagrama = new Diagrama(id);
         // asignar colores por defecto//
         coloresFondo.add("#f8f76a");//InicioFin
         coloresFondo.add("#c31c2c");//Documento
@@ -3977,6 +3949,7 @@ public class FXMLDocumentController implements Initializable {
             correrActual = diagrama.getFormas().get(0);
             inicio2 = true;
             index++;
+            inicializarVariables();
             Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_naranja.png"));
             cuadro.drawImage(image, correrActual.getMedioX() - 230, correrActual.getMedioY());
 
@@ -4002,6 +3975,7 @@ public class FXMLDocumentController implements Initializable {
 
                     }
                     if (correrActual instanceof Entrada) {
+                        asignarValor(correrActual.getTextoFigura());
                         Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_naranja.png"));
                         cuadro.drawImage(image, correrActual.getMedioX() - 230, correrActual.getMedioY());
                         metodos.correrEntrada((Entrada) corriendo);
@@ -4018,11 +3992,6 @@ public class FXMLDocumentController implements Initializable {
                         cuadro.drawImage(image, correrActual.getMedioX() - 230, correrActual.getMedioY());
                         correrActual = metodos.correrCiclo((Ciclo) corriendo, correrActual);
                     }
-                    if (correrActual instanceof InicioFin) {
-                        Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_naranja.png"));
-                        cuadro.drawImage(image, correrActual.getMedioX() - 230, correrActual.getMedioY());
-
-                    }
                     if (correrActual instanceof Documento) {
                         Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_naranja.png"));
                         cuadro.drawImage(image, correrActual.getMedioX() - 230, correrActual.getMedioY());
@@ -4037,17 +4006,32 @@ public class FXMLDocumentController implements Initializable {
             cuadro.drawImage(image, correrActual.getMedioX() - 230, correrActual.getMedioY());
             inicio2 = false;
             index = 0;
+            sum++;
+              Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Informacion");
+        alert.setContentText("Se termino la Ejecucion");
+        alert.showAndWait();
+        repintar(cuadro);
 
+            System.out.println(">>Sum: "+sum);
         }
 
     }
 
+    int sum=0;
     @FXML
     public void editarTexto(ActionEvent event) {
+
+        Alert alert2 = new Alert(AlertType.INFORMATION);
+        alert2.setTitle("Informacion");
+        alert2.setContentText("Selecciona la Figura a la que le quiere cambiar el texto");
+        alert2.showAndWait();
+
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda junto al evento setOnMouseClicked
             Figura figura = detectarFigura1((int) e.getX(), (int) e.getY());
             if (figura != null) {
+                figura.isPressed(cuadro);
                 //Encontro figura....
                 if (figura instanceof Entrada) {
                     String textoQueYaTenia = figura.getTextoFigura();
@@ -4860,12 +4844,14 @@ public class FXMLDocumentController implements Initializable {
                     }
                 }
                 if (figura instanceof InicioFin) {
-                    InicioFin inicioFin = new InicioFin();
-                    inicioFin.setTextoFigura(figura.getTextoFigura());
-                    click = ingresarTexto(inicioFin, "Documento");
-                    if (click) {
-                        figura.setTextoFigura(inicioFin.getTextoFigura());
-                        repintar(cuadro);
+                    if (figura.getID() != 1) {
+                        InicioFin inicioFin = new InicioFin();
+                        inicioFin.setTextoFigura(figura.getTextoFigura());
+                        click = ingresarTexto(inicioFin, "Documento");
+                        if (click) {
+                            figura.setTextoFigura(inicioFin.getTextoFigura());
+                            repintar(cuadro);
+                        }
                     }
                 }
                 if (figura instanceof Ciclo) {
@@ -5194,7 +5180,7 @@ public class FXMLDocumentController implements Initializable {
                     System.out.println("variable " + (i + 1) + " " + diagrama.getVariables().get(i).getNombre() + ", " + diagrama.getVariables().get(i).getTexto() + ", " + diagrama.getVariables().get(i).getTipo());
                 }
             }
-             GuardarDiagrama();
+            GuardarDiagrama();
             lienzo.setOnMouseClicked(null);// se termina el evento setOnMouseClicked
         });
 
@@ -5349,10 +5335,10 @@ public class FXMLDocumentController implements Initializable {
                             //System.out.println(">>    Hasta que "+aux.getTextoFigura());
                             imprimirCiclos((Ciclo) aux, "    ");
                         }
-                        if(aux instanceof Documento){
+                        if (aux instanceof Documento) {
                             pseudocodigo.add("    Documento " + aux.getTextoFigura());
-                    
-                    }
+
+                        }
 
                     }
                 }
@@ -5388,10 +5374,10 @@ public class FXMLDocumentController implements Initializable {
                 imprimirCiclos((Ciclo) aux, identacion);
 
             }
-            if(aux instanceof Documento){
-                        pseudocodigo.add(identacion + "Documento " + aux.getTextoFigura());
-                    
-                    }
+            if (aux instanceof Documento) {
+                pseudocodigo.add(identacion + "Documento " + aux.getTextoFigura());
+
+            }
         }
 
     }
@@ -5486,9 +5472,9 @@ public class FXMLDocumentController implements Initializable {
                         imprimirCiclos((Ciclo) aux, identacion + "  ");
 
                     }
-                    if(aux instanceof Documento){
+                    if (aux instanceof Documento) {
                         pseudocodigo.add(identacion + "  " + "Documento " + aux.getTextoFigura());
-                    
+
                     }
 
                 }
@@ -5610,6 +5596,12 @@ public class FXMLDocumentController implements Initializable {
             indiceD += 1;
             diagrama = diagramas.get(indiceD).clonar(id);
             repintar(cuadro);
+        } else {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Informacion");
+            alert.setContentText("¡Ya no se pueden Rehacer mas pasos!");
+            alert.showAndWait();
+
         }
 
     }

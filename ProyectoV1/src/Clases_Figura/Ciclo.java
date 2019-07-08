@@ -66,6 +66,10 @@ public class Ciclo extends Figura implements java.io.Serializable {
         for (int i = 0; i < idsFiguras.size(); i++) {
             aux.idsFiguras.add(idsFiguras.get(i));
         }
+        
+        for (int i = 0; i < idFormas.size(); i++) {
+            aux.idFormas.add(idFormas.get(i));
+        }
         aux.setVerdadero(verdadero);
         return aux;
     }
