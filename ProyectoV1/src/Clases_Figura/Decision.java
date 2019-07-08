@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import static proyectov1.FXMLDocumentController.diagrama;
 import static proyectov1.FXMLDocumentController.enlaces;
 import static proyectov1.FXMLDocumentController.formas;
 
@@ -20,6 +21,15 @@ import static proyectov1.FXMLDocumentController.formas;
  */
 public class Decision extends Figura implements Cloneable {
 
+     public int aumento =0;
+
+    public int getAumento() {
+        return aumento;
+    }
+
+    public void setAumento(int aumento) {
+        this.aumento = aumento;
+    }
     private int tipo = 1;
 
     public int getTipo() {
@@ -163,22 +173,22 @@ public class Decision extends Figura implements Cloneable {
         lienzo.strokeLine(x - 100, y + 30, x, y + 70);
         lienzo.strokeLine(x, y + 70, x + 100, y + 30);
 
-        //Lado Derecho enlace-enlace
+      //Lado Derecho enlace-enlace
         lienzo.setStroke(Color.valueOf("#01be9b"));
         lienzo.setFill(Color.valueOf("#01be9b"));
         lienzo.fillText("TRUE", Math.round(x + 120), Math.round(y + 22));
-        lienzo.strokeLine(x + 100, y + 30, x + 180, y + 30);
+        lienzo.strokeLine(x + 100, y + 30, x + (180+this.aumento), y + 30);
 
         lienzo.setStroke(Color.valueOf("#ff0025"));
         lienzo.setFill(Color.valueOf("#ff0025"));
         lienzo.fillText("FALSE", Math.round(x - 160), Math.round(y + 22));
-        lienzo.strokeLine(x - 100, y + 30, x - 180, y + 30);
+        lienzo.strokeLine(x - 100, y + 30, x - (180+this.aumento), y + 30);
 
         Flujo punto = new Flujo();
         //Dibujar linea inferior;
-        for (int i = 0; i < enlaces.size(); i++) {
-            if (enlaces.get(i).getId() == this.getFlujoInferior()) {
-                punto = enlaces.get(i);
+        for (int i = 0; i < diagrama.getEnlaces().size(); i++) {
+            if (diagrama.getEnlaces().get(i).getId() == this.getFlujoInferior()) {
+                punto = diagrama.getEnlaces().get(i);
 
             }
         }
@@ -187,9 +197,9 @@ public class Decision extends Figura implements Cloneable {
         Flujo izq = new Flujo();
         for (int i = 0; i < Verdaderas.size(); i++) {
             if (Verdaderas.get(i).getSiguiente() == -9) {
-                for (int j = 0; j < enlaces.size(); j++) {
-                    if (Verdaderas.get(i).getFlujoInferior() == enlaces.get(j).getId()) {
-                        der = enlaces.get(j);
+                for (int j = 0; j < diagrama.getEnlaces().size(); j++) {
+                    if (Verdaderas.get(i).getFlujoInferior() == diagrama.getEnlaces().get(j).getId()) {
+                        der = diagrama.getEnlaces().get(j);
 
                     }
                 }
@@ -199,9 +209,9 @@ public class Decision extends Figura implements Cloneable {
 
         for (int i = 0; i < falsas.size(); i++) {
             if (falsas.get(i).getSiguiente() == -9) {
-                for (int j = 0; j < enlaces.size(); j++) {
-                    if (falsas.get(i).getFlujoInferior() == enlaces.get(j).getId()) {
-                        izq = enlaces.get(j);
+                for (int j = 0; j < diagrama.getEnlaces().size(); j++) {
+                    if (falsas.get(i).getFlujoInferior() == diagrama.getEnlaces().get(j).getId()) {
+                        izq = diagrama.getEnlaces().get(j);
 
                     }
                 }
@@ -236,9 +246,9 @@ public class Decision extends Figura implements Cloneable {
             //Ordenar verdaderos
             for (int i = 0; i < Verdaderas.size(); i++) {
                 if (Verdaderas.get(i).getAnterior() == -8) {
-                    for (int j = 0; j < enlaces.size(); j++) {
-                        if (Verdaderas.get(i).getFlujoSuperior() == enlaces.get(j).getId()) {
-                            this.setLadoDerecho(enlaces.get(j));
+                    for (int j = 0; j < diagrama.getEnlaces().size(); j++) {
+                        if (Verdaderas.get(i).getFlujoSuperior() == diagrama.getEnlaces().get(j).getId()) {
+                            this.setLadoDerecho(diagrama.getEnlaces().get(j));
                         }
                     }
                 }
@@ -252,9 +262,9 @@ public class Decision extends Figura implements Cloneable {
         } else {
             for (int i = 0; i < falsas.size(); i++) {
                 if (falsas.get(i).getAnterior() == -8) {
-                    for (int j = 0; j < enlaces.size(); j++) {
-                        if (falsas.get(i).getFlujoSuperior() == enlaces.get(j).getId()) {
-                            this.setLadoIzquierdo(enlaces.get(j));
+                    for (int j = 0; j < diagrama.getEnlaces().size(); j++) {
+                        if (falsas.get(i).getFlujoSuperior() == diagrama.getEnlaces().get(j).getId()) {
+                            this.setLadoIzquierdo(diagrama.getEnlaces().get(j));
                         }
                     }
                 }
@@ -289,18 +299,18 @@ public class Decision extends Figura implements Cloneable {
         System.out.println(">> V <<<: " + Verdaderas.size());
         System.out.println(">> F <<<: " + falsas.size());
 
-        for (int i = 0; i < formas.size(); i++) {
+        for (int i = 0; i < diagrama.getFormas().size(); i++) {
             for (int j = 0; j < Verdaderas.size(); j++) {
-                if (formas.get(i).getID() == Verdaderas.get(j).getID()) {
-                    nuevoDer.add(formas.get(i));
+                if (diagrama.getFormas().get(i).getID() == Verdaderas.get(j).getID()) {
+                    nuevoDer.add(diagrama.getFormas().get(i));
                 }
             }
         }
 
-        for (int i = 0; i < formas.size(); i++) {
+        for (int i = 0; i < diagrama.getFormas().size(); i++) {
             for (int j = 0; j < falsas.size(); j++) {
-                if (formas.get(i).getID() == falsas.get(j).getID()) {
-                    nuevoIzq.add(formas.get(i));
+                if (diagrama.getFormas().get(i).getID() == falsas.get(j).getID()) {
+                    nuevoIzq.add(diagrama.getFormas().get(i));
                 }
             }
         }

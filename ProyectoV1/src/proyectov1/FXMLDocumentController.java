@@ -150,13 +150,13 @@ public class FXMLDocumentController implements Initializable {
             for (int i = 0; i < letras.size(); i++) {
                 if (letras.get(i).matches("[\\&-_+/()><=!]") == false) {
                     boolean existe = false;
-                    for (int j = 0; j < variables.size(); j++) {
-                        if (variables.get(j).getNombre().equals(letras.get(i))) {
+                    for (int j = 0; j < diagrama.getVariables().size(); j++) {
+                        if (diagrama.getVariables().get(j).getNombre().equals(letras.get(i))) {
                             existe = true;
-                            if (variables.get(j).getTexto().matches("[0-9]")) {
-                                letras.set(i, variables.get(j).getTexto());
+                            if (diagrama.getVariables().get(j).getTexto().matches("[0-9]")) {
+                                letras.set(i, diagrama.getVariables().get(j).getTexto());
                             } else {
-                                letras.set(i, "'" + variables.get(j).getTexto() + "'");
+                                letras.set(i, "'" + diagrama.getVariables().get(j).getTexto() + "'");
                             }
                         }
                     }
@@ -195,9 +195,9 @@ public class FXMLDocumentController implements Initializable {
                     String[] token = expresion.replaceAll("\\s+", "").split("(?<=[-+*/()_])|(?=[-+*/()_])");
                     Variable m = null;
                     String var = token[0];
-                    for (int k = 0; k < variables.size(); k++) {
-                        if (variables.get(k).getNombre().equals(var)) {
-                            m = variables.get(k);
+                    for (int k = 0; k < diagrama.getVariables().size(); k++) {
+                        if (diagrama.getVariables().get(k).getNombre().equals(var)) {
+                            m = diagrama.getVariables().get(k);
                         }
                     }
 
@@ -212,13 +212,13 @@ public class FXMLDocumentController implements Initializable {
                     for (int d = 0; d < vars.size(); d++) {
                         if (vars.get(d).matches("[\\&-_+/()><=!]") == false) {
                             boolean existe = false;
-                            for (int j = 0; j < variables.size(); j++) {
-                                if (variables.get(j).getNombre().equals(vars.get(d))) {
+                            for (int j = 0; j < diagrama.getVariables().size(); j++) {
+                                if (diagrama.getVariables().get(j).getNombre().equals(vars.get(d))) {
                                     existe = true;
-                                    if (variables.get(j).getTexto().matches("[0-9]")) {
-                                        vars.set(d, variables.get(j).getTexto());
+                                    if (diagrama.getVariables().get(j).getTexto().matches("[0-9]")) {
+                                        vars.set(d, diagrama.getVariables().get(j).getTexto());
                                     } else {
-                                        vars.set(d, "'" + variables.get(j).getTexto() + "'");
+                                        vars.set(d, "'" + diagrama.getVariables().get(j).getTexto() + "'");
                                     }
                                 }
                             }
@@ -240,9 +240,9 @@ public class FXMLDocumentController implements Initializable {
                     ScriptEngine engine = mgr.getEngineByName("JavaScript");
                     if (m != null) {
                         m.setTexto(engine.eval(h).toString());
-                        for (int k = 0; k < variables.size(); k++) {
-                            if (m.getNombre().equals(variables.get(k).getNombre())) {
-                                variables.set(k, m);
+                        for (int k = 0; k < diagrama.getVariables().size(); k++) {
+                            if (m.getNombre().equals(diagrama.getVariables().get(k).getNombre())) {
+                                diagrama.getVariables().set(k, m);
                             }
                         }
                         consola.setText(consola.getText() + "\n" + m.getNombre() + " ← " + m.getTexto());
@@ -268,9 +268,9 @@ public class FXMLDocumentController implements Initializable {
             }
             ArrayList<Variable> vars = new ArrayList();
             for (int t = 0; t < nombresVar.size(); t++) {
-                for (int k = 0; k < variables.size(); k++) {
-                    if (variables.get(k).getNombre().equals(nombresVar.get(t))) {
-                        Variable variable = variables.get(k);
+                for (int k = 0; k < diagrama.getVariables().size(); k++) {
+                    if (diagrama.getVariables().get(k).getNombre().equals(nombresVar.get(t))) {
+                        Variable variable = diagrama.getVariables().get(k);
                         vars.add(variable);
                     }
 
@@ -297,9 +297,9 @@ public class FXMLDocumentController implements Initializable {
             if (tokens.length == 3) {
                 String var = tok.get(2);
 
-                for (int k = 0; k < variables.size(); k++) {
-                    if (var.equals(variables.get(k).getNombre())) {
-                        valor = variables.get(k).getTexto();
+                for (int k = 0; k < diagrama.getVariables().size(); k++) {
+                    if (var.equals(diagrama.getVariables().get(k).getNombre())) {
+                        valor = diagrama.getVariables().get(k).getTexto();
 
                     }
                 }
@@ -323,10 +323,10 @@ public class FXMLDocumentController implements Initializable {
                         ciclo.setVerdadero(isverdad);
                     }
                     if (ciclo.isVerdadero() == false) {
-                        aux = formas.get(ciclo.getIdsFiguras().get(0));
-                        for (int k = 0; k < formas.size(); k++) {
-                            if (formas.get(k).getID() == aux.getAnterior()) {
-                                aux = formas.get(k);
+                        aux = diagrama.getFormas().get(ciclo.getIdsFiguras().get(0));
+                        for (int k = 0; k < diagrama.getFormas().size(); k++) {
+                            if (diagrama.getFormas().get(k).getID() == aux.getAnterior()) {
+                                aux = diagrama.getFormas().get(k);
                             }
                         }
 
@@ -349,10 +349,10 @@ public class FXMLDocumentController implements Initializable {
                         ciclo.setVerdadero(isverdad);
                     }
                     if (ciclo.isVerdadero() == false) {
-                        aux = formas.get(ciclo.getIdsFiguras().get(0));
-                        for (int k = 0; k < formas.size(); k++) {
-                            if (formas.get(k).getID() == aux.getAnterior()) {
-                                aux = formas.get(k);
+                        aux = diagrama.getFormas().get(ciclo.getIdsFiguras().get(0));
+                        for (int k = 0; k < diagrama.getFormas().size(); k++) {
+                            if (diagrama.getFormas().get(k).getID() == aux.getAnterior()) {
+                                aux = diagrama.getFormas().get(k);
                             }
                         }
 
@@ -471,7 +471,7 @@ public class FXMLDocumentController implements Initializable {
             GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el Lienzo del programa
             int contador = 0;
             inicializarVariables();
-            Figura aux = formas.get(0);
+            Figura aux = diagrama.getFormas().get(0);
 
             try {
                 Figura corriendo = aux;
@@ -484,13 +484,13 @@ public class FXMLDocumentController implements Initializable {
                 Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            System.out.println("Figura: " + formas.get(0).getTextoFigura());
+            System.out.println("Figura: " + diagrama.getFormas().get(0).getTextoFigura());
             for (int i = 0; aux.getSiguiente() != -1; i++) {
 
-                for (int j = 0; j < formas.size(); j++) {
-                    if (formas.get(j).getID() == aux.getSiguiente()) {
-                        System.out.println("Figura: " + formas.get(j).getTextoFigura());
-                        aux = formas.get(j);
+                for (int j = 0; j < diagrama.getFormas().size(); j++) {
+                    if (diagrama.getFormas().get(j).getID() == aux.getSiguiente()) {
+                        System.out.println("Figura: " + diagrama.getFormas().get(j).getTextoFigura());
+                        aux = diagrama.getFormas().get(j);
                         try {
                             Figura corriendo = aux;
                             if (aux instanceof Ciclo) {
@@ -535,10 +535,10 @@ public class FXMLDocumentController implements Initializable {
 
             }
             for (int i = 0;
-                    i < formas.size();
+                    i < diagrama.getFormas().size();
                     i++) {
-                if (formas.get(i) instanceof Ciclo) {
-                    Ciclo ciclo = (Ciclo) formas.get(i);
+                if (diagrama.getFormas().get(i) instanceof Ciclo) {
+                    Ciclo ciclo = (Ciclo) diagrama.getFormas().get(i);
                     ciclo.setVerdadero(false);
                 }
             }
@@ -649,8 +649,8 @@ public class FXMLDocumentController implements Initializable {
                 int diferencia2 = (int) e.getY();
                 int df2 = diferencia2 - (yn);
                 df2 = df2 * 2;
-                for (int i = 0; i < formas.size(); i++) {
-                    Figura a = formas.get(i);
+                for (int i = 0; i < diagrama.getFormas().size(); i++) {
+                    Figura a = diagrama.getFormas().get(i);
 
                     if (a.getMedioY() + df2 < 0) {
                         df2 = 0;
@@ -669,8 +669,8 @@ public class FXMLDocumentController implements Initializable {
                     }
                     a.dibujar(cuadro, a.getMedioX() + df, a.getMedioY() + df2);
 
-                    for (int j = 0; j < enlaces.size(); j++) {
-                        Flujo aux = enlaces.get(j);
+                    for (int j = 0; j < diagrama.getEnlaces().size(); j++) {
+                        Flujo aux = diagrama.getEnlaces().get(j);
                         if (aux.getId() == a.getFlujoInferior()) {
                             aux.dibujar(aux.getX() + df, aux.getY() + df2, aux.getX1(), aux.getY2(), cuadro);
                         }
@@ -704,9 +704,9 @@ public class FXMLDocumentController implements Initializable {
 
                         }
 
-                        for (int j = 0; j < enlaces.size(); j++) {
-                            if (enlaces.get(j).getId() == a.getFlujoInferior()) {
-                                Flujo l = enlaces.get(j);
+                        for (int j = 0; j < diagrama.getEnlaces().size(); j++) {
+                            if (diagrama.getEnlaces().get(j).getId() == a.getFlujoInferior()) {
+                                Flujo l = diagrama.getEnlaces().get(j);
                                 if (((Decision) a).getVerdaderas().isEmpty()) {
                                     l.dibujar(l.getX(), der.getY2(), l.getX1(), l.getY2() + df2, cuadro);
 
@@ -749,61 +749,61 @@ public class FXMLDocumentController implements Initializable {
     public void repintar(GraphicsContext cuadro) {
 
         cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());// Se limpia la pantalla
-        for (int i = 0; i < enlaces.size(); i++) {//Se recorre la lista de enlaces
-            Flujo enlace = enlaces.get(i);//Se obtiene el enlace de la posicion i
+        for (int i = 0; i < diagrama.getEnlaces().size(); i++) {//Se recorre la lista de enlaces
+            Flujo enlace = diagrama.getEnlaces().get(i);//Se obtiene el enlace de la posicion i
             //Se dibuja el enlace con las coordenadas correspondientes
             enlace.dibujar(enlace.getX(), enlace.getY(), enlace.getX1(), enlace.getY2(), cuadro);
         }
-        for (int i = 0; i < formas.size(); i++) {// Se recorre la lista de las figuras
+        for (int i = 0; i < diagrama.getFormas().size(); i++) {// Se recorre la lista de las figuras
             //Se dibuja la figura con las coordenadas correspondientes
-            if (formas.get(i) instanceof Documento) {
-                formas.get(i).setBorde(coloresBordes.get(1));
-                formas.get(i).setFondo(coloresFondo.get(1));
-                formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+            if (diagrama.getFormas().get(i) instanceof Documento) {
+                diagrama.getFormas().get(i).setBorde(coloresBordes.get(1));
+                diagrama.getFormas().get(i).setFondo(coloresFondo.get(1));
+                diagrama.getFormas().get(i).dibujar(cuadro, diagrama.getFormas().get(i).getMedioX(), diagrama.getFormas().get(i).getY1());
 
             }
-            if (formas.get(i) instanceof InicioFin) {
-                formas.get(i).setBorde(coloresBordes.get(0));
-                formas.get(i).setFondo(coloresFondo.get(0));
-                formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+            if (diagrama.getFormas().get(i) instanceof InicioFin) {
+                diagrama.getFormas().get(i).setBorde(coloresBordes.get(0));
+                diagrama.getFormas().get(i).setFondo(coloresFondo.get(0));
+                diagrama.getFormas().get(i).dibujar(cuadro, diagrama.getFormas().get(i).getMedioX(), diagrama.getFormas().get(i).getY1());
 
             }
-            if (formas.get(i) instanceof Salida) {
-                formas.get(i).setBorde(coloresBordes.get(2));
-                formas.get(i).setFondo(coloresFondo.get(2));
-                formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+            if (diagrama.getFormas().get(i) instanceof Salida) {
+                diagrama.getFormas().get(i).setBorde(coloresBordes.get(2));
+                diagrama.getFormas().get(i).setFondo(coloresFondo.get(2));
+                diagrama.getFormas().get(i).dibujar(cuadro, diagrama.getFormas().get(i).getMedioX(), diagrama.getFormas().get(i).getY1());
 
             }
-            if (formas.get(i) instanceof Entrada) {
-                formas.get(i).setBorde(coloresBordes.get(3));
-                formas.get(i).setFondo(coloresFondo.get(3));
-                formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+            if (diagrama.getFormas().get(i) instanceof Entrada) {
+                diagrama.getFormas().get(i).setBorde(coloresBordes.get(3));
+                diagrama.getFormas().get(i).setFondo(coloresFondo.get(3));
+                diagrama.getFormas().get(i).dibujar(cuadro, diagrama.getFormas().get(i).getMedioX(), diagrama.getFormas().get(i).getY1());
 
             }
-            if (formas.get(i) instanceof Ciclo) {
-                formas.get(i).setBorde(coloresBordes.get(4));
-                formas.get(i).setFondo(coloresFondo.get(4));
-                formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+            if (diagrama.getFormas().get(i) instanceof Ciclo) {
+                diagrama.getFormas().get(i).setBorde(coloresBordes.get(4));
+                diagrama.getFormas().get(i).setFondo(coloresFondo.get(4));
+                diagrama.getFormas().get(i).dibujar(cuadro, diagrama.getFormas().get(i).getMedioX(), diagrama.getFormas().get(i).getY1());
 
             }
-            if (formas.get(i) instanceof Decision) {
-                formas.get(i).setBorde(coloresBordes.get(5));
-                formas.get(i).setFondo(coloresFondo.get(5));
-                formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+            if (diagrama.getFormas().get(i) instanceof Decision) {
+                diagrama.getFormas().get(i).setBorde(coloresBordes.get(5));
+                diagrama.getFormas().get(i).setFondo(coloresFondo.get(5));
+                diagrama.getFormas().get(i).dibujar(cuadro, diagrama.getFormas().get(i).getMedioX(), diagrama.getFormas().get(i).getY1());
 
             }
-            if (formas.get(i) instanceof Etapa) {
-                formas.get(i).setBorde(coloresBordes.get(6));
-                formas.get(i).setFondo(coloresFondo.get(6));
-                formas.get(i).dibujar(cuadro, formas.get(i).getMedioX(), formas.get(i).getY1());
+            if (diagrama.getFormas().get(i) instanceof Etapa) {
+                diagrama.getFormas().get(i).setBorde(coloresBordes.get(6));
+                diagrama.getFormas().get(i).setFondo(coloresFondo.get(6));
+                diagrama.getFormas().get(i).dibujar(cuadro, diagrama.getFormas().get(i).getMedioX(), diagrama.getFormas().get(i).getY1());
 
             }
         }
     }
 
     public Figura detectarFigura2(int x, int y) {
-        for (int i = 0; i < formas.size(); i++) {
-            Figura aux = formas.get(i);
+        for (int i = 0; i < diagrama.getFormas().size(); i++) {
+            Figura aux = diagrama.getFormas().get(i);
             if (y >= aux.getY1() - 100 && y <= aux.getY3() + 20 && x >= aux.getX1() - 220 && x <= aux.getX2() + 80) {
                 System.out.println("Espacio No disponible");
                 System.out.println(aux.getNombre());
@@ -822,8 +822,8 @@ public class FXMLDocumentController implements Initializable {
      * @return
      */
     public Figura detectarFigura1(int x, int y) {
-        for (int i = 0; i < formas.size(); i++) {//Se recorre la lista de las figuras
-            Figura aux = formas.get(i);//  se guarda en una figura aux
+        for (int i = 0; i < diagrama.getFormas().size(); i++) {//Se recorre la lista de las figuras
+            Figura aux = diagrama.getFormas().get(i);//  se guarda en una figura aux
             if (y >= aux.getY1() && y <= aux.getY3() && x >= aux.getX1() && x <= aux.getX2()) {// se pregunta si las coordenadas estan contenidas dentro de la figura
                 return aux;// se retorna la figura.
             } else {
@@ -847,15 +847,15 @@ public class FXMLDocumentController implements Initializable {
      */
     public void moverEnlaces(Figura move, int x, int y) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// se declara el lienzo
-        for (int i = 0; i < enlaces.size(); i++) {// se recorren la lista de enlaces
-            Flujo fAux = enlaces.get(i);// se guarda en un enlace auxiliar
+        for (int i = 0; i < diagrama.getEnlaces().size(); i++) {// se recorren la lista de enlaces
+            Flujo fAux = diagrama.getEnlaces().get(i);// se guarda en un enlace auxiliar
             if (move instanceof Decision) {// mover conexion verdadera de la decision
-                for (int j = 0; j < enlaces.size(); j++) {
-                    if (enlaces.get(j).getId() == ((Decision) move).getLadoDerecho().getId()) {
-                        enlaces.get(j).dibujar(x + 180, y + 30, enlaces.get(j).getX1(), enlaces.get(j).getY2(), cuadro);
+                for (int j = 0; j < diagrama.getEnlaces().size(); j++) {
+                    if (diagrama.getEnlaces().get(j).getId() == ((Decision) move).getLadoDerecho().getId()) {
+                        diagrama.getEnlaces().get(j).dibujar(x + 180, y + 30, diagrama.getEnlaces().get(j).getX1(), diagrama.getEnlaces().get(j).getY2(), cuadro);
                     }
-                    if (enlaces.get(j).getId() == ((Decision) move).getLadoIzquierdo().getId()) {
-                        enlaces.get(j).dibujar(x - 180, y + 30, enlaces.get(j).getX1(), enlaces.get(j).getY2(), cuadro);
+                    if (diagrama.getEnlaces().get(j).getId() == ((Decision) move).getLadoIzquierdo().getId()) {
+                        diagrama.getEnlaces().get(j).dibujar(x - 180, y + 30, diagrama.getEnlaces().get(j).getX1(), diagrama.getEnlaces().get(j).getY2(), cuadro);
 
                     }
                 }
@@ -950,9 +950,9 @@ public class FXMLDocumentController implements Initializable {
                             Figura b = detectarFigura2((int) p.getX(), (int) p.getY());
                             if ((Aux != null && b != null && b != Aux) || (mo < 0 || mo + 90 < 0) || (mp < 0)) {
                                 System.out.println("Entrennnn");
-                                if (enlaces.size() != 0) {
-                                    for (int t = 0; t < enlaces.size(); t++) {
-                                        Flujo link = enlaces.get(t);
+                                if (diagrama.getEnlaces().size() != 0) {
+                                    for (int t = 0; t < diagrama.getEnlaces().size(); t++) {
+                                        Flujo link = diagrama.getEnlaces().get(t);
                                         // mover enlace superior
 
                                         if (link.getId() == Aux.getFlujoSuperior()) {
@@ -975,18 +975,18 @@ public class FXMLDocumentController implements Initializable {
 
                                         }
 
-                                        enlaces.set(t, link);
+                                        diagrama.getEnlaces().set(t, link);
                                         repintar(cuadro);
 
                                     }
                                     if (Aux instanceof Decision) {
                                         Decision a = (Decision) Aux;
-                                        for (int i = 0; i < enlaces.size(); i++) {
-                                            if (enlaces.get(i).getId() == a.getLadoDerecho().getId()) {
-                                                enlaces.get(i).dibujar(mx + 180, my + 30, enlaces.get(i).getX1(), enlaces.get(i).getY2(), cuadro);
+                                        for (int i = 0; i < diagrama.getEnlaces().size(); i++) {
+                                            if (diagrama.getEnlaces().get(i).getId() == a.getLadoDerecho().getId()) {
+                                                diagrama.getEnlaces().get(i).dibujar(mx + 180, my + 30, diagrama.getEnlaces().get(i).getX1(), diagrama.getEnlaces().get(i).getY2(), cuadro);
                                             }
-                                            if (enlaces.get(i).getId() == a.getLadoIzquierdo().getId()) {
-                                                enlaces.get(i).dibujar(mx - 180, my + 30, enlaces.get(i).getX1(), enlaces.get(i).getY2(), cuadro);
+                                            if (diagrama.getEnlaces().get(i).getId() == a.getLadoIzquierdo().getId()) {
+                                                diagrama.getEnlaces().get(i).dibujar(mx - 180, my + 30, diagrama.getEnlaces().get(i).getX1(), diagrama.getEnlaces().get(i).getY2(), cuadro);
 
                                             }
                                         }
@@ -996,10 +996,12 @@ public class FXMLDocumentController implements Initializable {
                                 }
 
                                 Aux.dibujar(cuadro, (mx), my);
+                                GuardarDiagrama();
                                 repintar(cuadro);
 
                             } else {
                                 Aux.dibujar(cuadro, mp, mo);
+                                GuardarDiagrama();
                                 repintar(cuadro);
                             }
 
@@ -1404,8 +1406,8 @@ public class FXMLDocumentController implements Initializable {
                     //en caso de salir todo bien, limpio las variables y le pego el copiado
                     //en caso de salir algo mal, limpio la copia y no hago nada.
                     ArrayList<Variable> variablesCopia = new ArrayList<>();
-                    for (int i = 0; i < variables.size(); i++) {
-                        variablesCopia.add(variables.get(i));
+                    for (int i = 0; i < diagrama.getVariables().size(); i++) {
+                        variablesCopia.add(diagrama.getVariables().get(i));
                     }
                     //aca ya esta listo, debemos comenzar a crear las variables
                     //pero tenemos que ver el tipo, si son solo numeros, strings o ambos(error).
@@ -1504,7 +1506,7 @@ public class FXMLDocumentController implements Initializable {
                                     for (int k = 0; k < variablesCopia.size(); k++) {
                                         //System.out.println(variablesEnTokens.get(i));
                                         //System.out.println("coma");
-                                        //System.out.println(variables.get(j).getNombre());
+                                        //System.out.println(diagrama.getVariables().get(j).getNombre());
                                         if (variablesEnTokens.get(j).equals(variablesCopia.get(k).getNombre())) {
                                             valoresVariables.add(variablesCopia.get(k).getTexto());
                                             existe = true;
@@ -1659,9 +1661,9 @@ public class FXMLDocumentController implements Initializable {
                         click = false;
                         variablesCopia.clear();
                     } else {
-                        variables.clear();
+                        diagrama.getVariables().clear();
                         for (int i = 0; i < variablesCopia.size(); i++) {
-                            variables.add(variablesCopia.get(i));
+                            diagrama.addVariable(variablesCopia.get(i));
                         }
                         variablesCopia.clear();
                     }
@@ -1681,16 +1683,16 @@ public class FXMLDocumentController implements Initializable {
         }
         if (click == true && edit == true) {
             System.out.println("imprime todas las variables");
-            for (int i = 0; i < variables.size(); i++) {
-                System.out.println("variable " + (i + 1) + ". nombre: " + variables.get(i).getNombre() + ". lado derecho: " + variables.get(i).getTexto() + ". tipo: " + variables.get(i).getTipo());
+            for (int i = 0; i < diagrama.getVariables().size(); i++) {
+                System.out.println("variable " + (i + 1) + ". nombre: " + diagrama.getVariables().get(i).getNombre() + ". lado derecho: " + diagrama.getVariables().get(i).getTexto() + ". tipo: " + diagrama.getVariables().get(i).getTipo());
             }
             separarFlujo(etapa, cantidad);
 
         } else if (edit == false && click == true) {
             System.out.println(">> Entre al editar documento");
-            for (int i = 0; i < formas.size(); i++) {
-                if (formas.get(i).getID() == idEdit) {
-                    formas.remove(i);
+            for (int i = 0; i < diagrama.getFormas().size(); i++) {
+                if (diagrama.getFormas().get(i).getID() == idEdit) {
+                    diagrama.getFormas().remove(i);
 
                 }
             }
@@ -1704,7 +1706,7 @@ public class FXMLDocumentController implements Initializable {
             edit = true;
             Decision.setDisable(false);
             Ciclo.setDisable(false);
-            formas.add(etapa);
+            diagrama.addForma(etapa);
         }
     }
 
@@ -1803,10 +1805,10 @@ public class FXMLDocumentController implements Initializable {
                     } else {
                         variableNueva.setTipo("texto");
                     }
-                    for (int j = 0; j < variables.size(); j++) {
-                        if (variableNueva.getNombre().equals(variables.get(j).getNombre())) {
+                    for (int j = 0; j < diagrama.getVariables().size(); j++) {
+                        if (variableNueva.getNombre().equals(diagrama.getVariables().get(j).getNombre())) {
                             validarNombres = true;
-                            j = variables.size();
+                            j = diagrama.getVariables().size();
                         }
                     }
                     //
@@ -1815,16 +1817,16 @@ public class FXMLDocumentController implements Initializable {
                     }
                     //
                     if (validarNombres) {
-                        for (int k = 0; k < variables.size(); k++) {
-                            if (variableNueva.getNombre().equals(variables.get(k).getNombre())) {
-                                variables.get(k).setNombre(variableNueva.getNombre());
-                                variables.get(k).setTexto(variableNueva.getTexto());
-                                variables.get(k).setTipo(variableNueva.getTipo());
-                                k = variables.size();
+                        for (int k = 0; k < diagrama.getVariables().size(); k++) {
+                            if (variableNueva.getNombre().equals(diagrama.getVariables().get(k).getNombre())) {
+                                diagrama.getVariables().get(k).setNombre(variableNueva.getNombre());
+                                diagrama.getVariables().get(k).setTexto(variableNueva.getTexto());
+                                diagrama.getVariables().get(k).setTipo(variableNueva.getTipo());
+                                k = diagrama.getVariables().size();
                             }
                         }
                     } else {
-                        variables.add(variableNueva);
+                        diagrama.addVariable(variableNueva);
                     }
                 }
             } else {
@@ -1846,9 +1848,9 @@ public class FXMLDocumentController implements Initializable {
 
             } else if (edit == false && click == true) {
                 System.out.println(">> Entre al editar documento");
-                for (int i = 0; i < formas.size(); i++) {
-                    if (formas.get(i).getID() == idEdit) {
-                        formas.remove(i);
+                for (int i = 0; i < diagrama.getFormas().size(); i++) {
+                    if (diagrama.getFormas().get(i).getID() == idEdit) {
+                        diagrama.getFormas().remove(i);
 
                     }
                 }
@@ -1862,11 +1864,11 @@ public class FXMLDocumentController implements Initializable {
                 edit = true;
                 Decision.setDisable(false);
                 Ciclo.setDisable(false);
-                formas.add(entrada);
+                diagrama.addForma(entrada);
             }
             System.out.println("IMPRIMOS TODAS LAS VARIABLES EXISTENTES");
-            for (int i = 0; i < variables.size(); i++) {
-                System.out.println("variable " + (i + 1) + " " + variables.get(i).getNombre() + ", " + variables.get(i).getTexto() + ", " + variables.get(i).getTipo());
+            for (int i = 0; i < diagrama.getVariables().size(); i++) {
+                System.out.println("variable " + (i + 1) + " " + diagrama.getVariables().get(i).getNombre() + ", " + diagrama.getVariables().get(i).getTexto() + ", " + diagrama.getVariables().get(i).getTipo());
             }
         }
     }
@@ -1991,9 +1993,9 @@ public class FXMLDocumentController implements Initializable {
 
         } else if (edit == false) {
             System.out.println(">> Entre al editar documento");
-            for (int i = 0; i < formas.size(); i++) {
-                if (formas.get(i).getID() == idEdit) {
-                    formas.remove(i);
+            for (int i = 0; i < diagrama.getFormas().size(); i++) {
+                if (diagrama.getFormas().get(i).getID() == idEdit) {
+                    diagrama.getFormas().remove(i);
 
                 }
             }
@@ -2007,7 +2009,7 @@ public class FXMLDocumentController implements Initializable {
             edit = true;
             Decision.setDisable(false);
             Ciclo.setDisable(false);
-            formas.add(documento);
+            diagrama.addForma(documento);
         }
     }
 
@@ -2176,16 +2178,16 @@ public class FXMLDocumentController implements Initializable {
                         //vemos si la variable existe o no en el arreglo
                         boolean existeEnLasVariables = false;
                         int posicionVariableIgual = 0;
-                        for (int i = 0; i < variables.size(); i++) {
-                            if (arrayTokens.get(0).equals(variables.get(i).getNombre())) {
+                        for (int i = 0; i < diagrama.getVariables().size(); i++) {
+                            if (arrayTokens.get(0).equals(diagrama.getVariables().get(i).getNombre())) {
                                 posicionVariableIgual = i;
-                                i = variables.size();
+                                i = diagrama.getVariables().size();
                                 existeEnLasVariables = true;
                             }
                         }
                         if (existeEnLasVariables) {
                             //reemplazar el texto por el valor de la variable
-                            ladoDerecho = variables.get(posicionVariableIgual).getTexto();
+                            ladoDerecho = diagrama.getVariables().get(posicionVariableIgual).getTexto();
                             System.out.println("existe en las variables");
                             System.out.println(ladoIzquierdo + " " + ladoDerecho);
                         } else {
@@ -2346,12 +2348,12 @@ public class FXMLDocumentController implements Initializable {
                             if (!variablesEnTokens.isEmpty()) {
                                 System.out.println("variablesEnTokens no esta vacio");
                                 for (int i = 0; i < variablesEnTokens.size(); i++) {
-                                    for (int j = 0; j < variables.size(); j++) {
+                                    for (int j = 0; j < diagrama.getVariables().size(); j++) {
                                         System.out.println(variablesEnTokens.get(i));
                                         System.out.println("coma");
-                                        System.out.println(variables.get(j).getNombre());
-                                        if (variablesEnTokens.get(i).equals(variables.get(j).getNombre())) {
-                                            valoresVariables.add(variables.get(j).getTexto());
+                                        System.out.println(diagrama.getVariables().get(j).getNombre());
+                                        if (variablesEnTokens.get(i).equals(diagrama.getVariables().get(j).getNombre())) {
+                                            valoresVariables.add(diagrama.getVariables().get(j).getTexto());
                                             existe = true;
                                         }
                                     }
@@ -2448,9 +2450,9 @@ public class FXMLDocumentController implements Initializable {
 
         } else if (edit == false && click == true) {
             System.out.println(">> Entre al editar documento");
-            for (int i = 0; i < formas.size(); i++) {
-                if (formas.get(i).getID() == idEdit) {
-                    formas.remove(i);
+            for (int i = 0; i < diagrama.getFormas().size(); i++) {
+                if (diagrama.getFormas().get(i).getID() == idEdit) {
+                    diagrama.getFormas().remove(i);
 
                 }
             }
@@ -2464,7 +2466,7 @@ public class FXMLDocumentController implements Initializable {
             edit = true;
             Decision.setDisable(false);
             Ciclo.setDisable(false);
-            formas.add(salida);
+            diagrama.addForma(salida);
         }
     }
 
@@ -2477,7 +2479,7 @@ public class FXMLDocumentController implements Initializable {
 
             }
             reConectarFlujo(((Decision) eliminar).getVerdaderas().get(i));// Se llama al metodo reconectarFlujo
-            formas.remove(((Decision) eliminar).getVerdaderas().get(i));// se elimina la figura detectada
+            diagrama.getFormas().remove(((Decision) eliminar).getVerdaderas().get(i));// se elimina la figura detectada
 
         }
 
@@ -2488,25 +2490,25 @@ public class FXMLDocumentController implements Initializable {
 
             }
             reConectarFlujo(((Decision) eliminar).getFalsas().get(i));// Se llama al metodo reconectarFlujo
-            formas.remove(((Decision) eliminar).getFalsas().get(i));// se elimina la figura detectada
+            diagrama.getFormas().remove(((Decision) eliminar).getFalsas().get(i));// se elimina la figura detectada
 
         }
-        for (int i = 0; i < enlaces.size(); i++) {
-            if (enlaces.get(i).getDecision() == eliminar.getID()) {
-                if (enlaces.get(i).isDerecho()) {
-                    enlaces.remove(enlaces.get(i));
-                    i = enlaces.size();
+        for (int i = 0; i < diagrama.getEnlaces().size(); i++) {
+            if (diagrama.getEnlaces().get(i).getDecision() == eliminar.getID()) {
+                if (diagrama.getEnlaces().get(i).isDerecho()) {
+                    diagrama.getEnlaces().remove(diagrama.getEnlaces().get(i));
+                    i = diagrama.getEnlaces().size();
 
                 }
 
             }
         }
 
-        for (int i = 0; i < enlaces.size(); i++) {
-            if (enlaces.get(i).getDecision() == eliminar.getID()) {
-                if (enlaces.get(i).isDerecho() == false) {
-                    enlaces.remove(enlaces.get(i));
-                    i = enlaces.size();
+        for (int i = 0; i < diagrama.getEnlaces().size(); i++) {
+            if (diagrama.getEnlaces().get(i).getDecision() == eliminar.getID()) {
+                if (diagrama.getEnlaces().get(i).isDerecho() == false) {
+                    diagrama.getEnlaces().remove(diagrama.getEnlaces().get(i));
+                    i = diagrama.getEnlaces().size();
 
                 }
 
@@ -2523,37 +2525,37 @@ public class FXMLDocumentController implements Initializable {
      */
     public void reConectarFlujo(Figura eliminar) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
-        if (formas.size() == 2) {// se pregunta si solo hay dos objetos 
-            Figura inicio = formas.get(0); // Cuando solo hay dos objetos estos son inicioFin
-            Figura fin = formas.get(1);
-            enlaces.clear();// se limpian la lista de enlaces
+        if (diagrama.getFormas().size() == 2) {// se pregunta si solo hay dos objetos 
+            Figura inicio = diagrama.getFormas().get(0); // Cuando solo hay dos objetos estos son inicioFin
+            Figura fin = diagrama.getFormas().get(1);
+            diagrama.getEnlaces().clear();// se limpian la lista de enlaces
             Flujo nuevo = new Flujo();// se crea un nuevo flujo y se conecta al inicioFin
             nuevo.dibujar(inicio.getMedioX(), inicio.getMedioY() + 70, fin.getMedioX(), fin.getMedioY(), cuadro);
-            enlaces.add(nuevo);// se agrega a la lista
+            diagrama.addEnlace(nuevo);// se agrega a la lista
         } else {
             if (eliminar instanceof InicioFin == false) {// se pregunta si es distinto a InicioFin
                 Flujo superior = new Flujo();// Se crean dos objetos flujos.
                 Flujo inferior = new Flujo();
-                for (int i = 0; i < enlaces.size(); i++) {// se recorren la lista de enlaces
-                    Flujo fAux = enlaces.get(i);// se guarda en un enlace auxiliar
+                for (int i = 0; i < diagrama.getEnlaces().size(); i++) {// se recorren la lista de enlaces
+                    Flujo fAux = diagrama.getEnlaces().get(i);// se guarda en un enlace auxiliar
                     if (fAux.getId() == eliminar.getFlujoSuperior()) {// se pregunta si el ID del Auxiliar es igual al flujo superior de la figura
-                        superior = enlaces.get(i);// se guarda el enlace superior
+                        superior = diagrama.getEnlaces().get(i);// se guarda el enlace superior
                     }
                     if (fAux.getId() == eliminar.getFlujoInferior()) {// se pregunta si el Id del Aux es igual al Flujo inferior del eliminar
-                        inferior = enlaces.get(i);// Se guarda el enlace inferior
+                        inferior = diagrama.getEnlaces().get(i);// Se guarda el enlace inferior
                     }
                 }
                 // se actualiza el enlace inferior combinando las coordenadas del superior e inferior
                 inferior.dibujar(superior.getX(), superior.getY(), inferior.getX1(), inferior.getY2(), cuadro);
 
                 // se recorre la lista de formas
-                for (int i = 0; i < formas.size(); i++) {
-                    if (formas.get(i).getFlujoInferior() == superior.getId()) {// se pregunta si la id del flujo inferior es igual a la del flujo superior eliminado
-                        formas.get(i).setFlujoInferior(inferior.getId());// se actualiza el el flujo inferior por el nuevo flujo combinado
+                for (int i = 0; i < diagrama.getFormas().size(); i++) {
+                    if (diagrama.getFormas().get(i).getFlujoInferior() == superior.getId()) {// se pregunta si la id del flujo inferior es igual a la del flujo superior eliminado
+                        diagrama.getFormas().get(i).setFlujoInferior(inferior.getId());// se actualiza el el flujo inferior por el nuevo flujo combinado
                     }
                 }
                 if (inferior != null && superior != null) {// se pregunta si se encontraron dos enlaces
-                    enlaces.remove(superior);// si entra a la condicion y se elimina el enlace de la lista.
+                    diagrama.getEnlaces().remove(superior);// si entra a la condicion y se elimina el enlace de la lista.
                 }
             }
 
@@ -2577,13 +2579,13 @@ public class FXMLDocumentController implements Initializable {
                 }
                 if (eliminar instanceof Ciclo) {
                     for (int i = 0; i < ((Ciclo) eliminar).getIdsFiguras().size(); i++) {
-                        for (int j = 0; j < formas.size(); j++) {
-                            if (formas.get(j).getID() == ((Ciclo) eliminar).getIdsFiguras().get(i)) {
+                        for (int j = 0; j < diagrama.getFormas().size(); j++) {
+                            if (diagrama.getFormas().get(j).getID() == ((Ciclo) eliminar).getIdsFiguras().get(i)) {
                                 if (eliminar instanceof Decision) {
                                     borrarDecision((Decision) eliminar);
                                 } else {
-                                    reConectarFlujo(formas.get(j));// Se llama al metodo reconectarFlujo
-                                    formas.remove(formas.get(j));// 
+                                    reConectarFlujo(diagrama.getFormas().get(j));// Se llama al metodo reconectarFlujo
+                                    diagrama.getFormas().remove(diagrama.getFormas().get(j));// 
 
                                 }
                             }
@@ -2607,10 +2609,10 @@ public class FXMLDocumentController implements Initializable {
                     }
                     //ciclo para borrar todas las variables que se crearon en la entrada
                     for (int i = 0; i < nombresVariables.size(); i++) {
-                        for (int j = 0; j < variables.size(); j++) {
-                            if (nombresVariables.get(i).equals(variables.get(j).getNombre())) {
-                                variables.remove(j);
-                                j = variables.size();
+                        for (int j = 0; j < diagrama.getVariables().size(); j++) {
+                            if (nombresVariables.get(i).equals(diagrama.getVariables().get(j).getNombre())) {
+                                diagrama.getVariables().remove(j);
+                                j = diagrama.getVariables().size();
                             }
                         }
                     }
@@ -2631,31 +2633,32 @@ public class FXMLDocumentController implements Initializable {
                     }
                     //ciclo para borrar todas las variables que se crearon en la etapa
                     for (int i = 0; i < nombresVariables.size(); i++) {
-                        for (int j = 0; j < variables.size(); j++) {
-                            if (nombresVariables.get(i).equals(variables.get(j).getNombre())) {
-                                variables.remove(j);
-                                j = variables.size();
+                        for (int j = 0; j < diagrama.getVariables().size(); j++) {
+                            if (nombresVariables.get(i).equals(diagrama.getVariables().get(j).getNombre())) {
+                                diagrama.getVariables().remove(j);
+                                j = diagrama.getVariables().size();
                             }
                         }
                     }
                 }
                 reConectarFlujo(eliminar);// Se llama al metodo reconectarFlujo
-                formas.remove(eliminar);// se elimina la figura detectada
-                for (int i = 0; i < formas.size(); i++) {
-                    if (formas.get(i) instanceof Decision) {
-                        Decision aux = (Decision) formas.get(i);
+                diagrama.getFormas().remove(eliminar);// se elimina la figura detectada
+                for (int i = 0; i < diagrama.getFormas().size(); i++) {
+                    if (diagrama.getFormas().get(i) instanceof Decision) {
+                        Decision aux = (Decision) diagrama.getFormas().get(i);
                         aux.actualizarFlujos();
-                        formas.set(i, aux);
+                        diagrama.getFormas().set(i, aux);
                     }
                 }
 
-                for (int i = 0; i < formas.size(); i++) {
-                    if (formas.get(i) instanceof Ciclo) {
-                        Ciclo aux = (Ciclo) formas.get(i);
+                for (int i = 0; i < diagrama.getFormas().size(); i++) {
+                    if (diagrama.getFormas().get(i) instanceof Ciclo) {
+                        Ciclo aux = (Ciclo) diagrama.getFormas().get(i);
                         aux.actualizarBloque();
-                        formas.set(i, aux);
+                        diagrama.getFormas().set(i, aux);
                     }
                 }
+                 GuardarDiagrama();
                 repintar(cuadro);// se vuelve a pintar todos los elementos en la pantalla
             }
         } else {
@@ -2676,6 +2679,7 @@ public class FXMLDocumentController implements Initializable {
      */
     @FXML
     private void borrarFigura(ActionEvent event) throws Exception {
+
         cut.setOnMousePressed(t -> {
             GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el lienzo
             borrar = false;//el boolean borrar se convierte en false para activar el boton
@@ -2700,9 +2704,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void borrarAll(ActionEvent event) throws Exception {
         //Se borran todos los elementos de todas las listas
-        formas.clear();
-        enlaces.clear();
-        variables.clear();
+        diagrama.getFormas().clear();
+        diagrama.getEnlaces().clear();
+        diagrama.getVariables().clear();
         //se activan los botones 
         Decision.setDisable(false);
         Ciclo.setDisable(false);
@@ -2763,8 +2767,8 @@ public class FXMLDocumentController implements Initializable {
         lienzo.setOnMouseClicked(e -> {// se usa una funcion lambda para poder detectar XY de un click
             Figura mover = detectarFigura1((int) e.getX(), (int) e.getY());
             if (mover == null) {
-                for (int i = 0; i < enlaces.size(); i++) {// se recorre el arreglo de lineas de flujo
-                    Flujo aux = enlaces.get(i);// Se guarda el enlace i en una variable auxiliar
+                for (int i = 0; i < diagrama.getEnlaces().size(); i++) {// se recorre el arreglo de lineas de flujo
+                    Flujo aux = diagrama.getEnlaces().get(i);// Se guarda el enlace i en una variable auxiliar
                     if ((int) e.getX() <= aux.getX() + 40 && (int) e.getX() >= aux.getX() - 40 && (int) e.getY() >= aux.getY() && (int) e.getY() <= aux.getY2()) {// se pregunta si el xy del Click esta dentro de un enlace
                         Decision condicional = new Decision();
                         cuadro.clearRect(0, 0, lienzo.getWidth(), lienzo.getHeight());// se limpia el canvas
@@ -2774,9 +2778,9 @@ public class FXMLDocumentController implements Initializable {
                         //Preguntar si el flujo es parte de una decision
                         if (aux.getDecision() >= 0) {
                             //Buscar la figura decision enlazada al flujo;
-                            for (int j = 0; j < formas.size(); j++) {
-                                if (formas.get(j).getID() == aux.getDecision()) {
-                                    condicional = (Decision) formas.get(j);//Asignar condicional
+                            for (int j = 0; j < diagrama.getFormas().size(); j++) {
+                                if (diagrama.getFormas().get(j).getID() == aux.getDecision()) {
+                                    condicional = (Decision) diagrama.getFormas().get(j);//Asignar condicional
                                     System.out.println(">> Encontre una decision");
                                 }
                             }
@@ -2803,8 +2807,8 @@ public class FXMLDocumentController implements Initializable {
                                 derecho.setDerecho(true);
                                 derecho.setDecision(ids);
                                 izquierdo.setDerecho(false);
-                                enlaces.add(derecho);
-                                enlaces.add(izquierdo);
+                                diagrama.addEnlace(derecho);
+                                diagrama.addEnlace(izquierdo);
                                 ((Decision) n).setLadoIzquierdo(izquierdo);
                                 ((Decision) n).setLadoDerecho(derecho);
                                 ((Decision) n).setFinalDerecho(derecho);
@@ -2828,9 +2832,9 @@ public class FXMLDocumentController implements Initializable {
                                 nuevo.dibujar(aux.getX(), aux.getY(), o, f, cuadro);
                                 aux.dibujar(o, f + 200, aux.getX1(), aux.getY2() + 140, cuadro);
                                 n.dibujar(cuadro, o, f);
-                                for (int j = 0; j < enlaces.size(); j++) {
-                                    if (enlaces.get(j).getId() == condicional.getFlujoInferior()) {
-                                        enlaces.get(j).dibujar(enlaces.get(j).getX(), aux.getY2(), enlaces.get(j).getX1(), enlaces.get(j).getY2(), cuadro);
+                                for (int j = 0; j < diagrama.getEnlaces().size(); j++) {
+                                    if (diagrama.getEnlaces().get(j).getId() == condicional.getFlujoInferior()) {
+                                        diagrama.getEnlaces().get(j).dibujar(diagrama.getEnlaces().get(j).getX(), aux.getY2(), diagrama.getEnlaces().get(j).getX1(), diagrama.getEnlaces().get(j).getY2(), cuadro);
                                     }
                                 }
                                 if (aux.isDerecho()) {
@@ -2847,9 +2851,9 @@ public class FXMLDocumentController implements Initializable {
                                 if (n instanceof Ciclo) {
                                     ((Ciclo) n).setConexionH(nuevo);
                                 }
-                                for (int j = 0; j < enlaces.size(); j++) {
-                                    if (enlaces.get(j).getId() == condicional.getFlujoInferior()) {
-                                        enlaces.get(j).dibujar(enlaces.get(j).getX(), aux.getY2(), enlaces.get(j).getX1(), enlaces.get(j).getY2(), cuadro);
+                                for (int j = 0; j < diagrama.getEnlaces().size(); j++) {
+                                    if (diagrama.getEnlaces().get(j).getId() == condicional.getFlujoInferior()) {
+                                        diagrama.getEnlaces().get(j).dibujar(diagrama.getEnlaces().get(j).getX(), aux.getY2(), diagrama.getEnlaces().get(j).getX1(), diagrama.getEnlaces().get(j).getY2(), cuadro);
                                     }
                                 }
                                 if (aux.isDerecho()) {
@@ -2865,21 +2869,21 @@ public class FXMLDocumentController implements Initializable {
                             idFlujos++;
                             n.setFlujoInferior(aux.getId());
 
-                            for (int d = 0; d < formas.size(); d++) {
-                                if (formas.get(d).getFlujoInferior() == aux.getId()) {
-                                    formas.get(d).setFlujoInferior(nuevo.getId());
+                            for (int d = 0; d < diagrama.getFormas().size(); d++) {
+                                if (diagrama.getFormas().get(d).getFlujoInferior() == aux.getId()) {
+                                    diagrama.getFormas().get(d).setFlujoInferior(nuevo.getId());
                                 }
                             }
                             n.setID(ids);
 
-                            for (int j = 0; j < formas.size(); j++) {
-                                if (formas.get(j).getFlujoInferior() == nuevo.getId()) {
-                                    formas.get(j).setSiguiente(ids);
-                                    n.setAnterior(formas.get(j).getID());
+                            for (int j = 0; j < diagrama.getFormas().size(); j++) {
+                                if (diagrama.getFormas().get(j).getFlujoInferior() == nuevo.getId()) {
+                                    diagrama.getFormas().get(j).setSiguiente(ids);
+                                    n.setAnterior(diagrama.getFormas().get(j).getID());
                                 }
-                                if (formas.get(j).getFlujoSuperior() == aux.getId()) {
-                                    formas.get(j).setAnterior(ids);
-                                    n.setSiguiente(formas.get(j).getID());
+                                if (diagrama.getFormas().get(j).getFlujoSuperior() == aux.getId()) {
+                                    diagrama.getFormas().get(j).setAnterior(ids);
+                                    n.setSiguiente(diagrama.getFormas().get(j).getID());
                                 }
 
                             }
@@ -2890,7 +2894,7 @@ public class FXMLDocumentController implements Initializable {
                             }
                             ids++;
                             int diferenciay = (nuevo.getY() + nuevo.getY2()) / 2;
-                            formas.add(n);
+                            diagrama.addForma(n);
                             if (aux.isDerecho()) {
                                 condicional.setVerdaderas(n);
                                 nuevo.setDerecho(true);
@@ -2903,9 +2907,9 @@ public class FXMLDocumentController implements Initializable {
                             System.out.println("Ciclo Aux: " + aux.getCiclo());
 
                             if (aux.getCiclo() >= 0) {
-                                for (int j = 0; j < formas.size(); j++) {
-                                    if (formas.get(j).getID() == aux.getCiclo()) {
-                                        Figura ciclo = formas.get(j);
+                                for (int j = 0; j < diagrama.getFormas().size(); j++) {
+                                    if (diagrama.getFormas().get(j).getID() == aux.getCiclo()) {
+                                        Figura ciclo = diagrama.getFormas().get(j);
                                         if (ciclo instanceof Ciclo) {
                                             ((Ciclo) ciclo).setConexionH(nuevo);
                                             aux.setCiclo(-7);
@@ -2922,9 +2926,9 @@ public class FXMLDocumentController implements Initializable {
 
                             if (enCiclo == true && !(n instanceof Ciclo)) {
 
-                                for (int j = 0; j < formas.size(); j++) {
-                                    if (formas.get(j) instanceof Ciclo) {
-                                        Ciclo iteracion = (Ciclo) formas.get(j);
+                                for (int j = 0; j < diagrama.getFormas().size(); j++) {
+                                    if (diagrama.getFormas().get(j) instanceof Ciclo) {
+                                        Ciclo iteracion = (Ciclo) diagrama.getFormas().get(j);
                                         //prints
                                         for (int k = 0; k < iteracion.getIdsFiguras().size(); k++) {
                                             System.out.println("ID " + i + ": " + iteracion.getIdsFiguras().get(k));
@@ -2939,21 +2943,21 @@ public class FXMLDocumentController implements Initializable {
                                 }
                             }
                             //Funcion que ordena la lista con las nuevas figuras
-                            enlaces.set(i, aux);
-                            enlaces.add(nuevo);
+                            diagrama.getEnlaces().set(i, aux);
+                            diagrama.addEnlace(nuevo);
                             condicional.nodo();
 
                             //Actualizar Condicional
-                            for (int j = 0; j < formas.size(); j++) {
-                                if (aux.getDecision() == formas.get(j).getID()) {
-                                    formas.set(j, condicional);
+                            for (int j = 0; j < diagrama.getFormas().size(); j++) {
+                                if (aux.getDecision() == diagrama.getFormas().get(j).getID()) {
+                                    diagrama.getFormas().set(j, condicional);
 
                                 }
                             }
 
-                            for (int j = 0; j < formas.size(); j++) {
-                                if (formas.get(j) instanceof Ciclo) {
-                                    Ciclo iteracion = (Ciclo) formas.get(j);
+                            for (int j = 0; j < diagrama.getFormas().size(); j++) {
+                                if (diagrama.getFormas().get(j) instanceof Ciclo) {
+                                    Ciclo iteracion = (Ciclo) diagrama.getFormas().get(j);
                                     bloqueCiclo(iteracion);
 
                                 }
@@ -2982,8 +2986,8 @@ public class FXMLDocumentController implements Initializable {
                                 izquierdo.setDerecho(false);
                                 izquierdo.setDecision(ids);
 
-                                enlaces.add(derecho);
-                                enlaces.add(izquierdo);
+                                diagrama.addEnlace(derecho);
+                                diagrama.addEnlace(izquierdo);
                                 ((Decision) n).setLadoIzquierdo(izquierdo);
                                 ((Decision) n).setLadoDerecho(derecho);
                                 ((Decision) n).setFinalDerecho(derecho);
@@ -3028,21 +3032,21 @@ public class FXMLDocumentController implements Initializable {
                             idFlujos++;
                             n.setFlujoInferior(aux.getId());
 
-                            for (int d = 0; d < formas.size(); d++) {
-                                if (formas.get(d).getFlujoInferior() == aux.getId()) {
-                                    formas.get(d).setFlujoInferior(nuevo.getId());
+                            for (int d = 0; d < diagrama.getFormas().size(); d++) {
+                                if (diagrama.getFormas().get(d).getFlujoInferior() == aux.getId()) {
+                                    diagrama.getFormas().get(d).setFlujoInferior(nuevo.getId());
                                 }
                             }
                             n.setID(ids);
 
-                            for (int j = 0; j < formas.size(); j++) {
-                                if (formas.get(j).getFlujoInferior() == nuevo.getId()) {
-                                    formas.get(j).setSiguiente(ids);
-                                    n.setAnterior(formas.get(j).getID());
+                            for (int j = 0; j < diagrama.getFormas().size(); j++) {
+                                if (diagrama.getFormas().get(j).getFlujoInferior() == nuevo.getId()) {
+                                    diagrama.getFormas().get(j).setSiguiente(ids);
+                                    n.setAnterior(diagrama.getFormas().get(j).getID());
                                 }
-                                if (formas.get(j).getFlujoSuperior() == aux.getId()) {
-                                    formas.get(j).setAnterior(ids);
-                                    n.setSiguiente(formas.get(j).getID());
+                                if (diagrama.getFormas().get(j).getFlujoSuperior() == aux.getId()) {
+                                    diagrama.getFormas().get(j).setAnterior(ids);
+                                    n.setSiguiente(diagrama.getFormas().get(j).getID());
                                 }
 
                             }
@@ -3053,14 +3057,14 @@ public class FXMLDocumentController implements Initializable {
                             }
                             ids++;
                             int diferenciay = (nuevo.getY() + nuevo.getY2()) / 2;
-                            formas.add(n);
+                            diagrama.addForma(n);
                             System.out.println("Ciclo Aux: " + aux.getCiclo());
 
                             if (enCiclo == true && !(n instanceof Ciclo)) {
 
-                                for (int j = 0; j < formas.size(); j++) {
-                                    if (formas.get(j) instanceof Ciclo) {
-                                        Ciclo iteracion = (Ciclo) formas.get(j);
+                                for (int j = 0; j < diagrama.getFormas().size(); j++) {
+                                    if (diagrama.getFormas().get(j) instanceof Ciclo) {
+                                        Ciclo iteracion = (Ciclo) diagrama.getFormas().get(j);
                                         //prints
                                         for (int k = 0; k < iteracion.getIdsFiguras().size(); k++) {
                                             System.out.println("ID " + i + ": " + iteracion.getIdsFiguras().get(k));
@@ -3081,24 +3085,24 @@ public class FXMLDocumentController implements Initializable {
                             }
 
                             //Funcion que ordena la lista con las nuevas figuras
-                            enlaces.set(i, aux);
-                            enlaces.add(nuevo);
+                            diagrama.getEnlaces().set(i, aux);
+                            diagrama.addEnlace(nuevo);
 
-                            for (int j = 0; j < formas.size(); j++) {
-                                if (formas.get(j) instanceof Ciclo) {
-                                    Ciclo iteracion = (Ciclo) formas.get(j);
+                            for (int j = 0; j < diagrama.getFormas().size(); j++) {
+                                if (diagrama.getFormas().get(j) instanceof Ciclo) {
+                                    Ciclo iteracion = (Ciclo) diagrama.getFormas().get(j);
                                     bloqueCiclo(iteracion);
 
                                 }
                             }
                         }
                         for (int t = 0; t < 2; t++) {
-                            for (int b = 0; b < formas.size(); b++) {
-                                if (formas.get(b) instanceof Decision) {
-                                    //DetectarDecision2((Decision) formas.get(b));
-                                    //DetectarDecision3((Decision) formas.get(b));
-                                    DetectarDecisionDer((Decision) formas.get(b));
-                                    DetectarDecisionIzq((Decision) formas.get(b));
+                            for (int b = 0; b < diagrama.getFormas().size(); b++) {
+                                if (diagrama.getFormas().get(b) instanceof Decision) {
+                                    //DetectarDecision2((Decision) diagrama.getFormas().get(b));
+                                    //DetectarDecision3((Decision) diagrama.getFormas().get(b));
+                                    DetectarDecisionDer((Decision) diagrama.getFormas().get(b));
+                                    DetectarDecisionIzq((Decision) diagrama.getFormas().get(b));
                                 }
                             }
                         }
@@ -3107,12 +3111,13 @@ public class FXMLDocumentController implements Initializable {
                         repintar(cuadro);
                         // se anula la posibilidad de seguir presionando el canvas
                         lienzo.setOnMouseClicked(null);
+                         GuardarDiagrama();
                         // se detiene el metodo para que no entre a un ciclo infinito.
                         if (n instanceof Entrada && variable != 0) {
-                            int size = variables.size();
+                            int size = diagrama.getVariables().size();
                             size = size - variable;
-                            for (int j = size; j < variables.size(); j++) {
-                                Variable variable2 = variables.get(j);
+                            for (int j = size; j < diagrama.getVariables().size(); j++) {
+                                Variable variable2 = diagrama.getVariables().get(j);
                                 consola.setText(consola.getText() + "\n" + variable2.getNombre() + " ← " + variable2.getTexto());
                             }
                         }
@@ -3134,12 +3139,12 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("*****Formas dentro del ciclo " + iteracion.getTextoFigura() + "*******");
         Flujo flujoCiclo = iteracion.getConexionH();
         Figura i2 = null;
-        for (int i = 0; i < formas.size(); i++) {
-            if (formas.get(i).getFlujoSuperior() == flujoCiclo.getId() && formas.get(i) instanceof Ciclo == false) {
-                i2 = formas.get(i);
+        for (int i = 0; i < diagrama.getFormas().size(); i++) {
+            if (diagrama.getFormas().get(i).getFlujoSuperior() == flujoCiclo.getId() && diagrama.getFormas().get(i) instanceof Ciclo == false) {
+                i2 = diagrama.getFormas().get(i);
                 iteracion.setIdsFiguras(i);
                 iteracion.setIdsFiguras(i);
-                iteracion.setIdFormas(formas.get(i).getID());
+                iteracion.setIdFormas(diagrama.getFormas().get(i).getID());
 
             }
 
@@ -3151,10 +3156,10 @@ public class FXMLDocumentController implements Initializable {
             boolean Ciclico = false;
             System.out.println(">> " + i2.getTextoFigura());
 
-            for (int i = 0; i < formas.size(); i++) {
-                for (int j = 0; j < formas.size(); j++) {
-                    if (formas.get(j).getID() == i2.getSiguiente() && Ciclico != true) {
-                        i2 = formas.get(j);
+            for (int i = 0; i < diagrama.getFormas().size(); i++) {
+                for (int j = 0; j < diagrama.getFormas().size(); j++) {
+                    if (diagrama.getFormas().get(j).getID() == i2.getSiguiente() && Ciclico != true) {
+                        i2 = diagrama.getFormas().get(j);
                         System.out.println(">> " + i2.getTextoFigura());
                         iteracion.setIdsFiguras(j);
                         iteracion.setIdFormas(i2.getID());
@@ -3374,8 +3379,8 @@ public class FXMLDocumentController implements Initializable {
         }
 
     }
-    
-      public void ZoomMas(ActionEvent event) {
+
+    public void ZoomMas(ActionEvent event) {
         if (zoomP < 3.0) {
             zoomP = zoomP + 0.1;
             lienzo.setScaleX(zoomP);
@@ -3445,39 +3450,39 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void bajarFiguras(Figura bajar, int opcion, int xPlus, int yPlus) {
-        Figura inicio2 = formas.get(0);
-        for (int i = 0; i < formas.size(); i++) {
-            if (formas.get(i) == bajar) {
-                inicio2 = formas.get(i);
+        Figura inicio2 = diagrama.getFormas().get(0);
+        for (int i = 0; i < diagrama.getFormas().size(); i++) {
+            if (diagrama.getFormas().get(i) == bajar) {
+                inicio2 = diagrama.getFormas().get(i);
             }
         }
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
-        for (int i = 0; i < formas.size(); i++) {
-            System.out.println("IDS: " + formas.get(i) + "ID: " + formas.get(i).getID());
+        for (int i = 0; i < diagrama.getFormas().size(); i++) {
+            System.out.println("IDS: " + diagrama.getFormas().get(i) + "ID: " + diagrama.getFormas().get(i).getID());
         }
         System.out.println("Todas las figuras");
         System.out.println("Nombre: " + inicio2);
         for (int i = 0; inicio2.getSiguiente() != -1; i++) {
-            for (int j = 0; j < formas.size(); j++) {
-                if (formas.get(j).getID() == inicio2.getSiguiente()) {
+            for (int j = 0; j < diagrama.getFormas().size(); j++) {
+                if (diagrama.getFormas().get(j).getID() == inicio2.getSiguiente()) {
 
-                    System.out.println("Nombre:" + formas.get(j));
-                    inicio2 = formas.get(j);
+                    System.out.println("Nombre:" + diagrama.getFormas().get(j));
+                    inicio2 = diagrama.getFormas().get(j);
 
-                    for (int k = 0; k < enlaces.size(); k++) {
-                        if (enlaces.get(k).getId() == inicio2.getFlujoSuperior()) {
+                    for (int k = 0; k < diagrama.getEnlaces().size(); k++) {
+                        if (diagrama.getEnlaces().get(k).getId() == inicio2.getFlujoSuperior()) {
                             if (opcion == 2) {
-                                enlaces.get(k).dibujar(enlaces.get(k).getX(), enlaces.get(k).getY(), enlaces.get(k).getX1(), enlaces.get(k).getY2() + yPlus, cuadro);
+                                diagrama.getEnlaces().get(k).dibujar(diagrama.getEnlaces().get(k).getX(), diagrama.getEnlaces().get(k).getY(), diagrama.getEnlaces().get(k).getX1(), diagrama.getEnlaces().get(k).getY2() + yPlus, cuadro);
                             } else {
-                                enlaces.get(k).dibujar(enlaces.get(k).getX(), enlaces.get(k).getY(), enlaces.get(k).getX1(), enlaces.get(k).getY2() + xPlus, cuadro);
+                                diagrama.getEnlaces().get(k).dibujar(diagrama.getEnlaces().get(k).getX(), diagrama.getEnlaces().get(k).getY(), diagrama.getEnlaces().get(k).getX1(), diagrama.getEnlaces().get(k).getY2() + xPlus, cuadro);
 
                             }
                         }
-                        if (enlaces.get(k).getId() == inicio2.getFlujoInferior()) {
+                        if (diagrama.getEnlaces().get(k).getId() == inicio2.getFlujoInferior()) {
                             if (opcion == 2) {
-                                enlaces.get(k).dibujar(enlaces.get(k).getX(), enlaces.get(k).getY() + yPlus, enlaces.get(k).getX1(), enlaces.get(k).getY2(), cuadro);
+                                diagrama.getEnlaces().get(k).dibujar(diagrama.getEnlaces().get(k).getX(), diagrama.getEnlaces().get(k).getY() + yPlus, diagrama.getEnlaces().get(k).getX1(), diagrama.getEnlaces().get(k).getY2(), cuadro);
                             } else {
-                                enlaces.get(k).dibujar(enlaces.get(k).getX(), enlaces.get(k).getY() + xPlus, enlaces.get(k).getX1(), enlaces.get(k).getY2(), cuadro);
+                                diagrama.getEnlaces().get(k).dibujar(diagrama.getEnlaces().get(k).getX(), diagrama.getEnlaces().get(k).getY() + xPlus, diagrama.getEnlaces().get(k).getX1(), diagrama.getEnlaces().get(k).getY2(), cuadro);
 
                             }
                         }
@@ -3501,7 +3506,7 @@ public class FXMLDocumentController implements Initializable {
     int ids = 0;
 
     public void ini() {
-
+   diagrama = new Diagrama(id);
         // asignar colores por defecto//
         coloresFondo.add("#f8f76a");//InicioFin
         coloresFondo.add("#c31c2c");//Documento
@@ -3594,7 +3599,7 @@ public class FXMLDocumentController implements Initializable {
         inicio.dibujar(cuadro, 400, 41);
         inicio.setFlujoInferior(idFlujos);
         inicio.setFlujoSuperior(-2);
-        enlaces.add(crear);
+        diagrama.addEnlace(crear);
         inicio.setID(ids);
         crear.setCiclo(-7);
         ids++;
@@ -3605,17 +3610,127 @@ public class FXMLDocumentController implements Initializable {
         inicio.setSiguiente(fin.getID());
         fin.setAnterior(inicio.getID());
         fin.setSiguiente(-1);
-        formas.add(inicio);
-        formas.add(fin);
+        diagrama.addForma(inicio);
+        diagrama.addForma(fin);
         idFlujos++;
         moverFigura(cuadro, lienzo);
         consola.setText("*****Consola Iniciada*****");
+        GuardarDiagrama();
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ini();
+        diagrama = new Diagrama(id);
+        // asignar colores por defecto//
+        coloresFondo.add("#f8f76a");//InicioFin
+        coloresFondo.add("#c31c2c");//Documento
+        coloresFondo.add("#fec973");//Salida
+        coloresFondo.add("#adfaaa");//Entrada
+        coloresFondo.add("#ffa8b8");//Ciclo
+        coloresFondo.add("#b44cd9");//Decision
+        coloresFondo.add("#61bbef");//Proceso
+
+        //Asignar Colores de Bordes por defecto
+        coloresBordes.add("#b4b314");//InicioFin
+        coloresBordes.add("#c31c2c");//Documento
+        coloresBordes.add("#d5700d");//Salida
+        coloresBordes.add("#4dc66c");//Entrada
+        coloresBordes.add("#e9748a");//Ciclo
+        coloresBordes.add("#8a08b8");//Decision
+        coloresBordes.add("#3b83ad");//Proceso
+
+        reiniciarHilo = true;
+        idFlujos = 0;
+        ids = 0;
+        consola.setText("");
+        GraphicsContext cuadro = lienzo.getGraphicsContext2D();
+        Flujo crear = new Flujo();
+        crear.setId(idFlujos);
+        boolean validacion = false;
+        InicioFin inicio = new InicioFin();
+        String respuesta = "";
+        crear.setColor(inicio.getColor());
+
+        while (validacion == false) {
+
+            TextInputDialog dialog = new TextInputDialog();
+
+            DialogPane dialogPane = dialog.getDialogPane();
+            dialogPane.getStylesheets().add(
+                    getClass().getResource("/Clases_Figura/Estilos/Alertas.css").toExternalForm());
+            dialogPane.getStyleClass().add("myDialog");
+            dialog.setTitle("Texto de inicio.");
+            Image image = new Image(getClass().getResource("/Clases_Figura/Estilos/Inicio.png").toExternalForm());
+            ImageView imageView = new ImageView(image);
+            dialog.setGraphic(imageView);
+            dialog.setHeaderText("");
+            dialog.setContentText("Ingrese el texto que va en el inicio:");
+            Optional<String> result = dialog.showAndWait();
+            if (result.isPresent()) {
+                respuesta = result.get();
+            }
+
+            validacion = true;
+            if (respuesta == null || respuesta.replaceAll(" ", "").equals("")) {
+                respuesta = "Inicio";
+            } else if (respuesta.length() > 15) {
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Cantidad de caracteres.");
+                alert.setHeaderText("Ocurrio un error.");
+                alert.setContentText("La cantidad de caracteres no puede ser mayor a 15!.");
+                validacion = false;
+                alert.showAndWait();
+            }
+            Pattern p = Pattern.compile("[a-zA-Z0-9]{1,15}$");
+            Matcher matcher = p.matcher(respuesta);
+            boolean cadenaValida = matcher.matches();
+            if (cadenaValida) {
+                validacion = true;
+            } else {
+                validacion = false;
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setTitle("Formato.");
+                alert.setHeaderText("Ocurrio un error.");
+                alert.setContentText("El formato ingresado es incorrecto.");
+
+                alert.showAndWait();
+            }
+        }
+        inicio.textoFigura = respuesta;
+        inicio.dibujar(cuadro, 400, 41);
+
+        lienzo.setWidth(933);
+        lienzo.setHeight(589);
+        InicioFin fin = new InicioFin();
+        fin.setFlujoSuperior(idFlujos);
+        fin.setFlujoInferior(-1);
+        fin.setTextoFigura("         Fin");
+        int g = inicio.getX1();
+        int d = inicio.getX2();
+        int f = (int) ((g + d) / 2);
+        crear.dibujar(400, 111, 400, 400, cuadro);
+        fin.dibujar(cuadro, 400, 400);
+        inicio.dibujar(cuadro, 400, 41);
+        inicio.setFlujoInferior(idFlujos);
+        inicio.setFlujoSuperior(-2);
+        diagrama.addEnlace(crear);
+        inicio.setID(ids);
+        crear.setCiclo(-7);
+        ids++;
+        fin.setID(ids);
+        ids++;
+
+        inicio.setAnterior(-2);
+        inicio.setSiguiente(fin.getID());
+        fin.setAnterior(inicio.getID());
+        fin.setSiguiente(-1);
+        diagrama.addForma(inicio);
+        diagrama.addForma(fin);
+        idFlujos++;
+        moverFigura(cuadro, lienzo);
+        consola.setText("*****Consola Iniciada*****");
+        GuardarDiagrama();
     }
 
     public void correrDecision(Figura aux, Figura corriendo) throws ScriptException, InterruptedException {
@@ -3656,13 +3771,13 @@ public class FXMLDocumentController implements Initializable {
             boolean existeA = false;
             boolean existeB = false;
             //BuscarVariables
-            for (int k = 0; k < variables.size(); k++) {
-                if (variables.get(k).getNombre().equals(a1)) {
-                    a1 = variables.get(k).getTexto();
+            for (int k = 0; k < diagrama.getVariables().size(); k++) {
+                if (diagrama.getVariables().get(k).getNombre().equals(a1)) {
+                    a1 = diagrama.getVariables().get(k).getTexto();
                     existeA = true;
 
-                } else if (variables.get(k).getNombre().equals(b1)) {
-                    b1 = variables.get(k).getTexto();
+                } else if (diagrama.getVariables().get(k).getNombre().equals(b1)) {
+                    b1 = diagrama.getVariables().get(k).getTexto();
                     existeB = true;
                 }
             }
@@ -3789,8 +3904,8 @@ public class FXMLDocumentController implements Initializable {
             }
 
         } else {
-            corriendo = formas.get(1);
-            aux = formas.get(1);
+            corriendo = diagrama.getFormas().get(1);
+            aux = diagrama.getFormas().get(1);
             System.out.println(">> La decision no es 1-1");
 
         }
@@ -3856,17 +3971,17 @@ public class FXMLDocumentController implements Initializable {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el Lienzo del programa
         repintar(cuadro);
         if (inicio2 == false && index == 0) {
-            correrActual = formas.get(0);
+            correrActual = diagrama.getFormas().get(0);
             inicio2 = true;
             index++;
             Image image = new Image(getClass().getResourceAsStream("/Clases_Figura/Estilos/flecha_naranja.png"));
             cuadro.drawImage(image, correrActual.getMedioX() - 230, correrActual.getMedioY());
 
         } else if (correrActual != null && correrActual.getSiguiente() != -1 && index > 0) {
-            for (int i = 0; i < formas.size(); i++) {
+            for (int i = 0; i < diagrama.getFormas().size(); i++) {
                 index++;
-                if (formas.get(i).getID() == correrActual.getSiguiente()) {
-                    correrActual = formas.get(i);
+                if (diagrama.getFormas().get(i).getID() == correrActual.getSiguiente()) {
+                    correrActual = diagrama.getFormas().get(i);
 
                     Figura corriendo = correrActual;
                     System.out.println(">> Veces: " + i);
@@ -3911,7 +4026,7 @@ public class FXMLDocumentController implements Initializable {
 
                     }
 
-                    i = formas.size();
+                    i = diagrama.getFormas().size();
                 }
             }
         } else {
@@ -4016,10 +4131,10 @@ public class FXMLDocumentController implements Initializable {
                                 }
                                 //ciclo para borrar todas las variables que se crearon en la entrada
                                 for (int i = 0; i < nombresVariablesX.size(); i++) {
-                                    for (int j = 0; j < variables.size(); j++) {
-                                        if (nombresVariablesX.get(i).equals(variables.get(j).getNombre())) {
-                                            variables.remove(j);
-                                            j = variables.size();
+                                    for (int j = 0; j < diagrama.getVariables().size(); j++) {
+                                        if (nombresVariablesX.get(i).equals(diagrama.getVariables().get(j).getNombre())) {
+                                            diagrama.getVariables().remove(j);
+                                            j = diagrama.getVariables().size();
                                         }
                                     }
                                 }
@@ -4034,10 +4149,10 @@ public class FXMLDocumentController implements Initializable {
                                     } else {
                                         variableNueva.setTipo("texto");
                                     }
-                                    for (int j = 0; j < variables.size(); j++) {
-                                        if (variableNueva.getNombre().equals(variables.get(j).getNombre())) {
+                                    for (int j = 0; j < diagrama.getVariables().size(); j++) {
+                                        if (variableNueva.getNombre().equals(diagrama.getVariables().get(j).getNombre())) {
                                             validarNombres = true;
-                                            j = variables.size();
+                                            j = diagrama.getVariables().size();
                                         }
                                     }
                                     //
@@ -4046,16 +4161,16 @@ public class FXMLDocumentController implements Initializable {
                                     }
                                     //
                                     if (validarNombres) {
-                                        for (int k = 0; k < variables.size(); k++) {
-                                            if (variableNueva.getNombre().equals(variables.get(k).getNombre())) {
-                                                variables.get(k).setNombre(variableNueva.getNombre());
-                                                variables.get(k).setTexto(variableNueva.getTexto());
-                                                variables.get(k).setTipo(variableNueva.getTipo());
-                                                k = variables.size();
+                                        for (int k = 0; k < diagrama.getVariables().size(); k++) {
+                                            if (variableNueva.getNombre().equals(diagrama.getVariables().get(k).getNombre())) {
+                                                diagrama.getVariables().get(k).setNombre(variableNueva.getNombre());
+                                                diagrama.getVariables().get(k).setTexto(variableNueva.getTexto());
+                                                diagrama.getVariables().get(k).setTipo(variableNueva.getTipo());
+                                                k = diagrama.getVariables().size();
                                             }
                                         }
                                     } else {
-                                        variables.add(variableNueva);
+                                        diagrama.addVariable(variableNueva);
                                     }
                                 }
                                 //tengo que reemplazar el texto original
@@ -4417,8 +4532,8 @@ public class FXMLDocumentController implements Initializable {
                                     //en caso de salir todo bien, limpio las variables y le pego el copiado
                                     //en caso de salir algo mal, limpio la copia y no hago nada.
                                     ArrayList<Variable> variablesCopia = new ArrayList<>();
-                                    for (int i = 0; i < variables.size(); i++) {
-                                        variablesCopia.add(variables.get(i));
+                                    for (int i = 0; i < diagrama.getVariables().size(); i++) {
+                                        variablesCopia.add(diagrama.getVariables().get(i));
                                     }
                                     String expression = textoQueYaTenia;
                                     String[] tokensX = expression.replaceAll("\\s+", "").split("(?<=[=,])|(?=[=,])");
@@ -4539,7 +4654,7 @@ public class FXMLDocumentController implements Initializable {
                                                     for (int k = 0; k < variablesCopia.size(); k++) {
                                                         //System.out.println(variablesEnTokens.get(i));
                                                         //System.out.println("coma");
-                                                        //System.out.println(variables.get(j).getNombre());
+                                                        //System.out.println(diagrama.getVariables().get(j).getNombre());
                                                         if (variablesEnTokens.get(j).equals(variablesCopia.get(k).getNombre())) {
                                                             valoresVariables.add(variablesCopia.get(k).getTexto());
                                                             existe = true;
@@ -4702,9 +4817,9 @@ public class FXMLDocumentController implements Initializable {
                                         click = false;
                                         variablesCopia.clear();
                                     } else {
-                                        variables.clear();
+                                        diagrama.getVariables().clear();
                                         for (int i = 0; i < variablesCopia.size(); i++) {
-                                            variables.add(variablesCopia.get(i));
+                                            diagrama.addVariable(variablesCopia.get(i));
                                         }
                                         variablesCopia.clear();
                                     }
@@ -4816,16 +4931,16 @@ public class FXMLDocumentController implements Initializable {
                                     //vemos si la variable existe o no en el arreglo
                                     boolean existeEnLasVariables = false;
                                     int posicionVariableIgual = 0;
-                                    for (int i = 0; i < variables.size(); i++) {
-                                        if (arrayTokens.get(0).equals(variables.get(i).getNombre())) {
+                                    for (int i = 0; i < diagrama.getVariables().size(); i++) {
+                                        if (arrayTokens.get(0).equals(diagrama.getVariables().get(i).getNombre())) {
                                             posicionVariableIgual = i;
-                                            i = variables.size();
+                                            i = diagrama.getVariables().size();
                                             existeEnLasVariables = true;
                                         }
                                     }
                                     if (existeEnLasVariables) {
                                         //reemplazar el texto por el valor de la variable
-                                        ladoDerecho = variables.get(posicionVariableIgual).getTexto();
+                                        ladoDerecho = diagrama.getVariables().get(posicionVariableIgual).getTexto();
                                         System.out.println("existe en las variables");
                                         System.out.println(ladoIzquierdo + " " + ladoDerecho);
                                     } else {
@@ -4986,12 +5101,12 @@ public class FXMLDocumentController implements Initializable {
                                         if (!variablesEnTokens.isEmpty()) {
                                             System.out.println("variablesEnTokens no esta vacio");
                                             for (int i = 0; i < variablesEnTokens.size(); i++) {
-                                                for (int j = 0; j < variables.size(); j++) {
+                                                for (int j = 0; j < diagrama.getVariables().size(); j++) {
                                                     System.out.println(variablesEnTokens.get(i));
                                                     System.out.println("coma");
-                                                    System.out.println(variables.get(j).getNombre());
-                                                    if (variablesEnTokens.get(i).equals(variables.get(j).getNombre())) {
-                                                        valoresVariables.add(variables.get(j).getTexto());
+                                                    System.out.println(diagrama.getVariables().get(j).getNombre());
+                                                    if (variablesEnTokens.get(i).equals(diagrama.getVariables().get(j).getNombre())) {
+                                                        valoresVariables.add(diagrama.getVariables().get(j).getTexto());
                                                         existe = true;
                                                     }
                                                 }
@@ -5072,10 +5187,11 @@ public class FXMLDocumentController implements Initializable {
                     }
                 }
                 System.out.println("IMPRIMOS TODAS LAS VARIABLES EXISTENTES");
-                for (int i = 0; i < variables.size(); i++) {
-                    System.out.println("variable " + (i + 1) + " " + variables.get(i).getNombre() + ", " + variables.get(i).getTexto() + ", " + variables.get(i).getTipo());
+                for (int i = 0; i < diagrama.getVariables().size(); i++) {
+                    System.out.println("variable " + (i + 1) + " " + diagrama.getVariables().get(i).getNombre() + ", " + diagrama.getVariables().get(i).getTexto() + ", " + diagrama.getVariables().get(i).getTipo());
                 }
             }
+             GuardarDiagrama();
             lienzo.setOnMouseClicked(null);// se termina el evento setOnMouseClicked
         });
 
@@ -5119,8 +5235,8 @@ public class FXMLDocumentController implements Initializable {
 
     public void DetectarDecisionDer(Decision Condicional) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
-        for (int i = formas.size() - 1; i > 0; i--) {
-            Figura d = formas.get(i);
+        for (int i = diagrama.getFormas().size() - 1; i > 0; i--) {
+            Figura d = diagrama.getFormas().get(i);
             if (d instanceof Decision) {
                 for (int j = 0; j < ((Decision) d).getVerdaderas().size(); j++) {
                     Figura d2 = ((Decision) d).getVerdaderas().get(j);
@@ -5132,12 +5248,12 @@ public class FXMLDocumentController implements Initializable {
                             Flujo der = ((Decision) d).getFinalDerecho();
                             Flujo in = new Flujo();
                             Flujo in2 = new Flujo();
-                            for (int k = 0; k < enlaces.size(); k++) {
-                                if (enlaces.get(k).getId() == Condicional.getFlujoInferior()) {
-                                    in = enlaces.get(k);
+                            for (int k = 0; k < diagrama.getEnlaces().size(); k++) {
+                                if (diagrama.getEnlaces().get(k).getId() == Condicional.getFlujoInferior()) {
+                                    in = diagrama.getEnlaces().get(k);
                                 }
-                                if (enlaces.get(k).getId() == d.getFlujoInferior()) {
-                                    in2 = enlaces.get(k);
+                                if (diagrama.getEnlaces().get(k).getId() == d.getFlujoInferior()) {
+                                    in2 = diagrama.getEnlaces().get(k);
                                 }
                             }
                             Flujo iz = ((Decision) d).getFinalIzquierdo();
@@ -5158,8 +5274,8 @@ public class FXMLDocumentController implements Initializable {
 
     public void DetectarDecisionIzq(Decision Condicional) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
-        for (int i = formas.size() - 1; i > 0; i--) {
-            Figura d = formas.get(i);
+        for (int i = diagrama.getFormas().size() - 1; i > 0; i--) {
+            Figura d = diagrama.getFormas().get(i);
             if (d instanceof Decision) {
                 for (int j = 0; j < ((Decision) d).getFalsas().size(); j++) {
                     Figura d2 = ((Decision) d).getFalsas().get(j);
@@ -5171,12 +5287,12 @@ public class FXMLDocumentController implements Initializable {
                             Flujo der = ((Decision) d).getFinalDerecho();
                             Flujo in = new Flujo();
                             Flujo in2 = new Flujo();
-                            for (int k = 0; k < enlaces.size(); k++) {
-                                if (enlaces.get(k).getId() == Condicional.getFlujoInferior()) {
-                                    in = enlaces.get(k);
+                            for (int k = 0; k < diagrama.getEnlaces().size(); k++) {
+                                if (diagrama.getEnlaces().get(k).getId() == Condicional.getFlujoInferior()) {
+                                    in = diagrama.getEnlaces().get(k);
                                 }
-                                if (enlaces.get(k).getId() == d.getFlujoInferior()) {
-                                    in2 = enlaces.get(k);
+                                if (diagrama.getEnlaces().get(k).getId() == d.getFlujoInferior()) {
+                                    in2 = diagrama.getEnlaces().get(k);
                                 }
                             }
                             Flujo iz = ((Decision) d).getFinalIzquierdo();
@@ -5198,14 +5314,14 @@ public class FXMLDocumentController implements Initializable {
 
     public void crearPseudocodigo() {
 
-        Figura aux = formas.get(0);
+        Figura aux = diagrama.getFormas().get(0);
         System.out.println(">>PseudoCodigo");
         System.out.println(">> Algoritmo");
         pseudocodigo.add("Algoritmo " + aux.getTextoFigura());
         for (int i = 0; aux.getSiguiente() != -1; i++) {
-            for (int j = 0; j < formas.size(); j++) {
-                if (formas.get(j).getID() == aux.getSiguiente()) {
-                    aux = formas.get(j);
+            for (int j = 0; j < diagrama.getFormas().size(); j++) {
+                if (diagrama.getFormas().get(j).getID() == aux.getSiguiente()) {
+                    aux = diagrama.getFormas().get(j);
                     if (identarCiclo(aux)) {
                     } else {
                         if (aux instanceof Etapa) {
@@ -5317,8 +5433,8 @@ public class FXMLDocumentController implements Initializable {
 
     public boolean identarCiclo(Figura aux) {
         boolean algunCiclo = false;
-        for (int i = 0; i < formas.size(); i++) {
-            Figura ciclo = formas.get(i);
+        for (int i = 0; i < diagrama.getFormas().size(); i++) {
+            Figura ciclo = diagrama.getFormas().get(i);
             if (ciclo instanceof Ciclo) {
                 for (int j = 0; j < ((Ciclo) ciclo).getIdFormas().size() - 1; j++) {
                     if (aux.getID() == ((Ciclo) ciclo).getIdFormas().get(j)) {
@@ -5337,9 +5453,9 @@ public class FXMLDocumentController implements Initializable {
         pseudocodigo.add(identacion + "Repetir ");
         for (int i = 0; i < ciclo.getIdFormas().size() - 1; i++) {
             int id = ciclo.getIdFormas().get(i);
-            for (int j = 0; j < formas.size(); j++) {
+            for (int j = 0; j < diagrama.getFormas().size(); j++) {
 
-                Figura aux = formas.get(j);
+                Figura aux = diagrama.getFormas().get(j);
                 if (aux.getID() == id) {
                     if (aux instanceof Etapa) {
                         pseudocodigo.add(identacion + "  " + aux.getTextoFigura());
@@ -5398,8 +5514,8 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void inicializarVariables() {
-        for (int i = 0; i < variables.size(); i++) {
-            variables.get(i).setTexto("0");
+        for (int i = 0; i < diagrama.getVariables().size(); i++) {
+            diagrama.getVariables().get(i).setTexto("0");
         }
 
     }
@@ -5422,15 +5538,15 @@ public class FXMLDocumentController implements Initializable {
         }
 
         for (int i = 0; i < nombresVar.size(); i++) {
-            for (int j = 0; j < variables.size(); j++) {
-                if (variables.get(j).getNombre().equals(nombresVar.get(i))) {
-                    variables.get(j).setTexto(textoVar.get(i));
+            for (int j = 0; j < diagrama.getVariables().size(); j++) {
+                if (diagrama.getVariables().get(j).getNombre().equals(nombresVar.get(i))) {
+                    diagrama.getVariables().get(j).setTexto(textoVar.get(i));
                 }
             }
         }
 
     }
-    
+
     public static Diagrama diagrama;
     public ArrayList<Diagrama> diagramas = new ArrayList();
     public static int id = 0;
@@ -5471,7 +5587,7 @@ public class FXMLDocumentController implements Initializable {
 
     }
 
-  @FXML
+    @FXML
     public void rehacer(ActionEvent event) {
         GraphicsContext cuadro = lienzo.getGraphicsContext2D();// Se declara el cuadro del canvas
 
