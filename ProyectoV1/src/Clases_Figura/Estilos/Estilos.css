@@ -246,6 +246,52 @@ and open the template in the editor.
 }
 
 
+
+.code{
+
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #E0E005 0%, #E0E005 100%),
+        #E0E005,
+        #E0E005,
+        radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-graphic: url('/Clases_Figura/Estilos/PSEUDO.png');  
+}
+.code:hover{
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+-fx-graphic: url('/Clases_Figura/Estilos/PSEUDO2.png');  
+    -fx-min-width: 60px;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #E0E005 0%, #E0E005 100%),
+        #E0E005,
+        #E0E005,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.code:pressed{
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+    -fx-graphic: url('/Clases_Figura/Estilos/PSEUDO2.png');  
+
+}
+
+
+
 .cortar{
 
     -fx-background-size: 60px 60px;
@@ -440,7 +486,7 @@ and open the template in the editor.
 .jp:hover{
     -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
-    -fx-graphic: url('/Clases_Figura/Estilos/jp.png');  
+    -fx-graphic: url('/Clases_Figura/Estilos/jp2.png');  
 
     -fx-min-width: 60px;
     -fx-background-color: 
@@ -517,11 +563,12 @@ and open the template in the editor.
     -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
     -fx-font-weight: bold;
     -fx-font-size: 1.1em;
-    -fx-graphic: url('/Clases_Figura/Estilos/ui.png');  
+    -fx-graphic: url('/Clases_Figura/Estilos/pies.png');  
 }
 .in:hover{
     -fx-background-size: 60px 60px;
     -fx-min-height: 60px;
+    -fx-graphic: url('/Clases_Figura/Estilos/pies2.png');  
 
     -fx-min-width: 60px;
     -fx-background-color: 
@@ -532,6 +579,48 @@ and open the template in the editor.
 }
 
 .in:pressed{
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+
+
+}
+
+
+
+.menos{
+
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #920AEA 0%, #920AEA 100%),
+        #920AEA,
+        #920AEA,
+        radial-gradient(center 50% 50%, radius 100%, #EA1E0A, #EA1E0A);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-graphic: url('/Clases_Figura/Estilos/ui.png');  
+}
+.menos:hover{
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+        -fx-graphic: url('/Clases_Figura/Estilos/ui2.png');  
+
+    -fx-min-width: 60px;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #920AEA 0%, #920AEA 100%),
+        #920AEA,
+        #920AEA,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.menos:pressed{
     -fx-padding: 10 15 13 15;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
 
@@ -656,6 +745,46 @@ and open the template in the editor.
 }
 
 .undo:pressed{
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+
+
+}
+
+.mas{
+
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+
+    -fx-min-width: 60px;
+    -fx-text-fill:white;
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #EA1E0A 0%, #EA1E0A 100%),
+        #EA1E0A,
+        #EA1E0A,
+        radial-gradient(center 50% 50%, radius 100%, #EA1E0A, #EA1E0A);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+    -fx-graphic: url('/Clases_Figura/Estilos/plus.png');  
+}
+.mas:hover{
+    -fx-background-size: 60px 60px;
+    -fx-min-height: 60px;
+    -fx-graphic: url('/Clases_Figura/Estilos/plus2.png');  
+
+    -fx-min-width: 60px;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #EA1E0A 0%, #EA1E0A 100%),
+        #EA1E0A,
+        #EA1E0A,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.mas:pressed{
     -fx-padding: 10 15 13 15;
     -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
 
